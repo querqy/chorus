@@ -7,7 +7,7 @@ Your offline and online search solution!
 
 # What Runs Where
 
-* Ecomm Demo Store runs at http://localhost:4000
+* Demo "Store" runs at http://localhost:4000
 * Solr runs at http://localhost:8983
 * SMUI runs at http://localhost:9000
 * Quepid runs at http://localhost:3000
