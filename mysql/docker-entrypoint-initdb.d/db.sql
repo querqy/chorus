@@ -1,0 +1,4 @@
+CREATE DATABASE smui;
+CREATE USER 'smui'@'%' IDENTIFIED BY 'smui';
+
+GRANT ALL PRIVILEGES ON smui.* TO 'smui'@'%';

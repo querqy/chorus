@@ -1,0 +1,109 @@
+version: '3'   # on CircleCI the version and services cause build to puke.
+services:
+
+  blacklight:
+    build:
+      context: ./blacklight
+      dockerfile: Dockerfile
+    volumes:
+      - ./blacklight/app:/app/app
+    ports:
+      - "4000:3000"
+    command: "rails s -p 3000 -b 0.0.0.0"
+    environment:
+      - SOLR_URL=http://solr:8983/solr/ecommerce
+    depends_on:
+      - solr
+
+  mysql:
+    container_name: mysql
+    image: mysql:5.7.29
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    volumes:
+      - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./volumes/db:/var/lib/mysql
+
+  smui:
+    container_name: smui
+    image: querqy/smui:3.6.1
+    ports:
+      - 9000:9000
+    environment:
+      - SMUI_DB_URL=jdbc:mysql://mysql:3306/smui?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SMUI_DB_USER=root
+      - SMUI_DB_PASSWORD=password
+      - SMUI_DEPLOY_PRELIVE_SOLR_HOST=solr:8983
+    volumes:
+      - ./volumes/preliveCore/conf:/usr/bin/solr/preliveCore/conf
+    depends_on:
+      - mysql
+
+  solr:
+    container_name: solr
+    build:
+      context: ./solr
+      dockerfile: Dockerfile
+    ports:
+      - 8983:8983
+    environment:
+      - SOLR_HOME=/opt/mysolrhome
+      - INIT_SOLR_HOME=yes
+    volumes:
+      - ./solr/solr_home:/opt/mysolrhome
+      - ./volumes/preliveCore/conf:/opt/mysolrhome/ecommerce/conf/querqy
+
+  redis:
+    container_name: quepid_redis
+    image: redis
+    ports:
+      - 6379:6379
+
+  quepid:
+    container_name: quepid
+    image: o19s/quepid:6.2-prerelease
+    ports:
+      - 3000:3000
+    command: "foreman s -f Procfile"
+    environment:
+      - PORT=3000
+      - RACK_ENV=production
+      - RAILS_ENV=production
+      - DB_ADAPTER=mysql2
+      - DB_HOST=mysql
+      - DB_USERNAME=root
+      - DB_PASSWORD=password
+      - DB_NAME=quepid
+      - DATABASE_URL=mysql2://root:password@mysql:3306/quepid
+      - REDIS_URL=redis://redis:6379/1
+      - FORCE_SSL=false
+      - MAX_THREADS=2
+      - WEB_CONCURRENCY=2
+      - SECRET_KEY_BASE=some_value_needed_here
+      - TC_URL=
+      - PRIVACY_URL=
+      - COOKIES_URL=
+      - EMAIL_MARKETING_MODE=false
+      - QUEPID_DEFAULT_SCORER=AP@5
+    links:
+      - mysql
+      - redis
+    depends_on:
+      - mysql
+      - redis
+
+  rre:
+    build:
+      context: ./rre
+      dockerfile: Dockerfile
+    volumes:
+      - ./rre:/rre
+    ports:
+      - "7979:8080"
+    command: "java -jar rre-server-1.1.jar"
+    environment:
+      - SOLR_URL=http://solr:8983/solr/ecommerce
+    depends_on:
+      - solr

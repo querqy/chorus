@@ -1,0 +1,6 @@
+dude =>
+	UP(5): * title:10
+
+notebook =>
+	FILTER: * product_type:notebook
+

@@ -1,0 +1,4 @@
+{
+  "baseUrls": [ "http://solr:8983/solr" ],
+  "collectionName": "ecommerce"
+}

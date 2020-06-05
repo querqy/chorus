@@ -1,0 +1,135 @@
+<?xml version="1.0" ?>
+
+
+<!-- Minimal solrconfig.xml with /select, /admin and /update only -->
+
+<config>
+  <!-- Load the Querqy Jar that comes with all it's dependencies -->
+  <lib dir="/opt/querqy/lib/" />
+
+  <dataDir>${solr.data.dir:}/tmp/ecommerce</dataDir>
+
+  <directoryFactory name="DirectoryFactory"
+                    class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}"/>
+  <schemaFactory class="ClassicIndexSchemaFactory"/>
+
+  <luceneMatchVersion>7.4</luceneMatchVersion>
+
+  <updateHandler class="solr.DirectUpdateHandler2">
+    <commitWithin>
+      <softCommit>${solr.commitwithin.softcommit:true}</softCommit>
+    </commitWithin>
+
+  </updateHandler>
+
+  <processor class="solr.ParseDateFieldUpdateProcessorFactory" name="dude"/>
+  
+  <updateRequestProcessorChain name="script">
+    <processor class="solr.ParseDateFieldUpdateProcessorFactory">
+
+    </processor>
+    <processor class="solr.RunUpdateProcessorFactory" />
+  </updateRequestProcessorChain>
+
+  <!--
+      Add the Querqy query parser.
+   -->
+  <queryParser name="querqy" class="querqy.solr.DefaultQuerqyDismaxQParserPlugin">
+
+      <!--
+          Querqy has to parse the user's query text into a query object.
+          We use WhiteSpaceQuerqyParser, which only provides a very
+          limited syntax (no field names, just -/+ as boolean
+          operators).
+
+          Note that the Querqy query parser must not be confused with
+          Solr or Lucene query parsers: it is completely independent
+          from Lucene/Solr and parses the input into Querqy's internal
+          query object model.
+      -->
+      <lst name="parser">
+        <str name="factory">querqy.solr.SimpleQuerqyQParserFactory</str>
+        <!--
+          The parser is provided by a factory, in our case
+          by a SimpleQuerqyQParserFactory, which is a very generic
+          factory that just creates an instance for the configured class:
+        -->
+        <str name="class">querqy.parser.WhiteSpaceQuerqyParser</str>
+      </lst>
+
+
+      <!--
+          Define a chain of query rewriters. We'll use just one rewriter
+          - SimpleCommonRulesRewriter - which provides 'Common Rules'
+          preprocessing.
+      -->
+      <lst name="rewriteChain">
+
+           <lst name="rewriter">
+                <str name="class">querqy.solr.contrib.WordBreakCompoundRewriterFactory</str>
+                <str name="dictionaryField">dictionary</str>
+                <bool name="decompound.verifyCollation">true</bool>
+                <bool name="lowerCaseInput">true</bool>
+            </lst>
+
+          <lst name="rewriter">
+              <str name="class">querqy.solr.SimpleCommonRulesRewriterFactory</str>
+              <!--
+                 The file that contains rules for synonyms,
+                 boosting etc.
+              -->
+              <str name="rules">querqy/rules.txt</str>
+              <!--
+                 If true, case will be ignored while trying to find
+                 rules that match the user query input:
+              -->
+              <bool name="ignoreCase">true</bool>
+              <!--
+                  Some rules in the rules file declare boost queries,
+                  synonym queries or filter queries that need to be added
+                  to the user query. This query parser parses the
+                  additional queries from the rules file:
+              -->
+              <str name="querqyParser">querqy.rewrite.commonrules.WhiteSpaceQuerqyParserFactory</str>
+          </lst>
+
+     </lst>
+
+  </queryParser>
+
+  <!-- Override the default QueryComponent -->
+  <searchComponent name="query" class="querqy.solr.QuerqyQueryComponent"/>
+
+  <requestHandler name="/select" class="solr.SearchHandler">
+    <lst name="defaults">
+      <str name="echoParams">explicit</str>
+      <str name="indent">true</str>
+      <!-- we actually don't want to use the default field -->
+      <str name="df">id</str>
+
+      <str name="qf">name title product_type short_description ean search_attributes</str>
+      <str name="defType">edismax</str>
+      <str name="tie">0.01</str>
+    </lst>
+
+  </requestHandler>
+
+<requestHandler name="/querqy-select" class="solr.SearchHandler">
+    <lst name="defaults">
+      <str name="echoParams">explicit</str>
+      <str name="indent">true</str>
+      <!-- we actually don't want to use the default field -->
+      <str name="df">id</str>
+
+      <str name="qf">name title product_type short_description ean search_attributes</str>
+      <str name="defType">querqy</str>
+      <str name="gfb">0.8</str>
+      <str name="mm">100&#37;</str>
+    </lst>
+
+  </requestHandler>
+
+  <queryResponseWriter name="json" class="solr.JSONResponseWriter">
+    <str name="content-type">text/javascript; charset=UTF-8</str>
+  </queryResponseWriter>
+</config>
