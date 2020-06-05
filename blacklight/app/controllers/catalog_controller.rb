@@ -156,7 +156,7 @@ class CatalogController < ApplicationController
 
     config.add_search_field 'all_fields', label: 'All Fields'
 
-    config.add_search_field 'title', label: 'Title2'
+    config.add_search_field 'title', label: 'Title'
 
 
     # Now we see how to over-ride Solr request handler defaults, in this
