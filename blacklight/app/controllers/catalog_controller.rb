@@ -36,10 +36,10 @@ class CatalogController < ApplicationController
     #config.per_page = [10,20,50,100]
 
     # solr field configuration for search results/index views
-    config.index.title_field = 'name' #'title_tsim'
+    config.index.title_field = 'title' #'title_tsim'
     #config.index.display_type_field = 'format'
     #config.index.thumbnail_field = 'thumbnail_path_ss'
-    config.index.thumbnail_field = 'imageUrl'
+    config.index.thumbnail_field = 'img_500x500'
 
     config.add_results_document_tool(:bookmark, partial: 'bookmark_control', if: :render_bookmarks_control?)
 
@@ -58,7 +58,7 @@ class CatalogController < ApplicationController
     # solr field configuration for document/show views
     #config.show.title_field = 'name'
     #config.show.display_type_field = 'format'
-    config.show.thumbnail_field = 'imageUrl'
+    config.show.thumbnail_field = 'img_500x500'
 
     # solr fields that will be treated as facets by the blacklight application
     #   The ordering of the field names is the order of the display
@@ -91,9 +91,9 @@ class CatalogController < ApplicationController
     #config.add_facet_field 'lc_1letter_ssim', label: 'Call Number'
     #config.add_facet_field 'subject_geo_ssim', label: 'Region'
     #config.add_facet_field 'subject_era_ssim', label: 'Era'
-    config.add_facet_field 'Availability_attr', label: 'Availability'
+    config.add_facet_field 'filter_t_product_type', label: 'Product Type'
 
-    config.add_facet_field 'example_pivot_field', label: 'Pivot Field', :pivot => ['manufacturer', 'productThumbnailColor']
+    #config.add_facet_field 'example_pivot_field', label: 'Pivot Field', :pivot => ['manufacturer', 'productThumbnailColor']
 
     #config.add_facet_field 'example_query_facet_field', label: 'Publish Date', :query => {
     #   :years_5 => { label: 'within 5 Years', fq: "pub_date_ssim:[#{Time.zone.now.year - 5 } TO *]" },
@@ -109,7 +109,7 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display
-    config.add_index_field 'name', label: 'Product'
+    config.add_index_field 'title', label: 'Product'
     #config.add_index_field 'title_vern_ssim', label: 'Title'
     #config.add_index_field 'author_tsim', label: 'Author'
     #config.add_index_field 'author_vern_ssim', label: 'Author'
@@ -121,9 +121,9 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
-    config.add_show_field 'Name', label: 'Product'
-    config.add_show_field 'imageUrl', label: 'imageUrl'
-    config.add_show_field 'manufacturer', label: 'Manufacturer'
+    config.add_show_field 'title', label: 'Product'
+    config.add_show_field 'img_500x500', label: 'imageUrl'
+    config.add_show_field 'supplier', label: 'Supplier'
     #config.add_show_field 'subtitle_vern_ssim', label: 'Subtitle'
     #config.add_show_field 'author_tsim', label: 'Author'
     #config.add_show_field 'author_vern_ssim', label: 'Author'
@@ -156,19 +156,21 @@ class CatalogController < ApplicationController
 
     config.add_search_field 'all_fields', label: 'All Fields'
 
+    config.add_search_field 'title', label: 'Title2'
+
 
     # Now we see how to over-ride Solr request handler defaults, in this
     # case for a BL "search field", which is really a dismax aggregate
     # of Solr search fields.
 
-    config.add_search_field('title') do |field|
+    #config.add_search_field('title') do |field|
       # solr_parameters hash are sent to Solr as ordinary url query params.
-      field.solr_parameters = {
-        'spellcheck.dictionary': 'title',
-        qf: '${title_qf}',
-        pf: '${title_pf}'
-      }
-    end
+    #  field.solr_parameters = {
+    #    'spellcheck.dictionary': 'title',
+    #    qf: '${title_qf}',
+    #    pf: '${title_pf}'
+    #  }
+    #end
 
     #config.add_search_field('author') do |field|
     #  field.solr_parameters = {
