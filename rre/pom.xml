@@ -45,11 +45,11 @@
                     <configurations-folder>src/etc/configuration_sets</configurations-folder>
                     <ratings-folder>src/etc/ratings</ratings-folder>
                     <templates-folder>src/etc/templates</templates-folder>
-                    <fields>*,score</fields>
+                    <fields>id,title,score</fields>
                     <metrics>
-                        <param>io.sease.rre.core.domain.metrics.impl.Precision</param>
-                        <param>io.sease.rre.core.domain.metrics.impl.Recall</param>
-                        <param>io.sease.rre.core.domain.metrics.impl.ReciprocalRank</param>
+                        <!--param>io.sease.rre.core.domain.metrics.impl.Precision</param-->
+                        <!--param>io.sease.rre.core.domain.metrics.impl.Recall</param-->
+                        <!--param>io.sease.rre.core.domain.metrics.impl.ReciprocalRank</param-->
                         <param>io.sease.rre.core.domain.metrics.impl.AveragePrecision</param>
                         <!--param>io.sease.rre.core.domain.metrics.impl.NDCGAtTen</param-->
                         <param>io.sease.rre.core.domain.metrics.impl.PrecisionAtOne</param>

@@ -1,3 +1,4 @@
 .DS_Store
 volumes/db
 solr/solr_home/ecommerce/data
+rre/target
