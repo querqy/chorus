@@ -91,7 +91,11 @@
   <!-- Override the default QueryComponent -->
   <searchComponent name="query" class="querqy.solr.QuerqyQueryComponent"/>
 
+  <!-- The default handler should be specified this way, however to support
+  the legacy qt=/querqy-select paramter we need to change to whats below.
   <requestHandler name="/select" class="solr.SearchHandler">
+  -->
+  <requestHandler name="search" class="solr.SearchHandler" default="true">
     <lst name="defaults">
       <str name="echoParams">explicit</str>
       <str name="indent">true</str>
@@ -102,7 +106,6 @@
       <str name="defType">edismax</str>
       <str name="tie">0.01</str>
     </lst>
-
   </requestHandler>
 
 <requestHandler name="/querqy-select" class="solr.SearchHandler">
@@ -117,8 +120,12 @@
       <str name="gfb">0.8</str>
       <str name="mm">100&#37;</str>
     </lst>
-
   </requestHandler>
+
+  <!-- This is required to support the legacy behavior of the parameter qt=/query-select -->
+  <requestDispatcher handleSelect="true" >
+    <requestParsers enableRemoteStreaming="false" multipartUploadLimitInKB="2048" />
+  </requestDispatcher>
 
   <queryResponseWriter name="json" class="solr.JSONResponseWriter">
     <str name="content-type">text/javascript; charset=UTF-8</str>

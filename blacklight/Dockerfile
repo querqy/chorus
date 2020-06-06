@@ -29,7 +29,8 @@ RUN rake db:migrate
 RUN apt-get clean all
 
 # Precompile Rails assets.  We set a dummy database url/token key
-RUN RAILS_ENV=uat SECRET_KEY_BASE=pickasecuretoken bundle exec rake assets:precompile
+# Only makes sense if RAILS_ENV=production
+# RUN RAILS_ENV=uat SECRET_KEY_BASE=pickasecuretoken bundle exec rake assets:precompile
 
 EXPOSE 3000
 

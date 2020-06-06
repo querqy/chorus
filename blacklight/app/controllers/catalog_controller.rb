@@ -154,14 +154,17 @@ class CatalogController < ApplicationController
     # solr request handler? The one set in config[:default_solr_parameters][:qt],
     # since we aren't specifying it otherwise.
 
-    config.add_search_field 'all_fields', label: 'All Fields'
+    # The RIGHT way is the field.solr_path, but currently isn't supported by Blacklight
+    # to have the solr_path set at a field level, only at the config.solr_path.
+    # So instead, we are going to use the legacy qt= parameter.
+    config.add_search_field 'all_fields', label: 'Default Algorithem' do |field|
+      #field.solr_path = 'select'
+    end
 
-    config.add_search_field 'title', label: 'Title'
-
-
-    # Now we see how to over-ride Solr request handler defaults, in this
-    # case for a BL "search field", which is really a dismax aggregate
-    # of Solr search fields.
+    config.add_search_field('with_querqy', label: 'With Querqy Algo') do |field|
+      #field.solr_path = 'querqy-select'
+      field.qt = '/querqy-select'
+    end
 
     #config.add_search_field('title') do |field|
       # solr_parameters hash are sent to Solr as ordinary url query params.
