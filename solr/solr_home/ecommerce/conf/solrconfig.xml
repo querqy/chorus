@@ -22,15 +22,6 @@
 
   </updateHandler>
 
-  <processor class="solr.ParseDateFieldUpdateProcessorFactory" name="dude"/>
-  
-  <updateRequestProcessorChain name="script">
-    <processor class="solr.ParseDateFieldUpdateProcessorFactory">
-
-    </processor>
-    <processor class="solr.RunUpdateProcessorFactory" />
-  </updateRequestProcessorChain>
-
   <!--
       Add the Querqy query parser.
    -->

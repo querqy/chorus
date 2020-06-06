@@ -1,8 +1,4 @@
 {"updateProcessor":{
-    "myCustomDateUpdateProcessor":{
-      "name":"myCustomDateUpdateProcessor",
-      "class":"solr.ParseDateFieldUpdateProcessorFactory",
-      "format":["yyyy-MM-dd"]},
     "formatDateUpdateProcessor":{
       "name":"formatDateUpdateProcessor",
       "class":"solr.ParseDateFieldUpdateProcessorFactory",
