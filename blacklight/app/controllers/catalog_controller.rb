@@ -25,7 +25,10 @@ class CatalogController < ApplicationController
 
     ## Default parameters to send to solr for all search-like requests. See also SearchBuilder#processed_parameters
     config.default_solr_params = {
-      rows: 10
+      rows: 10,
+      'facet.mincount':1,
+      'facet.limit':10,
+      fq: '-img_500x500:""'
     }
 
     # solr path which will be added to solr base url before the other solr params.
@@ -91,9 +94,14 @@ class CatalogController < ApplicationController
     #config.add_facet_field 'lc_1letter_ssim', label: 'Call Number'
     #config.add_facet_field 'subject_geo_ssim', label: 'Region'
     #config.add_facet_field 'subject_era_ssim', label: 'Era'
-    config.add_facet_field 'filter_t_product_type', label: 'Product Type'
+    config.add_facet_field 'example_pivot_field', label: 'Supplier Products', :pivot => ['filter_supplier', 'filter_t_product_type'], limit: 5
+    config.add_facet_field 'filter_supplier', label: 'Supplier', limit: 20
+    config.add_facet_field 'filter_t_product_type', label: 'Product Type', limit: 20
+    config.add_facet_field 'filter_t_product_colour', label: 'Product Colour', limit: 20
+    config.add_facet_field 'filter_t_colour_name', label: 'Colour Name', limit: 20
 
-    #config.add_facet_field 'example_pivot_field', label: 'Pivot Field', :pivot => ['manufacturer', 'productThumbnailColor']
+
+
 
     #config.add_facet_field 'example_query_facet_field', label: 'Publish Date', :query => {
     #   :years_5 => { label: 'within 5 Years', fq: "pub_date_ssim:[#{Time.zone.now.year - 5 } TO *]" },
@@ -109,7 +117,7 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display
-    config.add_index_field 'title', label: 'Product'
+    #config.add_index_field 'title', label: 'Product'
     #config.add_index_field 'title_vern_ssim', label: 'Title'
     #config.add_index_field 'author_tsim', label: 'Author'
     #config.add_index_field 'author_vern_ssim', label: 'Author'
@@ -122,7 +130,6 @@ class CatalogController < ApplicationController
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
     config.add_show_field 'title', label: 'Product'
-    config.add_show_field 'img_500x500', label: 'imageUrl'
     config.add_show_field 'supplier', label: 'Supplier'
     #config.add_show_field 'subtitle_vern_ssim', label: 'Subtitle'
     #config.add_show_field 'author_tsim', label: 'Author'
@@ -157,11 +164,11 @@ class CatalogController < ApplicationController
     # The RIGHT way is the field.solr_path, but currently isn't supported by Blacklight
     # to have the solr_path set at a field level, only at the config.solr_path.
     # So instead, we are going to use the legacy qt= parameter.
-    config.add_search_field 'all_fields', label: 'Default Algorithem' do |field|
+    config.add_search_field 'default_algo', label: 'Default Algo' do |field|
       #field.solr_path = 'select'
     end
 
-    config.add_search_field('with_querqy', label: 'With Querqy Algo') do |field|
+    config.add_search_field('querqy_algo', label: 'Querqy Algo') do |field|
       #field.solr_path = 'querqy-select'
       field.qt = '/querqy-select'
     end

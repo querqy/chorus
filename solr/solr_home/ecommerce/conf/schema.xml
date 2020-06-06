@@ -20,31 +20,18 @@ for demo purposes
   <!-- we don't stem names -->
   <field name="supplier" type="text_general" indexed="true" stored="true"/>
 
-
-
-
   <field name="_version_" type="plong" indexed="true" stored="false"/>
   <field name="dictionary" type="text_general" indexed="true" stored="true" multiValued="true"/>
   <field name="product_type" type="text_stemmed_en" indexed="true" stored="true"/>
   <field name="search_attributes" type="text_stemmed_en" indexed="true" stored="true" multiValued="true"/>
-
+  <field name="filter_supplier" type="string" indexed="true" stored="true"/>
 
   <copyField source="name" dest="dictionary" />
   <copyField source="title" dest="dictionary" />
   <copyField source="supplier" dest="dictionary" />
   <copyField source="short_description" dest="dictionary" />
   <copyField source="attr_t_product_type" dest="product_type" />
-
-  <!--
-  make suplier a filter_supplier
-  convert release date into a date field for sorting/boosting.
-
-  go ahead and pick and choose a couple into blacklight.
-
-  notebook == laptop
-
-
-  -->
+  <copyField source="supplier" dest="filter_supplier" />
 
   <!-- TODO: split into stemmed/unstemmed, good/noisy attributes. Resolve attr_waterproof:yes -->
   <!-- Remove me???
