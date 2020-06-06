@@ -13,6 +13,9 @@ Your offline and online search solution!
 * Quepid runs at http://localhost:3000
 * RRE runs at http://localhost:7979
 
+Have Firefox on OSX?   Pop open all the relevant sites:
+> /Applications/Firefox.app/Contents/MacOS/firefox http://localhost:4000 http://localhost:8983 http://localhost:9000 http://localhost:3000 http://localhost:7979
+
 # Script to Follow
 
 ## Getting Set Up.
