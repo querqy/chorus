@@ -25,6 +25,7 @@ class CatalogController < ApplicationController
 
     ## Default parameters to send to solr for all search-like requests. See also SearchBuilder#processed_parameters
     config.default_solr_params = {
+      q:"*:*",
       rows: 10,
       'facet.mincount':1,
       'facet.limit':10,
@@ -106,6 +107,7 @@ class CatalogController < ApplicationController
        :years_25 => { label: 'within 25 Years', fq: "date_released:[NOW-25YEAR/DAY TO NOW]" }
     }
 
+  
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
@@ -123,6 +125,7 @@ class CatalogController < ApplicationController
     #config.add_index_field 'published_ssim', label: 'Published'
     #config.add_index_field 'published_vern_ssim', label: 'Published'
     #config.add_index_field 'lc_callnum_ssim', label: 'Call number'
+    config.add_index_field 'supplier', label: 'Supplier', link_to_facet: :filter_supplier
     config.add_index_field 'date_released', label: 'Date'
 
     # solr fields to be displayed in the show (single result) view
