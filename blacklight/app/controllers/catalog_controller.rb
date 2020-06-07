@@ -100,14 +100,11 @@ class CatalogController < ApplicationController
     config.add_facet_field 'filter_t_product_colour', label: 'Product Colour', limit: 20
     config.add_facet_field 'filter_t_colour_name', label: 'Colour Name', limit: 20
 
-
-
-
-    #config.add_facet_field 'example_query_facet_field', label: 'Publish Date', :query => {
-    #   :years_5 => { label: 'within 5 Years', fq: "pub_date_ssim:[#{Time.zone.now.year - 5 } TO *]" },
-  #     :years_10 => { label: 'within 10 Years', fq: "pub_date_ssim:[#{Time.zone.now.year - 10 } TO *]" },
-  #     :years_25 => { label: 'within 25 Years', fq: "pub_date_ssim:[#{Time.zone.now.year - 25 } TO *]" }
-  #  }
+    config.add_facet_field 'example_query_facet_field', label: 'Released', :query => {
+       :years_5 => { label: 'within 5 Years', fq: "date_released:[NOW-5YEAR/DAY TO NOW]" },
+       :years_10 => { label: 'within 10 Years', fq: "date_released:[NOW-10YEAR/DAY TO NOW]" },
+       :years_25 => { label: 'within 25 Years', fq: "date_released:[NOW-25YEAR/DAY TO NOW]" }
+    }
 
 
     # Have BL send all facet field names to Solr, which has been the default
@@ -126,11 +123,13 @@ class CatalogController < ApplicationController
     #config.add_index_field 'published_ssim', label: 'Published'
     #config.add_index_field 'published_vern_ssim', label: 'Published'
     #config.add_index_field 'lc_callnum_ssim', label: 'Call number'
+    config.add_index_field 'date_released', label: 'Date'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
     config.add_show_field 'title', label: 'Product'
     config.add_show_field 'supplier', label: 'Supplier'
+    config.add_show_field 'date_released', label: 'Released'
     #config.add_show_field 'subtitle_vern_ssim', label: 'Subtitle'
     #config.add_show_field 'author_tsim', label: 'Author'
     #config.add_show_field 'author_vern_ssim', label: 'Author'
@@ -206,7 +205,7 @@ class CatalogController < ApplicationController
     # whether the sort is ascending or descending (it must be asc or desc
     # except in the relevancy case).
     config.add_sort_field 'score desc', label: 'relevance'
-    #config.add_sort_field 'pub_date_si desc, title_si asc', label: 'year'
+    config.add_sort_field 'date_released desc', label: 'released'
     #config.add_sort_field 'author_si asc, title_si asc', label: 'author'
     #config.add_sort_field 'title_si asc, pub_date_si desc', label: 'title'
 
