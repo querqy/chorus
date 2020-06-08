@@ -50,11 +50,11 @@
                         <!--param>io.sease.rre.core.domain.metrics.impl.Precision</param-->
                         <!--param>io.sease.rre.core.domain.metrics.impl.Recall</param-->
                         <!--param>io.sease.rre.core.domain.metrics.impl.ReciprocalRank</param-->
-                        <param>io.sease.rre.core.domain.metrics.impl.AveragePrecision</param>
+                        <!--param>io.sease.rre.core.domain.metrics.impl.AveragePrecision</param-->
                         <!--param>io.sease.rre.core.domain.metrics.impl.NDCGAtTen</param-->
-                        <param>io.sease.rre.core.domain.metrics.impl.PrecisionAtOne</param>
-                        <param>io.sease.rre.core.domain.metrics.impl.PrecisionAtTwo</param>
-                        <param>io.sease.rre.core.domain.metrics.impl.PrecisionAtThree</param>
+                        <!--param>io.sease.rre.core.domain.metrics.impl.PrecisionAtOne</param-->
+                        <!--param>io.sease.rre.core.domain.metrics.impl.PrecisionAtTwo</param-->
+                        <!--param>io.sease.rre.core.domain.metrics.impl.PrecisionAtThree</param-->
                         <param>io.sease.rre.core.domain.metrics.impl.PrecisionAtTen</param>
                     </metrics>
                     <parameterizedMetrics>
@@ -75,6 +75,15 @@
                             <missingGrade>2</missingGrade>
                             <!-- optional - name -->
                             <name>NDCG@8</name>
+                        </ndcgAt8>
+                        <ndcgAt8>
+                            <class>io.sease.rre.core.domain.metrics.impl.NDCGAtK</class>
+                            <k>10</k>
+                            <!-- optional - max/default grades -->
+                            <maximumGrade>4</maximumGrade>
+                            <missingGrade>2</missingGrade>
+                            <!-- optional - name -->
+                            <name>NDCG@10</name>
                         </ndcgAt8>
                     </parameterizedMetrics>
                     <evaluation>
