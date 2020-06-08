@@ -28,19 +28,20 @@ First run:
 Wait a while, because you'll be downloading quite a few images!
 
 
-Now we need to load our product data into Chorus.  Product data predominantly lives in Solr.
+Now we need to load our product data into Chorus.  Grab a sample dataset of 150K products via:
 
-If you are on a Linux type system, you should be able to stream the data right from the ice-products.tar.gz file:
+> wget https://querqy.org/datasets/icecat/icecat-products-150k-20200607.tar.gz
 
-> tar xzf raw_data/icecat-products.tar.gz --to-stdout | curl 'http://localhost:8983/solr/ecommerce/update?processor=formatDateUpdateProcessor&commit=true' --data-binary @- -H 'Content-type:application/json'
+If you are on a Linux type system, you should be able to stream the data right .tar.gz file:
 
-Otherwise you'll need to uncompress the `ice-products.tar.gz` and then post with Curl:
+> tar xzf icecat-products-150k-20200607.gz --to-stdout | curl 'http://localhost:8983/solr/ecommerce/update?processor=formatDateUpdateProcessor&commit=true' --data-binary @- -H 'Content-type:application/json'
 
-> curl 'http://localhost:8983/solr/ecommerce/update?processor=formatDateUpdateProcessor&commit=true' --data-binary @raw_data/icecat-products.json -H 'Content-type:application/json'
+Otherwise you'll need to uncompress the .tar.gz and then post with Curl:
+
+> curl 'http://localhost:8983/solr/ecommerce/update?processor=formatDateUpdateProcessor&commit=true' --data-binary @icecat-products-150k-20200607.tar.gz -H 'Content-type:application/json'
 
 
-You can test that it's working by visiting http://localhost:8983/solr/ecommerce/select?q=*:*
-
+You can test that it's working by visiting http://localhost:8983/solr/ecommerce/select?q=*:*.  If you are impatient issue a http://localhost:8983/solr/ecommerce/update?commit=true to trigger a commit.
 
 We also need to setup in SMUI the index we're going to be maintaining.  We do this via
 
@@ -116,3 +117,12 @@ For Quepid case, pick _name_ for title, and _id_ for identifier.  Add _thumb:ima
 > docker-compose run rre mvn rre:evaluate
 
 > docker-compose run rre mvn rre-report:report
+
+# Sample Data Details
+
+The product data is gratefully sourced from [Icecat](https://icecat.biz/) and is licensed under their Open Content License.
+Find out more about the license at https://iceclog.com/open-content-license-opl/.
+
+The version of the open content data that Chorus provides has the following changes:
+* Data converted to JSON format.
+* Products that don't have a 500x500 pixel image listed are removed.
