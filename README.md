@@ -34,7 +34,7 @@ Now we need to load our product data into Chorus.  Grab a sample dataset of 150K
 
 If you are on a Linux type system, you should be able to stream the data right .tar.gz file:
 
-> tar xzf icecat-products-150k-20200607.gz --to-stdout | curl 'http://localhost:8983/solr/ecommerce/update?processor=formatDateUpdateProcessor&commit=true' --data-binary @- -H 'Content-type:application/json'
+> tar xzf icecat-products-150k-20200607.tar.gz --to-stdout | curl 'http://localhost:8983/solr/ecommerce/update?processor=formatDateUpdateProcessor&commit=true' --data-binary @- -H 'Content-type:application/json'
 
 Otherwise you'll need to uncompress the .tar.gz and then post with Curl:
 
