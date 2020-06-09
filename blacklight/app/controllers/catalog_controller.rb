@@ -37,7 +37,7 @@ class CatalogController < ApplicationController
     #config.document_solr_path = 'get'
 
     # items to show per page, each number in the array represent another option to choose from.
-    #config.per_page = [10,20,50,100]
+    config.per_page = [30,50,100]
 
     # solr field configuration for search results/index views
     config.index.title_field = 'title' #'title_tsim'
