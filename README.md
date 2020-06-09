@@ -25,7 +25,7 @@ We use a Docker Compose based environment to easily set up Chorus.
 First run:
 > docker-compose up --build
 
-Wait a while, because you'll be downloading quite a few images!
+Wait a while, because you'll be downloading and building quite a few images!
 
 
 Now we need to load our product data into Chorus.  Grab a sample dataset of 150K products via:
@@ -53,13 +53,13 @@ Now we want to pivot to setting up our Offline Testing Environment.  Today we ha
 
 We'll start with Quepid and then move on to RRE.
 
-The very first time you et up Quepid you need to create the database:
+The very first time you set up Quepid you need to create the database:
 
 > docker-compose run --rm quepid bin/rake db:setup
 
 To setup Quepid we first need to create you an account with Administrator permissions:
 
-> docker-compose run quepid thor user:create -a demo@example.com "Your Name" password
+> docker-compose run quepid thor user:create -a demo@example.com "Demo User" password
 
 Then log into Quepid at http://localhost:3000 and log in with the email and password you just set up.
 
