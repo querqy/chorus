@@ -122,6 +122,27 @@
     </lst>
   </requestHandler>
 
+  <searchComponent name="suggest" class="solr.SuggestComponent">
+    <lst name="suggester">
+      <str name="name">mySuggester</str>
+      <str name="lookupImpl">FuzzyLookupFactory</str>
+      <str name="suggestAnalyzerFieldType">text_general</str>
+      <str name="buildOnCommit">true</str>
+      <str name="field">dictionary</str>
+    </lst>
+  </searchComponent>
+
+  <requestHandler name="/suggest" class="solr.SearchHandler" startup="lazy">
+    <lst name="defaults">
+      <str name="suggest">true</str>
+      <str name="suggest.count">5</str>
+      <str name="suggest.dictionary">mySuggester</str>
+    </lst>
+    <arr name="components">
+      <str>suggest</str>
+    </arr>
+  </requestHandler>
+
   <!-- This is required to support the legacy behavior of the parameter qt=/query-select -->
   <requestDispatcher handleSelect="true" >
     <requestParsers enableRemoteStreaming="false" multipartUploadLimitInKB="2048" />
@@ -130,4 +151,6 @@
   <queryResponseWriter name="json" class="solr.JSONResponseWriter">
     <str name="content-type">text/javascript; charset=UTF-8</str>
   </queryResponseWriter>
+
+
 </config>
