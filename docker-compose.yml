@@ -28,7 +28,10 @@ services:
 
   smui:
     container_name: smui
-    image: querqy/smui:3.6.1
+    #image: querqy/smui:3.6.1
+    build:
+      context: ./smui
+      dockerfile: Dockerfile
     ports:
       - 9000:9000
     environment:
