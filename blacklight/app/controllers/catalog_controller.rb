@@ -95,11 +95,12 @@ class CatalogController < ApplicationController
     #config.add_facet_field 'lc_1letter_ssim', label: 'Call Number'
     #config.add_facet_field 'subject_geo_ssim', label: 'Region'
     #config.add_facet_field 'subject_era_ssim', label: 'Era'
-    config.add_facet_field 'example_pivot_field', label: 'Supplier Products', :pivot => ['filter_supplier', 'filter_t_product_type'], limit: 5
-    config.add_facet_field 'filter_supplier', label: 'Supplier', limit: 20
+    config.add_facet_field 'filter_supplier', label: 'Brands', limit: 20
     config.add_facet_field 'filter_t_product_type', label: 'Product Type', limit: 20
     config.add_facet_field 'filter_t_product_colour', label: 'Product Colour', limit: 20
     config.add_facet_field 'filter_t_colour_name', label: 'Colour Name', limit: 20
+
+    config.add_facet_field 'example_pivot_field', label: 'Categories', :pivot => ['filter_t_product_type', 'filter_supplier'], limit: 5
 
     config.add_facet_field 'example_query_facet_field', label: 'Released', :query => {
        :years_5 => { label: 'within 5 Years', fq: "date_released:[NOW-5YEAR/DAY TO NOW]" },
@@ -107,7 +108,7 @@ class CatalogController < ApplicationController
        :years_25 => { label: 'within 25 Years', fq: "date_released:[NOW-25YEAR/DAY TO NOW]" }
     }
 
-  
+
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
