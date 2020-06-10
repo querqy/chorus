@@ -7,7 +7,7 @@ Your offline and online search solution!
 
 # What Runs Where
 
-* Demo "Store" runs at http://localhost:4000  |  http://chorus.dev.o19s.com:4000
+* Demo "Chorus Electronics" store runs at http://localhost:4000  |  http://chorus.dev.o19s.com:4000
 * Solr runs at http://localhost:8983 |  http://chorus.dev.o19s.com:8983
 * SMUI runs at http://localhost:9000 |  http://chorus.dev.o19s.com:9000
 * Quepid runs at http://localhost:3000 |  http://chorus.dev.o19s.com:3000
@@ -48,7 +48,7 @@ The sample data can take a couple of minutes to load.
 
 You can confirm that the data is loaded by visiting http://localhost:8983/solr/#/ecommerce/core-overview and doing some queries.
 
-However, even better is our mock Ecommerce Search Store, available at http://localhost:4000/.  Try out the various facets, and the sample queries, like _coffee_.   
+However, even better is our mock Ecommerce store, _Chorus Electronics_, available at http://localhost:4000/.  Try out the various facets, and the sample queries, like _coffee_.   
 
 We also need to setup in SMUI the the name of the index we're going to be doing active search management for.  We do this via
 
@@ -99,7 +99,19 @@ Bring up http://localhost:7979 and you will see a relatively unexciting empty da
 
 # First Kata: Lets Optimize a Query
 
-TODO
+In this first Kata, we're going to take two queries that we know are bad, and see if we can improve them via Active Search Management.   How do we know that the queries _notebook_ and _laptop_ are bad?  Easy, just take a look at them in our _Chorus Electronics_ store.
+
+Visit the store at http://localhost:4000/ and make sure the drop down has _Default Algo_ next to the search bar.   Now do a search for _notebook_, and notice that while the products are all vaguely related to notebooks, none of them are actual notebook computers.   We believe that our users, when they type in _notebook_, are looking for notebook computers, or possibly a paper notebook (which we don't carry as we are a electronics store), not accessories.
+
+Let's see if _laptop_ is any better.  Nope, similarly bad results.  
+
+So what can we do?   Well, first off, just by looking at the search results, we have a intuitive understanding of the problem, but we don't have a good way of measuring the problem.   How bad are our search results for these two queries?  Ideally we would have a numerical (quantitative) value to measure the problem.
+
+Enter Quepid.  Quepid provides two capabilities.  The first is an ability to easily assess the quality of search results through a web interface.  This is perfect for working with a Business Owner Benny or other non technical stakeholders to talk about why search is bad, and gather input on the results to start defining what good search results are for our queries.
+
+The second capability is a safe playground for playing with relevancy tuning parameters, though we won't be focusing on that in this Kata.
+
+
 
 # Sample Data Details
 
