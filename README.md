@@ -107,9 +107,33 @@ Let's see if _laptop_ is any better.  Nope, similarly bad results.
 
 So what can we do?   Well, first off, just by looking at the search results, we have a intuitive understanding of the problem, but we don't have a good way of measuring the problem.   How bad are our search results for these two queries?  Ideally we would have a numerical (quantitative) value to measure the problem.
 
-Enter Quepid.  Quepid provides two capabilities.  The first is an ability to easily assess the quality of search results through a web interface.  This is perfect for working with a Business Owner Benny or other non technical stakeholders to talk about why search is bad, and gather input on the results to start defining what good search results are for our queries.
+Enter Quepid.  Quepid provides two capabilities.  The first is an ability to easily assess the quality of search results through a web interface.  This is perfect for working with a Business Owner or other non technical stakeholders to talk about why search is bad, and gather input on the results to start defining what good search results are for our queries.
 
 The second capability is a safe playground for playing with relevancy tuning parameters, though we won't be focusing on that in this Kata.
+
+Open up Quepid at http://localhost:3000.   Since you have already gone through the Movie Demo setup, we'll need to set up a new case!
+
+Go ahead and start a new case by clicking _Relevancy Cases_ drop down and choosing _Create a Case_.  
+
+Let's call the case _Notebook Computers_.   Then, instead of the default Solr instance, let's go ahead and use our Chorus Electronics index using this URL:
+
+`http://localhost:8983/solr/ecommerce/select`
+
+Click the _ping it_ link to confirm we can access the ecommerce index.
+
+On the _How Should We Display Your Results?_ screen we can customize what information we want to show our Business Owner:  
+
+Title Field: `title`
+ID Field: `id`
+Additional Display Fields: `thumb:img_500x500 name supplier attr_t_product_type`
+
+We want to show our Business Owner enough information about our products so they can understand the context of our search, but not so much they are overwhelmed!
+
+On the next screen lets go ahead and add our problem queries _notebook_ and _laptop_.
+
+Complete the wizard, and now you are on the main Quepid screen.  
+
+Alert!  Sometimes in Quepid when you complete the add case wizard there is a odd race condition and the _Updating Queries_ message stays on the screen instead of going way.  Just reload the page ;-).    
 
 
 
