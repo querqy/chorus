@@ -135,6 +135,20 @@ Complete the wizard, and now you are on the main Quepid screen.
 
 Alert!  Sometimes in Quepid when you complete the add case wizard there is a odd race condition and the _Updating Queries_ message stays on the screen instead of going way.  Just reload the page ;-).    
 
+Now, I like to have two browser windows side by side, the _Chorus Electonics_ store open on the left, and Quepid on the right.  You should see the same products listed in both.
+
+Since we are going to pretend we have a Business Owner rating our indivudial results, we want to have a more sophisticated grading scale than the default one, of "Yes" or "No".  Click _Select Scorer_ and choose the nDCG@5 one from the list.  
+
+nDCG is a commonly used scorer that attempts to measure how good your results are against a ideal set of results, and it penalizes bad search results at the top of the list more than bad results at the end of the list.   
+
+Our scorer is based on a 0 to 4 scale, from 0 being irrelevant, i.e the result "makes the user mad to see", to 4, an absolutely unequivocally perfect result.
+
+Most ratings end up in the 1 for poor or irrelevant and 3 for good or relevant rating.
+
+Our nDCG@5 scorer is setup to only look at the first five results on the page, so think about if you are doing Mobile optimization and your users only have a small amount of screen real estate.   We could do of course do @10 or @20 if we wanted to measure more deeply.
+
+We'll go more deeply into scorers in another Kata.  To save some time, we've already done some rating for you.  
+
 
 
 # Sample Data Details
