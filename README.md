@@ -1,9 +1,10 @@
 Chorus
 ==========================
 
-Your offline and online search solution!
+Towards an open source tool stack for e-commerce search.
 
 # What is Chorus
+
 
 # What Runs Where
 
@@ -182,17 +183,31 @@ There is a lot to unpack in here that is beyond the scope of this kata.  However
 
 So now we feel like this is good results.  However, while we've just tuned these notebook examples, what has the impact of the Querqy rule changes been on potentially other queries?  Quepid is great for up to 60 or so queries per case, but it doesn't handle 100's or 1000's of queries well.  Plus, we only get one search metric, in our case NDCG at a time. What if I want to calculate all the search metrics.  For that, enter RRE.
 
+RRE uses it's own format of ratings, so in Quepid, click the _Export Case_ option in the toolbar.  This will pop up a modal box, and choose the _Rated Ranking Evaluator_ option.  Then click _Export_ and save this file on your desktop.  
 
+You then need to put this ratings into RRE.  First move any ratings file in `./rre/src/etc/ratings/` out of that directory, leaving them in `./rre` is fine.  Then take your freshly exported `Notebook_Computers_rre.json` file and put it in the ratings directory.  
 
+Now, lets look at the RRE setup.  Open up the `Notebook_Computers_rre.json` file and change the index property from `Notebook Computers` to `ecommerce` to match the name of our Solr index and save that change.
 
+We want to regression test our pre Querqy algorithm and our post Querqy algorithm.  So look at the template files in `./rre/src/etc/templates`.  As you can see v1.0 is just the simplistic query.   However v1.1 is using the Querqy enabled request handler.  This is going to let us measure the two against each other.
 
+While in this kata we are only running the same set of queries as in Quepid, in real life you would be regression testing those two queries against 100's of other rated queries as well.
 
+So let's go run our evaluation!  We're back on the command line:
 
+> docker-compose run rre mvn rre:evaluate
 
+Look for a message about `completed all 2 evaluations` to know that it's running properly.
 
+And once that completes, lets go ahead and publish the reports:
 
+> docker-compose run rre mvn rre-report:report
 
+You have two ways of looking at the data.  There is an Excel spreadsheet you can look at, or you can use the online Dashboard available at http://localhost:7979.
 
+Going into what all the metrics that RRE provides, and this is just a small sample set, is beyond this.   Suffice to say, if you look at the NDCG@4 and NDCG@10, you will see that we had a big jump from the terrible results of v1.0 to the amazing results in v1.1!
+
+That all folks!  You've successfully taken two bad queries from the store, assessed them to put a numerical value on the quality of the search, and then improved them using some rules to rewrite the query.  You then remeasured them, saw the quantiative improvement, and then ran a simulated regression test of those queries (and all your other ones in the real world), and have meaninfully improved search quality, which drives more revenue!
 
 
 
