@@ -157,7 +157,34 @@ So here is the good/bad news.  Yes our search results are terrible, with a score
 
 So now let's think about how we might actually improve them?  There are a lot of ways we could skin this cat, however for ecommerce use cases, one really powerful option is the Querqy query rewriting library for Solr and Elasticsearch.  We won't go into the details of querqy in this kata, but we will walk through some basic query rewriting rules.
 
-To make it easier for the Search Product Manager to do _Searchandizing_, we will use the Search Management UI, or SMUI.  Open up http://localhost:9000 
+To make it easier for the Search Product Manager to do _Searchandizing_, we will use the Search Management UI, or SMUI.  Open up http://localhost:9000 and you will be in the management screen for the _Ecommerce Demo_.
+
+Arrange your screens so the _Chorus Electonics_ store and SMUI are both visible.  Because we are working with the Querqy library, in the _Chorus Electronics_ store, make sure to change form the _Default Algo_ in the dropdown next to the search bar to the _Querqy Algo_.  Do a search for _laptop_, and while the initial product images may look good to you, realize they aren't images of laptops, they are laptop *accessories* that we are getting back!
+
+Let's start working on the query _laptop_ by typing it in on the left in SMUI under _Search or Create Search Rules_ text box.  Click _New_ and you get an empty rules set.  
+
+Lets start with filtering _laptop_ to just those products.  Add a new search rule and pick _UP/DOWN rule_.  We'll pick a boost of _UP(++++)_, so pretty heavy boost, and then put in _attr_t_product_type_ as the _Solr Field_, and the _Rule Term_ should be _notebook_.   This will boost products tagged with the notebook category up in the search results.
+
+Go ahead and click _Save search rules for input_ and then let's push our change to Solr by clicking the _Push Config to Solr_.
+
+
+__BOLD FINISH THIS__
+
+Now that we have a qualitative sense that we've improved our results using Querqy, lets go ahead and see if we can make this a quantifiable measure of improvement.  Lets see if we can give a number to our stakeholder on improving these _notebook_ related queries.
+
+We'll flip back to Quepid to do this.
+
+We need to tell Quepid that we've done some improvement using the `/querqy-select` request handler, instead of the default handler `/select`.  For this, we need our _Tune Relevance_ pane.  Click the _Tune Relevance_ link and you will be in the _Query Sandbox_.   Append to the end of the existing query template `q=#$query##` the command to tell Solr to use the new request handler: `&qt=/querqy-select`.   Then click the _Rerun My Searches!_ button.
+
+Notice that our results have now turned green across the board from red?  Our graph has also improved from our dismal measurement of 0 to the best possible result of 1!
+
+There is a lot to unpack in here that is beyond the scope of this kata.  However bear with me.
+
+So now we feel like this is good results.  However, while we've just tuned these notebook examples, what has the impact of the Querqy rule changes been on potentially other queries?  Quepid is great for up to 60 or so queries per case, but it doesn't handle 100's or 1000's of queries well.  Plus, we only get one search metric, in our case NDCG at a time. What if I want to calculate all the search metrics.  For that, enter RRE.
+
+
+
+
 
 
 
