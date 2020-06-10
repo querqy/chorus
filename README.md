@@ -97,6 +97,9 @@ You can now see a Excel spreadsheet saved to `./rre/target/site/rre-report.xlsx`
 
 Bring up http://localhost:7979 and you will see a relatively unexciting empty dashboard.  Don't worry, in our first kata, we'll do a relevancy test and fill this dashboard in.  
 
+# First Kata: Lets Optimize a Query
+
+TODO
 
 # Sample Data Details
 
