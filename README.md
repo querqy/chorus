@@ -168,8 +168,11 @@ Lets start with filtering _laptop_ to just those products.  Add a new search rul
 
 Go ahead and click _Save search rules for input_ and then let's push our change to Solr by clicking the _Push Config to Solr_.
 
+Go ahead and do a new query in the store, notice the improvements in the quality for _laptop_?  However, _notebook_ is still terrible, and we're seeing some _cable locks_ and _screen protectors_ showing up.   So let's go ahead and add those rules and take care of _notebook_ while we are at it:
 
-__BOLD FINISH THIS__
+![Downboosting bad results and setting up synonym](./katas/smui_setup.png)
+
+You can save and push the config as you add rules and then look at the store to see the changes.  Play with the rules!
 
 Now that we have a qualitative sense that we've improved our results using Querqy, lets go ahead and see if we can make this a quantifiable measure of improvement.  Lets see if we can give a number to our stakeholder on improving these _notebook_ related queries.
 
