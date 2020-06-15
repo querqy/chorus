@@ -102,7 +102,7 @@ Bring up http://localhost:7979 and you will see a relatively unexciting empty da
 
 In this first Kata, we're going to take two queries that we know are bad, and see if we can improve them via Active Search Management.   How do we know that the queries _notebook_ and _laptop_ are bad?  Easy, just take a look at them in our _Chorus Electronics_ store.
 
-Visit the store at http://localhost:4000/ and make sure the drop down has _Default Algo_ next to the search bar.   Now do a search for _notebook_, and notice that while the products are all vaguely related to notebooks, none of them are actual notebook computers.   We believe that our users, when they type in _notebook_, are looking for notebook computers, or possibly a paper notebook (which we don't carry as we are a electronics store), not accessories.
+Visit the store at http://localhost:4000/ and make sure the drop down has _Basic Algo_ next to the search bar.   Now do a search for _notebook_, and notice that while the products are all vaguely related to notebooks, none of them are actual notebook computers.   We believe that our users, when they type in _notebook_, are looking for notebook computers, or possibly a paper notebook (which we don't carry as we are a electronics store), not accessories.
 
 Let's see if _laptop_ is any better.  Nope, similarly bad results.  
 
@@ -118,7 +118,7 @@ Go ahead and start a new case by clicking _Relevancy Cases_ drop down and choosi
 
 Let's call the case _Notebook Computers_.   Then, instead of the default Solr instance, let's go ahead and use our Chorus Electronics index using this URL:
 
-`http://localhost:8983/solr/ecommerce/select`
+`http://localhost:8983/solr/ecommerce/basic-select`
 
 Click the _ping it_ link to confirm we can access the ecommerce index.
 
@@ -160,7 +160,7 @@ So now let's think about how we might actually improve them?  There are a lot of
 
 To make it easier for the Search Product Manager to do _Searchandizing_, we will use the Search Management UI, or SMUI.  Open up http://localhost:9000 and you will be in the management screen for the _Ecommerce Demo_.
 
-Arrange your screens so the _Chorus Electonics_ store and SMUI are both visible.  Because we are working with the Querqy library, in the _Chorus Electronics_ store, make sure to change form the _Default Algo_ in the dropdown next to the search bar to the _Querqy Algo_.  Do a search for _laptop_, and while the initial product images may look good to you, realize they aren't images of laptops, they are laptop *accessories* that we are getting back!
+Arrange your screens so the _Chorus Electonics_ store and SMUI are both visible.  Because we are working with the Querqy library, in the _Chorus Electronics_ store, make sure to change form the _Basic Algo_ in the dropdown next to the search bar to the _Querqy Algo_.  Do a search for _laptop_, and while the initial product images may look good to you, realize they aren't images of laptops, they are laptop *accessories* that we are getting back!
 
 Let's start working on the query _laptop_ by typing it in on the left in SMUI under _Search or Create Search Rules_ text box.  Click _New_ and you get an empty rules set.  
 
@@ -178,7 +178,7 @@ Now that we have a qualitative sense that we've improved our results using Querq
 
 We'll flip back to Quepid to do this.
 
-We need to tell Quepid that we've done some improvement using the `/querqy-select` request handler, instead of the default handler `/select`.  For this, we need our _Tune Relevance_ pane.  Click the _Tune Relevance_ link and you will be in the _Query Sandbox_.   Append to the end of the existing query template `q=#$query##` the command to tell Solr to use the new request handler: `&qt=/querqy-select`.   Then click the _Rerun My Searches!_ button.
+We need to tell Quepid that we've done some improvement using the `/querqy-select` request handler, instead of the default handler `/basic-select`.  For this, we need our _Tune Relevance_ pane.  Click the _Tune Relevance_ link and you will be in the _Query Sandbox_.   Append to the end of the existing query template `q=#$query##` the command to tell Solr to use the new request handler: `&qt=/querqy-select`.   Then click the _Rerun My Searches!_ button.
 
 Notice that our results have now turned green across the board from red?  Our graph has also improved from our dismal measurement of 0 to the best possible result of 1!
 
