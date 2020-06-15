@@ -91,11 +91,19 @@
   <!-- Override the default QueryComponent -->
   <searchComponent name="query" class="querqy.solr.QuerqyQueryComponent"/>
 
-  <!-- The default handler should be specified this way, however to support
-  the legacy qt=/querqy-select paramter we need to change to whats below.
-  <requestHandler name="/select" class="solr.SearchHandler">
+  <!-- To support the use of the the legacy qt=/querqy-select parameter we need
+  have the "search" handler.  This allows us to update via the API the basic-select
+  and the querqy-select handlers.
   -->
   <requestHandler name="search" class="solr.SearchHandler" default="true">
+    <lst name="defaults">
+      <str name="echoParams">explicit</str>
+      <str name="indent">true</str>
+      <str name="qt">/basic-select</str>
+    </lst>
+  </requestHandler>
+
+  <requestHandler name="/basic-select" class="solr.SearchHandler">
     <lst name="defaults">
       <str name="echoParams">explicit</str>
       <str name="indent">true</str>
@@ -110,7 +118,7 @@
     </lst>
   </requestHandler>
 
-<requestHandler name="/querqy-select" class="solr.SearchHandler">
+  <requestHandler name="/querqy-select" class="solr.SearchHandler">
     <lst name="defaults">
       <str name="echoParams">explicit</str>
       <str name="indent">true</str>
