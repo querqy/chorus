@@ -1,4 +1,4 @@
-![Chorus Logo](assets/chorus-logo.png)
+<img src="assets/chorus-logo.png" alt="Chorus Logo" width="200"/>
 
 Chorus
 ==========================
