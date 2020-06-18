@@ -1,3 +1,5 @@
+![Chorus Logo](assets/chorus-logo.png)
+
 Chorus
 ==========================
 
