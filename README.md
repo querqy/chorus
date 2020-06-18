@@ -5,9 +5,6 @@ Chorus
 
 Towards an open source tool stack for e-commerce search.
 
-# What is Chorus
-
-
 # What Runs Where
 
 * Demo "Chorus Electronics" store runs at http://localhost:4000  |  http://chorus.dev.o19s.com:4000
