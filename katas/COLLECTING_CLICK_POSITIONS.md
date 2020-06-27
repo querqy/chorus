@@ -24,7 +24,7 @@ We then need to update our request handlers.  This can be kind of verbose becaus
       "qf": "name title product_type short_description ean search_attributes",
       "defType": "querqy",
       "tie": 0.01,
-      "mm": "100&#37;",
+      "mm": "100%",
       "responseLog": true
       },
     "last-components": ["responselog"]
@@ -36,3 +36,16 @@ Notice that in the Solr log output you have a new parameter `responseLog`:
 ```
  responseLog=77858795,77858796,2368581,4143479,4143572,1768024,1766562,1768012,1679564,3797265,4011117,1418538,78847062,78847065,2500960,1229074,1229111,2273010,1715314,1739387,3186555,3753984,1627958,53884,1751314,2060449,3429328,869847,3917181,643252 status=0 QTime=42
 ````
+
+So, what happens if you index the data?
+
+https://github.com/apache/lucene-solr/blob/visual-guide/solr/solr-ref-guide/src/logs.adoc
+
+ON THE PLAYING WITH STREAMING SETUP
+> docker exec solr1 solr create_collection -c logs -p 8983 -shards 3
+
+Checking the dashboard, it appears that Solr is logging to `-Dsolr.log.dir=/var/solr/logs`.   
+
+> docker-compose run solr bin/postlogs
+
+> docker-compose run solr bin/postlogs http://host.docker.internal:9983/solr/logs /user/foo/logs/solr.log

@@ -1,5 +1,21 @@
-{"updateProcessor":{
-    "formatDateUpdateProcessor":{
+{
+  "updateProcessor":{"formatDateUpdateProcessor":{
       "name":"formatDateUpdateProcessor",
       "class":"solr.ParseDateFieldUpdateProcessorFactory",
-      "format":["yyyy-MM-dd"]}}}
+      "format":["yyyy-MM-dd"]}},
+  "searchComponent":{"responselog":{
+      "name":"responselog",
+      "class":"org.apache.solr.handler.component.ResponseLogComponent"}},
+  "requestHandler":{"/querqy-select":{
+      "name":"/querqy-select",
+      "class":"solr.SearchHandler",
+      "defaults":{
+        "echoParams":"explicit",
+        "indent":true,
+        "df":"id",
+        "qf":"name title product_type short_description ean search_attributes",
+        "defType":"querqy",
+        "tie":0.01,
+        "mm":"100%",
+        "responseLog":true},
+      "last-components":["responselog"]}}}
