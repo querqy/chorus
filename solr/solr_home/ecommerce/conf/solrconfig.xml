@@ -106,7 +106,7 @@
       <str name="defType">edismax</str>
       <str name="tie">0.01</str>
 
-      <str name="mm">100&#37;</str>
+      <!--str name="mm">100&#37;</str-->
     </lst>
   </requestHandler>
 
