@@ -131,9 +131,14 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
-    config.add_show_field 'title', label: 'Product'
+    config.add_show_field 'title', label: 'Title'
     config.add_show_field 'supplier', label: 'Supplier'
+    config.add_show_field 'product_type', label: 'Product Type'
+    config.add_show_field 'short_description', label: 'Short Desc'
+    config.add_show_field 'ean', label: 'EAN'
     config.add_show_field 'date_released', label: 'Released'
+
+    config.add_show_field 'search_attributes', label: 'Searchable Attributes'
     #config.add_show_field 'subtitle_vern_ssim', label: 'Subtitle'
     #config.add_show_field 'author_tsim', label: 'Author'
     #config.add_show_field 'author_vern_ssim', label: 'Author'
