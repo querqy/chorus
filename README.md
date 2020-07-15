@@ -212,6 +212,12 @@ Going into what all the metrics that RRE provides, and this is just a small samp
 That all folks!  You've successfully taken two bad queries from the store, assessed them to put a numerical value on the quality of the search, and then improved them using some rules to rewrite the query.  You then remeasured them, saw the quantiative improvement, and then ran a simulated regression test of those queries (and all your other ones in the real world), and have meaninfully improved search quality, which drives more revenue!
 
 
+# How to restart
+
+To reset your environment, just run:
+> docker-compose down -v
+
+Note: this will reset the database!
 
 # Sample Data Details
 

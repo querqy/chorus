@@ -24,7 +24,7 @@ services:
       - MYSQL_ROOT_PASSWORD=password
     volumes:
       - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-      - ./volumes/db:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
 
   smui:
     container_name: smui
@@ -105,3 +105,6 @@ services:
       - SOLR_URL=http://solr:8983/solr/ecommerce
     depends_on:
       - solr
+
+volumes:
+    mysql_data: {}
