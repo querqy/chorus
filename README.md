@@ -216,8 +216,11 @@ That all folks!  You've successfully taken two bad queries from the store, asses
 
 To reset your environment, just run:
 > docker-compose down -v
+> git checkout volumes/preliveCore/conf/rules.txt
 
-Note: this will reset the MySQL database!  It won't get rid of your rules for Querqy.
+Note: this will reset the MySQL database, and then reset you Querqy rules.
+
+
 
 # Sample Data Details
 
