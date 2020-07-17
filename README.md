@@ -44,7 +44,7 @@ Otherwise you'll need to uncompress the .tar.gz file and then post with Curl:
 
 > curl 'http://localhost:8983/solr/ecommerce/update?processor=formatDateUpdateProcessor&commit=true' --data-binary @icecat-products-150k-20200607.tar.gz -H 'Content-type:application/json'
 
-The sample data can take a couple of minutes to load.
+The sample data will take a couple of minutes (like 5!) to load.
 
 You can confirm that the data is loaded by visiting http://localhost:8983/solr/#/ecommerce/core-overview and doing some queries.
 
@@ -56,7 +56,7 @@ We also need to setup in SMUI the the name of the index we're going to be doing 
 
 Grab the `returnId` from the response, something like `3f47cc75-a99f-4653-acd4-a9dc73adfcd1`, you'll need it for the next steps!
 
-> export SOLR_INDEX_ID=returnId
+> export SOLR_INDEX_ID=1ded0ba0-6991-4533-83f4-1745c84f3575
 
 > curl -X PUT -H "Content-Type: application/json" -d '{"name":"attr_t_product_type"}' http://localhost:9000/api/v1/{$SOLR_INDEX_ID}/suggested-solr-field
 
@@ -210,6 +210,15 @@ You have two ways of looking at the data.  There is an Excel spreadsheet you can
 Going into what all the metrics that RRE provides, and this is just a small sample set, is beyond this.   Suffice to say, if you look at the NDCG@4 and NDCG@10, you will see that we had a big jump from the terrible results of v1.0 to the amazing results in v1.1!
 
 That all folks!  You've successfully taken two bad queries from the store, assessed them to put a numerical value on the quality of the search, and then improved them using some rules to rewrite the query.  You then remeasured them, saw the quantiative improvement, and then ran a simulated regression test of those queries (and all your other ones in the real world), and have meaninfully improved search quality, which drives more revenue!
+
+
+# How to restart
+
+To reset your environment, just run:
+> docker-compose down -v
+> git checkout volumes/preliveCore/conf/rules.txt
+
+Note: this will reset the MySQL database, and then reset you Querqy rules.
 
 
 
