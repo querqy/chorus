@@ -4,7 +4,7 @@
 
 docker-compose down -v
 docker-compose up -d
-sleep 20
+sleep 30 # takes a while to start everything.
 
 if [ ! -f ./icecat-products-150k-20200607.tar.gz ]; then
     wget https://querqy.org/datasets/icecat/icecat-products-150k-20200607.tar.gz
