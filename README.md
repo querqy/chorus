@@ -22,6 +22,8 @@ Working with macOS?   Pop open all the relevant sites:
 
 We are trying to strike a balance between making the setup process as easy and fool proof as possible with the need to not _hide_ too much of the interactions between the projects that make up Chorus.
 
+If you are impatient, we have a quick start script, `./quickstart.sh` that sets you up, however I recommend you go through the below steps your first time!   
+
 We use a Docker Compose based environment to manage firing up all the components of the Chorus stack, but then have you go through loading the data and configuring the components.
 
 Open up a terminal window and run:
