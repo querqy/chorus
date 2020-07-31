@@ -153,23 +153,23 @@ We'll go more deeply into scorers in another Kata.  To save some time, we've alr
 
 Click the _Import Ratings_ from the toolbar and you'll be in the import modal.
 
-Pick the ratings file that we already created for you from `./katas/Notebook_Computers_basic.csv`.  You'll see a preview of the CSV file.  Click _Import_ and Quepid will load up these ratings and rerun your queries.  Notice the frog icon went away, that is telling you you don't have any query results that need assessment from the business ;-)
+Pick the ratings file that we already created for you from `./katas/Chorus_Electronics_basic.csv`.  You'll see a preview of the CSV file.  Click _Import_ and Quepid will load up these ratings and rerun your queries.  Notice the frog icon went away, that is telling you you don't have any query results that need assessment from the business ;-)
 
-So here is the good/bad news.  Yes our search results are terrible, with a score of 0.  However now we have a numerical value of our search results, and can now think about fixing them!
+So here is the good/bad news.  Yes our search results are terrible, with a score of 0.14 (on a scale of 0 to 1).  However now we have a numerical value of our search results, and can now think about fixing them!
 
-So now let's think about how we might actually improve them?  There are a lot of ways we could skin this cat, however for ecommerce use cases, one really powerful option is the Querqy query rewriting library for Solr and Elasticsearch.  We won't go into the details of querqy in this kata, but we will walk through some basic query rewriting rules.
+So now let's think about how we might actually improve them?  There are a lot of ways we could skin this cat, however for ecommerce use cases, one really powerful option is the Querqy query rewriting library for Solr and Elasticsearch.  We won't go into the details of how Querqy works with Solr in this Kata.
 
 To make it easier for the Search Product Manager to do _Searchandizing_, we will use the Search Management UI, or SMUI.  Open up http://localhost:9000 and you will be in the management screen for the _Ecommerce Demo_.
 
-Arrange your screens so the _Chorus Electonics_ store and SMUI are both visible.  Because we are working with the Querqy library, in the _Chorus Electronics_ store, make sure to change form the _Default Algo_ in the dropdown next to the search bar to the _Querqy Algo_.  Do a search for _laptop_, and while the initial product images may look good to you, realize they aren't images of laptops, they are laptop *accessories* that we are getting back!
+Arrange your screens so the _Chorus Electonics_ store and SMUI are both visible.  Because we are working with the Querqy library, in the _Chorus Electronics_ store, make sure to change form the _Default Algo_ in the dropdown next to the search bar to the _Querqy Algo_.  Do a search for notebook, and while the initial product images may look good to you, remember, they aren't images of notebooks, they are notebook *accessories* that we are getting back!   While we are at it, let's also check _laptop_ as well.
 
-Let's start working on the query _laptop_ by typing it in on the left in SMUI under _Search or Create Search Rules_ text box.  Click _New_ and you get an empty rules set.  
+Let's start working on the query _notebook_ by typing it in on the left in SMUI under _Search or Create Search Rules_ text box.  Click _New_ and you get an empty rules set.  
 
-Lets start with filtering _laptop_ to just those products.  Add a new search rule and pick _UP/DOWN rule_.  We'll pick a boost of _UP(++++)_, so pretty heavy boost, and then put in _attr_t_product_type_ as the _Solr Field_, and the _Rule Term_ should be _notebook_.   This will boost products tagged with the notebook category up in the search results.
+Lets start with filtering _notebook_ to just those products.  Add a new search rule and pick _UP/DOWN rule_.  We'll pick a boost of _UP(++++)_, so pretty heavy boost, and then put in _attr_t_product_type_ as the _Solr Field_, and the _Rule Term_ should be _notebook_.   This will boost products tagged with the notebook category up in the search results.
 
 Go ahead and click _Save search rules for input_ and then let's push our change to Solr by clicking the _Push Config to Solr_.
 
-Go ahead and do a new query in the store, notice the improvements in the quality for _laptop_?  However, _notebook_ is still terrible, and we're seeing some _cable locks_ and _screen protectors_ showing up.   So let's go ahead and add those rules and take care of _notebook_ while we are at it:
+Go ahead and do a new query in the store, notice the improvements in the quality for _notebook_?  However we're seeing some _cable locks_ and _screen protectors_ showing up.   So let's go ahead and add some rules, and take care of _notebook_ while we are at it:
 
 ![Downboosting bad results and setting up synonym](./katas/smui_setup.png)
 
