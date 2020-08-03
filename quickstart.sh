@@ -6,6 +6,18 @@ docker-compose down -v
 docker-compose up -d
 sleep 30 # takes a while to start everything.
 
+docker cp ./solr/security.json solr1:/security.json
+#docker run --rm -v "$PWD/solr:/target" solr:8.5.2 solr zk cp target/security.json zk:security.json -z zoo1:2181
+
+docker exec solr1 solr zk cp /security.json zk:security.json -z zoo1:2181
+
+# Fix me to not be buried under solr/solr_home/.
+(cd solr/solr_home/ecommerce/conf && zip -r - *) > ./solr/solr_home/ecommerce.zip
+curl  --user solr:SolrRocks -X POST --header "Content-Type:application/octet-stream" --data-binary @./solr/solr_home/ecommerce.zip "http://localhost:8983/solr/admin/configs?action=UPLOAD&name=ecommerce"
+
+docker exec solr1 solr create_collection -c ecommerce -n ecommerce -shards 2 -replicationFactor 1
+sleep 5
+
 if [ ! -f ./icecat-products-150k-20200607.tar.gz ]; then
     wget https://querqy.org/datasets/icecat/icecat-products-150k-20200607.tar.gz
 fi
