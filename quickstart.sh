@@ -16,8 +16,17 @@ docker exec solr1 solr zk cp /security.json zk:security.json -z zoo1:2181
 curl  --user solr:SolrRocks -X POST --header "Content-Type:application/octet-stream" --data-binary @./solr/solr_home/ecommerce.zip "http://localhost:8983/solr/admin/configs?action=UPLOAD&name=ecommerce"
 
 docker exec solr1 solr create_collection -c ecommerce -n ecommerce -shards 2 -replicationFactor 1
+# make sure we can parse properly a string into a proper date.
+curl http://localhost:8983/solr/ecommerce/config -H 'Content-type:application/json' -d '
+{
+  "add-updateprocessor" :
+  {
+    "name" : "formatDateUpdateProcessor",
+    "class": "solr.ParseDateFieldUpdateProcessorFactory",
+    "format":["yyyy-MM-dd"]
+  }
+}'
 sleep 5
-
 if [ ! -f ./icecat-products-150k-20200607.tar.gz ]; then
     wget https://querqy.org/datasets/icecat/icecat-products-150k-20200607.tar.gz
 fi
