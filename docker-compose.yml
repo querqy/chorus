@@ -11,7 +11,9 @@ services:
       - "4000:3000"
     command: "rails s -p 3000 -b 0.0.0.0"
     environment:
-      - SOLR_URL=http://solr:8983/solr/ecommerce
+      - SOLR_URL=http://solr1:8983/solr/ecommerce
+    networks:
+      - solr      
     depends_on:
       - solr1
 
@@ -178,7 +180,7 @@ services:
       - "7979:8080"
     command: "java -jar rre-server-1.1.jar"
     environment:
-      - SOLR_URL=http://solr:8983/solr/ecommerce
+      - SOLR_URL=http://solr1:8983/solr/ecommerce
     depends_on:
       - solr1
 
