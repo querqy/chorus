@@ -12,8 +12,8 @@ services:
     command: "rails s -p 3000 -b 0.0.0.0"
     environment:
       - SOLR_URL=http://solr1:8983/solr/ecommerce
-    networks:
-      - solr      
+#    networks:
+#      - solr      
     depends_on:
       - solr1
 
@@ -56,8 +56,8 @@ services:
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
     volumes:
       - ./volumes/fake_shared_fs:/tmp/fake_shared_fs
-    networks:
-      - solr
+ #   networks:
+ #     - solr
     depends_on:
       - zoo1
       - zoo2
@@ -73,8 +73,8 @@ services:
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
     volumes:
       - ./volumes/fake_shared_fs:/tmp/fake_shared_fs
-    networks:
-      - solr
+ #   networks:
+ #     - solr
     depends_on:
       - zoo1
       - zoo2
@@ -90,8 +90,8 @@ services:
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
     volumes:
       - ./volumes/fake_shared_fs:/tmp/fake_shared_fs
-    networks:
-      - solr
+ #   networks:
+ #     - solr
     depends_on:
       - zoo1
       - zoo2
@@ -107,8 +107,8 @@ services:
     environment:
       ZOO_MY_ID: 1
       ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
-    networks:
-      - solr
+ #   networks:
+ #     - solr
 
   zoo2:
     image: zookeeper:3.5
@@ -120,8 +120,8 @@ services:
     environment:
       ZOO_MY_ID: 2
       ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=0.0.0.0:2888:3888;2181 server.3=zoo3:2888:3888;2181
-    networks:
-      - solr
+ #   networks:
+ #     - solr
 
   zoo3:
     image: zookeeper:3.5
@@ -133,8 +133,8 @@ services:
     environment:
       ZOO_MY_ID: 3
       ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=0.0.0.0:2888:3888;2181
-    networks:
-      - solr
+ #   networks:
+ #     - solr
 
   redis:
     container_name: quepid_redis
@@ -187,5 +187,5 @@ services:
 volumes:
     mysql_data: {}
 
-networks:
-  solr:
+#networks:
+#  solr:
