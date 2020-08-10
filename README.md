@@ -207,11 +207,11 @@ And once that completes, lets go ahead and publish the reports:
 
 > docker-compose run rre mvn rre-report:report
 
-You have two ways of looking at the data.  There is an Excel spreadsheet you can look at, or you can use the online Dashboard available at http://localhost:7979.
+You have two ways of looking at the results of RRE running.  There is an Excel spreadsheet you can look at, or you can use the online Dashboard available at http://localhost:7979.
 
 Going into what all the metrics that RRE provides, and this is just a small sample set, is beyond this.   Suffice to say, if you look at the NDCG@4 and NDCG@10, you will see that we had a big jump from the terrible results of v1.0 to the amazing results in v1.1!
 
-That all folks!  You've successfully taken two bad queries from the store, assessed them to put a numerical value on the quality of the search, and then improved them using some rules to rewrite the query.  You then remeasured them, saw the quantiative improvement, and then ran a simulated regression test of those queries (and all your other ones in the real world), and have meaninfully improved search quality, which drives more revenue!
+That all folks!  You've successfully taken two bad queries from the store, assessed them to put a numerical value on the quality of the search, and then improved them using some rules to rewrite the query.  You then remeasured them, saw the quantitative improvement, and then ran a simulated regression test of those queries (and all your other ones in the real world), and have meaningfully improved search quality, which drives more revenue!
 
 
 # How to restart
