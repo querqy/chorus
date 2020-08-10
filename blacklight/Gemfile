@@ -36,8 +36,8 @@ gem 'jbuilder', '~> 2.5'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
-gem 'blacklight', ">= 6.1"
-gem 'blacklight-gallery'
+gem 'blacklight', ">= 7.10.0"
+gem 'blacklight-gallery', ">= 2.1.0"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

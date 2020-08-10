@@ -7,6 +7,8 @@ class CatalogController < ApplicationController
     config.view.gallery.partials = [:index_header, :index]
     config.view.masonry.partials = [:index]
     config.view.slideshow.partials = [:index]
+    # Set the gallery view to have four columns instead of three.
+    config.view.gallery.classes = 'row-cols-3 row-cols-md-4'
 
 
     config.show.tile_source_field = :content_metadata_image_iiif_info_ssm
@@ -29,7 +31,8 @@ class CatalogController < ApplicationController
       rows: 10,
       'facet.mincount':1,
       'facet.limit':10,
-      fq: '-img_500x500:""'
+      fq: '-img_500x500:""',
+      fq: 'price:*'
     }
 
     # solr path which will be added to solr base url before the other solr params.
@@ -60,8 +63,10 @@ class CatalogController < ApplicationController
     config.add_nav_action(:search_history, partial: 'blacklight/nav/search_history')
 
     # solr field configuration for document/show views
-    #config.show.title_field = 'name'
+    #config.show.title_field = 'title_tsim'
+    config.show.title_field = 'title'
     #config.show.display_type_field = 'format'
+    #config.show.thumbnail_field = 'thumbnail_path_ss'
     config.show.thumbnail_field = 'img_500x500'
 
     # solr fields that will be treated as facets by the blacklight application
@@ -127,16 +132,19 @@ class CatalogController < ApplicationController
     #config.add_index_field 'published_vern_ssim', label: 'Published'
     #config.add_index_field 'lc_callnum_ssim', label: 'Call number'
     config.add_index_field 'supplier', label: 'Supplier', link_to_facet: :filter_supplier
-    config.add_index_field 'date_released', label: 'Date'
+    config.add_index_field 'date_released', label: 'Date', helper_method: 'prettify_date'
+    config.add_index_field 'price', label: 'Price', helper_method: 'prettify_price'
+
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
-    config.add_show_field 'title', label: 'Title'
+    #config.add_show_field 'title', label: 'Title'
     config.add_show_field 'supplier', label: 'Supplier'
     config.add_show_field 'product_type', label: 'Product Type'
     config.add_show_field 'short_description', label: 'Short Desc'
     config.add_show_field 'ean', label: 'EAN'
-    config.add_show_field 'date_released', label: 'Released'
+    config.add_show_field 'date_released', label: 'Released', helper_method: 'prettify_date'
+    config.add_show_field 'price', label: 'Price', helper_method: 'prettify_price'
 
     config.add_show_field 'search_attributes', label: 'Searchable Attributes'
     #config.add_show_field 'subtitle_vern_ssim', label: 'Subtitle'

@@ -1,5 +1,1 @@
-{"updateProcessor":{
-    "formatDateUpdateProcessor":{
-      "name":"formatDateUpdateProcessor",
-      "class":"solr.ParseDateFieldUpdateProcessorFactory",
-      "format":["yyyy-MM-dd"]}}}
+{}

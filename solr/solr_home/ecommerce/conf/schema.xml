@@ -9,7 +9,8 @@ for demo purposes
   <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false"/>
   <field name="name" type="text_stemmed_en" indexed="true" stored="true"/>
   <field name="title" type="text_stemmed_en" indexed="true" stored="true"/>
-  <field name="ean" type="string" indexed="true" stored="true"/>
+  <field name="ean" type="string" indexed="true" stored="true" multiValued="true"/>
+  <field name="price" type="pint" indexed="true" stored="true" multiValued="false"/>
   <field name="short_description" type="text_stemmed_en" indexed="true" stored="true"/>
   <field name="img_high" type="string" indexed="false" stored="true"/>
   <field name="img_low" type="string" indexed="false" stored="true"/>

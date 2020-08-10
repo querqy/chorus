@@ -36,11 +36,11 @@ Now we need to load our product data into Chorus.  Open a second terminal window
 
 Grab a sample dataset of 150K products by running from the root of your Chorus checkout:
 
-> wget https://querqy.org/datasets/icecat/icecat-products-150k-20200607.tar.gz
+> wget https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
 
 If you are on a Linux type system, you should be able to stream the data right from the .tar.gz file:
 
-> tar xzf icecat-products-150k-20200607.tar.gz --to-stdout | curl 'http://localhost:8983/solr/ecommerce/update?processor=formatDateUpdateProcessor&commit=true' --data-binary @- -H 'Content-type:application/json'
+> tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
 
 Otherwise you'll need to uncompress the .tar.gz file and then post with Curl:
 
@@ -232,3 +232,4 @@ Find out more about the license at https://iceclog.com/open-content-license-opl/
 The version of the open content data that Chorus provides has the following changes:
 * Data converted to JSON format.
 * Products that don't have a 500x500 pixel image listed are removed.
+* Prices extracted for ~19,000 products from the https://www.upcitemdb.com/ service using EAN codes to match.

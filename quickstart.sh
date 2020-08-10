@@ -16,21 +16,12 @@ docker exec solr1 solr zk cp /security.json zk:security.json -z zoo1:2181
 curl  --user solr:SolrRocks -X POST --header "Content-Type:application/octet-stream" --data-binary @./solr/solr_home/ecommerce.zip "http://localhost:8983/solr/admin/configs?action=UPLOAD&name=ecommerce"
 
 docker exec solr1 solr create_collection -c ecommerce -n ecommerce -shards 2 -replicationFactor 1
-# make sure we can parse properly a string into a proper date.
-curl http://localhost:8983/solr/ecommerce/config -H 'Content-type:application/json' -d '
-{
-  "add-updateprocessor" :
-  {
-    "name" : "formatDateUpdateProcessor",
-    "class": "solr.ParseDateFieldUpdateProcessorFactory",
-    "format":["yyyy-MM-dd"]
-  }
-}'
+
 sleep 5
-if [ ! -f ./icecat-products-150k-20200607.tar.gz ]; then
-    wget https://querqy.org/datasets/icecat/icecat-products-150k-20200607.tar.gz
+if [ ! -f ./icecat-products-150k-20200809.tar.gz ]; then
+    wget https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
 fi
-#tar xzf icecat-products-150k-20200607.tar.gz --to-stdout | curl 'http://localhost:8983/solr/ecommerce/update?processor=formatDateUpdateProcessor&commit=true' --data-binary @- -H 'Content-type:application/json'
+#tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
 
 SOLR_INDEX_ID=`curl -X PUT -H "Content-Type: application/json" -d '{"name":"ecommerce", "description":"Ecommerce Demo"}' http://localhost:9000/api/v1/solr-index | jq .returnId`
 curl -X PUT -H "Content-Type: application/json" -d '{"name":"attr_t_product_type"}' http://localhost:9000/api/v1/{$SOLR_INDEX_ID}/suggested-solr-field
