@@ -149,7 +149,11 @@
 
   <!-- This is required to support the legacy behavior of the parameter qt=/query-select -->
   <requestDispatcher handleSelect="true" >
-    <requestParsers enableRemoteStreaming="false" multipartUploadLimitInKB="2048" />
+    <!--
+    bump up the upload amount to allow us to use the Solr Admin UI to upload the .json data,
+    with room to grow.
+    -->
+    <requestParsers enableRemoteStreaming="false" multipartUploadLimitInKB="512000" />
   </requestDispatcher>
 
   <queryResponseWriter name="json" class="solr.JSONResponseWriter">

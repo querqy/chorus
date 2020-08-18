@@ -44,7 +44,7 @@ If you are on a Linux type system, you should be able to stream the data right f
 
 Otherwise you'll need to uncompress the .tar.gz file and then post with Curl:
 
-> curl 'http://localhost:8983/solr/ecommerce/update?processor=formatDateUpdateProcessor&commit=true' --data-binary @icecat-products-150k-20200607.tar.gz -H 'Content-type:application/json'
+> curl 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @icecat-products-150k-20200809.json -H 'Content-type:application/json'
 
 The sample data will take a couple of minutes (like 5!) to load.
 
