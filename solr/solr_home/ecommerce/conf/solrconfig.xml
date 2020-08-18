@@ -111,7 +111,26 @@
     </lst>
   </requestHandler>
 
-<requestHandler name="/querqy-select" class="solr.SearchHandler">
+  <!-- for the purposes of understanding the impact of "light switch", we want to have
+  a mm=100% version.   Today, this is done via change to the front end GUI and changing
+  the requestHandler.  In the future, this should be a paramSet that lives in ZK and no
+  hardcoding of the front end!
+  -->
+  <requestHandler name="mustmatchall-select" class="solr.SearchHandler">
+    <lst name="defaults">
+      <str name="echoParams">explicit</str>
+      <str name="indent">true</str>
+      <!-- we actually don't want to use the default field -->
+      <str name="df">id</str>
+      <str name="qf">name title product_type short_description ean search_attributes</str>
+
+      <str name="defType">edismax</str>
+      <str name="tie">0.01</str>
+      <str name="mm">100&#37;</str>
+    </lst>
+  </requestHandler>
+
+  <requestHandler name="querqy-select" class="solr.SearchHandler">
     <lst name="defaults">
       <str name="echoParams">explicit</str>
       <str name="indent">true</str>

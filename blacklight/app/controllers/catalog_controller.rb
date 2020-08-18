@@ -184,9 +184,14 @@ class CatalogController < ApplicationController
       #field.solr_path = 'select'
     end
 
+    config.add_search_field('mustmatchall-select', label: 'Must Match All') do |field|
+      #field.solr_path = 'querqy-select'
+      field.qt = 'mustmatchall-select'
+    end
+
     config.add_search_field('querqy_algo', label: 'Querqy Algo') do |field|
       #field.solr_path = 'querqy-select'
-      field.qt = '/querqy-select'
+      field.qt = 'querqy-select'
     end
 
     #config.add_search_field('title') do |field|
