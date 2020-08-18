@@ -69,7 +69,6 @@
                  The file that contains rules for synonyms,
                  boosting etc.
               -->
-              <!--str name="rules">querqy/rules.txt</str-->
               <str name="rules">rules.txt</str>
               <!--
                  If true, case will be ignored while trying to find
