@@ -34,6 +34,20 @@ Wait a while, because you'll be downloading and building quite a few images!  Yo
 
 Now we need to load our product data into Chorus.  Open a second terminal window, so you can see how as you work with Chorus how the various system respond.  
 
+Firstly, we're using SolrCloud, so this means a few more steps to set up our _ecommerce_ collection, because we are using the management APIs to set up a new collection.  We're also making sure we start with security baked in from the beginning, so run these steps:
+
+```
+docker cp ./solr/security.json solr1:/security.json
+docker exec solr1 solr zk cp /security.json zk:security.json -z zoo1:2181
+
+(cd solr/solr_home/ecommerce/conf && zip -r - *) > ./solr/solr_home/ecommerce.zip
+curl  --user solr:SolrRocks -X POST --header "Content-Type:application/octet-stream" --data-binary @./solr/solr_home/ecommerce.zip "http://localhost:8983/solr/admin/configs?action=UPLOAD&name=ecommerce"
+
+docker exec solr1 solr create_collection -c ecommerce -n ecommerce -shards 2 -replicationFactor 1
+```
+
+We now have a two shard _ecommerce_ collection
+
 Grab a sample dataset of 150K products by running from the root of your Chorus checkout:
 
 > wget https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
