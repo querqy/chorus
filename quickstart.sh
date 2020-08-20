@@ -7,8 +7,6 @@ docker-compose up -d --build
 sleep 30 # takes a while to start everything.
 
 docker cp ./solr/security.json solr1:/security.json
-#docker run --rm -v "$PWD/solr:/target" solr:8.5.2 solr zk cp target/security.json zk:security.json -z zoo1:2181
-
 docker exec solr1 solr zk cp /security.json zk:security.json -z zoo1:2181
 
 # Fix me to not be buried under solr/solr_home/.

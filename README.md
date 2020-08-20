@@ -72,7 +72,7 @@ We also need to setup in SMUI the the name of the index we're going to be doing 
 
 Grab the `returnId` from the response, something like `3f47cc75-a99f-4653-acd4-a9dc73adfcd1`, you'll need it for the next steps!
 
-> export SOLR_INDEX_ID=1ded0ba0-6991-4533-83f4-1745c84f3575
+> export SOLR_INDEX_ID=5bc6e917-33b7-45ec-91ba-8e2c4a2e8085
 
 > curl -X PUT -H "Content-Type: application/json" -d '{"name":"attr_t_product_type"}' http://localhost:9000/api/v1/{$SOLR_INDEX_ID}/suggested-solr-field
 
