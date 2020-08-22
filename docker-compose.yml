@@ -9,7 +9,7 @@ services:
       - ./blacklight/app:/app/app
     ports:
       - "4000:3000"
-    command: "rails s -p 3000 -b 0.0.0.0"
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     environment:
       - SOLR_URL=http://solr1:8983/solr/ecommerce
 #    networks:
