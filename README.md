@@ -34,6 +34,20 @@ Wait a while, because you'll be downloading and building quite a few images!  Yo
 
 Now we need to load our product data into Chorus.  Open a second terminal window, so you can see how as you work with Chorus how the various system respond.  
 
+Firstly, we're using SolrCloud, so this means a few more steps to set up our _ecommerce_ collection, because we are using the management APIs to set up a new collection.  We're also making sure we start with security baked in from the beginning, so run these steps:
+
+```
+docker cp ./solr/security.json solr1:/security.json
+docker exec solr1 solr zk cp /security.json zk:security.json -z zoo1:2181
+
+(cd solr/solr_home/ecommerce/conf && zip -r - *) > ./solr/solr_home/ecommerce.zip
+curl  --user solr:SolrRocks -X POST --header "Content-Type:application/octet-stream" --data-binary @./solr/solr_home/ecommerce.zip "http://localhost:8983/solr/admin/configs?action=UPLOAD&name=ecommerce"
+
+docker exec solr1 solr create_collection -c ecommerce -n ecommerce -shards 2 -replicationFactor 1
+```
+
+We now have a two shard _ecommerce_ collection
+
 Grab a sample dataset of 150K products by running from the root of your Chorus checkout:
 
 > wget https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
@@ -44,7 +58,7 @@ If you are on a Linux type system, you should be able to stream the data right f
 
 Otherwise you'll need to uncompress the .tar.gz file and then post with Curl:
 
-> curl 'http://localhost:8983/solr/ecommerce/update?processor=formatDateUpdateProcessor&commit=true' --data-binary @icecat-products-150k-20200607.tar.gz -H 'Content-type:application/json'
+> curl 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @icecat-products-150k-20200809.json -H 'Content-type:application/json'
 
 The sample data will take a couple of minutes (like 5!) to load.
 
@@ -58,7 +72,7 @@ We also need to setup in SMUI the the name of the index we're going to be doing 
 
 Grab the `returnId` from the response, something like `3f47cc75-a99f-4653-acd4-a9dc73adfcd1`, you'll need it for the next steps!
 
-> export SOLR_INDEX_ID=1ded0ba0-6991-4533-83f4-1745c84f3575
+> export SOLR_INDEX_ID=5bc6e917-33b7-45ec-91ba-8e2c4a2e8085
 
 > curl -X PUT -H "Content-Type: application/json" -d '{"name":"attr_t_product_type"}' http://localhost:9000/api/v1/{$SOLR_INDEX_ID}/suggested-solr-field
 
@@ -101,7 +115,7 @@ Bring up http://localhost:7979 and you will see a relatively unexciting empty da
 
 # First Kata: Lets Optimize a Query
 
-In this first Kata, we're going to take two queries that we know are bad, and see if we can improve them via Active Search Management.   How do we know that the queries _notebook_ and _laptop_ are bad?  Easy, just take a look at them in our _Chorus Electronics_ store.
+In this first Kata, we'lre going to take two queries that we know are bad, and see if we can improve them via Active Search Management.   How do we know that the queries _notebook_ and _laptop_ are bad?  Easy, just take a look at them in our _Chorus Electronics_ store.
 
 Visit the store at http://localhost:4000/ and make sure the drop down has _Default Algo_ next to the search bar.   Now do a search for _notebook_, and notice that while the products are all vaguely related to notebooks, none of them are actual notebook computers.   We believe that our users, when they type in _notebook_, are looking for notebook computers, or possibly a paper notebook (which we don't carry as we are a electronics store), not accessories.
 

@@ -9,11 +9,13 @@ services:
       - ./blacklight/app:/app/app
     ports:
       - "4000:3000"
-    command: "rails s -p 3000 -b 0.0.0.0"
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     environment:
-      - SOLR_URL=http://solr:8983/solr/ecommerce
+      - SOLR_URL=http://solr1:8983/solr/ecommerce
+#    networks:
+#      - solr
     depends_on:
-      - solr
+      - solr1
 
   mysql:
     container_name: mysql
@@ -38,25 +40,104 @@ services:
       - SMUI_DB_URL=jdbc:mysql://mysql:3306/smui?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
       - SMUI_DB_USER=root
       - SMUI_DB_PASSWORD=password
-      - SMUI_DEPLOY_PRELIVE_SOLR_HOST=solr:8983
-    volumes:
-      - ./volumes/preliveCore/conf:/usr/bin/solr/preliveCore/conf
+      - SMUI_DEPLOY_PRELIVE_SOLR_HOST=solr1:8983
+      - SMUI_TOGGLE_DEPL_CUSTOM_SCRIPT=true
+      - SMUI_TOGGLE_DEPL_CUSTOM_SCRIPT_PATH=/smui/conf/smui2solrcloud.sh
+      - SMUI_DEPLOY_PRELIVE_FN_RULES_TXT=/configs/ecommerce/rules.txt
+    #volumes:
+      #- ./volumes/preliveCore/conf:/usr/bin/solr/preliveCore/conf
     depends_on:
       - mysql
 
-  solr:
-    container_name: solr
-    build:
-      context: ./solr
-      dockerfile: Dockerfile
+  solr1:
+    container_name: solr1
+    #image: solr:8
+    build: ./solr
     ports:
-      - 8983:8983
+     - "8983:8983"
     environment:
-      - SOLR_HOME=/opt/mysolrhome
-      - INIT_SOLR_HOME=yes
+      - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
     volumes:
-      - ./solr/solr_home:/opt/mysolrhome
-      - ./volumes/preliveCore/conf:/opt/mysolrhome/ecommerce/conf/querqy
+      - ./volumes/fake_shared_fs:/tmp/fake_shared_fs
+ #   networks:
+ #     - solr
+    depends_on:
+      - zoo1
+      - zoo2
+      - zoo3
+
+  solr2:
+    container_name: solr2
+    #image: solr:8
+    build: ./solr
+    ports:
+     - "8984:8983"
+    environment:
+      - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
+    volumes:
+      - ./volumes/fake_shared_fs:/tmp/fake_shared_fs
+ #   networks:
+ #     - solr
+    depends_on:
+      - zoo1
+      - zoo2
+      - zoo3
+
+  solr3:
+    container_name: solr3
+    #image: solr:8
+    build: ./solr
+    ports:
+     - "8985:8983"
+    environment:
+      - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
+    volumes:
+      - ./volumes/fake_shared_fs:/tmp/fake_shared_fs
+ #   networks:
+ #     - solr
+    depends_on:
+      - zoo1
+      - zoo2
+      - zoo3
+
+  zoo1:
+    image: zookeeper:3.5
+    container_name: zoo1
+    restart: always
+    hostname: zoo1
+    ports:
+      - 2181:2181
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+ #   networks:
+ #     - solr
+
+  zoo2:
+    image: zookeeper:3.5
+    container_name: zoo2
+    restart: always
+    hostname: zoo2
+    ports:
+      - 2182:2181
+    environment:
+      ZOO_MY_ID: 2
+      ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=0.0.0.0:2888:3888;2181 server.3=zoo3:2888:3888;2181
+ #   networks:
+ #     - solr
+
+  zoo3:
+    image: zookeeper:3.5
+    container_name: zoo3
+    restart: always
+    hostname: zoo3
+    ports:
+      - 2183:2181
+    environment:
+      ZOO_MY_ID: 3
+      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=0.0.0.0:2888:3888;2181
+ #   networks:
+ #     - solr
 
   redis:
     container_name: quepid_redis
@@ -102,9 +183,12 @@ services:
       - "7979:8080"
     command: "java -jar rre-server-1.1.jar"
     environment:
-      - SOLR_URL=http://solr:8983/solr/ecommerce
+      - SOLR_URL=http://solr1:8983/solr/ecommerce
     depends_on:
-      - solr
+      - solr1
 
 volumes:
     mysql_data: {}
+
+#networks:
+#  solr:

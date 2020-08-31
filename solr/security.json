@@ -1,0 +1,16 @@
+{
+"authentication":{
+   "class":"solr.BasicAuthPlugin",
+   "blockUnknown":"false",
+   "realm": "Credentials are solr:SolrRocks",
+   "credentials":{"solr":"IV0EHq1OnNrj6gvRCwvFwTrZ1+z1oBbnQdiVC3otuq0= Ndd7LKvVBAaZIF0QAVi1ekCfAJXr1GGfLtRUXhgrF8c="}
+},
+"authorization":{
+   "class":"solr.RuleBasedAuthorizationPlugin",
+   "user-role": {
+     "solr":"admin"
+   },
+   "permissions":[
+     {"name":"security-edit","role":"admin"}
+   ]
+}}
