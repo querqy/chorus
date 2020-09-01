@@ -12,8 +12,6 @@ services:
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     environment:
       - SOLR_URL=http://solr1:8983/solr/ecommerce
-#    networks:
-#      - solr
     depends_on:
       - solr1
 
@@ -44,14 +42,11 @@ services:
       - SMUI_TOGGLE_DEPL_CUSTOM_SCRIPT=true
       - SMUI_TOGGLE_DEPL_CUSTOM_SCRIPT_PATH=/smui/conf/smui2solrcloud.sh
       - SMUI_DEPLOY_PRELIVE_FN_RULES_TXT=/configs/ecommerce/rules.txt
-    #volumes:
-      #- ./volumes/preliveCore/conf:/usr/bin/solr/preliveCore/conf
     depends_on:
       - mysql
 
   solr1:
     container_name: solr1
-    #image: solr:8
     build: ./solr
     ports:
      - "8983:8983"
@@ -59,8 +54,6 @@ services:
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
     volumes:
       - ./volumes/fake_shared_fs:/tmp/fake_shared_fs
- #   networks:
- #     - solr
     depends_on:
       - zoo1
       - zoo2
@@ -68,7 +61,6 @@ services:
 
   solr2:
     container_name: solr2
-    #image: solr:8
     build: ./solr
     ports:
      - "8984:8983"
@@ -76,8 +68,6 @@ services:
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
     volumes:
       - ./volumes/fake_shared_fs:/tmp/fake_shared_fs
- #   networks:
- #     - solr
     depends_on:
       - zoo1
       - zoo2
@@ -85,7 +75,6 @@ services:
 
   solr3:
     container_name: solr3
-    #image: solr:8
     build: ./solr
     ports:
      - "8985:8983"
@@ -93,8 +82,6 @@ services:
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
     volumes:
       - ./volumes/fake_shared_fs:/tmp/fake_shared_fs
- #   networks:
- #     - solr
     depends_on:
       - zoo1
       - zoo2
@@ -110,8 +97,6 @@ services:
     environment:
       ZOO_MY_ID: 1
       ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
- #   networks:
- #     - solr
 
   zoo2:
     image: zookeeper:3.5
@@ -123,8 +108,6 @@ services:
     environment:
       ZOO_MY_ID: 2
       ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=0.0.0.0:2888:3888;2181 server.3=zoo3:2888:3888;2181
- #   networks:
- #     - solr
 
   zoo3:
     image: zookeeper:3.5
@@ -136,8 +119,6 @@ services:
     environment:
       ZOO_MY_ID: 3
       ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=0.0.0.0:2888:3888;2181
- #   networks:
- #     - solr
 
   redis:
     container_name: quepid_redis
@@ -147,7 +128,7 @@ services:
 
   quepid:
     container_name: quepid
-    image: o19s/quepid:6.2.2
+    image: o19s/quepid:6.3.0
     ports:
       - 3000:3000
     command: "foreman s -f Procfile"
@@ -189,6 +170,3 @@ services:
 
 volumes:
     mysql_data: {}
-
-#networks:
-#  solr:

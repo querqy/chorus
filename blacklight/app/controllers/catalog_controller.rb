@@ -28,11 +28,9 @@ class CatalogController < ApplicationController
     ## Default parameters to send to solr for all search-like requests. See also SearchBuilder#processed_parameters
     config.default_solr_params = {
       q:"*:*",
-      rows: 10,
+      rows: 30,
       'facet.mincount':1,
-      'facet.limit':10,
-      fq: '-img_500x500:""',
-      fq: 'price:*'
+      'facet.limit':10
     }
 
     # solr path which will be added to solr base url before the other solr params.
@@ -180,18 +178,18 @@ class CatalogController < ApplicationController
     # The RIGHT way is the field.solr_path, but currently isn't supported by Blacklight
     # to have the solr_path set at a field level, only at the config.solr_path.
     # So instead, we are going to use the legacy qt= parameter.
-    config.add_search_field 'default_algo', label: 'Default Algo' do |field|
+
+    # Actually, the right way is the useParams parameter ;-)
+    config.add_search_field 'default', label: 'Default Algo' do |field|
       #field.solr_path = 'select'
     end
 
-    config.add_search_field('mustmatchall-select', label: 'Must Match All') do |field|
-      #field.solr_path = 'querqy-select'
-      field.qt = 'mustmatchall-select'
+    config.add_search_field('mustmatchall', label: 'Must Match All') do |field|
+      field.qt = 'mustmatchall'
     end
 
-    config.add_search_field('querqy_algo', label: 'Querqy Algo') do |field|
-      #field.solr_path = 'querqy-select'
-      field.qt = 'querqy-select'
+    config.add_search_field('querqy', label: 'Querqy Algo') do |field|
+      field.qt = 'querqy'
     end
 
     #config.add_search_field('title') do |field|
