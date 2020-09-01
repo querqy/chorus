@@ -18,7 +18,7 @@ Working with macOS?   Pop open all the relevant sites:
 
 > open http://chorus.dev.o19s.com:4000 http://chorus.dev.o19s.com:8983 http://chorus.dev.o19s.com:9000 http://chorus.dev.o19s.com:3000 http://chorus.dev.o19s.com:7979
 
-# Getting Set Up to Play with Chorus
+# Learning all about Chorus!
 
 We are trying to strike a balance between making the setup process as easy and fool proof as possible with the need to not _hide_ too much of the interactions between the projects that make up Chorus.
 
@@ -32,8 +32,10 @@ After that, you can learn how to use the tools in Chorus to improve search in [F
 # How to restart
 
 To reset your environment, just run:
-> docker-compose down -v
-> git checkout volumes/preliveCore/conf/rules.txt
+```
+docker-compose down -v
+git checkout volumes/preliveCore/conf/rules.txt
+```
 
 Note: this will reset the MySQL database, and then reset you Querqy rules.
 
