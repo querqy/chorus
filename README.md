@@ -22,9 +22,9 @@ Working with macOS?   Pop open all the relevant sites:
 
 We are trying to strike a balance between making the setup process as easy and fool proof as possible with the need to not _hide_ too much of the interactions between the projects that make up Chorus.
 
-If you are impatient, we have a quick start script, `./quickstart.sh` that sets you up, however I recommend you go through [Kata 0: Setting up Chorus](./kata/001_optimize_a_query.md).   
+If you are impatient, we have a quick start script, `./quickstart.sh` that sets you up, however I recommend you go through [Kata 0: Setting up Chorus](kata/001_optimize_a_query.md).   
 
-After that, you can learn how to use the tools in Chorus to improve search in [First Kata: Lets Optimize a Query](./kata/001_optimize_a_query.md).
+After that, you can learn how to use the tools in Chorus to improve search in [First Kata: Lets Optimize a Query](kata/001_optimize_a_query.md).
 
 
 
