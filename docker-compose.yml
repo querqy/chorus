@@ -42,8 +42,6 @@ services:
       - SMUI_TOGGLE_DEPL_CUSTOM_SCRIPT=true
       - SMUI_TOGGLE_DEPL_CUSTOM_SCRIPT_PATH=/smui/conf/smui2solrcloud.sh
       - SMUI_DEPLOY_PRELIVE_FN_RULES_TXT=/configs/ecommerce/rules.txt
-    #volumes:
-      #- ./volumes/preliveCore/conf:/usr/bin/solr/preliveCore/conf
     depends_on:
       - mysql
 
