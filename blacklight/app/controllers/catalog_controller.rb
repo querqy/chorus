@@ -178,18 +178,20 @@ class CatalogController < ApplicationController
     # The RIGHT way is the field.solr_path, but currently isn't supported by Blacklight
     # to have the solr_path set at a field level, only at the config.solr_path.
     # So instead, we are going to use the legacy qt= parameter.
-    config.add_search_field 'default_algo', label: 'Default Algo' do |field|
+
+    # Actually, the right way is the useParams parameter ;-)
+    config.add_search_field 'default', label: 'Default Algo' do |field|
       #field.solr_path = 'select'
     end
 
-    config.add_search_field('mustmatchall-select', label: 'Must Match All') do |field|
+    config.add_search_field('mustmatchall', label: 'Must Match All') do |field|
       #field.solr_path = 'querqy-select'
-      field.qt = 'mustmatchall-select'
+      field.qt = 'mustmatchall'
     end
 
-    config.add_search_field('querqy_algo', label: 'Querqy Algo') do |field|
+    config.add_search_field('querqy', label: 'Querqy Algo') do |field|
       #field.solr_path = 'querqy-select'
-      field.qt = 'querqy-select'
+      field.qt = 'querqy'
     end
 
     #config.add_search_field('title') do |field|

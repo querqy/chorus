@@ -60,7 +60,11 @@ So now let's think about how we might actually improve them?  There are a lot of
 
 To make it easier for the Search Product Manager to do _Searchandizing_, we will use the Search Management UI, or SMUI.  Open up http://localhost:9000 and you will be in the management screen for the _Ecommerce Demo_.
 
-Arrange your screens so the _Chorus Electonics_ store and SMUI are both visible.  Because we are working with the Querqy library, in the _Chorus Electronics_ store, make sure to change form the _Default Algo_ in the dropdown next to the search bar to the _Querqy Algo_.  Do a search for notebook, and while the initial product images may look good to you, remember, they aren't images of notebooks, they are notebook *accessories* that we are getting back!   While we are at it, let's also check _laptop_ as well.
+Arrange your screens so the _Chorus Electonics_ store and SMUI are both visible.  
+
+![Layout out your webstore and tuning tools side by side](./katas/screens_side_by_side.png)
+
+Because we are working with the Querqy library, in the _Chorus Electronics_ store, make sure to change form the _Default Algo_ in the dropdown next to the search bar to the _Querqy Algo_.  Do a search for notebook, and while the initial product images may look good to you, remember, they aren't images of notebooks, they are notebook *accessories* that we are getting back!   While we are at it, let's also check _laptop_ as well.
 
 Let's start working on the query _notebook_ by typing it in on the left in SMUI under _Search or Create Search Rules_ text box.  Click _New_ and you get an empty rules set.  
 
