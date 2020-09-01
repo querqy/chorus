@@ -62,7 +62,7 @@ To make it easier for the Search Product Manager to do _Searchandizing_, we will
 
 Arrange your screens so the _Chorus Electonics_ store and SMUI are both visible.  
 
-![Layout out your webstore and tuning tools side by side](./katas/screens_side_by_side.png)
+![Layout out your webstore and tuning tools side by side](screens_side_by_side.png)
 
 Because we are working with the Querqy library, in the _Chorus Electronics_ store, make sure to change form the _Default Algo_ in the dropdown next to the search bar to the _Querqy Algo_.  Do a search for notebook, and while the initial product images may look good to you, remember, they aren't images of notebooks, they are notebook *accessories* that we are getting back!   While we are at it, let's also check _laptop_ as well.
 
@@ -74,7 +74,7 @@ Go ahead and click _Save search rules for input_ and then let's push our change 
 
 Go ahead and do a new query in the store, notice the improvements in the quality for _notebook_?  However we're seeing some _cable locks_ and _screen protectors_ showing up.   So let's go ahead and add some rules, and take care of _notebook_ while we are at it:
 
-![Downboosting bad results and setting up synonym](./katas/smui_setup.png)
+![Downboosting bad results and setting up synonym](smui_setup.png)
 
 You can save and push the config as you add rules and then look at the store to see the changes.  Play with the rules!
 
