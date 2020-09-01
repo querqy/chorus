@@ -7,10 +7,9 @@ Open up a terminal window and run:
 
 Wait a while, because you'll be downloading and building quite a few images!  You may think it's frozen at various points, but go for a walk and come back and it'll be up and running.
 
-
 Now we need to load our product data into Chorus.  Open a second terminal window, so you can see how as you work with Chorus how the various system respond.  
 
-Firstly, we're using SolrCloud, so this means a few more steps to set up our _ecommerce_ collection, because we are using the management APIs to set up a new collection.  We're also making sure we start with security baked in from the beginning, so run these steps:
+Firstly, we're using SolrCloud, so this means a few more steps to set up our _ecommerce_ collection, because we are using the management APIs to set up a new collection.  We're also making sure we start with security baked in from the beginning.  Trust me, this is the right way to do it!  Run these steps:
 
 ```
 docker cp ./solr/security.json solr1:/security.json
