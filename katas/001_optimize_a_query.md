@@ -1,8 +1,8 @@
 # First Kata: Lets Optimize a Query
 
-In this first Kata, we'lre going to take two queries that we know are bad, and see if we can improve them via Active Search Management.   How do we know that the queries _notebook_ and _laptop_ are bad?  Easy, just take a look at them in our _Chorus Electronics_ store.
+In this first Kata, we're going to take two queries that we know are bad, and see if we can improve them using Active Search Management.   How do we know that the queries _notebook_ and _laptop_ are bad?  Easy, just take a look at them in our _Chorus Electronics_ store ;-).
 
-Visit the store at http://localhost:4000/ and make sure the drop down has _Default Algo_ next to the search bar.   Now do a search for _notebook_, and notice that while the products are all vaguely related to notebooks, none of them are actual notebook computers.   We believe that our users, when they type in _notebook_, are looking for notebook computers, or possibly a paper notebook (which we don't carry as we are a electronics store), not accessories.
+Visit the web store at http://localhost:4000/ and make sure the drop down has _Default Algo_ next to the search bar selected.   Now do a search for _notebook_, and notice that while the products are all vaguely related to notebooks, none of them are actual notebook computers.   We believe that our users, when they type in _notebook_, are looking for notebook computers, or possibly a paper notebook (which we don't carry as we are a electronics store), not accessories to notebooks.
 
 Let's see if _laptop_ is any better.  Nope, similarly bad results.  
 
@@ -28,7 +28,7 @@ Title Field: `title`
 ID Field: `id`
 Additional Display Fields: `thumb:img_500x500, name, supplier, attr_t_product_type`
 
-We want to show our Business Owner enough information about our products so they can understand the context of our search, but not so much they are overwhelmed!
+We want to show our Merchandizer enough information about our products so they can understand the context of our search, but not so much they are overwhelmed!
 
 On the next screen lets go ahead and add our problem queries _notebook_ and _laptop_.
 

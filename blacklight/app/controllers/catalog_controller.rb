@@ -28,11 +28,9 @@ class CatalogController < ApplicationController
     ## Default parameters to send to solr for all search-like requests. See also SearchBuilder#processed_parameters
     config.default_solr_params = {
       q:"*:*",
-      rows: 10,
+      rows: 30,
       'facet.mincount':1,
-      'facet.limit':10,
-      fq: '-img_500x500:""',
-      fq: 'price:*'
+      'facet.limit':10
     }
 
     # solr path which will be added to solr base url before the other solr params.
