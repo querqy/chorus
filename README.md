@@ -16,7 +16,6 @@ Towards an open source tool stack for e-commerce search.
 Working with macOS?   Pop open all the relevant sites:
 > open http://localhost:4000 http://localhost:8983 http://localhost:9000 http://localhost:3000 http://localhost:7979
 
-> open http://chorus.dev.o19s.com:4000 http://chorus.dev.o19s.com:8983 http://chorus.dev.o19s.com:9000 http://chorus.dev.o19s.com:3000 http://chorus.dev.o19s.com:7979
 
 # Learning all about Chorus!
 
