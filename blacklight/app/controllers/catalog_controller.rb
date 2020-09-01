@@ -185,12 +185,10 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('mustmatchall', label: 'Must Match All') do |field|
-      #field.solr_path = 'querqy-select'
       field.qt = 'mustmatchall'
     end
 
     config.add_search_field('querqy', label: 'Querqy Algo') do |field|
-      #field.solr_path = 'querqy-select'
       field.qt = 'querqy'
     end
 

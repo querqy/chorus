@@ -82,7 +82,7 @@ Now that we have a qualitative sense that we've improved our results using Querq
 
 We'll flip back to Quepid to do this.
 
-We need to tell Quepid that we've done some improvement using the `/querqy-select` request handler, instead of the default handler `/select`.  For this, we need our _Tune Relevance_ pane.  Click the _Tune Relevance_ link and you will be in the _Query Sandbox_.   Append to the end of the existing query template `q=#$query##` the command to tell Solr to use the new request handler: `&qt=/querqy-select`.   Then click the _Rerun My Searches!_ button.
+We need to tell Quepid that we've done some improvement using the `querqy` request handler, instead of the default handler.  For this, we need our _Tune Relevance_ pane.  Click the _Tune Relevance_ link and you will be in the _Query Sandbox_.   Append to the end of the existing query template `q=#$query##` the command to tell Solr to use the new request handler: `&qt=querqy`.   Then click the _Rerun My Searches!_ button.
 
 Notice that our results have now turned green across the board from red?  Our graph has also improved from our dismal measurement of 0 to the best possible result of 1!
 
