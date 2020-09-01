@@ -38,7 +38,7 @@ Alert!  Sometimes in Quepid when you complete the add case wizard there is a odd
 
 Now, I like to have two browser windows side by side, the _Chorus Electronics_ store open on the left, and Quepid on the right.  You should see the same products listed in both.
 
-Since we are going to pretend we have a Business Owner rating our individual results, we want to have a more sophisticated grading scale than the default one, of "Yes" or "No".  Click _Select Scorer_ and choose the nDCG@5 one from the list.  
+Since we are going to pretend we have a Merchandizer rating our individual results, we want to have a more sophisticated grading scale than the default one, of "Yes" or "No".  Click _Select Scorer_ and choose the nDCG@5 one from the list.  
 
 nDCG is a commonly used scorer that attempts to measure how good your results are against a ideal set of results, and it penalizes bad search results at the top of the list more than bad results at the end of the list.   
 
