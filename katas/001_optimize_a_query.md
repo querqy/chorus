@@ -26,7 +26,7 @@ On the _How Should We Display Your Results?_ screen we can customize what inform
 
 Title Field: `title`
 ID Field: `id`
-Additional Display Fields: `thumb:img_500x500, name, supplier, attr_t_product_type`
+Additional Display Fields: `thumb:img_500x500, name, supplier, product_type`
 
 We want to show our Merchandizer enough information about our products so they can understand the context of our search, but not so much they are overwhelmed!
 
@@ -68,7 +68,7 @@ Because we are working with the Querqy library, in the _Chorus Electronics_ stor
 
 Let's start working on the query _notebook_ by typing it in on the left in SMUI under _Search or Create Search Rules_ text box.  Click _New_ and you get an empty rules set.  
 
-Lets start with filtering _notebook_ to just those products.  Add a new search rule and pick _UP/DOWN rule_.  We'll pick a boost of _UP(++++)_, so pretty heavy boost, and then put in _attr_t_product_type_ as the _Solr Field_, and the _Rule Term_ should be _notebook_.   This will boost products tagged with the notebook category up in the search results.
+Lets start with filtering _notebook_ to just those products.  Add a new search rule and pick _UP/DOWN rule_.  We'll pick a boost of _UP(++++)_, so pretty heavy boost, and then put in _product_type_ as the _Solr Field_, and the _Rule Term_ should be _notebook_.   This will boost products tagged with the notebook category up in the search results.
 
 Go ahead and click _Save search rules for input_ and then let's push our change to Solr by clicking the _Push Config to Solr_.
 
