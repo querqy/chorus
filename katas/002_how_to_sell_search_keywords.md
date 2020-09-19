@@ -1,23 +1,38 @@
-# Second Kata: Lets
+# Second Kata: How to Sell Search Keywords
 
-Lets think about two Katas, one that is selling queries and one is selling terms.
+Good news!  Our intrepid supplier management team for Chorus Electronics has just signed a deal with Epson where every time a customer searches the webshop for the keyword _projector_ and picks an Epson brand projector, we get a bonus fee from Epson.
 
-query == "projector"
-term == projector
+In this Kata we'll actually walk through the steps to implement this new requirement in our search algorithm.
 
+First off, we need to understand exactly what we mean by selling a keyword.  In our case, a keyword is a very specific search query.  A search for _projector_ matches our criteria for keywords that boost results that favour Epson.   However, similar searches like _projector lamp_ or _projector screen_ should still behave the way they always have.  
 
-Good news!  We (Chorus Electonrics) just signed a deal with Epson to sell the search for _projector_ to feature their products.  So *projector screen*, *projector lamp*, as well as the actual device, a *projector*.
+We'll want to start by laying our web browser out with the webshop on the left and SMUI on the right.  We're using our Querqy algorithm, so pick it from the dropdown and do what a customer would do, search for a _projector_.
 
-Lets do a search for _projector lamp_ (link) and you see that HP and Sony products come before the Epson products.   
-
-Likewise, a search for _projectors_ returns a mix.
+Now enter the keyword `"projector"` into SMUI, notice we are wrapping it with quotes, so we don't match other variations of the query.
 
 
+Now, there are two ways to mess with this query, lets first try a boost, and see what we see, and then lets try a filter.
+
+
+For the boost we pick a UP/DOWN rule, and go with a very strong boost of UP(++++).  We want to be pretty targeted, so we pick the `supplier` field, which is where our brand information lives.  Yes, it hsould be a `brand` field instead
+
+Now look at the results, as you can see that we've pushed the epson products up to the top, but we still have other product listed.   This is probably the best behavior, balancing the interests of the seller, Epson, to be featured for the _projector_ keyword, while still letting the buyer see products from other brands.
+
+What if Epson had signed an *exclusive* deal for the _projector_ keyword?  Searching for projectors?  We're only going to show you Epson branded products.  Yes, we could delete all the other brands out of our webshop, but that is pretty cumbersome.   Instead, lets play with the FILTER rule.
+
+Back into SMUI, and lets add a new search FILTER search rule.  Again, as beofre, lets filter to just the `supplier` field of Epson.
+
+Uncheck the first rule, so it's no longer active (isn't that handy?) and then publish the results.
+
+Look at that, our results are now just Epson branded products.   
+
+So some other thoughts:
+
+Properly we should only be showing the single Epson EMP-830 projector in our results first, not the other products.  We could be solving that through maybe boosting a bit on the most viewed items, on the intuition that parts for projectors are viewed much less than projectors themselves.  We could also use some NLP and other techniques to better classify our data, and then filter on that.  We have a `product_type` field, but it's unpopulated for many of our items, like these.
 
 
 
-
-We go into SMUI and add a up/down rule, doing a UP+, we want to be pretty targeted, so we pick the `supplier` field, you might have a brand field isntead.
+------------
 
 
 Now, look at the results, this is a very "defensive" change.   There is still some relevant HP projectors here in the first 10 results.  
