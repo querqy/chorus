@@ -129,7 +129,7 @@ class CatalogController < ApplicationController
     #config.add_index_field 'published_ssim', label: 'Published'
     #config.add_index_field 'published_vern_ssim', label: 'Published'
     #config.add_index_field 'lc_callnum_ssim', label: 'Call number'
-    config.add_index_field 'supplier', label: 'Supplier', link_to_facet: :filter_supplier
+    config.add_index_field 'supplier', label: 'Brand', link_to_facet: :filter_supplier
     config.add_index_field 'date_released', label: 'Date', helper_method: 'prettify_date'
     config.add_index_field 'price', label: 'Price', helper_method: 'prettify_price'
 
@@ -137,7 +137,7 @@ class CatalogController < ApplicationController
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
     #config.add_show_field 'title', label: 'Title'
-    config.add_show_field 'supplier', label: 'Supplier'
+    config.add_show_field 'supplier', label: 'Brand'
     config.add_show_field 'product_type', label: 'Product Type'
     config.add_show_field 'short_description', label: 'Short Desc'
     config.add_show_field 'ean', label: 'EAN'
