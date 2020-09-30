@@ -44,7 +44,7 @@ services:
       - SMUI_TOGGLE_SPELLING=true
       - SMUI_DEPLOY_PRELIVE_FN_REPLACE_TXT=/configs/ecommerce/replace-rules.txt
       - SMUI_TOGGLE_RULE_ID_LOGGING=true
-      - SMUI_HEADLINE=Chrous SMUI
+      - SMUI_HEADLINE=Chorus SMUI
     depends_on:
       - mysql
 
