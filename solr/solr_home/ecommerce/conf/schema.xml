@@ -23,16 +23,29 @@ for demo purposes
 
   <field name="_version_" type="plong" indexed="true" stored="false"/>
   <field name="dictionary" type="text_general" indexed="true" stored="true" multiValued="true"/>
-  <field name="product_type" type="text_stemmed_en" indexed="true" stored="true"/>
   <field name="search_attributes" type="text_stemmed_en" indexed="true" stored="true" multiValued="true"/>
-  <field name="filter_supplier" type="string" indexed="true" stored="true"/>
+
 
   <copyField source="name" dest="dictionary" />
   <copyField source="title" dest="dictionary" />
   <copyField source="supplier" dest="dictionary" />
   <copyField source="short_description" dest="dictionary" />
+
+
+  <!--
+    First step towards standardized ecommerce schema where we map from other
+    field names to what Chorus expects.
+   -->
+  <field name="product_type" type="text_stemmed_en" indexed="true" stored="true"/>
+  <field name="brand" type="text_stemmed_en" indexed="true" stored="true"/>
+  <field name="filter_brand" type="string" indexed="true" stored="true"/>
+  <field name="filter_product_type" type="string" indexed="true" stored="true"/>
+
+  <copyField source="supplier" dest="brand" />
   <copyField source="attr_t_product_type" dest="product_type" />
-  <copyField source="supplier" dest="filter_supplier" />
+  <copyField source="brand" dest="filter_brand" />
+  <copyField source="product_type" dest="filter_product_type" />
+
 
   <!-- TODO: split into stemmed/unstemmed, good/noisy attributes. Resolve attr_waterproof:yes -->
   <!-- Remove me???

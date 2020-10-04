@@ -49,7 +49,7 @@ Grab the `returnId` from the response, something like `3f47cc75-a99f-4653-acd4-a
 
 > export SOLR_INDEX_ID=5bc6e917-33b7-45ec-91ba-8e2c4a2e8085
 
-> curl -X PUT -H "Content-Type: application/json" -d '{"name":"attr_t_product_type"}' http://localhost:9000/api/v1/{$SOLR_INDEX_ID}/suggested-solr-field
+> curl -X PUT -H "Content-Type: application/json" -d '{"name":"product_type"}' http://localhost:9000/api/v1/{$SOLR_INDEX_ID}/suggested-solr-field
 
 > curl -X PUT -H "Content-Type: application/json" -d '{"name":"title"}' http://localhost:9000/api/v1/{$SOLR_INDEX_ID}/suggested-solr-field
 
@@ -66,7 +66,7 @@ First we need to create the database for Quepid:
 
 We also need to create you an account with Administrator permissions:
 
-> docker-compose run quepid thor user:create -a demo@example.com "Demo User" password
+> docker-compose run quepid thor user:create -a admin@choruselectronics.com "Chorus Admin" password
 
 Visit Quepid at http://localhost:3000 and log in with the email and password you just set up.
 

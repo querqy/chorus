@@ -98,12 +98,12 @@ class CatalogController < ApplicationController
     #config.add_facet_field 'lc_1letter_ssim', label: 'Call Number'
     #config.add_facet_field 'subject_geo_ssim', label: 'Region'
     #config.add_facet_field 'subject_era_ssim', label: 'Era'
-    config.add_facet_field 'filter_supplier', label: 'Brands', limit: 20
-    config.add_facet_field 'filter_t_product_type', label: 'Product Type', limit: 20
+    config.add_facet_field 'filter_brand', label: 'Brands', limit: 20
+    config.add_facet_field 'filter_product_type', label: 'Product Type', limit: 20
     config.add_facet_field 'filter_t_product_colour', label: 'Product Colour', limit: 20
     config.add_facet_field 'filter_t_colour_name', label: 'Colour Name', limit: 20
 
-    config.add_facet_field 'example_pivot_field', label: 'Categories', :pivot => ['filter_t_product_type', 'filter_supplier'], limit: 5
+    config.add_facet_field 'example_pivot_field', label: 'Categories', :pivot => ['filter_product_type', 'filter_brand'], limit: 5
 
     config.add_facet_field 'example_query_facet_field', label: 'Released', :query => {
        :years_5 => { label: 'within 5 Years', fq: "date_released:[NOW-5YEAR/DAY TO NOW]" },
@@ -129,7 +129,7 @@ class CatalogController < ApplicationController
     #config.add_index_field 'published_ssim', label: 'Published'
     #config.add_index_field 'published_vern_ssim', label: 'Published'
     #config.add_index_field 'lc_callnum_ssim', label: 'Call number'
-    config.add_index_field 'supplier', label: 'Supplier', link_to_facet: :filter_supplier
+    config.add_index_field 'brand', label: 'Brand', link_to_facet: :filter_brand
     config.add_index_field 'date_released', label: 'Date', helper_method: 'prettify_date'
     config.add_index_field 'price', label: 'Price', helper_method: 'prettify_price'
 
@@ -137,7 +137,7 @@ class CatalogController < ApplicationController
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
     #config.add_show_field 'title', label: 'Title'
-    config.add_show_field 'supplier', label: 'Supplier'
+    config.add_show_field 'brand', label: 'Brand'
     config.add_show_field 'product_type', label: 'Product Type'
     config.add_show_field 'short_description', label: 'Short Desc'
     config.add_show_field 'ean', label: 'EAN'
