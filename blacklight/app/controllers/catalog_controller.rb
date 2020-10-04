@@ -101,7 +101,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'filter_brand', label: 'Brands', limit: 20
     config.add_facet_field 'filter_product_type', label: 'Product Type', limit: 20
     config.add_facet_field 'filter_t_product_colour', label: 'Product Colour', limit: 20
-    config.add_facet_field 'filter_t_colour_name', label: 'Colour Name', limit: 20
+    #config.add_facet_field 'filter_t_colour_name', label: 'Colour Name', limit: 20
 
     config.add_facet_field 'example_pivot_field', label: 'Categories', :pivot => ['filter_product_type', 'filter_brand'], limit: 5
 

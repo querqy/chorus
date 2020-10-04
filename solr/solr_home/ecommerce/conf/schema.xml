@@ -43,8 +43,8 @@ for demo purposes
 
   <copyField source="supplier" dest="brand" />
   <copyField source="attr_t_product_type" dest="product_type" />
-  <copyField source="brand" dest="filter_brand" />
-  <copyField source="product_type" dest="filter_product_type" />
+  <copyField source="supplier" dest="filter_brand" />
+  <copyField source="attr_t_product_type" dest="filter_product_type" />
 
 
   <!-- TODO: split into stemmed/unstemmed, good/noisy attributes. Resolve attr_waterproof:yes -->
