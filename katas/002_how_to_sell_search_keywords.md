@@ -1,6 +1,6 @@
 # Second Kata: How to Sell Search Keywords
 
-Good news!  Our intrepid supplier management team for Chorus Electronics has just signed a deal with Epson where every time a customer searches the webshop for the keyword _projector_ and picks an Epson brand projector, we get a bonus fee from Epson.
+Good news!  Our intrepid brand management team for Chorus Electronics has just signed a deal with Epson where every time a customer searches the webshop for the keyword _projector_ and picks an Epson branded projector, we get a bonus fee from Epson.
 
 In this Kata we'll actually walk through the steps to implement this new requirement in our search algorithm.
 
@@ -11,16 +11,16 @@ We'll want to start by laying our web browser out with the webshop on the left a
 Now enter the keyword `"projector"` into SMUI, notice we are wrapping it with quotes, so we don't match other variations of the query.
 
 
-Now, there are two ways to mess with this query, lets first try a boost, and see what we see, and then lets try a filter.
+Now, there are two ways to mess with this query:  lets first try a BOOST, and see what we see, and then let's try a FILTER.
 
 
-For the boost we pick a UP/DOWN rule, and go with a very strong boost of UP(++++).  We want to be pretty targeted, so we pick the `supplier` field, which is where our brand information lives.  Yes, it hsould be a `brand` field instead
+For the boost we pick a UP/DOWN rule, and go with a very strong boost of UP(++++).  We want to be pretty targeted, so we pick the `brand` field, which is where our brand information lives.
 
-Now look at the results, as you can see that we've pushed the epson products up to the top, but we still have other product listed.   This is probably the best behavior, balancing the interests of the seller, Epson, to be featured for the _projector_ keyword, while still letting the buyer see products from other brands.
+Now look at the results, as you can see that we've pushed the Epson products up to the top, but we still have other product listed.   This is probably the best behavior, balancing the interests of the seller, Epson, to be featured for the _projector_ keyword, while still letting the buyer see products from other brands.
 
-What if Epson had signed an *exclusive* deal for the _projector_ keyword?  Searching for projectors?  We're only going to show you Epson branded products.  Yes, we could delete all the other brands out of our webshop, but that is pretty cumbersome.   Instead, lets play with the FILTER rule.
+What if Epson had signed an *exclusive* deal for the _projector_ keyword?  In that case for users who are searching for projectors, we're only going to show you Epson branded products.  Now, we could delete all the other brands out of our webshop, but that is pretty cumbersome ;-).   Instead, lets play with the FILTER rule to deal with this use case.
 
-Back into SMUI, and lets add a new search FILTER search rule.  Again, as beofre, lets filter to just the `supplier` field of Epson.
+Back into SMUI, and let's remove our old BOOST and add a new FILTER search rule.  Again, as before, lets filter to just the `brand` field of Epson.
 
 Uncheck the first rule, so it's no longer active (isn't that handy?) and then publish the results.
 
