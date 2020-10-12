@@ -49,14 +49,14 @@ Grab the `returnId` from the response, something like `3f47cc75-a99f-4653-acd4-a
 
 > export SOLR_INDEX_ID=5bc6e917-33b7-45ec-91ba-8e2c4a2e8085
 
-> curl -X PUT -H "Content-Type: application/json" -d '{"name":"attr_t_product_type"}' http://localhost:9000/api/v1/{$SOLR_INDEX_ID}/suggested-solr-field
+> curl -X PUT -H "Content-Type: application/json" -d '{"name":"product_type"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
 
-> curl -X PUT -H "Content-Type: application/json" -d '{"name":"title"}' http://localhost:9000/api/v1/{$SOLR_INDEX_ID}/suggested-solr-field
+> curl -X PUT -H "Content-Type: application/json" -d '{"name":"title"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
 
 Now go ahead and confirm that SMUI is working by visiting http://localhost:9000.  We'll learn more about using SMUI later, however test that it's working by clicking the _Push Config to Solr_ button.  You will get a confirmation message that the rules were deployed.
 
 
-Now we want to pivot to setting up our Offline Testing Environment.  Today we have two open source projects integrated into Chorus, Quepid and Rated Ranking Evaluator (RRE).
+Now we want to pivot to setting up our Offline Testing Environment.  Today we have two open source projects integrated into Chorus: Quepid and Rated Ranking Evaluator (RRE).
 
 We'll start with Quepid and then move on to RRE.
 
@@ -66,7 +66,7 @@ First we need to create the database for Quepid:
 
 We also need to create you an account with Administrator permissions:
 
-> docker-compose run quepid thor user:create -a demo@example.com "Demo User" password
+> docker-compose run quepid thor user:create -a admin@choruselectronics.com "Chorus Admin" password
 
 Visit Quepid at http://localhost:3000 and log in with the email and password you just set up.
 

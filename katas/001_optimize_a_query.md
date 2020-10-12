@@ -26,7 +26,7 @@ On the _How Should We Display Your Results?_ screen we can customize what inform
 
 Title Field: `title`
 ID Field: `id`
-Additional Display Fields: `thumb:img_500x500, name, supplier, product_type`
+Additional Display Fields: `thumb:img_500x500, name, brand, product_type`
 
 We want to show our Merchandizer enough information about our products so they can understand the context of our search, but not so much they are overwhelmed!
 
