@@ -1,14 +1,20 @@
-# Second Kata: How to Sell Search Keywords
+# Second Kata: How to Sell Search Keywords and Terms
 
-Good news!  Our intrepid brand management team for Chorus Electronics has just signed a deal with Epson where every time a customer searches the webshop for the keyword _projector_ and picks an Epson branded projector, we get a bonus fee from Epson.
+Good news! Our intrepid supplier management team for Chorus Electronics, led by Pete’s colleague Shanice, has just signed a deal with Epson where every time a customer searches the web shop for the keyword _projector_ and picks an Epson brand projector, Chorus Electronics gets a bonus fee from Epson. However, Pete wants to be sure that whatever he does to please the supplier doesn’t break other similar search queries.
+
+Shanice is also discussing an exclusive deal with Epson, where Chorus would show only their projectors – how can Pete make this happen?
 
 In this Kata we'll actually walk through the steps to implement this new requirement in our search algorithm.
 
 First off, we need to understand exactly what we mean by selling a keyword.  In our case, a keyword is a very specific search query.  A search for _projector_ matches our criteria for keywords that boost results that favour Epson.   However, similar searches like _projector lamp_ or _projector screen_ should still behave the way they always have.  
 
-We'll want to start by laying our web browser out with the webshop on the left and SMUI on the right.  We're using our Querqy algorithm, so pick it from the dropdown and do what a customer would do, search for a _projector_.
+We'll want to start by laying our web browser out with the web shop on the left and SMUI on the right.  We're using our Querqy algorithm, so pick it from the dropdown and do what a customer would do, search for a _projector_.
 
-Now enter the keyword `"projector"` into SMUI, notice we are wrapping it with quotes, so we don't match other variations of the query.
+Notice we are getting back some HP branded projectors, and the first Epson product is a "Epson Lamp" for a project.  Not very good results!
+
+Now enter the keyword `"projector"` into SMUI; notice we are wrapping it with quotes, so we don't match other variations of the query.
+
+Lets use what we learned in the Kata 001 in dealing with accessories, and add a UP+++ on the `product_type` field for `projector`, which boosts all of our projector types of _Desktop Projector_, _Portable Projector_, and _Ceiling Mounted Projector_.  Good, now we are ready to continue.
 
 
 Now, there are two ways to mess with this query:  lets first try a BOOST, and see what we see, and then let's try a FILTER.
@@ -26,27 +32,6 @@ Uncheck the first rule, so it's no longer active (isn't that handy?) and then pu
 
 Look at that, our results are now just Epson branded products.   
 
-So some other thoughts:
+So, there is an alternative option that is common, which instead of selling the keyword _projector_, instead we are selling the term _projector_, as in _projector screen_ or _projector lamp_, and should all be boosting Epson products.
 
-Properly we should only be showing the single Epson EMP-830 projector in our results first, not the other products.  We could be solving that through maybe boosting a bit on the most viewed items, on the intuition that parts for projectors are viewed much less than projectors themselves.  We could also use some NLP and other techniques to better classify our data, and then filter on that.  We have a `product_type` field, but it's unpopulated for many of our items, like these.
-
-
-
-------------
-
-
-Now, look at the results, this is a very "defensive" change.   There is still some relevant HP projectors here in the first 10 results.  
-
-Now, if we want to be more "offensive" boosting, then we can go with a UP+++++.  Notice that the Epson EMP-830 moved up a rank.  
-
-Now, we see the issue that we are pushing all items that are related to Projector, like screens etc.
-Show the previous searches in here.
-
-So, there is an alternative option that is common, which instead of selling all the searches related to _projector_, instead we are selling a specific keyword.   Epson may not care about being boosted for screens or lamps, but for the actual hardware device, they are very interested in it, and will pay a premioujs.  In that case, we are selling them the keyword *"projector"*, which isn't also influencing your _projector screen_ or _projector lamp_ qwueries.
-
-In this case, we go into SMUI, and put in `"projector"`
-
-
-Third Kata.
-
-Boosting on price.  You are putting a native solr query in SMUI.
+In this case, lets go back into SMUI, and this time, instead of using `"projector"`, lets update it to just `projector`, but keep the rest of our rules.  Save and rerun it.
