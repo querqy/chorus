@@ -28,7 +28,7 @@ for demo purposes
 
   <copyField source="name" dest="dictionary" />
   <copyField source="title" dest="dictionary" />
-  <copyField source="supplier" dest="dictionary" />
+  <copyField source="brand" dest="dictionary" />
   <copyField source="short_description" dest="dictionary" />
 
 
