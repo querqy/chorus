@@ -44,3 +44,8 @@ For Quepid case, pick _name_ for title, and _id_ for identifier.  Add _thumb:ima
 > docker-compose run rre mvn rre:evaluate
 
 > docker-compose run rre mvn rre-report:report
+
+
+## Monitoring Details
+
+Prometheus and Grafana setup heavily inspired by https://github.com/vegasbrianc/prometheus and https://github.com/chatman/solr-grafana-docker

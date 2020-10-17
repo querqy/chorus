@@ -168,5 +168,42 @@ services:
     depends_on:
       - solr1
 
+  solr-exporter:
+    image: solr:8.6.2
+    container_name: solr-exporter
+    hostname: solr-exporter
+    ports:
+     - 9854:9854
+    command: /bin/bash -c "/usr/bin/wait-for-http-200.sh; ./contrib/prometheus-exporter/bin/solr-exporter -p 9854 -z zoo1:2181,zoo2:2181,zoo3:2181 -f ./contrib/prometheus-exporter/conf/solr-exporter-config.xml -n 8"
+    volumes:
+      - ./solr-exporter/wait-for-http-200.sh:/usr/bin/wait-for-http-200.sh
+    depends_on:
+      - solr1
+      - solr2
+      - solr3
+
+  prometheus:
+    image: prom/prometheus:v2.22.0
+    container_name: prometheus
+    restart: always
+    hostname: prometheus
+    ports:
+      - 9090:9090
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+
+  grafana:
+    image: grafana/grafana:7.2.1
+    container_name: grafana
+    restart: always
+    hostname: grafana
+    ports:
+      - 3001:3000
+    depends_on:
+      - prometheus
+
+
 volumes:
     mysql_data: {}
