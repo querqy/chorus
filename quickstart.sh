@@ -33,3 +33,7 @@ docker-compose run quepid thor user:create -a admin@choruselectronics.com "Choru
 
 docker-compose run rre mvn rre:evaluate
 docker-compose run rre mvn rre-report:report
+sleep 5
+curl -u admin:password -S -X POST -H "Content-Type: application/json" -d '{"email":"admin@choruselectronics.com", "name":"Chorus Admin", "role":"admin", "login":"admin@choruselectronics.com", "password":"password", "theme":"light"}' http://localhost:3001/api/admin/users
+curl -u admin:password -S -X PUT -H "Content-Type: application/json" -d '{"isGrafanaAdmin": true}' http://localhost:3001/api/admin/users/2/permissions
+curl -u admin:password -S -X POST -H "Content-Type: application/json" http://localhost:3001/api/users/2/using/1

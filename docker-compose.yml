@@ -174,7 +174,7 @@ services:
     hostname: solr-exporter
     ports:
      - 9854:9854
-    command: /bin/bash -c "/usr/bin/wait-for-http-200.sh; ./contrib/prometheus-exporter/bin/solr-exporter -p 9854 -z zoo1:2181,zoo2:2181,zoo3:2181 -f ./contrib/prometheus-exporter/conf/solr-exporter-config.xml -n 8"
+    command: /bin/bash -c "/usr/bin/wait-for-http-200.sh; ./contrib/prometheus-exporter/bin/solr-exporter -p 9854 -z zoo1:2181,zoo2:2181,zoo3:2181 -f ./contrib/prometheus-exporter/conf/solr-exporter-config.xml -n 8 -s 15"
     volumes:
       - ./solr-exporter/wait-for-http-200.sh:/usr/bin/wait-for-http-200.sh
     depends_on:
@@ -201,6 +201,12 @@ services:
     hostname: grafana
     ports:
       - 3001:3000
+    volumes:
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    environment:
+      - DS_PROMETHEUS=Prometheus
+      - GF_SECURITY_ADMIN_PASSWORD=password
+      - GF_USERS_ALLOW_SIGN_UP=true
     depends_on:
       - prometheus
 

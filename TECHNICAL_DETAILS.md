@@ -49,3 +49,7 @@ For Quepid case, pick _name_ for title, and _id_ for identifier.  Add _thumb:ima
 ## Monitoring Details
 
 Prometheus and Grafana setup heavily inspired by https://github.com/vegasbrianc/prometheus and https://github.com/chatman/solr-grafana-docker
+
+* https://grafana.com/docs/grafana/latest/administration/configure-docker/
+
+We update the /grafana/provisioning/dashboards/solr-dashboard_rev2.json to replace `${DS_PROMETHEUS}` with `Prometheus`
