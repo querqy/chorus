@@ -8,10 +8,12 @@ services:
     volumes:
       - ./blacklight/app:/app/app
     ports:
-      - "4000:3000"
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+      - 4000:3000
+      - 9394:9394
+    command: "foreman s -f Procfile"
     environment:
       - SOLR_URL=http://solr1:8983/solr/ecommerce
+      - PORT=3000
     depends_on:
       - solr1
 

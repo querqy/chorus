@@ -50,18 +50,18 @@ GEM
     autoprefixer-rails (9.7.6)
       execjs
     bindex (0.8.1)
-    blacklight (7.8.1)
+    blacklight (7.12.1)
       deprecation
       globalid
       jbuilder (~> 2.7)
       kaminari (>= 0.15)
       rails (>= 5.1, < 7)
       view_component
-    blacklight-gallery (2.0.2)
+    blacklight-gallery (2.1.0)
       blacklight (~> 7.7)
       bootstrap (~> 4.0)
       openseadragon (>= 0.2.0)
-      rails (~> 5.1)
+      rails (>= 5.1, < 7)
     bootsnap (1.4.6)
       msgpack (~> 1.0)
     bootstrap (4.5.0)
@@ -98,6 +98,7 @@ GEM
     faraday (1.0.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.13.0)
+    foreman (0.87.2)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     i18n (1.8.2)
@@ -145,6 +146,7 @@ GEM
     openseadragon (0.5.0)
       rails (> 3.2.0)
     popper_js (1.16.0)
+    prometheus_exporter (0.5.3)
     public_suffix (4.0.5)
     puma (3.12.6)
     rack (2.2.2)
@@ -239,7 +241,7 @@ GEM
       thread_safe (~> 0.1)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
-    view_component (2.7.0)
+    view_component (2.20.0)
       activesupport (>= 5.0.0, < 7.0)
     web-console (3.7.0)
       actionview (>= 5.0)
@@ -256,17 +258,19 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  blacklight (>= 6.1)
-  blacklight-gallery
+  blacklight (>= 7.10.0)
+  blacklight-gallery (>= 2.1.0)
   bootsnap (>= 1.1.0)
   bootstrap (~> 4.0)
   byebug
   capybara (>= 2.15)
   chromedriver-helper
   coffee-rails (~> 4.2)
+  foreman
   jbuilder (~> 2.5)
   jquery-rails
   listen (>= 3.0.5, < 3.2)
+  prometheus_exporter (~> 0.5.3)
   puma (~> 3.11)
   rails (~> 5.2.4, >= 5.2.4.3)
   rsolr (>= 1.0, < 3)
