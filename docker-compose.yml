@@ -202,11 +202,10 @@ services:
     restart: always
     hostname: grafana
     ports:
-      - 3001:3000
+      - 9091:3000
     volumes:
       - ./grafana/provisioning/:/etc/grafana/provisioning/
     environment:
-      - DS_PROMETHEUS=Prometheus
       - GF_SECURITY_ADMIN_PASSWORD=password
       - GF_USERS_ALLOW_SIGN_UP=true
     depends_on:

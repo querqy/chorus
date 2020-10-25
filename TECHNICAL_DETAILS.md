@@ -53,3 +53,12 @@ Prometheus and Grafana setup heavily inspired by https://github.com/vegasbrianc/
 * https://grafana.com/docs/grafana/latest/administration/configure-docker/
 
 We update the /grafana/provisioning/dashboards/solr-dashboard_rev2.json to replace `${DS_PROMETHEUS}` with `Prometheus`
+
+We imported the dashboard https://grafana.com/grafana/dashboards/10306 for Rails.   Could not get Puma metrics to be gathered by
+prometheus however.
+
+We created `admin@choruselectronics.com / password` in quickstart.
+
+The two prometheus exporters run at http://localhost:9394/metrics and http://localhost:9854/metrics.
+
+The monitoring should probably be on it's own network ;-)
