@@ -22,6 +22,25 @@
 
   </updateHandler>
 
+  <listener event="newSearcher" class="org.apache.solr.schema.ExternalFileFieldReloader"/>
+  <listener event="firstSearcher" class="org.apache.solr.schema.ExternalFileFieldReloader"/>
+  
+  <!-- Pre-warm external file field --> 
+  <listener event="newSearcher" class="solr.QuerySenderListener"> 
+    <arr name="queries"> 
+      <lst> 
+        <str name="q">{!boost}field(inventory_count)</str>
+       </lst> 
+    </arr> 
+  </listener> 
+  <listener event="firstSearcher" class="solr.QuerySenderListener"> 
+    <arr name="queries"> 
+      <lst> 
+        <str name="q">{!boost}field(inventory_count)</str> 
+      </lst> 
+    </arr> 
+  </listener>
+
   <!--
       Add the Querqy query parser.
    -->
