@@ -17,6 +17,9 @@ for demo purposes
   <field name="img_500x500" type="string" indexed="false" stored="true"/>
   <field name="img_thumb" type="string" indexed="false" stored="true"/>
   <field name="date_released" type="pdate" indexed="true" stored="true" />
+  <field name="inventory_count" type="inventory_count" />
+
+
 
   <!-- we don't stem names -->
   <field name="supplier" type="text_general" indexed="true" stored="true"/>
@@ -77,6 +80,8 @@ for demo purposes
 
   <fieldType name="pdate" class="solr.DatePointField" docValues="true"/>
   <fieldType name="pdates" class="solr.DatePointField" docValues="true" multiValued="true"/>
+
+  <fieldType name="inventory_count" class="solr.ExternalFileField" keyField="id" defVal="-1"/>
 
   <fieldType name="text_stemmed_en" class="solr.TextField" autoGeneratePhraseQueries="false"
              enableGraphQueries="false" positionIncrementGap="100" multiValued="false">
