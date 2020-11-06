@@ -35,3 +35,7 @@ scrape_configs:
   - job_name: 'blacklight'
     static_configs:
       - targets: ['blacklight:9394']
+
+  - job_name: 'zookeeper'
+    static_configs:
+      - targets: ['zoo1:7000', 'zoo2:7000', 'zoo3:7000']      

@@ -90,18 +90,21 @@ services:
       - zoo3
 
   zoo1:
-    image: zookeeper:3.5
+    image: zookeeper:3.6.2
     container_name: zoo1
     restart: always
     hostname: zoo1
     ports:
       - 2181:2181
+      - 7000:7000
     environment:
       ZOO_MY_ID: 1
       ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+    volumes:
+      - ./zoo/conf/zoo.cfg:/conf/zoo.cfg
 
   zoo2:
-    image: zookeeper:3.5
+    image: zookeeper:3.6.2
     container_name: zoo2
     restart: always
     hostname: zoo2
@@ -110,9 +113,11 @@ services:
     environment:
       ZOO_MY_ID: 2
       ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=0.0.0.0:2888:3888;2181 server.3=zoo3:2888:3888;2181
+    volumes:
+      - ./zoo/conf/zoo.cfg:/conf/zoo.cfg
 
   zoo3:
-    image: zookeeper:3.5
+    image: zookeeper:3.6.2
     container_name: zoo3
     restart: always
     hostname: zoo3
@@ -121,6 +126,8 @@ services:
     environment:
       ZOO_MY_ID: 3
       ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=0.0.0.0:2888:3888;2181
+    volumes:
+      - ./zoo/conf/zoo.cfg:/conf/zoo.cfg
 
   redis:
     container_name: quepid_redis
@@ -171,7 +178,7 @@ services:
       - solr1
 
   solr-exporter:
-    image: solr:8.6.2
+    image: solr:8.7.0
     container_name: solr-exporter
     hostname: solr-exporter
     ports:
