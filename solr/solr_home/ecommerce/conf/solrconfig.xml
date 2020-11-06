@@ -19,12 +19,15 @@
     <commitWithin>
       <softCommit>${solr.commitwithin.softcommit:true}</softCommit>
     </commitWithin>
+    <updateLog>
+      <str name="dir">${solr.ulog.dir:}</str>      
+    </updateLog>
 
   </updateHandler>
 
   <listener event="newSearcher" class="org.apache.solr.schema.ExternalFileFieldReloader"/>
   <listener event="firstSearcher" class="org.apache.solr.schema.ExternalFileFieldReloader"/>
-  
+
   <!-- Pre-warm external file field --> 
   <listener event="newSearcher" class="solr.QuerySenderListener"> 
     <arr name="queries"> 

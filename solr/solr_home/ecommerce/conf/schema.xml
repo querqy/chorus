@@ -24,7 +24,7 @@ for demo purposes
   <!-- we don't stem names -->
   <field name="supplier" type="text_general" indexed="true" stored="true"/>
 
-  <field name="_version_" type="plong" indexed="true" stored="false"/>
+  <field name="_version_" type="plong" indexed="false" stored="false"/>
   <field name="dictionary" type="text_general" indexed="true" stored="true" multiValued="true"/>
   <field name="search_attributes" type="text_stemmed_en" indexed="true" stored="true" multiValued="true"/>
 
@@ -81,7 +81,7 @@ for demo purposes
   <fieldType name="pdate" class="solr.DatePointField" docValues="true"/>
   <fieldType name="pdates" class="solr.DatePointField" docValues="true" multiValued="true"/>
 
-  <fieldType name="inventory_count" class="solr.ExternalFileField" keyField="id" defVal="-1"/>
+  <fieldType name="inventory_count" class="solr.IntPointField" docValues="true" stored="false" indexed="false" multiValued="false"/>
 
   <fieldType name="text_stemmed_en" class="solr.TextField" autoGeneratePhraseQueries="false"
              enableGraphQueries="false" positionIncrementGap="100" multiValued="false">
