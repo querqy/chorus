@@ -30,15 +30,35 @@ After that, you can learn how to use the tools in Chorus to improve search in [F
 
 
 
-# How to restart
+# Useful Commands for Chorus
 
-To reset your environment, just run:
+To start your environment, i.e to do each step manually, run:
+```
+docker-compose up --build -d
+```
+Otherwise you can just run `./quickstart.sh`.
+
+To see what is happening in the Chorus stack you can tail the logs for all the components via:
+```
+docker-compose logs -tf
+```
+
+If you want to narrow down to just one component of the Chorus stack do:
+```
+docker-compose ps                       # list out the names of the components
+docker-compose logs -tf solr1 solr2     # tail solr1 and solr2 only
+```
+
+To reset your environment (including any volumes created like the mysql db), just run:
 ```
 docker-compose down -v
-git checkout volumes/preliveCore/conf/rules.txt
 ```
 
-Note: this will reset the MySQL database, and then reset you Querqy rules.
+If Docker is giving you a hard time then some options are:
+```
+docker system prune                     # removes orphaned images, networks, etc.
+docker system prune -a --volumes        # removes all images, clears out your Docker diskspace if you full.
+```
 
 
 
