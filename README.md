@@ -18,12 +18,7 @@ Chorus makes deploying powerful ecommerce search easier by shifting the buy vs b
 3. **Iterations are slow** Moving forward seems impossible. To avoid sliding backwards, progress is slow. Many simply give up on search, depriving users of the means to find critical information.
 
 
-[Explore a demo](https://fivethirtyeight.datasettes.com/fivethirtyeight), watch [a video about the project](https://www.youtube.com/watch?v=aoWx7KJzvCs) or try it out by [running the quickstart.sh script](LINK TO 5 Minutes to Chorus)
-
-* Comprehensive documentation: https://docs.datasette.io/
-* Examples: https://github.com/simonw/datasette/wiki/Datasettes
-* Live demo of current main: https://latest.datasette.io/
-* Support questions, feedback? Join our [GitHub Discussions forum](https://github.com/simonw/datasette/discussions)
+[Explore a demo](https://fivethirtyeight.datasettes.com/fivethirtyeight), watch [a video about the project](https://www.youtube.com/watch?v=aoWx7KJzvCs) or try it out by [running the quickstart.sh script](#5-minutes-to-run-chorus)
 
 Want to stay up-to-date with the project? Subscribe to the [Datasette Weekly newsletter](https://datasette.substack.com/) for tips, tricks and news on what's new in the Datasette ecosystem.
 
