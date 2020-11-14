@@ -1,9 +1,39 @@
-<img src="assets/chorus-logo.png" alt="Chorus Logo" width="200"/>
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![CircleCI](https://circleci.com/gh/o19s/quepid.svg?style=svg)](https://circleci.com/gh/o19s/quepid)
+[![Docker Hub](https://img.shields.io/docker/pulls/o19s/quepid.svg)](https://hub.docker.com/r/o19s/quepid/ "Docker Pulls")
+
+<img src="assets/chorus-logo.png" alt="Chorus Logo" title="Chorus: Towards a open stack for ecommerce search" width="200" align="right"/>
 
 Chorus
 ==========================
 
-Towards an open source tool stack for e-commerce search.
+*Towards an open source tool stack for e-commerce search*
+
+Chorus makes deploying powerful ecommerce search easier by shifting the buy vs build decision in favour of build, so you can own your search! It deals with three issues:
+
+1. **Our collaboration stinks** Making holistic progress on search requires deep, cross-functional collaboration. Shooting emails or tracking search requirements in spreadsheets won't cut it.
+
+2. ***Search testing is hard*** Search changes are cross-cutting: most changes will cause problems. Testing is difficult: you can't run hundreds of searches after every relevance change.
+
+3. **Iterations are slow** Moving forward seems impossible. To avoid sliding backwards, progress is slow. Many simply give up on search, depriving users of the means to find critical information.
+
+
+[Explore a demo](https://fivethirtyeight.datasettes.com/fivethirtyeight), watch [a video about the project](https://www.youtube.com/watch?v=aoWx7KJzvCs) or try it out by [running the quickstart.sh script](LINK TO 5 Minutes to Chorus)
+
+* Comprehensive documentation: https://docs.datasette.io/
+* Examples: https://github.com/simonw/datasette/wiki/Datasettes
+* Live demo of current main: https://latest.datasette.io/
+* Support questions, feedback? Join our [GitHub Discussions forum](https://github.com/simonw/datasette/discussions)
+
+Want to stay up-to-date with the project? Subscribe to the [Datasette Weekly newsletter](https://datasette.substack.com/) for tips, tricks and news on what's new in the Datasette ecosystem.
+
+## News
+
+ * 15th November 2020: [Chorus Workshop Series Announced](https://plainschwarz.com/ps-salon/) - Learn from the creators of the components of Chorus via six workshops.
+ * 17th October 2020: [Chorus featured at ApacheCon @Home](https://www.youtube.com/watch?v=NGtmSbOoFjA) - René and Eric give a talk at ApacheCon on Chorus.
+ * 10th June 2020: [Chorus Announced at BerlinBuzzwords](https://2020.berlinbuzzwords.de/session/towards-open-source-tool-stack-e-commerce-search) - First release of Chorus shared with the world at a workshop.
+
+
 
 # What Runs Where
 
@@ -17,7 +47,7 @@ Working with macOS?   Pop open all the relevant sites:
 > open http://localhost:4000 http://localhost:8983 http://localhost:9000 http://localhost:3000 http://localhost:7979
 
 
-# Learning all about Chorus!
+# 5 Minutes to Run Chorus!
 
 We are trying to strike a balance between making the setup process as easy and fool proof as possible with the need to not _hide_ too much of the interactions between the projects that make up Chorus.
 
