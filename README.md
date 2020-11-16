@@ -60,6 +60,7 @@ docker system prune                     # removes orphaned images, networks, etc
 docker system prune -a --volumes        # removes all images, clears out your Docker diskspace if you full.
 ```
 
+You may also have to [increase the resources](./assets/increase_docker_resources.gif) given to Docker, up to 4 GB RAM and 2 GB Swap space.
 
 
 # Sample Data Details
