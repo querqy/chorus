@@ -16,6 +16,11 @@ if ! [ -x "$(command -v jq)" ]; then
   echo 'Error: jq is not installed.' >&2
   exit 1
 fi
+if ! [ -x "$(command -v zip)" ]; then
+  echo 'Error: zip is not installed.' >&2
+  exit 1
+fi
+
 
 docker-compose down -v
 docker-compose up -d --build
