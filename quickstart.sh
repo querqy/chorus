@@ -2,6 +2,21 @@
 
 # This script starts up Chorus and runs through the basic setup tasks.
 
+set -e
+
+if ! [ -x "$(command -v curl)" ]; then
+  echo 'Error: curl is not installed.' >&2
+  exit 1
+fi
+if ! [ -x "$(command -v docker-compose)" ]; then
+  echo 'Error: docker-compose is not installed.' >&2
+  exit 1
+fi
+if ! [ -x "$(command -v jq)" ]; then
+  echo 'Error: jq is not installed.' >&2
+  exit 1
+fi
+
 docker-compose down -v
 docker-compose up -d --build
 sleep 30 # takes a while to start everything.
@@ -17,7 +32,7 @@ docker exec solr1 solr create_collection -c ecommerce -n ecommerce -shards 2 -re
 
 sleep 5
 if [ ! -f ./icecat-products-150k-20200809.tar.gz ]; then
-    wget https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
+    curl -o icecat-products-150k-20200809.tar.gz https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
 fi
 echo "Populating products, please give it a few minutes!"
 tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
