@@ -136,7 +136,7 @@ services:
 
   redis:
     container_name: quepid_redis
-    image: redis:6.0.5
+    image: redis:6.0.5-alpine
     ports:
       - 6379:6379
 
@@ -183,7 +183,7 @@ services:
       - solr1
 
   solr-exporter:
-    image: solr:8.7.0
+    image: solr:8.7.0-slim
     container_name: solr-exporter
     hostname: solr-exporter
     ports:
