@@ -4,7 +4,6 @@
 
 set -e
 
-
 # Ansi color code variables
 ERROR='\033[0;31m[QUICKSTART] '
 MAJOR='\033[0;34m[QUICKSTART] '
@@ -22,13 +21,11 @@ if ! [ -x "$(command -v docker-compose)" ]; then
 fi
 if ! [ -x "$(command -v jq)" ]; then
   echo '${ERROR}Error: jq is not installed.${RESET}' >&2
-  exit 1
 fi
 if ! [ -x "$(command -v zip)" ]; then
   echo 'Error: zip is not installed.' >&2
   exit 1
 fi
-
 
 observability=false
 
@@ -79,6 +76,7 @@ echo -e "${MINOR}sleep 5${RESET}"
 sleep 5
 if [ ! -f ./icecat-products-150k-20200809.tar.gz ]; then
     echo -e "${MAJOR}Downloading the sample product data.${RESET}"
+    curl -o icecat-products-150k-20200809.tar.gz https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
 fi
 echo -e "${MAJOR}Populating products, please give it a few minutes!${RESET}"
 tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
