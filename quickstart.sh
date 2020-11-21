@@ -79,11 +79,16 @@ echo -e "${MINOR}sleep 5${RESET}"
 sleep 5
 if [ ! -f ./icecat-products-150k-20200809.tar.gz ]; then
 <<<<<<< HEAD
+<<<<<<< HEAD
     echo -e "${MAJOR}Downloading the sample product data.${RESET}"
     wget https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
 =======
     curl -o icecat-products-150k-20200809.tar.gz https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
 >>>>>>> move from wget to curl, and then check for existance of tools
+=======
+  echo -e "${MAJOR}Downloading the sample product data.${RESET}"
+  curl -o icecat-products-150k-20200809.tar.gz https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
+>>>>>>> mergin
 fi
 echo -e "${MAJOR}Populating products, please give it a few minutes!${RESET}"
 tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
@@ -108,5 +113,8 @@ if $observability; then
   curl -u admin:password -S -X PUT -H "Content-Type: application/json" -d '{"isGrafanaAdmin": true}' http://localhost:9091/api/admin/users/2/permissions
   curl -u admin:password -S -X POST -H "Content-Type: application/json" http://localhost:9091/api/users/2/using/1
 fi
+<<<<<<< HEAD
 
 echo -e "${MAJOR}Welcome to Chorus!${RESET}"
+=======
+>>>>>>> mergin
