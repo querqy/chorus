@@ -65,10 +65,9 @@ echo -e "${MINOR}wait for security.json to be available to solr${RESET}"
 ./solr/wait-for-zk-200.sh # Wait for all three Solr nodes to be online
 
 echo -e "${MAJOR}Upload ecommerce configset.${RESET}"
-# Fix me to not be buried under solr/solr_home/.
-(cd solr/solr_home/ecommerce/conf && zip -r - *) > ./solr/solr_home/ecommerce.zip
+(cd solr/configsets/ecommerce/conf && zip -r - *) > ./solr/configsets/ecommerce.zip
 echo -e "${MINOR}post ecommerce.zip configset${RESET}"
-curl  --user solr:SolrRocks -X POST --header "Content-Type:application/octet-stream" --data-binary @./solr/solr_home/ecommerce.zip "http://localhost:8983/solr/admin/configs?action=UPLOAD&name=ecommerce"
+curl  --user solr:SolrRocks -X POST --header "Content-Type:application/octet-stream" --data-binary @./solr/configsets/ecommerce.zip "http://localhost:8983/solr/admin/configs?action=UPLOAD&name=ecommerce"
 
 echo -e "${MAJOR}Create ecommerce collection.${RESET}"
 docker exec solr1 solr create_collection -c ecommerce -n ecommerce -shards 2 -replicationFactor 1
