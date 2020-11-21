@@ -19,7 +19,7 @@ do
 			;;
 		--with-observability | -o)
 			observability=true
-      echo -e "${MAJOR}Starting Chorus with observability services enabled${RESET}"
+      echo -e "${MAJOR}Running Chorus with observability services enabled${RESET}"
 			;;
 	esac
 	shift
