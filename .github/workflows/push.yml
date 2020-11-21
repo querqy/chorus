@@ -10,6 +10,6 @@ jobs:
         run: ./quickstart.sh
       - name: Test
         run: docker run --network container:solr1 appropriate/curl -s --retry 10 --retry-connrefused http://localhost:8983/solr/admin/info/health
-        run: docker run --network container:quepid appropriate/curl -s --retry 10 --retry-connrefused http://localhost:3000
-        run: docker run --network container:rre appropriate/curl -s --retry 10 --retry-connrefused http://localhost:8080
-        run: docker run --network container:blacklight appropriate/curl --retry 10 --retry-connrefused http://localhost:3000/
+        #run: docker run --network container:quepid appropriate/curl -s --retry 10 --retry-connrefused http://localhost:3000
+        #run: docker run --network container:rre appropriate/curl -s --retry 10 --retry-connrefused http://localhost:8080
+        #run: docker run --network container:blacklight appropriate/curl --retry 10 --retry-connrefused http://localhost:3000/
