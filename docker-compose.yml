@@ -2,6 +2,7 @@ version: '3'   # on CircleCI the version and services cause build to puke.
 services:
 
   blacklight:
+    container_name: blacklight
     build:
       context: ./blacklight
       dockerfile: Dockerfile
