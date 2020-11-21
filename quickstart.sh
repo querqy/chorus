@@ -2,11 +2,28 @@
 
 # This script starts up Chorus and runs through the basic setup tasks.
 
+set -e
+
+
 # Ansi color code variables
-RED='\033[0;31m'
+ERROR='\033[0;31m[QUICKSTART] '
 MAJOR='\033[0;34m[QUICKSTART] '
 MINOR='\033[0;37m[QUICKSTART]    '
 RESET='\033[0m' # No Color
+
+
+if ! [ -x "$(command -v curl)" ]; then
+  echo '${ERROR}Error: curl is not installed.${RESET}' >&2
+  exit 1
+fi
+if ! [ -x "$(command -v docker-compose)" ]; then
+  echo '${ERROR}Error: docker-compose is not installed.${RESET}' >&2
+  exit 1
+fi
+if ! [ -x "$(command -v jq)" ]; then
+  echo '${ERROR}Error: jq is not installed.${RESET}' >&2
+  exit 1
+fi
 
 observability=false
 
@@ -56,8 +73,12 @@ docker exec solr1 solr create_collection -c ecommerce -n ecommerce -shards 2 -re
 echo -e "${MINOR}sleep 5${RESET}"
 sleep 5
 if [ ! -f ./icecat-products-150k-20200809.tar.gz ]; then
+<<<<<<< HEAD
     echo -e "${MAJOR}Downloading the sample product data.${RESET}"
     wget https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
+=======
+    curl -o icecat-products-150k-20200809.tar.gz https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
+>>>>>>> move from wget to curl, and then check for existance of tools
 fi
 echo -e "${MAJOR}Populating products, please give it a few minutes!${RESET}"
 tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
