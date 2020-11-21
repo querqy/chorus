@@ -55,7 +55,7 @@ fi
 docker-compose down -v
 docker-compose up -d --build ${services}
 
-echo -e "${MAJOR}Waiting for Solr Cluster to start up and all three nodes to be online.${RESET}"
+echo -e "${MAJOR}Waiting for Solr cluster to start up and all three nodes to be online.${RESET}"
 ./solr/wait-for-solr-cluster.sh # Wait for all three Solr nodes to be online
 
 echo -e "${MAJOR}Setting up security in solr${RESET}"
