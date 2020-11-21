@@ -170,6 +170,7 @@ services:
       - redis
 
   rre:
+    container_name: rre
     build:
       context: ./rre
       dockerfile: Dockerfile
