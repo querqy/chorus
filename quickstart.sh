@@ -82,3 +82,5 @@ if $observability; then
   curl -u admin:password -S -X PUT -H "Content-Type: application/json" -d '{"isGrafanaAdmin": true}' http://localhost:9091/api/admin/users/2/permissions
   curl -u admin:password -S -X POST -H "Content-Type: application/json" http://localhost:9091/api/users/2/using/1
 fi
+
+echo -e "${MAJOR}Welcome to Chorus!${RESET}"
