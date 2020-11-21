@@ -1,5 +1,5 @@
-
-name: docker-compose-actions-workflow
+# Does the Docker setup work?
+name: chorus-smoke-test
 on: push
 jobs:
   test:
@@ -9,5 +9,5 @@ jobs:
       - name: Build the stack
         run: ./quickstart.sh
       - name: Test
-        run: docker run --network container:webapp-frontend curl --retry 10 --retry-connrefused http://localhost:8983/
+        run: docker run --network container:webapp-frontend appropriate/curl --retry 10 --retry-connrefused http://localhost:8983/
         #run: docker run --network container:webapp-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
