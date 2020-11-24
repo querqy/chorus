@@ -36,7 +36,11 @@ To start your environment, i.e to do each step manually, run:
 ```
 docker-compose up --build -d
 ```
-Otherwise you can just run `./quickstart.sh`.
+Otherwise you can just run `./quickstart.sh`.  To include the observability features, run:
+
+```
+./quickstart.sh --with-observability
+```
 
 To see what is happening in the Chorus stack you can tail the logs for all the components via:
 ```
