@@ -31,7 +31,6 @@ services:
 
   smui:
     container_name: smui
-    #image: querqy/smui:3.6.1
     build:
       context: ./smui
       dockerfile: Dockerfile
@@ -45,6 +44,10 @@ services:
       - SMUI_TOGGLE_DEPL_CUSTOM_SCRIPT=true
       - SMUI_TOGGLE_DEPL_CUSTOM_SCRIPT_PATH=/smui/conf/smui2solrcloud.sh
       - SMUI_DEPLOY_PRELIVE_FN_RULES_TXT=/configs/ecommerce/rules.txt
+      - SMUI_TOGGLE_SPELLING=true
+      - SMUI_DEPLOY_PRELIVE_FN_REPLACE_TXT=/configs/ecommerce/replace-rules.txt
+      - SMUI_TOGGLE_RULE_ID_LOGGING=true
+      - SMUI_HEADLINE=Chorus SMUI
     depends_on:
       - mysql
 
