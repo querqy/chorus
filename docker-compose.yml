@@ -2,16 +2,19 @@ version: '3'   # on CircleCI the version and services cause build to puke.
 services:
 
   blacklight:
+    container_name: blacklight
     build:
       context: ./blacklight
       dockerfile: Dockerfile
     volumes:
       - ./blacklight/app:/app/app
     ports:
-      - "4000:3000"
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+      - 4000:3000
+      - 9394:9394
+    command: "foreman s -f Procfile"
     environment:
       - SOLR_URL=http://solr1:8983/solr/ecommerce
+      - PORT=3000
     depends_on:
       - solr1
 
@@ -88,41 +91,53 @@ services:
       - zoo3
 
   zoo1:
-    image: zookeeper:3.5
+    image: zookeeper:3.6.2
     container_name: zoo1
     restart: always
     hostname: zoo1
     ports:
       - 2181:2181
+      - 7000:7000
     environment:
       ZOO_MY_ID: 1
-      ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+      ZOO_4LW_COMMANDS_WHITELIST: mntr, conf, ruok
+      ZOO_CFG_EXTRA: "metricsProvider.className=org.apache.zookeeper.metrics.prometheus.PrometheusMetricsProvider metricsProvider.httpPort=7000 metricsProvider.exportJvmInfo=true"
+
 
   zoo2:
-    image: zookeeper:3.5
+    image: zookeeper:3.6.2
     container_name: zoo2
     restart: always
     hostname: zoo2
     ports:
       - 2182:2181
+      - 7001:7000
     environment:
       ZOO_MY_ID: 2
-      ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=0.0.0.0:2888:3888;2181 server.3=zoo3:2888:3888;2181
+      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+      ZOO_4LW_COMMANDS_WHITELIST: mntr, conf, ruok
+      ZOO_CFG_EXTRA: "metricsProvider.className=org.apache.zookeeper.metrics.prometheus.PrometheusMetricsProvider metricsProvider.httpPort=7000 metricsProvider.exportJvmInfo=true"
+
 
   zoo3:
-    image: zookeeper:3.5
+    image: zookeeper:3.6.2
     container_name: zoo3
     restart: always
     hostname: zoo3
     ports:
       - 2183:2181
+      - 7002:7000
     environment:
       ZOO_MY_ID: 3
-      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=0.0.0.0:2888:3888;2181
+      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+      ZOO_4LW_COMMANDS_WHITELIST: mntr,conf,ruok
+      ZOO_CFG_EXTRA: "metricsProvider.className=org.apache.zookeeper.metrics.prometheus.PrometheusMetricsProvider metricsProvider.httpPort=7000 metricsProvider.exportJvmInfo=true"
+
 
   redis:
     container_name: quepid_redis
-    image: redis:6.0.5
+    image: redis:6.0.5-alpine
     ports:
       - 6379:6379
 
@@ -155,6 +170,7 @@ services:
       - redis
 
   rre:
+    container_name: rre
     build:
       context: ./rre
       dockerfile: Dockerfile
@@ -167,6 +183,48 @@ services:
       - SOLR_URL=http://solr1:8983/solr/ecommerce
     depends_on:
       - solr1
+
+  solr-exporter:
+    image: solr:8.7.0
+    container_name: solr-exporter
+    hostname: solr-exporter
+    ports:
+     - 9854:9854
+    command: /bin/bash -c "/usr/bin/wait-for-http-200.sh; ./contrib/prometheus-exporter/bin/solr-exporter -p 9854 -z zoo1:2181,zoo2:2181,zoo3:2181 -f ./contrib/prometheus-exporter/conf/solr-exporter-config.xml -n 8 -s 15"
+    volumes:
+      - ./solr-exporter/wait-for-http-200.sh:/usr/bin/wait-for-http-200.sh
+    depends_on:
+      - solr1
+      - solr2
+      - solr3
+
+  prometheus:
+    image: prom/prometheus:v2.22.0
+    container_name: prometheus
+    restart: always
+    hostname: prometheus
+    ports:
+      - 9090:9090
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+
+  grafana:
+    image: grafana/grafana:7.2.1
+    container_name: grafana
+    restart: always
+    hostname: grafana
+    ports:
+      - 9091:3000
+    volumes:
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=password
+      - GF_USERS_ALLOW_SIGN_UP=true
+    depends_on:
+      - prometheus
+
 
 volumes:
     mysql_data: {}

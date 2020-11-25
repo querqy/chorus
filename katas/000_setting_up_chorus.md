@@ -1,4 +1,4 @@
-# Kata 0: Setting up Chorus
+# Kata 000: Setting up Chorus
 
 We use a Docker Compose based environment to manage firing up all the components of the Chorus stack, but then have you go through loading the data and configuring the components.
 
