@@ -33,7 +33,13 @@ environment ENV.fetch("RAILS_ENV") { "development" }
 # before forking the application. This takes advantage of Copy On Write
 # process behavior so workers use less memory.
 #
-# preload_app!
+preload_app!
+
+before_fork do
+  require 'puma_worker_killer'
+
+  PumaWorkerKiller.enable_rolling_restart(1 * 3600) # restart every hour
+end
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart

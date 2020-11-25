@@ -9,6 +9,7 @@ gem 'rails', '~> 5.2.4', '>= 5.2.4.3'
 gem 'sqlite3'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
+gem 'puma_worker_killer'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -76,3 +77,7 @@ end
 gem 'bootstrap', '~> 4.0'
 gem 'twitter-typeahead-rails', '0.11.1.pre.corejavascript'
 gem 'jquery-rails'
+
+gem "prometheus_exporter", "~> 0.5.3"
+
+gem 'foreman'
