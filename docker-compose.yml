@@ -1,6 +1,14 @@
 version: '3'   # on CircleCI the version and services cause build to puke.
 services:
 
+  quickstart:
+    container_name: quickstart
+    build:
+      context: ./quickstart
+      dockerfile: Dockerfile
+    environment:
+      - SOLR_HOST=http://solr1:8983
+
   blacklight:
     container_name: blacklight
     build:
