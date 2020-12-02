@@ -2,7 +2,7 @@
 name: chorus-smoke-test
 on: push
 jobs:
-  test:
+  test-services-standup:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
