@@ -12,7 +12,6 @@ RUN mkdir /quickstart
 COPY security.json /quickstart/security.json
 COPY *.sh /quickstart/
 COPY configsets /quickstart/configsets
-COPY solr.in.sh /opt/solr/bin/
 
 # Not having luck with this.  Getting later message that the file is gzip: stdin: not in gzip format
 #ADD https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz /quickstart/icecat-products-150k-20200809.tar.gz
