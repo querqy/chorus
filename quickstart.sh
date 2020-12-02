@@ -44,9 +44,13 @@ docker-compose run quickstart /quickstart/setup-solr-cluster.sh
 
 docker-compose run quickstart /quickstart/setup-smui.sh
 
-docker-compose run quickstart /quickstart/setup-quepid.sh
+echo -e "${MAJOR}Setting up Quepid${RESET}"
+docker-compose run --rm quepid bin/rake db:setup
+docker-compose run quepid thor user:create -a admin@choruselectronics.com "Chorus Admin" password
 
-docker-compose run quickstart /quickstart/setup-rre.sh
+echo -e "${MAJOR}Setting up RRE${RESET}"
+docker-compose run rre mvn rre:evaluate
+docker-compose run rre mvn rre-report:report
 
 if $observability; then
   docker-compose run quickstart /quickstart/setup-observability.sh
