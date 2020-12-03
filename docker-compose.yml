@@ -48,6 +48,7 @@ services:
       - SMUI_DEPLOY_PRELIVE_FN_REPLACE_TXT=/configs/ecommerce/replace-rules.txt
       - SMUI_TOGGLE_RULE_ID_LOGGING=true
       - SMUI_HEADLINE=Chorus SMUI
+      - SMUI_TOGGLE_EVENTHISTORY=true
     depends_on:
       - mysql
 
