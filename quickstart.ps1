@@ -1,7 +1,7 @@
 # This script starts up Chorus and runs through the basic setup tasks.
 
 docker-compose down -v
-docker-compose up -d --build quickstart blacklight solr1 solr2 solr3 smui quepid rre grafana solr-exporter
+docker-compose up -d --build --platform=linux quickstart blacklight solr1 solr2 solr3 smui quepid rre grafana solr-exporter
 
 docker-compose run quickstart /quickstart/setup-solr-cluster.sh
 
