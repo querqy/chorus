@@ -1,0 +1,11 @@
+version: '3'
+services:
+
+  quickstart:
+    container_name: quickstart
+    build:
+      context: ./quickstart
+      dockerfile: Dockerfile
+    platform: linux
+    environment:
+      - SOLR_HOST=http://solr1:8983
