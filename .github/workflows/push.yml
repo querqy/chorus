@@ -28,6 +28,7 @@ jobs:
       - name: testdockercompose
         run: docker-compose -v
       - name: Build the stack
-        run: ./quickstart.ps1
+        run : docker-compose up -d --build 
+        #run: ./quickstart.ps1
       - name: Test Solr
         run: docker run --network container:solr1 byrnedo/alpine-curl -s --retry 10 --retry-connrefused http://localhost:8983/solr/admin/info/health
