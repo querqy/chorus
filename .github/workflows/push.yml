@@ -27,6 +27,8 @@ jobs:
         run: docker -v
       - name: testdockercompose
         run: docker-compose -v
+      - name: quit for now
+        run: exit 0
       - name: Build the stack
         run : docker-compose -f docker-compose-win.yml build
         #run: ./quickstart.ps1
