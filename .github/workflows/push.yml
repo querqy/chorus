@@ -19,6 +19,7 @@ jobs:
         run: docker run --network container:rre appropriate/curl -s --retry 10 --retry-connrefused http://localhost:8080
 
   test-services-windows:
+    if: false
     runs-on: windows-latest
     steps:
       - name: Checkout
