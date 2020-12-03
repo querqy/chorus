@@ -17,3 +17,19 @@ jobs:
         run: docker run --network container:quepid appropriate/curl -s --retry 10 --retry-connrefused http://localhost:3000
       - name: Test rre
         run: docker run --network container:rre appropriate/curl -s --retry 10 --retry-connrefused http://localhost:7979
+
+  test-services-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build the stack
+        run: ./quickstart.ps1
+      - name: Test Solr
+        run: docker run --network container:solr1 appropriate/curl -s --retry 10 --retry-connrefused http://localhost:8983/solr/admin/info/health
+      - name: Test SMUI
+        run: docker run --network container:smui appropriate/curl -s --retry 10 --retry-connrefused http://localhost:9000
+      - name: Test Quepid
+        run: docker run --network container:quepid appropriate/curl -s --retry 10 --retry-connrefused http://localhost:3000
+      - name: Test rre
+        run: docker run --network container:rre appropriate/curl -s --retry 10 --retry-connrefused http://localhost:7979
