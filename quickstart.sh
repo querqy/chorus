@@ -28,6 +28,7 @@ if ! [ -x "$(command -v zip)" ]; then
 fi
 
 observability=false
+shutdown=false
 
 while [ ! $# -eq 0 ]
 do
