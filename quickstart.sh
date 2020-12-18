@@ -34,11 +34,16 @@ do
 	case "$1" in
 		--help | -h)
 			echo -e "Use the option --with-observability | -o to include Grafana, Prometheus, and Solr Exporter services in Chorus."
+      echo -e "Use the option --shutdown | -s to shutdown and remove the Docker containers and data."
 			exit
 			;;
 		--with-observability | -o)
 			observability=true
       echo -e "${MAJOR}Running Chorus with observability services enabled${RESET}"
+			;;
+    --shutdown | -s)
+			shutdown=true
+      echo -e "${MAJOR}Shutting down Chorus${RESET}"
 			;;
 	esac
 	shift
@@ -49,7 +54,13 @@ if $observability; then
   services="${services} grafana solr-exporter"
 fi
 
+
+
 docker-compose down -v
+if $shutdown; then
+  exit
+fi
+
 docker-compose up -d --build ${services}
 
 echo -e "${MAJOR}Waiting for Solr cluster to start up and all three nodes to be online.${RESET}"
