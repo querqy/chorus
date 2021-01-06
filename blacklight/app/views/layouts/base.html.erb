@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<%= content_tag :html, class: 'no-js', **html_tag_attributes do %>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Internet Explorer use the highest version available -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>BOOM BASE <%= render_page_title %></title>
+    <%= opensearch_description_tag application_name, opensearch_catalog_url(format: 'xml') %>
+    <%= favicon_link_tag %>
+    <%= stylesheet_link_tag "application", media: "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+    <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('HN1vwNLHaFRekUxRDV77-2NgiygqFLQ_kbnBVhoG83U',{api_host:'http://localhost'})
+    </script>
+    <%= content_for(:head) %>
+  </head>
+  <body class="<%= render_body_class %>">
+    BOOM BASE
+    <nav id="skip-link" role="navigation" aria-label="<%= t('blacklight.skip_links.label') %>">
+      <%= link_to t('blacklight.skip_links.search_field'), '#search_field', class: 'element-invisible element-focusable rounded-bottom py-2 px-3', data: { turbolinks: 'false' } %>
+      <%= link_to t('blacklight.skip_links.main_content'), '#main-container', class: 'element-invisible element-focusable rounded-bottom py-2 px-3', data: { turbolinks: 'false' } %>
+      <%= content_for(:skip_links) %>
+    </nav>
+    <%= render partial: 'shared/header_navbar' %>
+
+  <main id="main-container" class="<%= container_classes %>" role="main" aria-label="<%= t('blacklight.main.aria.main_container') %>">
+    <%= content_for(:container_header) %>
+
+    <%= render partial: 'shared/flash_msg', layout: 'shared/flash_messages' %>
+
+    <div class="row">
+      <%= content_for?(:content) ? yield(:content) : yield %>
+    </div>
+  </main>
+
+    <%= render partial: 'shared/footer' %>
+    <%= render partial: 'shared/modal' %>
+  </body>
+<% end %>

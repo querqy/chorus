@@ -17,6 +17,8 @@ services:
       - PORT=3000
     depends_on:
       - solr1
+      - solr2
+      - solr3
 
   mysql:
     container_name: mysql
