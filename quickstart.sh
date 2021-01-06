@@ -43,10 +43,10 @@ do
 			observability=true
       echo -e "${MAJOR}Running Chorus with observability services enabled${RESET}"
 			;;
-      --with-trackers | -t)
-  			trackers=true
-        echo -e "${MAJOR}Running Chorus with user behavor trackers enabled${RESET}"
-  			;;
+    --with-trackers | -t)
+			trackers=true
+      echo -e "${MAJOR}Running Chorus with user behavor trackers enabled${RESET}"
+			;;
     --shutdown | -s)
 			shutdown=true
       echo -e "${MAJOR}Shutting down Chorus${RESET}"
