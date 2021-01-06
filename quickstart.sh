@@ -29,6 +29,7 @@ fi
 
 observability=false
 shutdown=false
+trackers=false
 
 while [ ! $# -eq 0 ]
 do
@@ -42,6 +43,10 @@ do
 			observability=true
       echo -e "${MAJOR}Running Chorus with observability services enabled${RESET}"
 			;;
+      --with-trackers | -t)
+  			trackers=true
+        echo -e "${MAJOR}Running Chorus with user behavor trackers enabled${RESET}"
+  			;;
     --shutdown | -s)
 			shutdown=true
       echo -e "${MAJOR}Shutting down Chorus${RESET}"
@@ -53,6 +58,10 @@ done
 services="blacklight solr1 solr2 solr3 smui quepid rre"
 if $observability; then
   services="${services} grafana solr-exporter"
+fi
+
+if $trackers; then
+  services="${services} posthog db redis"
 fi
 
 

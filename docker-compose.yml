@@ -1,6 +1,6 @@
-version: '3'   # on CircleCI the version and services cause build to puke.
-services:
+version: '3'
 
+services:
   blacklight:
     container_name: blacklight
     build:
@@ -142,7 +142,7 @@ services:
 
 
   redis:
-    container_name: quepid_redis
+    container_name: redis
     image: redis:6.0.5-alpine
     ports:
       - 6379:6379
@@ -231,6 +231,37 @@ services:
     depends_on:
       - prometheus
 
+  db:
+    container_name: db
+    environment:
+      POSTGRES_DB: posthog
+      POSTGRES_PASSWORD: posthog
+      POSTGRES_USER: posthog
+    image: postgres:alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  posthog:
+    container_name: posthog_web
+    depends_on:
+      - db
+      - redis
+    environment:
+      DATABASE_URL: postgres://posthog:posthog@db:5432/posthog
+      IS_DOCKER: 'true'
+      DISABLE_SECURE_SSL_REDIRECT: 'true'
+      SECURE_COOKIES: 'false'
+      REDIS_URL: redis://redis:6379/
+      SECRET_KEY: fd488ec29be314d2a0fe894e994ee2a77b75d392d5fe7e7951ff9ec92b04e975
+    image: posthog/posthog:latest
+    links:
+      - db:db
+      - redis:redis
+    ports:
+      - 8000:8000
+      - 80:8000
+
 
 volumes:
     mysql_data: {}
+    postgres_data:
