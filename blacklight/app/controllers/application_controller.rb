@@ -4,4 +4,8 @@ class ApplicationController < ActionController::Base
   include Blacklight::Controller
   layout :determine_layout if respond_to? :layout
 
+  def determine_layout
+    'chorus'
+  end
+
 end
