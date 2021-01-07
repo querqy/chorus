@@ -29,11 +29,13 @@ fi
 
 observability=false
 shutdown=false
+offline_lab=false
 
 while [ ! $# -eq 0 ]
 do
 	case "$1" in
 		--help | -h)
+      echo -e "Use the option --with-offline-lab | -lab to include Quepid and RRE services in Chorus."
 			echo -e "Use the option --with-observability | -o to include Grafana, Prometheus, and Solr Exporter services in Chorus."
       echo -e "Use the option --shutdown | -s to shutdown and remove the Docker containers and data."
 			exit
@@ -41,6 +43,10 @@ do
 		--with-observability | -o)
 			observability=true
       echo -e "${MAJOR}Running Chorus with observability services enabled${RESET}"
+			;;
+    --with-offline-lab | -lab)
+			offline_lab=true
+      echo -e "${MAJOR}Running Chorus with offline lab environment enabled${RESET}"
 			;;
     --shutdown | -s)
 			shutdown=true
@@ -50,10 +56,15 @@ do
 	shift
 done
 
-services="blacklight solr1 solr2 solr3 smui quepid rre"
+services="blacklight solr1 solr2 solr3 smui"
 if $observability; then
   services="${services} grafana solr-exporter"
 fi
+
+if $offline_lab; then
+  services="${services} quepid rre"
+fi
+
 
 
 
@@ -98,13 +109,15 @@ curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"product_type"}' 
 curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"title"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
 curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"brand"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
 
-echo -e "${MAJOR}Setting up Quepid${RESET}"
-docker-compose run --rm quepid bin/rake db:setup
-docker-compose run quepid thor user:create -a admin@choruselectronics.com "Chorus Admin" password
+if $offline_lab; then
+  echo -e "${MAJOR}Setting up Quepid${RESET}"
+  docker-compose run --rm quepid bin/rake db:setup
+  docker-compose run quepid thor user:create -a admin@choruselectronics.com "Chorus Admin" password
 
-echo -e "${MAJOR}Setting up RRE${RESET}"
-docker-compose run rre mvn rre:evaluate
-docker-compose run rre mvn rre-report:report
+  echo -e "${MAJOR}Setting up RRE${RESET}"
+  docker-compose run rre mvn rre:evaluate
+  docker-compose run rre mvn rre-report:report
+fi
 
 if $observability; then
   echo -e "${MAJOR}Setting up Grafana${RESET}"
