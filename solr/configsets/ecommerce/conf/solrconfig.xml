@@ -7,7 +7,7 @@
   <!-- Load the Querqy Jar that comes with all it's dependencies -->
   <lib dir="/opt/querqy/lib/" />
 
-  <dataDir>${solr.data.dir:}/tmp/ecommerce</dataDir>
+  <dataDir>${solr.data.dir:}</dataDir>
 
   <directoryFactory name="DirectoryFactory"
                     class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}"/>
