@@ -36,6 +36,7 @@ do
 	case "$1" in
 		--help | -h)
 			echo -e "Use the option --with-observability | -o to include Grafana, Prometheus, and Solr Exporter services in Chorus."
+      echo -e "Use the option --with-trackers | -t to include user behavior trackers, including Posthog in Chorus."
       echo -e "Use the option --shutdown | -s to shutdown and remove the Docker containers and data."
 			exit
 			;;
