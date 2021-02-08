@@ -49,7 +49,7 @@
   "featureFactories": {
     "serverConnection": [
       {
-        "url": "http://localhost:8983/solr/ecommerce"
+        "url": "http://solr1:8983/solr/ecommerce"
       }
     ],
     "query": {

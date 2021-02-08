@@ -3,3 +3,7 @@ volumes/db
 solr/configsets/ecommerce.zip
 rre/target
 icecat-products-150k-20200809.tar.gz
+quaerite/experiments/my_experiments1.json
+quaerite/mydb
+quaerite/reports
+quaerite/ga

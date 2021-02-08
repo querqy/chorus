@@ -62,7 +62,7 @@ if $observability; then
 fi
 
 if $offline_lab; then
-  services="${services} quepid rre"
+  services="${services} quepid rre quaerite"
 fi
 
 

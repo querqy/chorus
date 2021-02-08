@@ -1,18 +1,14 @@
 # Fifth Kata: Getting started with *Quaerite*
 
-## Get the latest from DockerHub
-
-* `docker pull rhapsode/quaerite:latest`
 
 # Give Quaerite a Spin
-**NOTE FOR WINDOWS USERS**: Substitute `-v %cd%:/q` for `-v $(pwd):/q`
 
-* Make sure that the Solr instance that comes with chorus is running and has the data loaded, e.g. run the Chorus `./quickstart.sh`
-* Change directory to the `quaerite` directory of chorus
+* Make sure that the Solr instances that comes with Chorus are running and has the data loaded:
+run the Chorus `./quickstart.sh --with-offline-lab`
 
 ## Run Experiments
 
-* `docker run -v $(pwd):/q -it --network="host" rhapsode/quaerite java -jar /quaerite.jar RunExperiments -db /q/mydb -j /q/judgments.csv -r /q/reports -e /q/experiments/short_description.json`
+> docker-compose run quaerite java -jar /quaerite.jar RunExperiments -db /quaerite/mydb -j /quaerite/judgments.csv -r /quaerite/reports -e /quaerite/experiments/short_description.json
 
 This will output three csv reports in the `reports/`
 1. There's a `per_query_scores.csv` file with every score per query per experiment.
@@ -20,21 +16,35 @@ This will output three csv reports in the `reports/`
 3. There's a confusion matrix (`sig_diffs_ngdc_10.csv`) of the p-values to show the pair-wise statistical significance between all experiments
 
 ## Generate Experiments
-* `docker run -v $(pwd):/q -it --network="host" rhapsode/quaerite java -jar /quaerite.jar GenerateExperiments -f /q/features/features1.json -e /q/experiments/my_experiments1.json`
+
+> docker-compose run quaerite java -jar /quaerite.jar GenerateExperiments -f /quaerite/features/features1.json -e /quaerite/experiments/my_experiments1.json
+
+* Now change the URLs from the default `localhost:8983` to `solr1:8983` to work in Docker Compose
+> docker-compose run quaerite sed -i 's/localhost:8983/solr1:8983/g' /quaerite/experiments/my_experiments1.json
 
 Now run the experiments you just generated:
-* `docker run -v $(pwd):/q -it ... KIDDING DON'T DO THIS!`
+
+> docker-compose run quaerite java -jar  ... KIDDING DON'T DO THIS!`
+
 ***DON'T DO THAT!!!***  There are 1,156 experiments in there!  
-  
+
+
 Try randomly generating 100:
-* `docker run -v $(pwd):/q -it --network="host" rhapsode/quaerite java -jar /quaerite.jar GenerateExperiments -f /q/features/features1.json -e /q/experiments/my_experiments1.json -r 100`
+
+> docker-compose run quaerite java -jar /quaerite.jar GenerateExperiments -f /quaerite/features/features1.json -e /quaerite/experiments/my_experiments1.json -r 100
+
+* Now change the URLs from the default `localhost:8983` to `solr1:8983`
+> docker-compose run quaerite sed -i 's/localhost:8983/solr1:8983/g' /quaerite/experiments/my_experiments1.json
+
 
 *NOW* run the experiments:
-* `docker run -v $(pwd):/q -it --network="host" rhapsode/quaerite java -jar /quaerite.jar RunExperiments -db /q/mydb -j /q/judgments.csv -r /q/reports -e /q/experiments/my_experiments1.json`
+
+> docker-compose run quaerite java -jar /quaerite.jar RunExperiments -db /quaerite/mydb -j /quaerite/judgments.csv -r /quaerite/reports -e /quaerite/experiments/my_experiments1.json
 
 ## Run Genetic Algorithms
 
-* `docker run -v $(pwd):/q -it --network="host" rhapsode/quaerite java -jar /quaerite.jar RunGA -db my-ga-db -o /q/ga/ga_output -f /q/features/features1.json -j /q/judgments.csv`
+> docker-compose run quaerite java -jar /quaerite.jar RunGA -db my-ga-db -o /quaerite/ga/ga_output -f /quaerite/features/features1.json -j /quaerite/judgments.csv
 
 ## Feature Extraction
-`docker run -v $(pwd):/q -it --network="host" quaerite-image java -jar /quaerite.jar FindFeatures -s "http://localhost:8983/solr/ecommerce" -j /q/judgments.csv -db /q/mydb -f "name,title,product_type,short_description,ean,search_attributes,supplier,brand" -m 2.0`
+
+> docker-compose run quaerite java -jar /quaerite.jar FindFeatures -s "http://solr1:8983/solr/ecommerce" -j /quaerite/judgments.csv -db /quaerite/mydb -f "name,title,product_type,short_description,ean,search_attributes,supplier,brand" -m 2.0

@@ -188,6 +188,22 @@ services:
     depends_on:
       - solr1
 
+  quaerite:
+    container_name: quaerite
+    image: rhapsode/quaerite:latest
+    #build:
+    #  context: ./rre
+    #  dockerfile: Dockerfile
+    volumes:
+      - ./quaerite:/quaerite
+    #ports:
+    #  - "7979:8080"
+    #command: "java -jar rre-server-1.1.jar"
+    #environment:
+    #  - SOLR_URL=http://solr1:8983/solr/ecommerce
+    depends_on:
+      - solr1
+
   solr-exporter:
     image: solr:8.7.0
     container_name: solr-exporter
