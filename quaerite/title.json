@@ -1,0 +1,57 @@
+{
+  "scorers": [
+    {
+      "class": "AtLeastOneAtN",
+      "atN": 1
+    },
+    {
+      "class": "AtLeastOneAtN",
+      "atN": 3
+    },
+    {
+      "class": "AtLeastOneAtN",
+      "atN": 5
+    },
+    {
+      "class": "AtLeastOneAtN",
+      "atN": 10
+    },
+    {
+      "class": "AtLeastOneAtN",
+      "atN": 30
+    },
+    {
+      "class": "Precision",
+      "atN": 10
+    },
+    {
+      "class": "NDCG",
+      "atN": 10,
+      "params": {
+        "useForTrain": true,
+        "useForTest": true,
+        "exportPMatrix": true
+      }
+    },
+    {
+      "class": "TotalDocsReturned"
+    },
+    {
+      "class": "TotalElapsedTime"
+    }
+  ],
+  "experiments": {
+    "title": {
+      "serverConnection": {
+        "url" : "http://localhost:8983/solr/ecommerce"
+      },
+      "query": {
+        "edismax": {
+          "qf": [
+            "title"
+          ]
+        }
+      }
+    }
+  }
+}
