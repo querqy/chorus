@@ -1,14 +1,13 @@
-# Fifth Kata: Getting started with Quaerite
+# Fifth Kata: Getting started with *Quaerite*
 
 ## Get the latest from DockerHub
 
 * `docker pull rhapsode/quaerite:latest`
 
 # Give Quaerite a Spin
-**NOTE FOR WINDOWS USERS** Substitute `-v %cd%:/q` for `-f $(pwd):/q`
+**NOTE FOR WINDOWS USERS**: Substitute `-v %cd%:/q` for `-v $(pwd):/q`
 
-* Make sure that the Solr instance that comes with chorus is running and has the data loaded:
-run the Chorus `./quickstart.sh`
+* Make sure that the Solr instance that comes with chorus is running and has the data loaded, e.g. run the Chorus `./quickstart.sh`
 * Change directory to the `quaerite` directory of chorus
 
 ## Run Experiments
