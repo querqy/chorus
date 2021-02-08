@@ -21,7 +21,19 @@
       "atN": 30
     },
     {
-      "class": "Precision",
+      "class": "PrecisionAtN",
+      "atN": 10
+    },
+    {
+      "class": "RecallAtN",
+      "atN": 10
+    },
+    {
+      "class": "HighestRank",
+      "atN": 10
+    },
+    {
+      "class": "HighestRankReciprocal",
       "atN": 10
     },
     {
