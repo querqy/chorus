@@ -17,10 +17,7 @@ This will output three csv reports in the `reports/`
 
 ## Generate Experiments
 
-> docker-compose run quaerite java -jar /quaerite.jar GenerateExperiments -f /quaerite/features/features1.json -e /quaerite/experiments/my_experiments1.json
-
-* Now change the URLs from the default `localhost:8983` to `solr1:8983` to work in Docker Compose
-> docker-compose run quaerite sed -i 's/localhost:8983/solr1:8983/g' /quaerite/experiments/my_experiments1.json
+> docker-compose run quaerite java -jar /quaerite.jar GenerateExperiments -f /quaerite/features/features1.json -e /quaerite/my_experiments/my_experiments1.json
 
 Now run the experiments you just generated:
 
@@ -31,15 +28,12 @@ Now run the experiments you just generated:
 
 Try randomly generating 100:
 
-> docker-compose run quaerite java -jar /quaerite.jar GenerateExperiments -f /quaerite/features/features1.json -e /quaerite/experiments/my_experiments1.json -r 100
-
-* Now change the URLs from the default `localhost:8983` to `solr1:8983`
-> docker-compose run quaerite sed -i 's/localhost:8983/solr1:8983/g' /quaerite/experiments/my_experiments1.json
+> docker-compose run quaerite java -jar /quaerite.jar GenerateExperiments -f /quaerite/features/features1.json -e /quaerite/my_experiments/my_experiments1.json -r 100
 
 
 *NOW* run the experiments:
 
-> docker-compose run quaerite java -jar /quaerite.jar RunExperiments -db /quaerite/mydb -j /quaerite/judgments.csv -r /quaerite/reports -e /quaerite/experiments/my_experiments1.json
+> docker-compose run quaerite java -jar /quaerite.jar RunExperiments -db /quaerite/mydb -j /quaerite/judgments.csv -r /quaerite/reports -e /quaerite/my_experiments/my_experiments1.json
 
 ## Run Genetic Algorithms
 
