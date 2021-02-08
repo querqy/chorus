@@ -21,22 +21,6 @@
       "atN": 30
     },
     {
-      "class": "PrecisionAtN",
-      "atN": 10
-    },
-    {
-      "class": "RecallAtN",
-      "atN": 10
-    },
-    {
-      "class": "HighestRank",
-      "atN": 10
-    },
-    {
-      "class": "HighestRankReciprocal",
-      "atN": 10
-    },
-    {
       "class": "NDCG",
       "atN": 10,
       "params": {
@@ -53,15 +37,46 @@
     }
   ],
   "experiments": {
-    "title": {
+    "title_name_brand": {
       "serverConnection": {
         "url" : "http://localhost:8983/solr/ecommerce"
       },
       "query": {
         "edismax": {
           "qf": [
-            "title"
+            "title",
+            "name",
+            "brand"
           ]
+        }
+      }
+    },
+    "title_name_brand_weights1": {
+      "serverConnection": {
+        "url" : "http://localhost:8983/solr/ecommerce"
+      },
+      "query": {
+        "edismax": {
+          "qf": [
+            "title^2",
+            "name^10",
+            "brand^1"
+          ]
+        }
+      }
+    },
+    "title_name_brand_weights2": {
+      "serverConnection": {
+        "url" : "http://localhost:8983/solr/ecommerce"
+      },
+      "query": {
+        "edismax": {
+          "qf": [
+            "title^10",
+            "name^12",
+            "brand^1"
+          ],
+          "tie":0.01
         }
       }
     }

@@ -1,0 +1,120 @@
+{
+  "scorers": [
+    {
+      "class": "AtLeastOneAtN",
+      "atN": 1
+    },
+    {
+      "class": "AtLeastOneAtN",
+      "atN": 3
+    },
+    {
+      "class": "AtLeastOneAtN",
+      "atN": 5
+    },
+    {
+      "class": "AtLeastOneAtN",
+      "atN": 10
+    },
+    {
+      "class": "AtLeastOneAtN",
+      "atN": 30
+    },
+
+    {
+      "class": "NDCG",
+      "atN": 10,
+      "params": {
+        "useForTrain": true,
+        "useForTest": true,
+        "exportPMatrix": true
+      }
+    },
+    {
+      "class": "TotalDocsReturned"
+    },
+    {
+      "class": "TotalElapsedTime"
+    }
+  ],
+  "experiments": {
+    "title": {
+      "serverConnection": {
+        "url" : "http://localhost:8983/solr/ecommerce"
+      },
+      "query": {
+        "edismax": {
+          "qf": [
+            "title"
+          ]
+        }
+      }
+    },
+    "name": {
+      "serverConnection": {
+        "url" : "http://localhost:8983/solr/ecommerce"
+      },
+      "query": {
+        "edismax": {
+          "qf": [
+            "name"
+          ]
+        }
+      }
+    },
+    "brand": {
+      "serverConnection": {
+        "url" : "http://localhost:8983/solr/ecommerce"
+      },
+      "query": {
+        "edismax": {
+          "qf": [
+            "brand"
+          ]
+        }
+      }
+    },
+    "short_description": {
+      "serverConnection": {
+        "url" : "http://localhost:8983/solr/ecommerce"
+      },
+      "query": {
+        "edismax": {
+          "qf": [
+            "short_description"
+          ]
+        }
+      }
+    },
+    "search_attributes": {
+      "serverConnection": {
+        "url" : "http://localhost:8983/solr/ecommerce"
+      },
+      "query": {
+        "edismax": {
+          "qf": [
+            "search_attributes"
+          ]
+        }
+      }
+    },
+    "default": {
+      "serverConnection": {
+        "url" : "http://localhost:8983/solr/ecommerce"
+      },
+      "query": {
+        "edismax": {
+          "qf": [
+            "name",
+            "title",
+            "product_type",
+            "short_description",
+            "ean",
+            "search_attributes"
+          ],
+          "tie":0.01
+        }
+      }
+    }
+  }
+}
