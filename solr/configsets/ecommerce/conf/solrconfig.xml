@@ -113,6 +113,11 @@
       <str name="fq">-img_500x500:""</str>
     </lst>
   </requestHandler>
+  <requestHandler name="/nofilter" class="solr.SearchHandler">
+    <lst name="defaults">
+      <str name="echoParams">explicit</str>
+    </lst>
+  </requestHandler>
   <!-- The default handler should be specified this way, however to support
   the legacy qt=querqy parameter we need to change to what's below.
   <requestHandler name="/select" class="solr.SearchHandler">

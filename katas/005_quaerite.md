@@ -23,7 +23,7 @@ Now run the experiments you just generated:
 
 > docker-compose run quaerite java -jar  ... KIDDING DON'T DO THIS!`
 
-***DON'T DO THAT!!!***  There are 1,156 experiments in there!  
+***DON'T DO THAT!!!***  There are 1,155 experiments in there!  
 
 
 Try randomly generating 100:
