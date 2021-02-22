@@ -58,7 +58,9 @@ services:
     ports:
      - "8983:8983"
     environment:
+      - SOLR_OPTS=-XX:-UseLargePages
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
+
     volumes:
       - ./volumes/fake_shared_fs:/tmp/fake_shared_fs
     depends_on:
@@ -72,6 +74,7 @@ services:
     ports:
      - "8984:8983"
     environment:
+      - SOLR_OPTS=-XX:-UseLargePages
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
     volumes:
       - ./volumes/fake_shared_fs:/tmp/fake_shared_fs
@@ -86,6 +89,7 @@ services:
     ports:
      - "8985:8983"
     environment:
+      - SOLR_OPTS=-XX:-UseLargePages
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
     volumes:
       - ./volumes/fake_shared_fs:/tmp/fake_shared_fs
