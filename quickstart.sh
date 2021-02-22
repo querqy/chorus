@@ -89,13 +89,21 @@ echo -e "${MINOR}wait for security.json to be available to solr${RESET}"
 
 echo -e "${MAJOR}Package ecommerce configset.${RESET}"
 (cd solr/configsets/ecommerce/conf && zip -r - *) > ./solr/configsets/ecommerce.zip
-echo -e "${MINOR}Upload ecommerce.zip configset${RESET}"
-curl  --user solr:SolrRocks -X POST --header "Content-Type:application/octet-stream" --data-binary @./solr/configsets/ecommerce.zip "http://localhost:8983/solr/admin/configs?action=UPLOAD&name=ecommerce"
-
+echo -e "${MINOR}post ecommerce.zip configset${RESET}"
+curl  --user solr:SolrRocks -X PUT --header "Content-Type:application/octet-stream" --data-binary @./solr/configsets/ecommerce.zip "http://localhost:8983/api/cluster/configs/ecommerce"
 echo -e "${MAJOR}Create ecommerce collection.${RESET}"
-docker exec solr1 solr create_collection -c ecommerce -n ecommerce -shards 2 -replicationFactor 1
-echo -e "${MINOR}sleep 5${RESET}"
-sleep 5
+curl --user solr:SolrRocks -X POST http://localhost:8983/api/collections -H 'Content-Type: application/json' -d'
+  {
+    "create": {
+      "name": "ecommerce",
+      "config": "ecommerce",
+      "numShards": 2,
+      "replicationFactor": 1,
+      "waitForFinalState": true
+    }
+  }
+'
+
 if [ ! -f ./icecat-products-150k-20200809.tar.gz ]; then
     echo -e "${MAJOR}Downloading the sample product data.${RESET}"
     curl --progress-bar -o icecat-products-150k-20200809.tar.gz https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
