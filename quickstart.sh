@@ -85,13 +85,12 @@ echo -e "${MINOR}upload security.json to zookeeper${RESET}"
 docker exec solr1 solr zk cp /security.json zk:security.json -z zoo1:2181
 
 echo -e "${MINOR}wait for security.json to be available to solr${RESET}"
-./solr/wait-for-zk-200.sh # Wait for all three Solr nodes to be online
+./solr/wait-for-zk-200.sh
 
-echo -e "${MAJOR}Upload ecommerce configset.${RESET}"
+echo -e "${MAJOR}Package ecommerce configset.${RESET}"
 (cd solr/configsets/ecommerce/conf && zip -r - *) > ./solr/configsets/ecommerce.zip
 echo -e "${MINOR}post ecommerce.zip configset${RESET}"
 curl  --user solr:SolrRocks -X PUT --header "Content-Type:application/octet-stream" --data-binary @./solr/configsets/ecommerce.zip "http://localhost:8983/api/cluster/configs/ecommerce"
-
 echo -e "${MAJOR}Create ecommerce collection.${RESET}"
 curl --user solr:SolrRocks -X POST http://localhost:8983/api/collections -H 'Content-Type: application/json' -d'
   {
