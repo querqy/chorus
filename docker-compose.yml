@@ -49,6 +49,15 @@ services:
       - SMUI_TOGGLE_RULE_ID_LOGGING=true
       - SMUI_HEADLINE=Chorus SMUI
       - SMUI_TOGGLE_EVENTHISTORY=true
+      - SMUI_JWT_ACTIVE=true
+      - SMUI_AUTH_ACTION=controllers.auth.JWTJsonAuthenticatedAction
+      - SMUI_JWT_AUTH_COOKIE_NAME="the_jwt_cookie_to_parse"
+      - SMUI_JWT_PUBLIC_KEY=ummmmmmmm
+      - SMUI_JWT_ALGORITHMS=rsa
+      - SMUI_JWT_LOGIN_URL="http://keycloak:9080/login?callback=http://localhost:9000"
+      - SMUI_AUTH_LOGOUT_BTN_URL="http://keycloak:9080/login?callback=http://localhost:9000"
+      - SMUI_JWT_ROLES_JSON_PATH="dollarsign.roles"
+      - SMUI_JWT_AUTHORIZED_ROLE="MYORG-ADMIN,MYORG-SEARCHMANAGER"
     depends_on:
       - mysql
 
