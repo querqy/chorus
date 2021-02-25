@@ -99,9 +99,9 @@ echo -e "${MINOR}wait for security.json to be available to solr${RESET}"
 echo -e "${MAJOR}Package ecommerce configset.${RESET}"
 (cd solr/configsets/ecommerce/conf && zip -r - *) > ./solr/configsets/ecommerce.zip
 echo -e "${MINOR}post ecommerce.zip configset${RESET}"
-curl  --user solr:SolrRocks -X PUT --header "Content-Type:application/octet-stream" --data-binary @./solr/configsets/ecommerce.zip "http://localhost:8983/api/cluster/configs/ecommerce"
+curl -X PUT http://localhost:8983/api/cluster/configs/ecommerce -H "Authorization: Bearer ${KEYCLOAK_TOKEN}" -H "Content-Type:application/octet-stream" --data-binary @./solr/configsets/ecommerce.zip
 echo -e "${MAJOR}Create ecommerce collection.${RESET}"
-curl --user solr:SolrRocks -X POST http://localhost:8983/api/collections -H 'Content-Type: application/json' -d'
+curl -X POST http://localhost:8983/api/collections -H "Authorization: Bearer ${KEYCLOAK_TOKEN}" -H 'Content-Type: application/json' -d'
   {
     "create": {
       "name": "ecommerce",
@@ -118,7 +118,7 @@ if [ ! -f ./icecat-products-150k-20200809.tar.gz ]; then
     curl --progress-bar -o icecat-products-150k-20200809.tar.gz https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
 fi
 echo -e "${MAJOR}Populating products, please give it a few minutes!${RESET}"
-tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
+tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl -X POST http://localhost:8983/solr/ecommerce/update?commit=true --data-binary @- -H "Authorization: Bearer ${KEYCLOAK_TOKEN}" -H 'Content-type:application/json'
 
 echo -e "${MAJOR}Setting up SMUI${RESET}"
 SOLR_INDEX_ID=`curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"ecommerce", "description":"Ecommerce Demo"}' http://localhost:9000/api/v1/solr-index | jq -r .returnId`
