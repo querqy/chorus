@@ -67,6 +67,7 @@ services:
       - zoo1
       - zoo2
       - zoo3
+      - keycloak
 
   solr2:
     container_name: solr2
@@ -83,6 +84,7 @@ services:
       - zoo1
       - zoo2
       - zoo3
+      - keycloak
 
   solr3:
     container_name: solr3
@@ -99,6 +101,7 @@ services:
       - zoo1
       - zoo2
       - zoo3
+      - keycloak
 
   zoo1:
     image: zookeeper:3.6.2
@@ -234,6 +237,23 @@ services:
       - GF_USERS_ALLOW_SIGN_UP=true
     depends_on:
       - prometheus
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:12.0.2
+    container_name: keycloak
+    hostname: keycloak
+    command: ["-b", "0.0.0.0", "-Dkeycloak.migration.action=import", "-Dkeycloak.migration.provider=dir", "-Dkeycloak.migration.dir=/opt/jboss/keycloak/realm-config", "-Dkeycloak.migration.strategy=OVERWRITE_EXISTING", "-Djboss.socket.binding.port-offset=1000", "-Dkeycloak.profile.feature.upload_scripts=enabled"]
+    ports:
+      - 9080:9080
+      - 9443:9443
+      - 10990:10990
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_IMPORT: /tmp/keycloak/realm-export.json
+      DB_VENDOR: h2
+    volumes:
+      - ./keycloak/realm-config:/opt/jboss/keycloak/realm-config
 
 
 volumes:

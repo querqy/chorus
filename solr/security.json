@@ -1,16 +1,31 @@
 {
-"authentication":{
-   "class":"solr.BasicAuthPlugin",
-   "blockUnknown":"false",
-   "realm": "Credentials are solr:SolrRocks",
-   "credentials":{"solr":"IV0EHq1OnNrj6gvRCwvFwTrZ1+z1oBbnQdiVC3otuq0= Ndd7LKvVBAaZIF0QAVi1ekCfAJXr1GGfLtRUXhgrF8c="}
-},
-"authorization":{
-   "class":"solr.RuleBasedAuthorizationPlugin",
-   "user-role": {
-     "solr":"admin"
-   },
-   "permissions":[
-     {"name":"security-edit","role":"admin"}
-   ]
-}}
+  "authentication": {
+    "class": "solr.JWTAuthPlugin",
+    "realm": "myrealm",
+    "blockUnknown": true,
+    "requireIss": true,
+    "requireExp": true,
+    "principalClaim": "sub",
+    "adminUiScope": "solr:admin",
+    "scope": "solr:read solr:write solr:admin",
+    "algWhitelist": ["RS256", "RS384", "RS512"],
+    "issuers": [
+      {
+        "name": "keycloak",
+        "jwksUrl": "http://docker.for.mac.localhost:8080/auth/realms/myrealm/protocol/openid-connect/certs",
+        "authorizationEndpoint": "http://localhost:8080/auth/realms/myrealm/protocol/openid-connect/auth",
+        "clientId": "myclient",
+        "iss": "http://docker.for.mac.localhost:8080/auth/realms/myrealm"
+      }
+    ]
+  },
+  "authorization": {
+    "class": "solr.ExternalRoleRuleBasedAuthorizationPlugin",
+    "permissions": [
+      {
+      "name": "all",      "role": "solr:admin",
+      "name": "update",   "role": "solr:write"
+      }
+    ]
+  }
+}
