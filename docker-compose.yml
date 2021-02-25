@@ -246,10 +246,9 @@ services:
     ports:
       - 9080:9080
       - 9443:9443
-      - 10990:10990
     environment:
       KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_PASSWORD: password
       DB_VENDOR: h2
     volumes:
       - ./keycloak/realm-config:/opt/jboss/keycloak/realm-config

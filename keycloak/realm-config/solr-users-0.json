@@ -1,0 +1,28 @@
+{
+  "realm" : "solr",
+  "users" : [ {
+    "id" : "363f1245-b621-4312-a25c-b2a814576c2e",
+    "createdTimestamp" : 1614280815364,
+    "username" : "chorus_admin",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : false,
+    "firstName" : "Chorus",
+    "lastName" : "Admin",
+    "credentials" : [ {
+      "id" : "fc423743-ae0d-4010-908c-36bfd8415842",
+      "type" : "password",
+      "createdDate" : 1614280829409,
+      "secretData" : "{\"value\":\"K2jp3q1GutW74128TPeoI2U+w/YfcGAXDtMDIB1X+z9hWkKOjpgQHXVzDv9eNAA87qERZWcXiqg4myze3PZerQ==\",\"salt\":\"kQ3T7sRsrlesmITHsCYn4w==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":27500,\"algorithm\":\"pbkdf2-sha256\",\"additionalParameters\":{}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "offline_access", "uma_authorization" ],
+    "clientRoles" : {
+      "account" : [ "view-profile", "manage-account" ]
+    },
+    "notBefore" : 0,
+    "groups" : [ ]
+  } ]
+}

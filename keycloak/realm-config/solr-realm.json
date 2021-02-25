@@ -1,6 +1,6 @@
 {
-  "id": "myrealm",
-  "realm": "myrealm",
+  "id": "solr",
+  "realm": "solr",
   "notBefore": 0,
   "revokeRefreshToken": false,
   "refreshTokenMaxReuse": 0,
@@ -47,7 +47,7 @@
         "name": "solr:admin",
         "composite": false,
         "clientRole": false,
-        "containerId": "myrealm",
+        "containerId": "solr",
         "attributes": {}
       },
       {
@@ -56,7 +56,7 @@
         "description": "${role_offline-access}",
         "composite": false,
         "clientRole": false,
-        "containerId": "myrealm",
+        "containerId": "solr",
         "attributes": {}
       },
       {
@@ -65,7 +65,7 @@
         "description": "${role_uma_authorization}",
         "composite": false,
         "clientRole": false,
-        "containerId": "myrealm",
+        "containerId": "solr",
         "attributes": {}
       },
       {
@@ -73,7 +73,7 @@
         "name": "solr:read",
         "composite": false,
         "clientRole": false,
-        "containerId": "myrealm",
+        "containerId": "solr",
         "attributes": {}
       }
     ],
@@ -463,7 +463,7 @@
       "clientId": "account",
       "name": "${client_account}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/myrealm/account/",
+      "baseUrl": "/realms/solr/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
@@ -474,7 +474,7 @@
         "manage-account"
       ],
       "redirectUris": [
-        "/realms/myrealm/account/*"
+        "/realms/solr/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -510,14 +510,14 @@
       "clientId": "account-console",
       "name": "${client_account-console}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/myrealm/account/",
+      "baseUrl": "/realms/solr/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "/realms/myrealm/account/*"
+        "/realms/solr/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -821,14 +821,14 @@
       "clientId": "security-admin-console",
       "name": "${client_security-admin-console}",
       "rootUrl": "${authAdminUrl}",
-      "baseUrl": "/admin/myrealm/console/",
+      "baseUrl": "/admin/solr/console/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "/admin/myrealm/console/*"
+        "/admin/solr/console/*"
       ],
       "webOrigins": [
         "+"

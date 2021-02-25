@@ -1,7 +1,7 @@
 {
   "authentication": {
     "class": "solr.JWTAuthPlugin",
-    "realm": "myrealm",
+    "realm": "solr",
     "blockUnknown": true,
     "requireIss": true,
     "requireExp": true,
@@ -12,10 +12,10 @@
     "issuers": [
       {
         "name": "keycloak",
-        "jwksUrl": "http://keycloak:9080/auth/realms/myrealm/protocol/openid-connect/certs",
-        "authorizationEndpoint": "http://keycloak:9080/auth/realms/myrealm/protocol/openid-connect/auth",
+        "jwksUrl": "http://keycloak:9080/auth/realms/solr/protocol/openid-connect/certs",
+        "authorizationEndpoint": "http://keycloak:9080/auth/realms/solr/protocol/openid-connect/auth",
         "clientId": "myclient",
-        "iss": "http://keycloak:9080/auth/realms/myrealm"
+        "iss": "http://keycloak:9080/auth/realms/solr"
       }
     ]
   },

@@ -73,6 +73,15 @@ if $shutdown; then
   exit
 fi
 
+echo -e "${MAJOR}Setup Keycloak identity management and setup account.${RESET}"
+docker-compose up -d --build keycloak
+
+./keycloak/wait-for-keycloak.sh # Wait for Keycloak to be ready
+echo -e "${MINOR}About to ask for Token${RESET}"
+KEYCLOAK_TOKEN=`./keycloak-curl.sh keycloak:9080 solr myclient chorus_admin password`
+export KEYCLOAK_TOKEN=$KEYCLOAK_TOKEN
+echo -e "${MINOR}Obtained authentication token${RESET}"
+echo -e "${MINOR}${KEYCLOAK_TOKEN}${RESET}"
 docker-compose up -d --build ${services}
 
 echo -e "${MAJOR}Waiting for Solr cluster to start up and all three nodes to be online.${RESET}"
