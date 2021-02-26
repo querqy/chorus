@@ -23,8 +23,11 @@
     "class": "solr.ExternalRoleRuleBasedAuthorizationPlugin",
     "permissions": [
       {
-      "name": "all",      "role": "solr:admin",
-      "name": "update",   "role": "solr:write"
+      "name": "security-edit", "role": "solr:admin",
+      "name": "schema-edit", "role": "solr:admin",
+      "name": "config-edit", "role": "solr:admin",
+      "name": "core-admin-edit", "role": "solr:admin",
+      "name": "collection-admin-edit", "role": "solr:admin",       
       }
     ]
   }
