@@ -47,17 +47,14 @@ services:
       - SMUI_TOGGLE_SPELLING=true
       - SMUI_DEPLOY_PRELIVE_FN_REPLACE_TXT=/configs/ecommerce/replace-rules.txt
       - SMUI_TOGGLE_RULE_ID_LOGGING=true
+      - SMUI_TOGGLE_RULE_TAGGING=true
       - SMUI_HEADLINE=Chorus SMUI
       - SMUI_TOGGLE_EVENTHISTORY=true
       - SMUI_JWT_ACTIVE=true
+      - SMUI_JWT_AUTHORIZATION_ACTIVE=true
       - SMUI_AUTH_ACTION=controllers.auth.JWTJsonAuthenticatedAction
-      - SMUI_JWT_AUTH_COOKIE_NAME="the_jwt_cookie_to_parse"
-      - SMUI_JWT_PUBLIC_KEY=ummmmmmmm
-      - SMUI_JWT_ALGORITHMS=rsa
-      - SMUI_JWT_LOGIN_URL="http://keycloak:9080/login?callback=http://localhost:9000"
-      - SMUI_AUTH_LOGOUT_BTN_URL="http://keycloak:9080/login?callback=http://localhost:9000"
-      - SMUI_JWT_ROLES_JSON_PATH="dollarsign.roles"
-      - SMUI_JWT_AUTHORIZED_ROLE="MYORG-ADMIN,MYORG-SEARCHMANAGER"
+      - SMUI_JWT_PUBLIC_KEY=c3b470c9-e217-4cce-b307-8edeb1141008
+      - SMUI_JWT_LOGIN_URL=http://keycloak:9080/auth/realms/smui/protocol/openid-connect/auth
     depends_on:
       - mysql
 
