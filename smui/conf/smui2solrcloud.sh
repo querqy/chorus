@@ -37,46 +37,27 @@ function deploy_rules_txt {
 }
 
 echo "^-- ... rules.txt"
-deploy_rules_txt $SRC_TMP_FILE $DST_CP_FILE_TO
-
-echo "^-- ... decompound-rules.txt"
-if ! [[ $DECOMPOUND_DST_CP_FILE_TO == "NONE" ]]
-then
-    deploy_rules_txt "$SRC_TMP_FILE-2" $DECOMPOUND_DST_CP_FILE_TO
+#deploy_rules_txt $SRC_TMP_FILE $DST_CP_FILE_TO
+python3 /smui/conf/push_common_rules.py $SRC_TMP_FILE "http://$SOLR_HOST/solr/$SOLR_CORE_NAME/querqy/rewriter/common_rules"
+if [ $? -ne 0 ]; then
+  exit 16
 fi
+
+
+
+#echo "^-- ... decompound-rules.txt"
+#if ! [[ $DECOMPOUND_DST_CP_FILE_TO == "NONE" ]]
+#then
+#    deploy_rules_txt "$SRC_TMP_FILE-2" $DECOMPOUND_DST_CP_FILE_TO
+#fi
 
 echo "^-- ... replace-rules.txt"
 if ! [[ $REPLACE_RULES_SRC_TMP_FILE == "NONE" && $REPLACE_RULES_DST_CP_FILE_TO == "NONE" ]]
 then
-    deploy_rules_txt $REPLACE_RULES_SRC_TMP_FILE $REPLACE_RULES_DST_CP_FILE_TO
+    python3 /smui/conf/push_replace.py $REPLACE_RULES_SRC_TMP_FILE "http://$SOLR_HOST/solr/$SOLR_CORE_NAME/querqy/rewriter/replace"
 fi
 
-# CORE RELOAD
-#####
 
-echo "^-- Perform collection reload for SOLR_HOST = $SOLR_HOST, SOLR_CORE_NAME = $SOLR_CORE_NAME"
-
-if ! [[ $SOLR_HOST == "NONE" ]]
-then
-	# TODO only core reload over http possible. make configurable.
-	SOLR_STATUS=$(curl -s -i -XGET "http://$SOLR_HOST/solr/admin/collections?wt=xml&action=RELOAD&name=$SOLR_CORE_NAME")
-
-	if [ $? -ne 0 ]; then
-		exit 16
-	fi
-
-	if ! [[ $SOLR_STATUS ==  *"200 OK"* ]]
-	then
-		>&2 echo "Error reloading Solr collection: $SOLR_STATUS"
-		exit 17
-	fi
-
-	if ! [[ $SOLR_STATUS ==  *"<int name=\"status\">0</int>"* ]]
-	then
-		>&2 echo "Error reloading Solr collection: $SOLR_STATUS"
-		exit 18
-	fi
-fi
 
 # all ok
 echo "smui2solrcloud.sh - ok"
