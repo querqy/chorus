@@ -47,8 +47,14 @@ services:
       - SMUI_TOGGLE_SPELLING=true
       - SMUI_DEPLOY_PRELIVE_FN_REPLACE_TXT=/configs/ecommerce/replace-rules.txt
       - SMUI_TOGGLE_RULE_ID_LOGGING=true
+      - SMUI_TOGGLE_RULE_TAGGING=true
       - SMUI_HEADLINE=Chorus SMUI
       - SMUI_TOGGLE_EVENTHISTORY=true
+      - SMUI_JWT_ACTIVE=true
+      - SMUI_JWT_AUTHORIZATION_ACTIVE=true
+      - SMUI_AUTH_ACTION=controllers.auth.JWTJsonAuthenticatedAction
+      - SMUI_JWT_PUBLIC_KEY=c3b470c9-e217-4cce-b307-8edeb1141008
+      - SMUI_JWT_LOGIN_URL=http://keycloak:9080/auth/realms/smui/protocol/openid-connect/auth
     depends_on:
       - mysql
 
@@ -60,6 +66,7 @@ services:
     environment:
       - SOLR_OPTS=-XX:-UseLargePages
       - SOLR_HEAP=800m
+      - SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
     volumes:
       - ./volumes/fake_shared_fs:/tmp/fake_shared_fs
@@ -67,6 +74,7 @@ services:
       - zoo1
       - zoo2
       - zoo3
+      - keycloak
 
   solr2:
     container_name: solr2
@@ -76,6 +84,7 @@ services:
     environment:
       - SOLR_OPTS=-XX:-UseLargePages
       - SOLR_HEAP=800m
+      - SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
     volumes:
       - ./volumes/fake_shared_fs:/tmp/fake_shared_fs
@@ -83,6 +92,7 @@ services:
       - zoo1
       - zoo2
       - zoo3
+      - keycloak
 
   solr3:
     container_name: solr3
@@ -92,6 +102,7 @@ services:
     environment:
       - SOLR_OPTS=-XX:-UseLargePages
       - SOLR_HEAP=800m
+      - SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
     volumes:
       - ./volumes/fake_shared_fs:/tmp/fake_shared_fs
@@ -99,6 +110,7 @@ services:
       - zoo1
       - zoo2
       - zoo3
+      - keycloak
 
   zoo1:
     image: zookeeper:3.6.2
@@ -234,6 +246,21 @@ services:
       - GF_USERS_ALLOW_SIGN_UP=true
     depends_on:
       - prometheus
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:12.0.2
+    container_name: keycloak
+    hostname: keycloak
+    command: ["-b", "0.0.0.0", "-Dkeycloak.migration.action=import", "-Dkeycloak.migration.provider=dir", "-Dkeycloak.migration.dir=/opt/jboss/keycloak/realm-config", "-Dkeycloak.migration.strategy=OVERWRITE_EXISTING", "-Djboss.socket.binding.port-offset=1000", "-Dkeycloak.profile.feature.upload_scripts=enabled"]
+    ports:
+      - 9080:9080
+      - 9443:9443
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: password
+      DB_VENDOR: h2
+    volumes:
+      - ./keycloak/realm-config:/opt/jboss/keycloak/realm-config
 
 
 volumes:
