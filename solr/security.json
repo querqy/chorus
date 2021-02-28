@@ -2,7 +2,7 @@
   "authentication": {
     "class": "solr.JWTAuthPlugin",
     "realm": "solr",
-    "blockUnknown": true,
+    "blockUnknown": false,
     "requireIss": true,
     "requireExp": true,
     "principalClaim": "sub",
@@ -23,11 +23,16 @@
     "class": "solr.ExternalRoleRuleBasedAuthorizationPlugin",
     "permissions": [
       {
+      "name": "security-read", "role": "solr:admin",
       "name": "security-edit", "role": "solr:admin",
+      "name": "schema-read", "role": "solr:admin",
       "name": "schema-edit", "role": "solr:admin",
+      "name": "config-read", "role": "solr:admin",
       "name": "config-edit", "role": "solr:admin",
+      "name": "core-admin-read", "role": "solr:admin",
       "name": "core-admin-edit", "role": "solr:admin",
-      "name": "collection-admin-edit", "role": "solr:admin",       
+      "name": "collection-admin-read", "role": "solr:admin",      
+      "name": "collection-admin-edit", "role": "solr:admin",
       }
     ]
   }
