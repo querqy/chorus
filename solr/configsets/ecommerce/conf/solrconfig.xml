@@ -28,6 +28,26 @@
   <query>
     <listener event="firstSearcher" class="querqy.solr.ClassicRewriteChainLoader">
       <lst name="rewriteChain">
+        
+      <!-- @see https://querqy.org/docs/querqy/rewriters/replace.html#querqy-rewriters-replace -->
+        <lst name="rewriter">
+            <str name="id">replace</str>
+            <str name="class">querqy.solr.rewriter.replace.ReplaceRewriterFactory</str>
+            <!-- This file connects to SMUI config (@see /chorus/docker-compose.yml) -->
+            <str name="rules">replace-rules.txt</str>
+            <bool name="ignoreCase">true</bool>
+            <str name="inputDelimiter">;</str>
+            <str name="querqyParser">querqy.rewrite.commonrules.WhiteSpaceQuerqyParserFactory</str>
+        </lst>
+
+        <lst name="rewriter">
+           <str name="id">word_break</str>
+           <str name="class">querqy.solr.rewriter.wordbreak.WordBreakCompoundRewriterFactory</str>
+           <str name="dictionaryField">dictionary</str>
+           <bool name="decompound.verifyCollation">true</bool>
+           <bool name="lowerCaseInput">true</bool>
+        </lst>
+
         <lst name="rewriter">
           <str name="id">common_rules</str>
           <str name="class">querqy.solr.rewriter.commonrules.CommonRulesRewriterFactory</str>
@@ -46,7 +66,9 @@
   <!--
     Add the Querqy request handler.
   -->
-  <requestHandler name="/querqy/rewriter" class="querqy.solr.QuerqyRewriterRequestHandler" />
+  <requestHandler name="/querqy/rewriter" class="querqy.solr.QuerqyRewriterRequestHandler">
+     <bool name="inMemory">true</bool>
+  </requestHandler>
 
   <!-- The default handler should be specified this way, however to support
   the legacy qt=querqy parameter we need to change to what's below.
@@ -104,7 +126,7 @@
       <str name="qf">name title product_type short_description ean search_attributes</str>
 
       <str name="defType">querqy</str>
-      <str name="querqy.rewriters">common_rules</str>
+      <str name="querqy.rewriters">replace,word_break,common_rules</str>
 
       <str name="tie">0.01</str>
       <str name="mm">100&#37;</str>
@@ -151,3 +173,4 @@
 
 
 </config>
+
