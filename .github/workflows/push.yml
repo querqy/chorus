@@ -7,7 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Setup Keycloak address
-        run: echo "127.0.0.1  keycloak" >> /etc/hosts
+        run: sudo echo "127.0.0.1  keycloak" >> /etc/hosts
       - name: Build the stack
         run: ./quickstart.sh
       - name: Test
