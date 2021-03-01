@@ -7,7 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Add hosts to /etc/hosts
-        run: sudo echo "127.0.0.1 keycloak" | sudo tee -a /etc/hosts
+        run: sudo echo "0.0.0.0 keycloak" | sudo tee -a /etc/hosts
       - name: Build the stack
         run: ./quickstart.sh
       - name: Test
