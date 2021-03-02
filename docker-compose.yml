@@ -54,7 +54,7 @@ services:
       - SMUI_JWT_AUTHORIZATION_ACTIVE=true
       - SMUI_AUTH_ACTION=controllers.auth.JWTJsonAuthenticatedAction
       - SMUI_JWT_PUBLIC_KEY=c3b470c9-e217-4cce-b307-8edeb1141008
-      - SMUI_JWT_LOGIN_URL=http://keycloak:9080/auth/realms/smui/protocol/openid-connect/auth
+      - SMUI_JWT_LOGIN_URL=http://keycloak:9080/auth/realms/smui/protocol/openid-connect/auth?client_id=smui&response_type=code&redirect_uri=http://localhost:9000
     depends_on:
       - mysql
 
