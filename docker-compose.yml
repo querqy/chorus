@@ -52,9 +52,11 @@ services:
       - SMUI_TOGGLE_EVENTHISTORY=true
       - SMUI_JWT_ACTIVE=true
       - SMUI_JWT_AUTHORIZATION_ACTIVE=true
-      - SMUI_AUTH_ACTION=controllers.auth.JWTJsonAuthenticatedAction
-      - SMUI_JWT_PUBLIC_KEY=c3b470c9-e217-4cce-b307-8edeb1141008
-      - SMUI_JWT_LOGIN_URL=http://keycloak:9080/auth/realms/smui/protocol/openid-connect/auth?client_id=smui&response_type=code&redirect_uri=http://localhost:9000
+      - SMUI_AUTH_ACTION=controllers.auth.JWTOpenIdAuthenticatedAction
+      - SMUI_JWT_LOGIN_URL=http://keycloak:9080/auth/realms/smui/protocol/openid-connect/auth?client_id=smui&response_type=code&redirect_uri=http://localhost:9000/auth/openid/callback
+      - SMUI_JWKS_URL=http://localhost:9080/auth/realms/smui/protocol/openid-connect/certs
+      - SMUI_JWT_AUTHORIZED_ROLES=smui:searchandizer
+      - SMUI_JWT_ROLES_JSON_PATH=scope
     depends_on:
       - mysql
 
