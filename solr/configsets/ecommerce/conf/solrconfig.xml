@@ -91,9 +91,7 @@
       <str name="qf">name title product_type short_description ean search_attributes</str>
 
       <str name="defType">querqy</str>
-<!--
-      <str name="querqy.rewriters">replace,word_break,common_rules</str>
--->
+
       <str name="querqy.rewriters">replace,common_rules</str>
       <str name="tie">0.01</str>
       <str name="mm">100&#37;</str>
@@ -140,4 +138,3 @@
 
 
 </config>
-
