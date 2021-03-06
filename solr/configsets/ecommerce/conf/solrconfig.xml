@@ -23,6 +23,7 @@
   </updateHandler>
 
   <queryParser name="querqy" class="querqy.solr.QuerqyDismaxQParserPlugin">
+    <!-- this param should be skipUnknownRewriters, see https://github.com/querqy/querqy/pull/170 -->
     <bool name="skipUnkownRewriters">true</bool>
   </queryParser>
 
