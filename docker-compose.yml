@@ -1,4 +1,4 @@
-version: '3'   # on CircleCI the version and services cause build to puke.
+version: '3'
 services:
 
   blacklight:
