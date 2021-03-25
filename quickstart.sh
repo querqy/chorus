@@ -112,7 +112,6 @@ curl -X POST http://localhost:8983/api/collections -H "Authorization: Bearer ${K
     }
   }
 '
-exit
 
 if [ ! -f ./icecat-products-150k-20200809.tar.gz ]; then
     echo -e "${MAJOR}Downloading the sample product data.${RESET}"
