@@ -195,7 +195,7 @@ services:
       - solr1
 
   solr-exporter:
-    image: solr:8.7.0
+    image: solr:8.8.0
     container_name: solr-exporter
     hostname: solr-exporter
     ports:
