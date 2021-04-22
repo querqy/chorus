@@ -12,8 +12,8 @@ Towards an open source tool stack for e-commerce search.
 * SMUI runs at http://localhost:9000 |  http://chorus.dev.o19s.com:9000
 * Quepid runs at http://localhost:3000 |  http://chorus.dev.o19s.com:3000
 * RRE runs at http://localhost:7979 |  http://chorus.dev.o19s.com:7979
-* Grafana runs at http://localhost:9090 |  http://chorus.dev.o19s.com:9090
-* Prometheus runs at http://localhost:9091 |  http://chorus.dev.o19s.com:9091
+* Prometheus runs at http://localhost:9090 |  http://chorus.dev.o19s.com:9090
+* Grafana runs at http://localhost:9091 |  http://chorus.dev.o19s.com:9091
 
 Working with macOS?   Pop open all the tuning related web pages:
 > open http://localhost:4000 http://localhost:8983 http://localhost:9000 http://localhost:3000 http://localhost:7979
