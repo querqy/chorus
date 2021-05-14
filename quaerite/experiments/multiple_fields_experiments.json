@@ -1,0 +1,84 @@
+{
+  "scorers": [
+    {
+      "class": "AtLeastOneAtN",
+      "atN": 1
+    },
+    {
+      "class": "AtLeastOneAtN",
+      "atN": 3
+    },
+    {
+      "class": "AtLeastOneAtN",
+      "atN": 5
+    },
+    {
+      "class": "AtLeastOneAtN",
+      "atN": 10
+    },
+    {
+      "class": "AtLeastOneAtN",
+      "atN": 30
+    },
+    {
+      "class": "NDCG",
+      "atN": 10,
+      "params": {
+        "useForTrain": true,
+        "useForTest": true,
+        "exportPMatrix": true
+      }
+    },
+    {
+      "class": "TotalDocsReturned"
+    },
+    {
+      "class": "TotalElapsedTime"
+    }
+  ],
+  "experiments": {
+    "title_name_brand": {
+      "serverConnection": {
+        "url" : "http://solr1:8983/solr/ecommerce"
+      },
+      "query": {
+        "edismax": {
+          "qf": [
+            "title",
+            "name",
+            "brand"
+          ]
+        }
+      }
+    },
+    "title_name_brand_weights1": {
+      "serverConnection": {
+        "url" : "http://solr1:8983/solr/ecommerce"
+      },
+      "query": {
+        "edismax": {
+          "qf": [
+            "title^2",
+            "name^10",
+            "brand^1"
+          ]
+        }
+      }
+    },
+    "title_name_brand_weights2": {
+      "serverConnection": {
+        "url" : "http://solr1:8983/solr/ecommerce"
+      },
+      "query": {
+        "edismax": {
+          "qf": [
+            "title^10",
+            "name^12",
+            "brand^1"
+          ],
+          "tie":0.01
+        }
+      }
+    }
+  }
+}

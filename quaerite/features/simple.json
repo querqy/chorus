@@ -1,0 +1,73 @@
+{
+  "gaConfig": {
+    "numThreads": 6,
+    "population": 15,
+    "generations": 5,
+    "crossoverProbability": 0.1,
+    "mutationProbability": 0.8,
+    "mutationAmplitude": 0.1,
+    "reproductionProbability": 0.1,
+    "nFolds": 4
+  },
+  "scorers": [
+    {
+      "class": "AtLeastOneAtN",
+      "atN": 1
+    },
+    {
+      "class": "AtLeastOneAtN",
+      "atN": 3
+    },
+    {
+      "class": "AtLeastOneAtN",
+      "atN": 5
+    },
+    {
+      "class": "AtLeastOneAtN",
+      "atN": 10
+    },
+    {
+      "class": "AtLeastOneAtN",
+      "atN": 30
+    },
+    {
+      "class": "NDCG",
+      "atN": 10,
+      "params": {
+        "useForTrain": true,
+        "useForTest": true,
+        "exportPMatrix": true
+      }
+    },
+    {
+      "class": "TotalDocsReturned"
+    },
+    {
+      "class": "TotalElapsedTime"
+    }
+  ],
+  "featureFactories": {
+    "serverConnection": [
+      {
+        "url": "http://solr1:8983/solr/ecommerce"
+      }
+    ],
+    "query": {
+      "edismax": {
+        "qf": {
+          "fields": [
+            "name",
+            "title",
+            "product_type",
+            "short_description",
+            "ean",
+            "search_attributes",
+            "brand"
+          ],
+          "minSetSize": 1,
+          "maxSetSize": 3
+        }
+      }
+    }
+  }
+}
