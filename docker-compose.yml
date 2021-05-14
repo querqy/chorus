@@ -1,4 +1,4 @@
-version: '3'   # on CircleCI the version and services cause build to puke.
+version: '3'
 services:
 
   blacklight:
@@ -58,6 +58,8 @@ services:
     ports:
      - "8983:8983"
     environment:
+      - SOLR_OPTS=-XX:-UseLargePages
+      - SOLR_HEAP=800m
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
     volumes:
       - ./volumes/fake_shared_fs:/tmp/fake_shared_fs
@@ -72,6 +74,8 @@ services:
     ports:
      - "8984:8983"
     environment:
+      - SOLR_OPTS=-XX:-UseLargePages
+      - SOLR_HEAP=800m
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
     volumes:
       - ./volumes/fake_shared_fs:/tmp/fake_shared_fs
@@ -86,6 +90,8 @@ services:
     ports:
      - "8985:8983"
     environment:
+      - SOLR_OPTS=-XX:-UseLargePages
+      - SOLR_HEAP=800m
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
     volumes:
       - ./volumes/fake_shared_fs:/tmp/fake_shared_fs
@@ -205,7 +211,7 @@ services:
       - solr1
 
   solr-exporter:
-    image: solr:8.7.0
+    image: solr:8.8.0
     container_name: solr-exporter
     hostname: solr-exporter
     ports:

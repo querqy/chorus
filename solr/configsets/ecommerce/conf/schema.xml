@@ -37,7 +37,7 @@ for demo purposes
     field names to what Chorus expects.
    -->
   <field name="product_type" type="text_stemmed_en" indexed="true" stored="true"/>
-  <field name="brand" type="text_stemmed_en" indexed="true" stored="true"/>
+  <field name="brand" type="text_general" indexed="true" stored="true"/>
   <field name="filter_brand" type="string" indexed="true" stored="true"/>
   <field name="filter_product_type" type="string" indexed="true" stored="true"/>
 
