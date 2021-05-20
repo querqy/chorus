@@ -75,7 +75,7 @@
       <str name="indent">true</str>
       <!-- we actually don't want to use the default field -->
       <str name="df">id</str>
-      <str name="qf">name title product_type short_description ean search_attributes</str>
+      <str name="qf">id name title product_type short_description ean search_attributes</str>
       <str name="defType">edismax</str>
       <str name="tie">0.01</str>
 
