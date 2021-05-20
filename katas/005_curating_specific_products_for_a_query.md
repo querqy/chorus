@@ -6,7 +6,7 @@ In this Kata, we're going to learn how to throw all that fancy algorithmic power
 
 Visit the web store at http://localhost:4000/ and make sure the drop down has _Default Algo_ next to the search bar selected.   Now do a search for _projector_, and notice that we're getting a lot of accessories for projectors.   While we have learned how to tune this to return fewer accessories to projectors, sometimes you just want to hardcode the specific projectors to return!
 
-We have three projectors that we want to return, and they have the `id`'s 49058, 77190520, 3795453.
+We have three specific projectors that we want to return for this query, and they have the `id`'s 49058, 77190520, 3795453:
 
 ![HP vp6110 Digital Projector](http://images.icecat.biz/img/gallery_mediums/49058_7366366110.jpg)
 ![Philips PPX320](http://images.icecat.biz/img/gallery_mediums/77190520_9591890324.jpg)
