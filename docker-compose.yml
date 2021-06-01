@@ -166,8 +166,6 @@ services:
       - RAILS_LOG_TO_STDOUT=true
       - RAILS_SERVE_STATIC_FILES=true
       - SECRET_KEY_BASE=chorus_key
-      - RAILS_LOG_TO_STDOUT=true
-      - RAILS_SERVE_STATIC_FILES=true
       - TC_URL=
       - PRIVACY_URL=
       - COOKIES_URL=
