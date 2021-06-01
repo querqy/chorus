@@ -103,7 +103,6 @@ services:
   zoo1:
     image: zookeeper:3.6.2
     container_name: zoo1
-    restart: always
     hostname: zoo1
     ports:
       - 2181:2181
@@ -118,7 +117,6 @@ services:
   zoo2:
     image: zookeeper:3.6.2
     container_name: zoo2
-    restart: always
     hostname: zoo2
     ports:
       - 2182:2181
@@ -133,7 +131,6 @@ services:
   zoo3:
     image: zookeeper:3.6.2
     container_name: zoo3
-    restart: always
     hostname: zoo3
     ports:
       - 2183:2181
