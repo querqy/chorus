@@ -27,6 +27,13 @@ If you are impatient, we have a quick start script, `./quickstart.sh` that sets 
 
 After that, you can learn how to use the tools in Chorus to improve search in [First Kata: Lets Optimize a Query](katas/001_optimize_a_query.md).
 
+After that, you can learn about how to use all the tools in Chorus to improve search by following these Katas:
+
+1. First Kata: [Lets Optimize a Query](katas/001_optimize_a_query.md)
+1. Second Kata: [How to Sell Search Keywords and Terms](katas/002_how_to_sell_search_keywords.md)
+1. Kata 003: [Observability in Chorus](katas/003_observability_in_chorus.md)
+1. Fourth Kata: [How to Gather Human Judgements](katas/004_gathering_human_judgements.md)
+1. Fifth Kata: [Some days you just KNOW what the right products are for a query!](katas/005_curating_specific_products_for_a_query.md)
 
 
 
