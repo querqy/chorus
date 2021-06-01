@@ -63,13 +63,13 @@ Go ahead and map `"summer fun"` to the keyword _projector_ using a unidirectiona
 
 ## Summary
 
-The first approach we did was the simplest to think about because we are JUST filtering.
+The first approach we did was the simplest to think about because we are JUST filtering down a long list of results.
 
-The second approach was good to bring in new products with that don't match a query, though the combination of `SYNONYM` and `FILTER` is a bit awkward to reason about.  Maybe a place to enhance the Query rules?
+The second approach was good to bring in new products with that don't naturally match a query, though the combination of `SYNONYM` and `FILTER` is a bit awkward to reason about.  Maybe a place to enhance the Query rules?
 
 The third option simplifies things when you need custom searches like _summer fun_ or maybe you have a landing page driven by search where the query would be _landingpage_summer_ and you want to use SMUI to control which products are on the landing page.
 
 Each of these approaches lets you curate your search results, however none of them let you control the sort order.   They are sorted by the natural index order.   If you wanted to sort them, like in the milk example I gave, you would need to have some sort of value like a `popularity` field that then was part of the search query to sort the most popular item to the beginning of the list.   Being able to manually control the sort order might be a good enhancement for the future!
 
 
-_One more thing, with our Icecat dataset we could have used the (EAN)[https://www.hellotax.com/blog/amazon/definitions/ean-number/] numbers for each product instead of the internal `id` which might be easier for a Searchandizer to keep track of._
+_One more thing, with our Icecat dataset we could have used the [EAN](https://www.hellotax.com/blog/amazon/definitions/ean-number/) numbers for each product instead of the internal `id` which might be easier for a Searchandizer to keep track of._
