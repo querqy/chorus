@@ -23,8 +23,7 @@
   </updateHandler>
 
   <queryParser name="querqy" class="querqy.solr.QuerqyDismaxQParserPlugin">
-    <!-- this param should be skipUnknownRewriters, see https://github.com/querqy/querqy/pull/170 -->
-    <bool name="skipUnkownRewriters">true</bool>
+    <bool name="skipUnknownRewriters">true</bool>
     <lst name="infoLogging">
       <!--
         Define a 'sink' named 'responseSink' to which the logging information
@@ -50,6 +49,14 @@
       -->
       <lst name="mapping">
         <str name="rewriter">common_rules</str>
+        <str name="sink">responseSink</str>
+      </lst>
+      <!--
+        Send the logging information from rewriter 'regex' to sink
+        'responseSink' as well:
+      -->
+      <lst name="mapping">
+        <str name="rewriter">regex</str>
         <str name="sink">responseSink</str>
       </lst>
 

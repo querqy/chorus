@@ -138,7 +138,9 @@ class CatalogController < ApplicationController
     #   The ordering of the field names is the order of the display
     #config.add_show_field 'title', label: 'Title'
     config.add_show_field 'brand', label: 'Brand'
-    config.add_show_field 'product_type', label: 'Product Type'
+    config.add_show_field 'attr_t_product_type', label: 'Product Type'
+    config.add_show_field 'attr_t_aspect_ratio', label: 'Aspect Ratio'
+    #config.add_show_field 'product_type', label: 'Product Type'
     config.add_show_field 'short_description', label: 'Short Desc'
     config.add_show_field 'ean', label: 'EAN'
     config.add_show_field 'date_released', label: 'Released', helper_method: 'prettify_date'
