@@ -129,7 +129,7 @@
 
       <str name="defType">querqy</str>
 
-      <str name="querqy.rewriters">replace,common_rules</str>
+      <str name="querqy.rewriters">replace,common_rules,regex</str>
       <str name="querqy.infoLogging">on</str>
       <str name="tie">0.01</str>
       <str name="mm">100&#37;</str>

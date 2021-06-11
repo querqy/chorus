@@ -23,3 +23,33 @@ how about if we get `\d+:\d+` as our regex?   So 4:3, 16:10 and any ohters match
            }
       }
 ```
+
+Our command, with the regex backslashes being escaped
+```
+curl -X POST 'http://localhost:8983/solr/ecommerce/querqy/rewriter/regex?action=save' -d '
+{
+  "class": "querqy.regex.solr.RegexFilterRewriterFactory",
+  "config": {
+    "regex":"\\d+:\\d+",
+    "filter" : "* attr_t_aspect_ratio:*",
+  }
+}
+'
+```
+
+```
+curl -X POST 'http://localhost:8983/solr/ecommerce/querqy/rewriter/regex?action=save' -d '
+{
+  "class": "querqy.regex.solr.RegexFilterRewriterFactory",
+  "config": {
+    "regex":"\\d+:\\d+",
+    "filter" : "* product_type:notebook"
+  }
+}
+'
+```
+
+check it via `http://localhost:8983/solr/ecommerce/querqy/rewriter/regex`
+
+
+Now lets test!
