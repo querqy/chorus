@@ -32,9 +32,9 @@ Want to stay up-to-date with the project? Join the [E-Commerce Search Slack](htt
 
 
 # What Runs Where
-We host a complete demonstration environment on http://chorus.dev.o19s.com.  _Please note the Demo store isn't always available_.
+We host a complete demonstration environment online for you to play with, see links below.  _Please note the Demo store isn't always available_.
 
-* Demo "Chorus Electronics" store runs at http://localhost:4000  |  http://chorus.dev.o19s.com:4000
+* "Chorus Electronics" store runs at http://localhost:4000  |  http://chorus.dev.o19s.com:4000
 * Solr runs at http://localhost:8983 |  http://chorus.dev.o19s.com:8983
 * SMUI runs at http://localhost:9000 |  http://chorus.dev.o19s.com:9000
 * Quepid runs at http://localhost:3000 |  http://chorus.dev.o19s.com:3000
