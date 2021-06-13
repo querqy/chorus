@@ -1,4 +1,4 @@
-# Kata 0: Setting up Chorus
+# Kata 000: Setting up Chorus
 
 We use a Docker Compose based environment to manage firing up all the components of the Chorus stack, but then have you go through loading the data and configuring the components.
 
@@ -15,10 +15,19 @@ Firstly, we're using SolrCloud, so this means a few more steps to set up our _ec
 docker cp ./solr/security.json solr1:/security.json
 docker exec solr1 solr zk cp /security.json zk:security.json -z zoo1:2181
 
-(cd solr/solr_home/ecommerce/conf && zip -r - *) > ./solr/solr_home/ecommerce.zip
-curl  --user solr:SolrRocks -X POST --header "Content-Type:application/octet-stream" --data-binary @./solr/solr_home/ecommerce.zip "http://localhost:8983/solr/admin/configs?action=UPLOAD&name=ecommerce"
+(cd solr/configsets/ecommerce/conf && zip -r - *) > ./solr/configsets/ecommerce.zip
+curl  --user solr:SolrRocks -X POST --header "Content-Type:application/octet-stream" --data-binary @./solr/configsets/ecommerce.zip "http://localhost:8983/api/cluster/configs/ecommerce"
 
-docker exec solr1 solr create_collection -c ecommerce -n ecommerce -shards 2 -replicationFactor 1
+curl --user solr:SolrRocks -X POST http://localhost:8983/api/collections -H 'Content-Type: application/json' -d'
+  {
+    "create": {
+      "name": "ecommerce",
+      "config": "ecommerce",
+      "numShards": 2,
+      "replicationFactor": 1,
+      "waitForFinalState": true
+    }
+'
 ```
 
 We now have a two shard _ecommerce_ collection
@@ -33,6 +42,7 @@ If you are on a Linux type system, you should be able to stream the data right f
 
 Otherwise you'll need to uncompress the .tar.gz file and then post with Curl:
 
+> gunzip -c icecat-products-150k-20200809.tar.gz | tar xopf - #For Mac OS
 > curl 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @icecat-products-150k-20200809.json -H 'Content-type:application/json'
 
 The sample data will take a couple of minutes (like 5!) to load.
