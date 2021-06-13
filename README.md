@@ -1,5 +1,4 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Build](https://github.com/querqy/chorus/actions/workflows/push/badge.svg)]
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fquerqy%2Fchorus%2Fbadge%3Fref%3Dmaster&style=flat)](https://actions-badge.atrox.dev/querqy/chorus/goto?ref=master)
 
 
@@ -10,13 +9,13 @@ Chorus
 
 *Towards an open source tool stack for e-commerce search*
 
-Chorus makes deploying powerful ecommerce search easier by shifting the buy vs build decision in favour of build, so you can own your search! It deals with three issues:
+Chorus makes deploying powerful ecommerce search easier by shifting the **buy vs build** decision in favour of **build**, so you can own your search! It deals with three issues:
 
-1. **Our collaboration stinks** Making holistic progress on search requires deep, cross-functional collaboration. Shooting emails or tracking search requirements in spreadsheets won't cut it.
+1. **Starting from Scratch is Time Consuming** Downloading a open source search engine isn't enough, it's like getting the parts of a Lego model, only without the directions ;-) .  We need a better baseline to quickly get started.  
 
-2. ***Search testing is hard*** Search changes are cross-cutting: most changes will cause problems. Testing is difficult: you can't run hundreds of searches after every relevance change.
+2. **Integration of Tooling is Hard** Search isn't just the index, it's also the analytics tooling, the relevance tooling, the operational monitoring that goes into it.  Every team starts incurs the penalty of starting from scratch integrating the ecosystem of options.
 
-3. **Iterations are slow** Moving forward seems impossible. To avoid sliding backwards, progress is slow. Many simply give up on search, depriving users of the means to find critical information.
+3. ***Sharing Knowledge is a Must!*** It isn't enough to just have conference talks, we need sample code and sample data in order to share knowledge about improving ecommerce search. Chorus is that public environment that you can use to share your next great idea!
 
 
 [Explore a demo](https://fivethirtyeight.datasettes.com/fivethirtyeight), watch [a video about the project](https://www.youtube.com/watch?v=aoWx7KJzvCs) or try it out by [running the quickstart.sh script](#5-minutes-to-run-chorus)
@@ -33,6 +32,7 @@ Want to stay up-to-date with the project? Subscribe to the [Datasette Weekly new
 
 
 # What Runs Where
+We host a complete demonstration environment on http://chorus.dev.o19s.com.  _Please note the Demo store isn't always available_.
 
 * Demo "Chorus Electronics" store runs at http://localhost:4000  |  http://chorus.dev.o19s.com:4000
 * Solr runs at http://localhost:8983 |  http://chorus.dev.o19s.com:8983
@@ -42,7 +42,7 @@ Want to stay up-to-date with the project? Subscribe to the [Datasette Weekly new
 * Prometheus runs at http://localhost:9090 |  http://chorus.dev.o19s.com:9090
 * Grafana runs at http://localhost:9091 |  http://chorus.dev.o19s.com:9091
 
-Working with macOS?   Pop open all the tuning related web pages:
+Working with macOS?   Pop open all the tuning related web pages with one terminal command:
 > open http://localhost:4000 http://localhost:8983 http://localhost:9000 http://localhost:3000 http://localhost:7979
 
 
