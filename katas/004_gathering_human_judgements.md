@@ -1,5 +1,7 @@
 # Fourth Kata: How to Gather Human Judgements
 
+<i><a href="https://opensourceconnections.com/blog/2020/12/18/pete-finds-out-how-to-rate-search-results/" target="_BLANK">Read the blog, watch the video version of this Kata</a></i>
+
 We've done basic Searchandizing by fixing _notebook_ and _laptop_ queries, however we're realizing that as we make changes to our core algorithm that we are risking getting to a point where we make changes that have unintended side effects.  The dreaded [Whac-A-Mole](https://en.wikipedia.org/wiki/Whac-A-Mole) game.  We also are realizing that we need to extract from the heads of our team a definition of what good search looks like.  Ideally we would use our customers, but in place of actual customers, we'll work with our customer support team to build out some *judgements*, to function as our test data set for measure relevancy.  
 
 You'll recall that in Kata 001: Optimize a Query we actually did set up a case with the _laptop_ and _notebook_ queries.  However, lets now do slightly more comprehensive set of ratings.   We have [sourced a list of 125 queries](https://docs.google.com/spreadsheets/d/1y8ZS53CdHtTcSVPVTqnysQOGRtd7uRKvmKlj3RztEsA/edit?usp=sharing) that represent a broad set of queries on Chorus Electronics.  (In the real world we would source them from query logs!)

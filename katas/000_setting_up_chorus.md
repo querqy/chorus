@@ -1,6 +1,5 @@
 # Kata 000: Setting up Chorus
 
-__[Read the blog, watch the video](https://opensourceconnections.com/blog/2020/07/20/how-does-pete-the-e-commerce-search-engine-product-manager-build-a-web-shop/)__
 <i><a href="https://opensourceconnections.com/blog/2020/07/20/how-does-pete-the-e-commerce-search-engine-product-manager-build-a-web-shop/" target="_BLANK">Read the blog, watch the video version of this Kata</a></i>
 
 We use a Docker Compose based environment to manage firing up all the components of the Chorus stack, but then have you go through loading the data and configuring the components.

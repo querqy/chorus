@@ -1,5 +1,7 @@
 # Second Kata: How to Sell Search Keywords and Terms
 
+<i><a href="https://opensourceconnections.com/blog/2020/10/19/pete-learns-about-selling-search-keywords-with-chorus/" target="_BLANK">Read the blog, watch the video version of this Kata</a></i>
+
 Good news! Our intrepid supplier management team for Chorus Electronics, led by Pete’s colleague Shanice, has just signed a deal with Epson where every time a customer searches the web shop for the keyword _projector_ and picks an Epson brand projector, Chorus Electronics gets a bonus fee from Epson. However, Pete wants to be sure that whatever he does to please the supplier doesn’t break other similar search queries.
 
 Shanice is also discussing an exclusive deal with Epson, where Chorus would show only their projectors – how can Pete make this happen?
