@@ -18,9 +18,9 @@ Chorus makes deploying powerful ecommerce search easier by shifting the **buy vs
 3. ***Sharing Knowledge is a Must!*** It isn't enough to just have conference talks, we need sample code and sample data in order to share knowledge about improving ecommerce search. Chorus is that public environment that you can use to share your next great idea!
 
 
-[Explore a demo](https://fivethirtyeight.datasettes.com/fivethirtyeight), watch [a video about the project](https://www.youtube.com/watch?v=aoWx7KJzvCs) or try it out by [running the quickstart.sh script](#5-minutes-to-run-chorus)
+[Explore a demo](https://github.com/querqy/chorus#what-runs-where), watch [a video about the project](https://www.youtube.com/watch?v=aoWx7KJzvCs) or try it out by [running the quickstart.sh script](#5-minutes-to-run-chorus).   Go deeper by watching the [six part series _Meet Pete_](https://opensourceconnections.com/blog/2020/07/07/meet-pete-the-e-commerce-search-product-manager/).
 
-Want to stay up-to-date with the project? Subscribe to the [Datasette Weekly newsletter](https://datasette.substack.com/) for tips, tricks and news on what's new in the Datasette ecosystem.
+Want to stay up-to-date with the project? Join the [E-Commerce Search Slack](https://ecom-search.slack.com/) group for tips, tricks and news on what's new in the Chorus ecosystem.
 
 ## News
 
