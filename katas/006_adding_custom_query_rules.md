@@ -96,7 +96,7 @@ Go to http://localhost:4000/catalog?q=16:9&search_field=default&view=gallery and
 
 ![Blacklight Screenshot](006_nice_results.png)
 
-###Now, lets talk about the limitations of the Regex Rewriter in June 2020!###
+### Now, lets talk about the limitations of the Regex Rewriter in June 2020!
 
 1. Today it only supports appending a FILTER, you can't do a BOOST or any other manipulation.
 1. It's not incorporated in SMUI.  There is some discussion about adding it as a Common Rule, if lots of folks find it useful, which would be a good step to adding it to SMUI.
