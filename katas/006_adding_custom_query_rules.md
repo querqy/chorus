@@ -47,6 +47,17 @@ Notice that the end point we use names the rewriter `regex_screen_protector` in 
 curl -X GET http://localhost:8983/solr/ecommerce/querqy/rewriter/regex_screen_protectors
 ```
 
+You may need to reload the collection as well:
+
+```
+curl -X POST http://localhost:8983/api/collections/ecommerce -H 'Content-Type: application/json' -d '
+  {
+    "reload": {}
+  }
+'
+```
+
+
 Now, we can test this rewriter by issuing a query with the `querqy.rewriters=regex_screen_protector` parameter.
 <!-- In the future, leverage SOLR-6152 to make this query prepopulated in the Solr Query Admin UI -->
 
@@ -56,7 +67,9 @@ curl -X GET 'http://localhost:8983/solr/ecommerce/select?q=16:9&qt=querqy&querqy
 
 We get back 13 different Kensington screen protectors.   Now, lets pass in some extra query information, like the model number _K58357WW_.   
 
+```
 curl -X GET 'http://localhost:8983/solr/ecommerce/select?q=16:9%20K58357WW&qt=querqy&querqy.rewriters=regex_screen_protectors&fl=title,brand,attr_t_aspect_ratio'
+```
 
 Boom!  We get just a single product result back:
 
@@ -79,12 +92,16 @@ We can also test this out in our demo store.   We've already added to the Querqy
 </lst>
 ```
 
-Go to http://localhost:4000/catalog?q=16:9&search_field=default&view=gallery and you'll see the messy results, now flip to the Querqy enabled search and go again and look at all those lovely Kensington screen protectors!
+Go to http://localhost:4000/catalog?q=16:9&search_field=default&view=gallery and you'll see thousands of messy results, anything with a _16_ or _9_ in the text, now flip to the Querqy enabled search and go again and look at all those lovely Kensington screen protectors!
 
-Now, lets talk about the limitations of the Regex Rewriter in June 2020!:
+![Blacklight Screenshot](006_nice_results.png)
+
+###Now, lets talk about the limitations of the Regex Rewriter in June 2020!###
 
 1. Today it only supports appending a FILTER, you can't do a BOOST or any other manipulation.
 1. It's not incorporated in SMUI.  There is some discussion about adding it as a Common Rule, if lots of folks find it useful, which would be a good step to adding it to SMUI.
+1. You only get one Regex per named end point, so obviously you'll add a new step in the rewriting chain for every regex pattern you add!
+1. The logging output tells you the pattern that was matched, but doesn't really tie back to which rule.
 1. A common pattern would be to identify a regex pattern, and then try and apply it to a specific field.  For example, if you search for what appears to be an aspect ratio, wouldn't it be nice to filter to just the products who have that as a value in the `attr_t_aspect_ratio` field?   Something like:
 ```
 {
@@ -96,5 +113,3 @@ Now, lets talk about the limitations of the Regex Rewriter in June 2020!:
 }
 ```
 Today, this pattern of passing the value into the field doesn't work.  Instead it just filters to ANY product that has a value specified in the `attr_t_aspect_ratio` field.  This may be good enough for you...
-1. You only get one Regex per named end point, so obviously you'll add a new step in the rewriting chain for every regex pattern you add!
-1. The logging output tells you the pattern that was matched, but doesn't really tie back to which rule.  
