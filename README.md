@@ -67,11 +67,11 @@ There is also a video series that is very closely related called [Meet Pete](htt
 
 # Useful Commands for Chorus
 
-To start your environment, i.e to do each step manually, run:
+To start your environment, but still run each command to setup the integrations manually, run:
 ```
 docker-compose up --build -d
 ```
-Otherwise you can just run `./quickstart.sh`.  To include the observability features, run:
+Otherwise you can just run `./quickstart.sh` which includes all the steps to configure Chorus.  To include the observability features, run:
 
 ```
 ./quickstart.sh --with-observability
@@ -88,7 +88,7 @@ docker-compose ps                       # list out the names of the components
 docker-compose logs -tf solr1 solr2     # tail solr1 and solr2 only
 ```
 
-To reset your environment (including any volumes created like the mysql db), just run:
+To destroy your environment (including any volumes created like the mysql db), just run:
 ```
 docker-compose down -v
 ```
