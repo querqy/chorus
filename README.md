@@ -68,10 +68,24 @@ There is also a video series that is very closely related called [Meet Pete](htt
 # Useful Commands for Chorus
 
 To start your environment, but still run each command to setup the integrations manually, run:
+
 ```
 docker-compose up --build -d
 ```
-Otherwise you can just run `./quickstart.sh` which includes all the steps to configure Chorus.  To include the observability features, run:
+
+The quickstart command will launch a Solr cluster, load the configsets and product data for the _ecommerce_ index, and launch the SMUI user interface:
+
+```
+./quickstart.sh
+```
+
+If you want to add in the offline lab environment based on Quepid, then tack on the `--with-offline-lab` parameter:
+
+```
+./quickstart.sh --with-offline-lab
+```
+
+To include the observability features, run:
 
 ```
 ./quickstart.sh --with-observability
@@ -91,6 +105,12 @@ docker-compose logs -tf solr1 solr2     # tail solr1 and solr2 only
 To destroy your environment (including any volumes created like the mysql db), just run:
 ```
 docker-compose down -v
+```
+
+or
+
+```
+./quickstart.sh --shutdown
 ```
 
 If Docker is giving you a hard time then some options are:

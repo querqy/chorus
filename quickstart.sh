@@ -37,11 +37,11 @@ do
 	case "$1" in
 		--help | -h)
       echo -e "Use the option --with-offline-lab | -lab to include Quepid and RRE services in Chorus."
-			echo -e "Use the option --with-observability | -o to include Grafana, Prometheus, and Solr Exporter services in Chorus."
+			echo -e "Use the option --with-observability | -obs to include Grafana, Prometheus, and Solr Exporter services in Chorus."
       echo -e "Use the option --shutdown | -s to shutdown and remove the Docker containers and data."
 			exit
 			;;
-		--with-observability | -o)
+		--with-observability | -obs)
 			observability=true
       echo -e "${MAJOR}Running Chorus with observability services enabled${RESET}"
 			;;
