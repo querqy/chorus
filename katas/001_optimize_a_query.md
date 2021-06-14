@@ -1,5 +1,7 @@
 # First Kata: Lets Optimize a Query
 
+<i><a href="https://opensourceconnections.com/blog/2020/08/01/pete-solves-the-e-commerce-search-accessories-problem-with-boosting-synonyms/" target="_BLANK">Read the blog, watch the video version of this Kata</a></i>
+
 In this first Kata, we're going to take two queries that we know are bad, and see if we can improve them using Active Search Management.   How do we know that the queries _notebook_ and _laptop_ are bad?  Easy, just take a look at them in our _Chorus Electronics_ store ;-).
 
 Visit the web store at http://localhost:4000/ and make sure the drop down has _Default Algo_ next to the search bar selected.   Now do a search for _notebook_, and notice that while the products are all vaguely related to notebooks, none of them are actual notebook computers.   We believe that our users, when they type in _notebook_, are looking for notebook computers, or possibly a paper notebook (which we don't carry as we are a electronics store), not accessories to notebooks.

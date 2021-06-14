@@ -1,13 +1,41 @@
-<img src="assets/chorus-logo.png" alt="Chorus Logo" width="200"/>
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fquerqy%2Fchorus%2Fbadge%3Fref%3Dmaster&style=flat)](https://actions-badge.atrox.dev/querqy/chorus/goto?ref=master)
+
+
+<img src="assets/chorus-logo.png" alt="Chorus Logo" title="Chorus: Towards a open stack for ecommerce search" width="200" align="right"/>
 
 Chorus
 ==========================
 
-Towards an open source tool stack for e-commerce search.
+*Towards an open source tool stack for e-commerce search*
+
+Chorus makes deploying powerful ecommerce search easier by shifting the **buy vs build** decision in favour of **build**, so you can own your search! It deals with three issues:
+
+1. **Starting from Scratch is Time Consuming** Downloading a open source search engine isn't enough, it's like getting the parts of a Lego model, only without the directions ;-) .  We need a better baseline to quickly get started.  
+
+2. **Integration of Tooling is Hard** Search isn't just the index, it's also the analytics tooling, the relevance tooling, the operational monitoring that goes into it.  Every team starts incurs the penalty of starting from scratch integrating the ecosystem of options.
+
+3. ***Sharing Knowledge is a Must!*** It isn't enough to just have conference talks, we need sample code and sample data in order to share knowledge about improving ecommerce search. Chorus is that public environment that you can use to share your next great idea!
+
+
+[Explore a demo](https://github.com/querqy/chorus#what-runs-where), watch [a video about the project](https://www.youtube.com/watch?v=aoWx7KJzvCs) or try it out by [running the quickstart.sh script](#5-minutes-to-run-chorus).   Go deeper by watching the [six part series _Meet Pete_](https://opensourceconnections.com/blog/2020/07/07/meet-pete-the-e-commerce-search-product-manager/).
+
+Want to stay up-to-date with the project? Join the [E-Commerce Search Slack](https://ecom-search.slack.com/) group for tips, tricks and news on what's new in the Chorus ecosystem.
+
+## News
+
+ * 17th June 2021: [Encores? - Going beyond matching and ranking of search results](https://2021.berlinbuzzwords.de/session/encores-going-beyond-matching-and-ranking-search-results) - Chorus is used to demo at BerlinBuzzwords.
+ * 15th November 2020: [Chorus Workshop Series Announced](https://plainschwarz.com/ps-salon/) - Learn from the creators of the components of Chorus via six workshops.
+ * 17th October 2020: [Chorus featured at ApacheCon @Home](https://www.youtube.com/watch?v=NGtmSbOoFjA) - René and Eric give a talk at ApacheCon on Chorus.
+ * 10th June 2020: [Chorus Announced at BerlinBuzzwords](https://2020.berlinbuzzwords.de/session/towards-open-source-tool-stack-e-commerce-search) - First release of Chorus shared with the world at a workshop.
+ * April 2020: [Paul Maria Bartusch](https://twitter.com/paulbartusch), [René Kriegler](https://twitter.com/renekrie), [Johannes Peter](https://github.com/JohannesDaniel) & [Eric Pugh](https://twitter.com/dep4b) brainstorm challenges with search teams adopting technologies like Querqy and come up with the Chorus idea.
+
+
 
 # What Runs Where
+We host a complete demonstration environment online for you to play with, see links below.  _Please note the Demo store isn't always available_.
 
-* Demo "Chorus Electronics" store runs at http://localhost:4000  |  http://chorus.dev.o19s.com:4000
+* "Chorus Electronics" store runs at http://localhost:4000  |  http://chorus.dev.o19s.com:4000
 * Solr runs at http://localhost:8983 |  http://chorus.dev.o19s.com:8983
 * SMUI runs at http://localhost:9000 |  http://chorus.dev.o19s.com:9000
 * Quepid runs at http://localhost:3000 |  http://chorus.dev.o19s.com:3000
@@ -15,11 +43,11 @@ Towards an open source tool stack for e-commerce search.
 * Prometheus runs at http://localhost:9090 |  http://chorus.dev.o19s.com:9090
 * Grafana runs at http://localhost:9091 |  http://chorus.dev.o19s.com:9091
 
-Working with macOS?   Pop open all the tuning related web pages:
+Working with macOS?   Pop open all the tuning related web pages with one terminal command:
 > open http://localhost:4000 http://localhost:8983 http://localhost:9000 http://localhost:3000 http://localhost:7979
 
 
-# Learning all about Chorus!
+# 5 Minutes to Run Chorus!
 
 We are trying to strike a balance between making the setup process as easy and fool proof as possible with the need to not _hide_ too much of the interactions between the projects that make up Chorus.
 
