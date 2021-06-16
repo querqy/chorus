@@ -10,6 +10,8 @@ class CatalogController < ApplicationController
     config.view.slideshow.document_component = Blacklight::Gallery::SlideshowComponent
     config.show.tile_source_field = :content_metadata_image_iiif_info_ssm
     config.show.partials.insert(1, :openseadragon)
+    # Set the gallery view to have four columns instead of three.
+    config.view.gallery.classes = 'row-cols-3 row-cols-md-4'
 
     config.show.document_actions.delete(:bookmark)
 
@@ -162,7 +164,8 @@ class CatalogController < ApplicationController
 
     # Actually, the right way is the useParams parameter ;-)
     config.add_search_field 'default_algo', label: 'Default Algo' do |field|
-      #field.solr_path = 'select'
+      field.solr_parameters = {
+      }
     end
 
     config.add_search_field('mustmatchall_algo', label: 'Must Match All') do |field|

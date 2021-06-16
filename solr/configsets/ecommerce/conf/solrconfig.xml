@@ -91,11 +91,27 @@
       <!-- setup default rewriters if you do defType=querqy -->
       <str name="querqy.rewriters">replace,common_rules,regex_screen_protectors</str>
 
+      <!-- spellchecking -->
+      <str name="spellcheck">true</str>
+      <str name="spellcheck.dictionary">title</str>
+      <str name="spellcheck.onlyMorePopular">true</str>
+      <str name="spellcheck.extendedResults">true</str>
+      <str name="spellcheck.collate">true</str>
+      <str name="spellcheck.maxCollations">100</str>
+      <str name="spellcheck.maxCollationTries">5</str>
+      <str name="spellcheck.count">5</str>
+      <!-- filter out any collations that don't match documents -->
+      <str name="spellcheck.collateParam.mm">100%</str>
+
+
     </lst>
     <lst name="appends">
       <str name="fq">price:*</str>
       <str name="fq">-img_500x500:""</str>
     </lst>
+    <arr name="last-components">
+      <str>spellcheck</str>
+    </arr>
   </requestHandler>
 
   <!-- for the purposes of understanding the impact of "light switch", we want to have
@@ -169,6 +185,22 @@
       <str>suggest</str>
     </arr>
   </requestHandler>
+
+  <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
+    <str name="queryAnalyzerFieldType">textSpell</str>
+    <!-- Multiple "Spell Checkers" can be declared and used by this component
+      (e.g. for title_spell field)
+      -->
+    <lst name="spellchecker">
+      <str name="name">title</str>
+      <str name="field">title</str>
+      <str name="spellcheckIndexDir">./spell_title</str>
+      <str name="accuracy">0.7</str>
+      <str name="buildOnCommit">true</str>
+      <str name="buildOnOptimize">true</str>
+    </lst>
+  </searchComponent>
+
 
   <!-- This is required to support the legacy behavior of the parameter qt=/query-select -->
   <requestDispatcher handleSelect="true" >
