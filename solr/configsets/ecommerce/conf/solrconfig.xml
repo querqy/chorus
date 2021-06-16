@@ -72,11 +72,13 @@
   -->
   <requestHandler name="/querqy/rewriter" class="querqy.solr.QuerqyRewriterRequestHandler"/>
 
+  <!-- Blacklight 7.19 appears to let us go back to standard modern way of listing -->
   <!-- The default handler should be specified this way, however to support
   the legacy qt=querqy parameter we need to change to what's below.
   <requestHandler name="/select" class="solr.SearchHandler">
   -->
-  <requestHandler name="search" class="solr.SearchHandler" default="true">
+  <!--requestHandler name="search" class="solr.SearchHandler" default="true"-->
+  <requestHandler name="/select" class="solr.SearchHandler">
     <lst name="defaults">
       <str name="echoParams">explicit</str>
       <str name="indent">true</str>
@@ -85,6 +87,9 @@
       <str name="qf">id name title product_type short_description ean search_attributes</str>
       <str name="defType">edismax</str>
       <str name="tie">0.01</str>
+
+      <!-- setup default rewriters if you do defType=querqy -->
+      <str name="querqy.rewriters">replace,common_rules,regex_screen_protectors</str>
 
     </lst>
     <lst name="appends">
@@ -99,11 +104,12 @@
   hardcoding of the front end!  Just a useParams=mustmatchall
   -->
   <!-- &qt=mustmatchall -->
+  <!-- No longer needed with Blacklight 7.19 -->
+  <!--
   <requestHandler name="mustmatchall" class="solr.SearchHandler">
     <lst name="defaults">
       <str name="echoParams">explicit</str>
       <str name="indent">true</str>
-      <!-- we actually don't want to use the default field -->
       <str name="df">id</str>
       <str name="qf">name title product_type short_description ean search_attributes</str>
 
@@ -116,14 +122,16 @@
       <str name="fq">-img_500x500:""</str>
     </lst>
   </requestHandler>
+  -->
 
   <!-- &qt=querqy -->
+  <!-- No longer needed with Blacklight 7.19 -->
+  <!--
   <requestHandler name="querqy" class="solr.SearchHandler">
     <lst name="defaults">
       <str name="echoParams">explicit</str>
       <str name="indent">true</str>
 
-      <!-- we actually don't want to use the default field -->
       <str name="df">id</str>
       <str name="qf">id name title product_type short_description ean search_attributes</str>
 
@@ -139,6 +147,7 @@
       <str name="fq">-img_500x500:""</str>
     </lst>
   </requestHandler>
+  -->
 
   <searchComponent name="suggest" class="solr.SuggestComponent">
     <lst name="suggester">
