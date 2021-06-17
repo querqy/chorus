@@ -1,2 +1,0 @@
-web:        bundle exec puma -C config/puma.rb
-exporter:   bundle exec prometheus_exporter -b 0.0.0.0
