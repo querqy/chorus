@@ -3,6 +3,7 @@ class SolrDocument
   include Blacklight::Solr::Document
   include Blacklight::Gallery::OpenseadragonSolrDocument
 
+
   # self.unique_key = 'id'
 
   # Email uses the semantic field mappings below to generate the body of an email.

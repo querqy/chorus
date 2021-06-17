@@ -17,6 +17,8 @@ WORKDIR /app
 # Preinstall gems in an earlier layer so we don't reinstall every time any file changes.
 COPY Gemfile /app
 COPY Gemfile.lock /app
+#RUN gem install bundler #-v 2.2.20
+#RUN bundle install --jobs 20 --retry 5
 RUN gem install bundler && bundle install --jobs 20 --retry 5
 
 # *NOW* we copy the codebase in

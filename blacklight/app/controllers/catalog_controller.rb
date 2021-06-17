@@ -4,15 +4,17 @@ class CatalogController < ApplicationController
   include Blacklight::Catalog
 
   configure_blacklight do |config|
-    config.view.gallery.partials = [:index_header, :index]
-    config.view.masonry.partials = [:index]
-    config.view.slideshow.partials = [:index]
+    config.view.gallery.document_component = Blacklight::Gallery::DocumentComponent
+    # config.view.gallery.classes = 'row-cols-2 row-cols-md-3'
+    config.view.masonry.document_component = Blacklight::Gallery::DocumentComponent
+    config.view.slideshow.document_component = Blacklight::Gallery::SlideshowComponent
+    config.show.tile_source_field = :content_metadata_image_iiif_info_ssm
+    config.show.partials.insert(1, :openseadragon)
     # Set the gallery view to have four columns instead of three.
     config.view.gallery.classes = 'row-cols-3 row-cols-md-4'
 
+    config.show.document_actions.delete(:bookmark)
 
-    config.show.tile_source_field = :content_metadata_image_iiif_info_ssm
-    config.show.partials.insert(1, :openseadragon)
     ## Class for sending and receiving requests from a search index
     # config.repository_class = Blacklight::Solr::Repository
     #
@@ -23,11 +25,11 @@ class CatalogController < ApplicationController
     # config.response_model = Blacklight::Solr::Response
     #
     ## Should the raw solr document endpoint (e.g. /catalog/:id/raw) be enabled
-    # config.raw_endpoint.enabled = false
+    config.raw_endpoint.enabled = false
 
     ## Default parameters to send to solr for all search-like requests. See also SearchBuilder#processed_parameters
     config.default_solr_params = {
-      q:"*:*",
+      #q:"*:*",
       rows: 30,
       'facet.mincount':1,
       'facet.limit':10
@@ -41,7 +43,7 @@ class CatalogController < ApplicationController
     config.per_page = [30,50,100]
 
     # solr field configuration for search results/index views
-    config.index.title_field = 'title' #'title_tsim'
+    config.index.title_field = 'title'
     #config.index.display_type_field = 'format'
     #config.index.thumbnail_field = 'thumbnail_path_ss'
     config.index.thumbnail_field = 'img_500x500'
@@ -101,7 +103,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'filter_brand', label: 'Brands', limit: 20
     config.add_facet_field 'filter_product_type', label: 'Product Type', limit: 20
     config.add_facet_field 'filter_t_product_colour', label: 'Product Colour', limit: 20
-    #config.add_facet_field 'filter_t_colour_name', label: 'Colour Name', limit: 20
+
 
     config.add_facet_field 'example_pivot_field', label: 'Categories', :pivot => ['filter_product_type', 'filter_brand'], limit: 5
 
@@ -112,7 +114,6 @@ class CatalogController < ApplicationController
     }
 
 
-
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
     # handler defaults, or have no facets.
@@ -120,23 +121,6 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display
-    #config.add_index_field 'title', label: 'Product'
-    #config.add_index_field 'title_vern_ssim', label: 'Title'
-    #config.add_index_field 'author_tsim', label: 'Author'
-    #config.add_index_field 'author_vern_ssim', label: 'Author'
-    #config.add_index_field 'format', label: 'Format'
-    #config.add_index_field 'language_ssim', label: 'Language'
-    #config.add_index_field 'published_ssim', label: 'Published'
-    #config.add_index_field 'published_vern_ssim', label: 'Published'
-    #config.add_index_field 'lc_callnum_ssim', label: 'Call number'
-    config.add_index_field 'brand', label: 'Brand', link_to_facet: :filter_brand
-    config.add_index_field 'date_released', label: 'Date', helper_method: 'prettify_date'
-    config.add_index_field 'price', label: 'Price', helper_method: 'prettify_price'
-
-
-    # solr fields to be displayed in the show (single result) view
-    #   The ordering of the field names is the order of the display
-    #config.add_show_field 'title', label: 'Title'
     config.add_show_field 'brand', label: 'Brand'
     config.add_show_field 'attr_t_product_type', label: 'Product Type'
     config.add_show_field 'attr_t_aspect_ratio', label: 'Aspect Ratio'
@@ -147,17 +131,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'price', label: 'Price', helper_method: 'prettify_price'
 
     config.add_show_field 'search_attributes', label: 'Searchable Attributes'
-    #config.add_show_field 'subtitle_vern_ssim', label: 'Subtitle'
-    #config.add_show_field 'author_tsim', label: 'Author'
-    #config.add_show_field 'author_vern_ssim', label: 'Author'
-    #config.add_show_field 'format', label: 'Format'
-    #config.add_show_field 'url_fulltext_ssim', label: 'URL'
-    #config.add_show_field 'url_suppl_ssim', label: 'More Information'
-    #config.add_show_field 'language_ssim', label: 'Language'
-    #config.add_show_field 'published_ssim', label: 'Published'
-    #config.add_show_field 'published_vern_ssim', label: 'Published'
-    #config.add_show_field 'lc_callnum_ssim', label: 'Call number'
-    #config.add_show_field 'isbn_ssim', label: 'ISBN'
+
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
@@ -177,25 +151,41 @@ class CatalogController < ApplicationController
     # solr request handler? The one set in config[:default_solr_parameters][:qt],
     # since we aren't specifying it otherwise.
 
+    #config.add_search_field 'all_fields', label: 'All Fields'
+
     # The RIGHT way is the field.solr_path, but currently isn't supported by Blacklight
     # to have the solr_path set at a field level, only at the config.solr_path.
     # So instead, we are going to use the legacy qt= parameter.
 
+
+    # Now we see how to over-ride Solr request handler defaults, in this
+    # case for a BL "search field", which is really a dismax aggregate
+    # of Solr search fields.
+
     # Actually, the right way is the useParams parameter ;-)
-    config.add_search_field 'default', label: 'Default Algo' do |field|
-      #field.solr_path = 'select'
+    config.add_search_field 'default_algo', label: 'Default Algo' do |field|
+      field.solr_parameters = {
+      }
     end
 
-    config.add_search_field('mustmatchall', label: 'Must Match All') do |field|
-      field.qt = 'mustmatchall'
+    config.add_search_field('mustmatchall_algo', label: 'Must Match All') do |field|
+      #field.qt = 'mustmatchall'
+      field.solr_parameters = {
+        'mm': '100%'
+      }
     end
 
-    config.add_search_field('querqy', label: 'Querqy Algo') do |field|
-      field.qt = 'querqy'
+    config.add_search_field('querqy_algo', label: 'Querqy Algo') do |field|
+      #field.qt = 'querqy'
+      field.solr_parameters = {
+        'defType': 'querqy',
+        'querqy.rewriters': 'replace,common_rules,regex_screen_protectors',
+        'querqy.infoLogging': 'on'
+      }
     end
 
     #config.add_search_field('title') do |field|
-      # solr_parameters hash are sent to Solr as ordinary url query params.
+    #  # solr_parameters hash are sent to Solr as ordinary url query params.
     #  field.solr_parameters = {
     #    'spellcheck.dictionary': 'title',
     #    qf: '${title_qf}',
@@ -223,22 +213,26 @@ class CatalogController < ApplicationController
     #end
 
     # "sort results by" select (pulldown)
-    # label in pulldown is followed by the name of the SOLR field to sort by and
+    # label in pulldown is followed by the name of the Solr field to sort by and
     # whether the sort is ascending or descending (it must be asc or desc
-    # except in the relevancy case).
+    # except in the relevancy case). Add the sort: option to configure a
+    # custom Blacklight url parameter value separate from the Solr sort fields.
     config.add_sort_field 'score desc', label: 'relevance'
     config.add_sort_field 'date_released desc', label: 'released'
-    #config.add_sort_field 'author_si asc, title_si asc', label: 'author'
+
+    #config.add_sort_field 'relevance', sort: 'score desc, pub_date_si desc, title_si asc', label: 'relevance'
+    #config.add_sort_field 'year-desc', sort: 'pub_date_si desc, title_si asc', label: 'year'
+    #config.add_sort_field 'author', sort: 'author_si asc, title_si asc', label: 'author'
     #config.add_sort_field 'title_si asc, pub_date_si desc', label: 'title'
 
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.
     config.spell_max = 5
 
-    # Configuration for autocomplete suggestor
+    # Configuration for autocomplete suggester
     config.autocomplete_enabled = true
     config.autocomplete_path = 'suggest'
-    # if the name of the solr.SuggestComponent provided in your solrcongig.xml is not the
+    # if the name of the solr.SuggestComponent provided in your solrconfig.xml is not the
     # default 'mySuggester', uncomment and provide it below
     # config.autocomplete_suggester = 'mySuggester'
   end
