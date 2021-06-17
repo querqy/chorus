@@ -1,16 +1,13 @@
 <%= render 'did_you_mean' %>
 <%= render 'sort_and_per_page' %>
 
-<% facets_from_request(['filter_product_type'], @response) %>
 <%
 threshold = 1.0
 product_type_facet = facets_from_request(['filter_product_type'], @response).first
 total_hits=0.0
 counter = 0
-require 'pp'
+
 product_type_facet.items.each do |facet_item|
-  puts "Here it comes"
-  puts facet_item.hits
   facet_item.entropy_total = 89
   facet_item.rank = counter
   counter += 1
