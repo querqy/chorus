@@ -24,7 +24,7 @@ Want to stay up-to-date with the project? Join the [E-Commerce Search Slack](htt
 
 ## News
 
- * 17th June 2021: [Encores? - Going beyond matching and ranking of search results](https://2021.berlinbuzzwords.de/session/encores-going-beyond-matching-and-ranking-search-results) - Chorus is used to demo at BerlinBuzzwords.
+ * 17th June 2021: [Encores? - Going beyond matching and ranking of search results](https://www.slideshare.net/o19s/encores) - Chorus is used at BerlinBuzzwords.
  * 15th November 2020: [Chorus Workshop Series Announced](https://plainschwarz.com/ps-salon/) - Learn from the creators of the components of Chorus via six workshops.
  * 17th October 2020: [Chorus featured at ApacheCon @Home](https://www.youtube.com/watch?v=NGtmSbOoFjA) - René and Eric give a talk at ApacheCon on Chorus.
  * 10th June 2020: [Chorus Announced at BerlinBuzzwords](https://2020.berlinbuzzwords.de/session/towards-open-source-tool-stack-e-commerce-search) - First release of Chorus shared with the world at a workshop.
