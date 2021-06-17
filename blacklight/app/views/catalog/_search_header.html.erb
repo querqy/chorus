@@ -1,0 +1,42 @@
+<%= render 'did_you_mean' %>
+<%= render 'sort_and_per_page' %>
+
+<% facets_from_request(['filter_product_type'], @response) %>
+<%
+threshold = 1.0
+product_type_facet = facets_from_request(['filter_product_type'], @response).first
+total_hits=0.0
+counter = 0
+require 'pp'
+product_type_facet.items.each do |facet_item|
+  puts "Here it comes"
+  puts facet_item.hits
+  facet_item.entropy_total = 89
+  facet_item.rank = counter
+  counter += 1
+
+  total_hits += facet_item.hits
+end
+
+product_type_facet.items.each do |facet_item|
+  facet_item.count_ratio = facet_item.hits / total_hits
+  facet_item.log2_value = Math.log(facet_item.count_ratio, 2)
+  facet_item.category_entropy = facet_item.count_ratio * facet_item.log2_value
+end
+
+entropy_total = 0.0
+product_type_facet.items.each do |facet_item|
+  entropy_total += facet_item.category_entropy
+end
+entropy_total = entropy_total * -1
+
+%>
+<sub>Total hits: <%=total_hits%> | Entropy total: <%=entropy_total%></sub>
+<% if threshold < entropy_total %>
+<div id="facet_pills" class="row-cols-3 row-cols-md-4 row nav nav-pills nav-fill">
+  <% product_type_facet.items[0..3].each do |facet_item|%>
+  <div class="col nav-item"><a class="nav-link active" href="#"><%=facet_item.value%></a></div>
+  <% end %>
+</div>
+<p/>
+<% end %>
