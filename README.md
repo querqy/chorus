@@ -20,7 +20,7 @@ Chorus makes deploying powerful ecommerce search easier by shifting the **buy vs
 
 [Explore a demo](https://github.com/querqy/chorus#what-runs-where), watch [a video about the project](https://www.youtube.com/watch?v=aoWx7KJzvCs) or try it out by [running the quickstart.sh script](#5-minutes-to-run-chorus).   Go deeper by watching the [six part series _Meet Pete_](https://opensourceconnections.com/blog/2020/07/07/meet-pete-the-e-commerce-search-product-manager/).
 
-Want to stay up-to-date with the project? Join the [E-Commerce Search Slack](https://ecom-search.slack.com/) group for tips, tricks and news on what's new in the Chorus ecosystem.
+Want to stay up-to-date with the community? Visit https://querqy.org/ to learn more, and join the [E-Commerce Search Slack](https://ecom-search.slack.com/) group for tips, tricks and news on what's new in the Chorus ecosystem.
 
 ## News
 
