@@ -128,7 +128,7 @@ The Chorus project includes some public datasets.  These datasets let the commun
 
 The product data is gratefully sourced from [Icecat](https://icecat.biz/) and is licensed under their [Open Content License](https://iceclog.com/open-content-license-opl/).
 
-The version of the Icecat [product data](https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz) that Chorus provides has the following changes:
+The version of the Icecat product data that Chorus [provides](https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz) has the following changes:
 * Data converted to JSON format.
 * Products that don't have a 500x500 pixel image listed are removed.
 * Prices extracted for ~19,000 products from the https://www.upcitemdb.com/ service using EAN codes to match.
