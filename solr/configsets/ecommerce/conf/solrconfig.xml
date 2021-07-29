@@ -139,7 +139,7 @@
       <str name="lookupImpl">FuzzyLookupFactory</str>
       <str name="suggestAnalyzerFieldType">text_general</str>
       <str name="buildOnCommit">true</str>
-      <str name="field">dictionary</str>
+      <str name="field">suggestions</str>
     </lst>
   </searchComponent>
 
