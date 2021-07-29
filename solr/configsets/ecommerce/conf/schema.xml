@@ -22,14 +22,14 @@ for demo purposes
   <field name="supplier" type="text_general" indexed="true" stored="true"/>
 
   <field name="_version_" type="plong" indexed="true" stored="false"/>
-  <field name="dictionary" type="text_general" indexed="true" stored="true" multiValued="true"/>
+  <field name="suggestions" type="text_general" indexed="true" stored="true" multiValued="true"/>
   <field name="search_attributes" type="text_stemmed_en" indexed="true" stored="true" multiValued="true"/>
 
 
-  <copyField source="name" dest="dictionary" />
-  <copyField source="title" dest="dictionary" />
-  <copyField source="brand" dest="dictionary" />
-  <copyField source="short_description" dest="dictionary" />
+  <copyField source="name" dest="suggestions" />
+  <copyField source="title" dest="suggestions" />
+  <copyField source="brand" dest="suggestions" />
+  <copyField source="short_description" dest="suggestions" />
 
 
   <!--
