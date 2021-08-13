@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-for demo purposes
+for demo purposes. This is uploaded to Solr as the file managed-schema so that
+you can evolve it from there using schema designer and other tools that
+assume a managed schema.
 -->
 
 <schema name="minimal-ecommerce-demo" version="1.6">
