@@ -150,7 +150,7 @@ services:
 
   quepid:
     container_name: quepid
-    image: o19s/quepid:6.6.1
+    image: o19s/quepid:6.7.0
     ports:
       - 3000:3000
     command: "foreman s -f Procfile"
