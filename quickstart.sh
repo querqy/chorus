@@ -85,7 +85,7 @@ docker cp ./solr/security.json solr1:/security.json
 echo -e "${MINOR}upload security.json to zookeeper${RESET}"
 docker exec solr1 solr zk cp /security.json zk:security.json -z zoo1:2181
 
-echo -e "${MINOR}wait for security.json to be available to solr${RESET}"
+echo -e "${MINOR}wait for security.json to be available to Solr${RESET}"
 ./solr/wait-for-zk-200.sh
 
 echo -e "${MAJOR}Package ecommerce configset.${RESET}"
