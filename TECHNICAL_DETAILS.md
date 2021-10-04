@@ -1,4 +1,4 @@
-### Security Setup
+### User Accounts Setup
 
 | Component | Username                    | Password  | Origin        |
 |-----------|-----------------------------|-----------|---------------|

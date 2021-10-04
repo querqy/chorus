@@ -40,12 +40,12 @@ Grab a sample dataset of 150K products by running from the root of your Chorus c
 
 If you are on a Linux type system, you should be able to stream the data right from the .tar.gz file:
 
-> tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
+> tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl --user solr:SolrRocks 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
 
 Otherwise you'll need to uncompress the .tar.gz file and then post with Curl:
 
 > gunzip -c icecat-products-150k-20200809.tar.gz | tar xopf - #For Mac OS
-> curl 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @icecat-products-150k-20200809.json -H 'Content-type:application/json'
+> curl --user solr:SolrRocks 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @icecat-products-150k-20200809.json -H 'Content-type:application/json'
 
 The sample data will take a couple of minutes (like 5!) to load.
 
