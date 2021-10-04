@@ -34,6 +34,6 @@ Lastly, so where does the data come into Prometheus?  The Prometheus server actu
 * Blacklight Metrics: http://localhost:9394/metrics
 * Solr Cluster Metrics: http://localhost:9854/metrics
 
-The interesting bits in the Chorus setup are the new `/grafana` and `/prometheus` directories where we configure our setup between Grafana and the Prometheus time series database, and the `/solr-exporter` which handles the _Prometheus --> Solr Exporter --> Solr_ metrics scraping chain.
+The interesting bits in the Chorus setup are the `/grafana` and `/prometheus` directories where we configure our setup between Grafana and the Prometheus time series database, and the `/solr-exporter` which handles the _Prometheus --> Solr Exporter --> Solr_ metrics scraping chain.
 
 This was just a quick tour, and as we move to deploying to production via Kubernetes for Chorus, the observability aspect to Chorus will become more important!

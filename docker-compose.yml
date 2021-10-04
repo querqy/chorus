@@ -13,7 +13,7 @@ services:
       - 9394:9394
     command: "foreman s -f Procfile"
     environment:
-      - SOLR_URL=http://solr1:8983/solr/ecommerce
+      - SOLR_URL=http://solr:SolrRocks@solr1:8983/solr/ecommerce
       - PORT=3000
     depends_on:
       - solr1
@@ -150,7 +150,7 @@ services:
 
   quepid:
     container_name: quepid
-    image: o19s/quepid:6.7.0
+    image: o19s/quepid:6.8.0
     ports:
       - 3000:3000
     command: "foreman s -f Procfile"
@@ -194,14 +194,15 @@ services:
       - solr1
 
   solr-exporter:
-    image: solr:8.8.2
+    image: solr:8.10.0
     container_name: solr-exporter
     hostname: solr-exporter
     ports:
      - 9854:9854
-    command: /bin/bash -c "/usr/bin/wait-for-http-200.sh; ./contrib/prometheus-exporter/bin/solr-exporter -p 9854 -z zoo1:2181,zoo2:2181,zoo3:2181 -f ./contrib/prometheus-exporter/conf/solr-exporter-config.xml -n 8 -s 15"
+    command: /bin/bash -c "/usr/bin/wait-for-http-200.sh; export JAVA_OPTS='-Dsolr.httpclient.builder.factory=org.apache.solr.client.solrj.impl.PreemptiveBasicAuthClientBuilderFactory -Dsolr.httpclient.config=/home/basicauth.properties'; ./contrib/prometheus-exporter/bin/solr-exporter -p 9854 -z zoo1:2181,zoo2:2181,zoo3:2181 -f ./contrib/prometheus-exporter/conf/solr-exporter-config.xml -n 8 -s 15"
     volumes:
       - ./solr-exporter/wait-for-http-200.sh:/usr/bin/wait-for-http-200.sh
+      - ./solr-exporter/basicauth.properties:/home/basicauth.properties
     depends_on:
       - solr1
       - solr2
