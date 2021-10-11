@@ -29,6 +29,7 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/api/collections -H 'Con
       "replicationFactor": 1,
       "waitForFinalState": true
     }
+  }
 '
 ```
 
