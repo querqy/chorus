@@ -170,7 +170,7 @@ services:
       - PRIVACY_URL=
       - COOKIES_URL=
       - EMAIL_MARKETING_MODE=false
-      - QUEPID_DEFAULT_SCORER=DCG@10
+      - QUEPID_DEFAULT_SCORER=AP@10
     links:
       - mysql
       - redis
