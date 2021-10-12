@@ -90,8 +90,9 @@
       <str name="querqy.rewriters">replace,common_rules,regex_screen_protectors</str>
     </lst>
     <lst name="appends">
-      <str name="fq">price:*</str>
-      <str name="fq">-img_500x500:""</str>
+      <!-- Lets not filter out the data if we don't need to -->
+      <!--str name="fq">price:*</str-->
+      <!--str name="fq">-img_500x500:""</str-->
     </lst>
   </requestHandler>
 
