@@ -10,18 +10,18 @@ for demo purposes
   <field name="name" type="text_stemmed_en" indexed="true" stored="true"/>
   <field name="title" type="text_stemmed_en" indexed="true" stored="true"/>
   <field name="ean" type="string" indexed="true" stored="true" multiValued="true"/>
-  <field name="price" type="pint" indexed="true" stored="true" multiValued="false"/>
+  <field name="price" type="integer" indexed="true" stored="true" multiValued="false"/>
   <field name="short_description" type="text_stemmed_en" indexed="true" stored="true"/>
   <field name="img_high" type="string" indexed="false" stored="true"/>
   <field name="img_low" type="string" indexed="false" stored="true"/>
   <field name="img_500x500" type="string" indexed="false" stored="true"/>
   <field name="img_thumb" type="string" indexed="false" stored="true"/>
-  <field name="date_released" type="pdate" indexed="true" stored="true" />
+  <field name="date_released" type="date" indexed="true" stored="true" />
 
   <!-- we don't stem names -->
   <field name="supplier" type="text_general" indexed="true" stored="true"/>
 
-  <field name="_version_" type="plong" indexed="true" stored="false"/>
+  <field name="_version_" type="long" indexed="true" stored="false"/>
   <field name="suggestions" type="text_general" indexed="true" stored="true" multiValued="true"/>
   <field name="search_attributes" type="text_stemmed_en" indexed="true" stored="true" multiValued="true"/>
 
@@ -63,7 +63,7 @@ for demo purposes
   -->
   <dynamicField name="attr_t_*" type="text_stemmed_en" indexed="true" stored="true"/>
   <dynamicField name="attr_b_*" type="boolean" indexed="true" stored="true"/>
-  <dynamicField name="attr_n_*" type="pfloat" indexed="true" stored="true"/>
+  <dynamicField name="attr_n_*" type="float" indexed="true" stored="true"/>
   <dynamicField name="filter_t*" type="string" indexed="true" stored="true"/>
 
   <dynamicField name="random_*" type="random"/>
@@ -77,18 +77,18 @@ for demo purposes
 
   <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
   <fieldType name="booleans" class="solr.BoolField" sortMissingLast="true" multiValued="true"/>
-  <fieldType name="pint" class="solr.IntPointField" docValues="true"/>
-  <fieldType name="pfloat" class="solr.FloatPointField" docValues="true"/>
-  <fieldType name="plong" class="solr.LongPointField" docValues="true"/>
-  <fieldType name="pdouble" class="solr.DoublePointField" docValues="true"/>
+  <fieldType name="integer" class="solr.IntPointField" docValues="true"/>
+  <fieldType name="float" class="solr.FloatPointField" docValues="true"/>
+  <fieldType name="long" class="solr.LongPointField" docValues="true"/>
+  <fieldType name="double" class="solr.DoublePointField" docValues="true"/>
 
-  <fieldType name="pints" class="solr.IntPointField" docValues="true" multiValued="true"/>
-  <fieldType name="pfloats" class="solr.FloatPointField" docValues="true" multiValued="true"/>
-  <fieldType name="plongs" class="solr.LongPointField" docValues="true" multiValued="true"/>
-  <fieldType name="pdoubles" class="solr.DoublePointField" docValues="true" multiValued="true"/>
+  <fieldType name="integers" class="solr.IntPointField" docValues="true" multiValued="true"/>
+  <fieldType name="floats" class="solr.FloatPointField" docValues="true" multiValued="true"/>
+  <fieldType name="longs" class="solr.LongPointField" docValues="true" multiValued="true"/>
+  <fieldType name="doubles" class="solr.DoublePointField" docValues="true" multiValued="true"/>
 
-  <fieldType name="pdate" class="solr.DatePointField" docValues="true"/>
-  <fieldType name="pdates" class="solr.DatePointField" docValues="true" multiValued="true"/>
+  <fieldType name="date" class="solr.DatePointField" docValues="true"/>
+  <fieldType name="dates" class="solr.DatePointField" docValues="true" multiValued="true"/>
 
   <fieldType name="random" class="solr.RandomSortField" indexed="true"/>
 
