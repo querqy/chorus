@@ -16,9 +16,14 @@
   <luceneMatchVersion>8.9</luceneMatchVersion>
 
   <updateHandler class="solr.DirectUpdateHandler2">
-    <commitWithin>
-      <softCommit>${solr.commitwithin.softcommit:true}</softCommit>
-    </commitWithin>
+    <autoCommit>
+      <maxTime>60000</maxTime>
+      <openSearcher>false</openSearcher>
+    </autoCommit>
+
+    <autoSoftCommit>
+      <maxTime>30000</maxTime>
+    </autoSoftCommit>
     <updateLog>
       <str name="dir">${solr.ulog.dir:}</str>
       <int name="numVersionBuckets">${solr.ulog.numVersionBuckets:65536}</int>
