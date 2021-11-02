@@ -84,6 +84,10 @@ echo -e "${MAJOR}Waiting for Solr cluster to start up and all three nodes to be 
 echo -e "${MAJOR}Setting up security in solr${RESET}"
 echo -e "${MINOR}copy security.json into image${RESET}"
 docker cp ./solr/security.json solr1:/security.json
+
+echo -e "${MINOR}wait for Keycloak to be available${RESET}"
+./keycloak/wait-for-keycloak.sh
+
 echo -e "${MINOR}upload security.json to zookeeper${RESET}"
 docker exec solr1 solr zk cp /security.json zk:security.json -z zoo1:2181
 

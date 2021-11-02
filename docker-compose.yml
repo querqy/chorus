@@ -61,12 +61,14 @@ services:
       - SOLR_OPTS=-XX:-UseLargePages
       - SOLR_HEAP=800m
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
+      - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true"
     volumes:
       - ./volumes/solr1/userfiles:/var/solr/data/userfiles
     depends_on:
       - zoo1
       - zoo2
       - zoo3
+      - keycloak
 
   solr2:
     container_name: solr2
@@ -77,12 +79,14 @@ services:
       - SOLR_OPTS=-XX:-UseLargePages
       - SOLR_HEAP=800m
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
+      - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true"
     volumes:
       - ./volumes/solr2/userfiles:/var/solr/data/userfiles
     depends_on:
       - zoo1
       - zoo2
       - zoo3
+      - keycloak
 
   solr3:
     container_name: solr3
@@ -93,12 +97,14 @@ services:
       - SOLR_OPTS=-XX:-UseLargePages
       - SOLR_HEAP=800m
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
+      - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true"
     volumes:
       - ./volumes/solr3/userfiles:/var/solr/data/userfiles
     depends_on:
       - zoo1
       - zoo2
       - zoo3
+      - keycloak      
 
   zoo1:
     image: zookeeper:3.6.2

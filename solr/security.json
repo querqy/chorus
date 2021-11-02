@@ -2,14 +2,29 @@
   "authentication": {
     "class": "solr.MultiAuthPlugin",
     "schemes": [
+
+      {
+        "scheme": "bearer",
+        "class": "solr.JWTAuthPlugin",
+        "blockUnknown": "true",
+        "scope": "openid",
+        "issuers":[
+          {
+            "name": "keycloak",
+            "wellKnownUrl": "http://keycloak:9080/auth/realms/chorus/.well-known/openid-configuration",
+            "clientId": "solr"            
+          }
+        ]
+      },
       {
         "scheme": "basic",
         "class": "solr.BasicAuthPlugin",
-        "blockUnknown": "false",
+        "blockUnknown": "true",
         "realm": "Chorus. Admin Credentials are solr:SolrRocks",
         "credentials": {
           "solr": "IV0EHq1OnNrj6gvRCwvFwTrZ1+z1oBbnQdiVC3otuq0= Ndd7LKvVBAaZIF0QAVi1ekCfAJXr1GGfLtRUXhgrF8c="
-        }
+        },
+        "forwardCredentials": false
       }
     ]
   },
@@ -22,6 +37,10 @@
         "user-role": {
           "solr": "admin"
         }
+      },
+      {
+        "scheme": "bearer",
+        "class": "solr.ExternalRoleRuleBasedAuthorizationPlugin"
       }
     ],
     "permissions": [
