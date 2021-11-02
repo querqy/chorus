@@ -1,18 +1,31 @@
 {
   "authentication": {
-    "class": "solr.BasicAuthPlugin",
-    "blockUnknown": "false",
-    "realm": "Chorus. Admin Credentials are solr:SolrRocks",
-    "credentials": {
-      "solr": "IV0EHq1OnNrj6gvRCwvFwTrZ1+z1oBbnQdiVC3otuq0= Ndd7LKvVBAaZIF0QAVi1ekCfAJXr1GGfLtRUXhgrF8c="
-    }
+    "class": "solr.MultiAuthPlugin",
+    "schemes": [
+      {
+        "scheme": "basic",
+        "class": "solr.BasicAuthPlugin",
+        "blockUnknown": "false",
+        "realm": "Chorus. Admin Credentials are solr:SolrRocks",
+        "credentials": {
+          "solr": "IV0EHq1OnNrj6gvRCwvFwTrZ1+z1oBbnQdiVC3otuq0= Ndd7LKvVBAaZIF0QAVi1ekCfAJXr1GGfLtRUXhgrF8c="
+        }
+      }
+    ]
   },
   "authorization": {
-    "class": "solr.RuleBasedAuthorizationPlugin",
-    "user-role": {
-      "solr": "admin"
-    },
-    "permissions": [{
+    "class": "solr.MultiAuthRuleBasedAuthorizationPlugin",
+    "schemes": [
+      {
+        "scheme": "basic",
+        "class": "solr.RuleBasedAuthorizationPlugin",
+        "user-role": {
+          "solr": "admin"
+        }
+      }
+    ],
+    "permissions": [
+      {
         "name": "security-edit",
         "role": "admin"
       },
