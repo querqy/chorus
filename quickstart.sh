@@ -10,6 +10,8 @@ MAJOR='\033[0;34m[QUICKSTART] '
 MINOR='\033[0;37m[QUICKSTART]    '
 RESET='\033[0m' # No Color
 
+export DOCKER_SCAN_SUGGEST=false
+
 
 if ! [ -x "$(command -v curl)" ]; then
   echo '${ERROR}Error: curl is not installed.${RESET}' >&2
@@ -85,7 +87,7 @@ docker cp ./solr/security.json solr1:/security.json
 echo -e "${MINOR}upload security.json to zookeeper${RESET}"
 docker exec solr1 solr zk cp /security.json zk:security.json -z zoo1:2181
 
-echo -e "${MINOR}wait for security.json to be available to solr${RESET}"
+echo -e "${MINOR}wait for security.json to be available to Solr${RESET}"
 ./solr/wait-for-zk-200.sh
 
 echo -e "${MAJOR}Package ecommerce configset.${RESET}"
@@ -110,7 +112,7 @@ if [ ! -f ./icecat-products-150k-20200809.tar.gz ]; then
     curl --progress-bar -o icecat-products-150k-20200809.tar.gz https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
 fi
 echo -e "${MAJOR}Populating products, please give it a few minutes!${RESET}"
-tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
+tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl --user solr:SolrRocks 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
 
 echo -e "${MAJOR}Setting up SMUI${RESET}"
 SOLR_INDEX_ID=`curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"ecommerce", "description":"Ecommerce Demo"}' http://localhost:9000/api/v1/solr-index | jq -r .returnId`

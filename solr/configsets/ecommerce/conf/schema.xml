@@ -25,6 +25,16 @@ for demo purposes
   <field name="suggestions" type="text_general" indexed="true" stored="true" multiValued="true"/>
   <field name="search_attributes" type="text_stemmed_en" indexed="true" stored="true" multiValued="true"/>
 
+  <!-- Stored with docvalues as a string -->
+  <field name="name_stored" type="string" indexed="true" stored="true"/>
+  <field name="title_stored" type="string" indexed="true" stored="true"/>
+  <field name="brand_stored" type="string" indexed="true" stored="true"/>
+  <field name="short_description_stored" type="string" indexed="true" stored="true"/>
+
+  <copyField source="name" dest="name_stored" />
+  <copyField source="title" dest="title_stored" />
+  <copyField source="brand" dest="brand_stored" />
+  <copyField source="short_description" dest="short_description_stored" />
 
   <copyField source="name" dest="suggestions" />
   <copyField source="title" dest="suggestions" />
@@ -56,6 +66,8 @@ for demo purposes
   <dynamicField name="attr_n_*" type="pfloat" indexed="true" stored="true"/>
   <dynamicField name="filter_t*" type="string" indexed="true" stored="true"/>
 
+  <dynamicField name="random_*" type="random"/>
+
   <copyField source="attr_t*" dest="filter_t*"/>
 
   <copyField source="attr_t*" dest="search_attributes"/>
@@ -77,6 +89,8 @@ for demo purposes
 
   <fieldType name="pdate" class="solr.DatePointField" docValues="true"/>
   <fieldType name="pdates" class="solr.DatePointField" docValues="true" multiValued="true"/>
+
+  <fieldType name="random" class="solr.RandomSortField" indexed="true"/>
 
   <fieldType name="text_stemmed_en" class="solr.TextField" autoGeneratePhraseQueries="false"
              enableGraphQueries="false" positionIncrementGap="100" multiValued="false">

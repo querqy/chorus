@@ -20,9 +20,9 @@ Since you have already gone through the Movie Demo setup, we'll need to set up a
 
 Go ahead and start a new case by clicking _Relevancy Cases_ drop down and choosing _Create a Case_.  
 
-Let's call the case _Notebook Computers_.   Then, instead of the default Solr instance, let's go ahead and use our Chorus Electronics index using this URL:
+Let's call the case _Notebook Computers_.   Then, instead of the default Solr instance, let's go ahead and use our Chorus Electronics index using this URL (notice the embedded user credentials):
 
-`http://localhost:8983/solr/ecommerce/select`
+`http://solr:SolrRocks@localhost:8983/solr/ecommerce/select`
 
 Click the _ping it_ link to confirm we can access the ecommerce index.
 

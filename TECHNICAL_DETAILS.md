@@ -1,3 +1,13 @@
+### User Accounts Setup
+
+| Component | Username                    | Password  | Origin        |
+|-----------|-----------------------------|-----------|---------------|
+| Solr      | solr                        | SolrRocks | security.json |
+| Quepid    | admin@choruselectronics.com | password  | quickstart.sh |
+| Grafana   | admin@choruselectronics.com | password  | quickstart.sh |
+|           |                             |           |               |
+
+
 ### Looking at DB:
 
 So, connect to your `smui_db` via localhost:3306, with username root, and password password.
@@ -52,7 +62,7 @@ Prometheus and Grafana setup heavily inspired by https://github.com/vegasbrianc/
 
 * https://grafana.com/docs/grafana/latest/administration/configure-docker/
 
-We update the /grafana/provisioning/dashboards/solr-dashboard_rev2.json to replace `${DS_PROMETHEUS}` with `Prometheus`
+We update the /grafana/provisioning/dashboards/solr-dashboard_rev7.json to replace `${DS_PROMETHEUS}` with `Prometheus`
 
 We imported the dashboard https://grafana.com/grafana/dashboards/10306 for Rails.   Could not get Puma metrics to be gathered by
 prometheus however.
