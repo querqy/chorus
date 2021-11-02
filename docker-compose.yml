@@ -62,7 +62,7 @@ services:
       - SOLR_HEAP=800m
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
     volumes:
-      - ./volumes/fake_shared_fs:/tmp/fake_shared_fs
+      - ./volumes/solr1/userfiles:/var/solr/data/userfiles
     depends_on:
       - zoo1
       - zoo2
@@ -78,7 +78,7 @@ services:
       - SOLR_HEAP=800m
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
     volumes:
-      - ./volumes/fake_shared_fs:/tmp/fake_shared_fs
+      - ./volumes/solr2/userfiles:/var/solr/data/userfiles
     depends_on:
       - zoo1
       - zoo2
@@ -94,7 +94,7 @@ services:
       - SOLR_HEAP=800m
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
     volumes:
-      - ./volumes/fake_shared_fs:/tmp/fake_shared_fs
+      - ./volumes/solr3/userfiles:/var/solr/data/userfiles
     depends_on:
       - zoo1
       - zoo2

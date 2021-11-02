@@ -36,7 +36,7 @@ class CatalogController < ApplicationController
     }
 
     # solr path which will be added to solr base url before the other solr params.
-    #config.solr_path = 'select'
+    config.solr_path = 'blacklight'
     #config.document_solr_path = 'get'
 
     # items to show per page, each number in the array represent another option to choose from.
@@ -169,14 +169,12 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('mustmatchall_algo', label: 'Must Match All') do |field|
-      #field.qt = 'mustmatchall'
       field.solr_parameters = {
         'mm': '100%'
       }
     end
 
     config.add_search_field('querqy_algo', label: 'Querqy Algo') do |field|
-      #field.qt = 'querqy'
       field.solr_parameters = {
         'defType': 'querqy',
         'querqy.rewriters': 'replace,common_rules,regex_screen_protectors',

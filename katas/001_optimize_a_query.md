@@ -42,15 +42,15 @@ Alert!  Sometimes in Quepid when you complete the add case wizard there is a odd
 
 Now, I like to have two browser windows side by side, the _Chorus Electronics_ store open on the left, and Quepid on the right.  You should see the same products listed in both.
 
-Since we are going to pretend we have a Merchandizer rating our individual results, we want to have a more sophisticated grading scale than the default one, of "Yes" or "No".  Click _Select Scorer_ and choose the nDCG@5 one from the list.  
+Since we are going to pretend we have a Merchandizer rating our individual results, we want to have a more sophisticated grading scale than the default binary one, of "0 - Irrelevant" or "1 - Relevant".  Click _Select Scorer_ and choose the nDCG@10 one from the list.  
 
-nDCG is a commonly used scorer that attempts to measure how good your results are against a ideal set of results, and it penalizes bad search results at the top of the list more than bad results at the end of the list.   
+nDCG is a commonly used scorer that attempts to measure how good your results are against a ideal set of results, and it penalizes bad search results that show up at the top of the list more than bad results that show up at the end of the list.   
 
-Our scorer is based on a 0 to 4 scale, from 0 being irrelevant, i.e the result "makes the user mad to see", to 4, an absolutely unequivocally perfect result.
+Our scorer is a graded scorer, from 0 to 3, from 0 being irrelevant, i.e the result "makes the user mad to see the result", to 3, an absolutely unequivocally perfect result.
 
 Most ratings end up in the 1 for poor or irrelevant and 3 for good or relevant rating.
 
-Our nDCG@5 scorer is setup to only look at the first five results on the page, so think about if you are doing Mobile optimization and your users only have a small amount of screen real estate.   We could do of course do @10 or @20 if we wanted to measure more deeply.
+Our nDCG@10 scorer is setup to only look at the first ten results on the page, so think about if you are doing Mobile optimization and your users only have a small amount of screen real estate.   We could do of course do @20 or @40 if we wanted to measure more deeply.
 
 We'll go more deeply into scorers in another Kata.  To save some time, we've already done some rating for you.  
 
@@ -58,7 +58,7 @@ Click the _Import Ratings_ from the toolbar and you'll be in the import modal.
 
 Pick the ratings file that we already created for you from `./katas/Chorus_Electronics_basic.csv`.  You'll see a preview of the CSV file.  Click _Import_ and Quepid will load up these ratings and rerun your queries.  Notice the frog icon went away, that is telling you you don't have any query results that need assessment from the business ;-)
 
-So here is the good/bad news.  Yes our search results are terrible, with a score of 0.14 (on a scale of 0 to 1).  However now we have a numerical value of our search results, and can now think about fixing them!
+So here is the good news/bad news.  Yes our search results are terrible, with a score of 0.14 (on a normalized scale of 0 to 1).  However now we have a numerical value of our search results, and can now think about fixing them!
 
 So now let's think about how we might actually improve them?  There are a lot of ways we could skin this cat, however for ecommerce use cases, one really powerful option is the Querqy query rewriting library for Solr and Elasticsearch.  We won't go into the details of how Querqy works with Solr in this Kata.
 
