@@ -8,6 +8,9 @@
 |           |                             |           |               |
 
 
+`blockUnknown` is false as we want to let RRE run against the _ecommerce_ collection.  We have locked
+down in `security.json` to allow anonymous users only to hit the /ecommerce/select/ end point.
+
 ### Looking at DB:
 
 So, connect to your `smui_db` via localhost:3306, with username root, and password password.

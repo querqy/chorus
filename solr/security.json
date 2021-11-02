@@ -1,8 +1,8 @@
 {
 "authentication":{
    "class":"solr.BasicAuthPlugin",
-   "blockUnknown":"true",
-   "realm": "Credentials are solr:SolrRocks",
+   "blockUnknown":"false",
+   "realm": "Chorus. Admin Credentials are solr:SolrRocks",
    "credentials":{"solr":"IV0EHq1OnNrj6gvRCwvFwTrZ1+z1oBbnQdiVC3otuq0= Ndd7LKvVBAaZIF0QAVi1ekCfAJXr1GGfLtRUXhgrF8c="}
 },
 "authorization":{
@@ -11,6 +11,20 @@
      "solr":"admin"
    },
    "permissions":[
-     {"name":"security-edit","role":"admin"}
+     {
+       "name":"security-edit",
+       "role":"admin"
+     },
+     {
+       "name": "anonymous",
+       "role": null,
+       "collection": ["ecommerce"],
+       "path":["/select"],
+       "method":["GET"],
+     },
+     {
+       "name":"all",
+       "role":"admin"
+     }
    ]
 }}
