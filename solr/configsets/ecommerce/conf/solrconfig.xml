@@ -25,56 +25,6 @@
     </updateLog>
   </updateHandler>
 
-  <queryParser name="querqy" class="querqy.solr.QuerqyDismaxQParserPlugin">
-    <bool name="skipUnknownRewriters">true</bool>
-    <lst name="infoLogging">
-      <!--
-        Define a 'sink' named 'responseSink' to which the logging information
-        will be sent:
-      -->
-
-      <lst name="sink">
-        <str name="id">responseSink</str>
-        <str name="class">querqy.solr.ResponseSink</str>
-      </lst>
-
-      <!--
-        Send the logging information from rewriter 'replace' to sink
-        'responseSink':
-      -->
-      <lst name="mapping">
-        <str name="rewriter">replace</str>
-        <str name="sink">responseSink</str>
-      </lst>
-      <!--
-        Send the logging information from rewriter 'common_rules' to sink
-        'responseSink' too:
-      -->
-      <lst name="mapping">
-        <str name="rewriter">common_rules</str>
-        <str name="sink">responseSink</str>
-      </lst>
-      <!--
-        Send the logging information from rewriter 'regex' to sink
-        'responseSink' as well:
-      -->
-      <lst name="mapping">
-        <str name="rewriter">regex_screen_protectors</str>
-        <str name="sink">responseSink</str>
-      </lst>
-
-    </lst>
-  </queryParser>
-
-
-  <!-- Override the default QueryComponent -->
-  <searchComponent name="query" class="querqy.solr.QuerqyQueryComponent"/>
-
-  <!--
-    Add the Querqy request handler.
-  -->
-  <requestHandler name="/querqy/rewriter" class="querqy.solr.QuerqyRewriterRequestHandler"/>
-
   <!-- Used in the Solr Admin UI -->
   <requestHandler name="/select" class="solr.SearchHandler">
     <lst name="defaults">
@@ -87,7 +37,7 @@
       <str name="tie">0.01</str>
 
       <!-- setup default rewriters if you do defType=querqy -->
-      <str name="querqy.rewriters">replace,common_rules,regex_screen_protectors</str>
+      <!--str name="querqy.rewriters">replace,common_rules,regex_screen_protectors</str-->
     </lst>
     <lst name="appends">
       <!-- Lets not filter out the data if we don't need to -->
@@ -108,7 +58,7 @@
       <str name="tie">0.01</str>
 
       <!-- setup default rewriters if you do defType=querqy -->
-      <str name="querqy.rewriters">replace,common_rules,regex_screen_protectors</str>
+      <!--str name="querqy.rewriters">replace,common_rules,regex_screen_protectors</str-->
 
       <!-- spellchecking -->
       <str name="spellcheck">true</str>
