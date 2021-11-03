@@ -2,10 +2,10 @@
 #FROM solr:8.10.0
 
 # produced by building locally your Solr
-FROM apache/solr:9.0.0-SNAPSHOT         
+#FROM apache/solr:9.0.0-SNAPSHOT
 
 # produced by Apache Solr project
-#FROM apache/solr-nightly:9.0.0-SNAPSHOT
+FROM apache/solr-nightly:9.0.0-SNAPSHOT
 
 # This is required by Solr 9, but not in Solr 8!
 RUN mkdir /var/solr/data
