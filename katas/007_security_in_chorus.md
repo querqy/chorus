@@ -10,3 +10,7 @@ We do have the /solr/ecommerce/select?q=*:* end point exposed for RRE to access 
 
 <<Move to top?>>  
 However, for our users, well we need to be able to manage them in a central location.   We have set up Keycloak as our centralized user management system for Quepid, SMUI, and Solr for individual users.   Users can register on Keycloak, but we have to grant them access to systems.  <-- maybe remove the registering???
+
+
+
+http://localhost:9080/auth/realms/chorus/.well-known/openid-configuration
