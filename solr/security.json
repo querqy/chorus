@@ -55,7 +55,7 @@
         "role": null,
         "collection": ["ecommerce"],
         "path": ["/select"],
-        "method": ["GET"],
+        "method": ["GET", "POST"],
       },
       {
         "name": "all",
