@@ -42,6 +42,8 @@ services:
       - SMUI_DB_USER=root
       - SMUI_DB_PASSWORD=password
       - SMUI_DEPLOY_PRELIVE_SOLR_HOST=solr1:8983
+      - SMUI_2SOLR_SOLR_HOST=solr1:8983
+      - SMUI_TOGGLE_DEPL_PRELIVE=true
       - SMUI_TOGGLE_SPELLING=true
       - SMUI_TOGGLE_DEPL_CUSTOM_SCRIPT=true
       - SMUI_TOGGLE_DEPL_CUSTOM_SCRIPT_PATH=/smui/conf/smui2solrcloud.sh
