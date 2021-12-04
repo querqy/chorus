@@ -1,7 +1,8 @@
-FROM querqy/smui:3.12.3
+FROM o19s/smui:latest
 
 COPY conf/smui2solrcloud.sh /smui/conf/smui2solrcloud.sh
 COPY conf/*.py /smui/conf/
+COPY conf/predefined_tags.json /smui/conf/predefined_tags.json
 
 USER root
 RUN apt-get update -y
