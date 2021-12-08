@@ -2,7 +2,7 @@
 
 Sometimes people use a short hand syntax that has a very strong correlation with a specific set of products.  For example, if you are on a home improvement website, and you get queries like `2x4x8`, well that is very strong signal that someone is looking for lumber!   On our Chorus Electronics site, any queries that include a pattern like this: _16:9_, _16:10_, _4:3_ are indicative of someone interested screen protectors for laptops.   The numbers are indicative of specific [display aspect ratio](https://en.wikipedia.org/wiki/Display_aspect_ratio) that each laptop screen has.   So in this Kata we'll learn how to use regular expressions to capture these patterns and narrow the results to just screen protector products made by the brand Kensington.
 
-_In a perfect world, we would be supporting the decision to add this rule based on analytics data from our click logs._
+_In a perfect world, we would be supporting the decision to add this rule based on analytics data from our click logs or by looking at exit rates._
 
 
 We're going to take advantage of how extendable Querqy is by using a custom rule that supports matching Regex patterns, and then applying a traditional `FILTER` rule.   The `querqy.regex.solr.RegexFilterRewriterFactory` is currently not supported in SMUI, so we'll need to work directly with the Querqy API's in Solr, but don't worry, it's pretty simple.
@@ -62,13 +62,13 @@ Now, we can test this rewriter by issuing a query with the `querqy.rewriters=reg
 <!-- In the future, leverage SOLR-6152 to make this query prepopulated in the Solr Query Admin UI -->
 
 ```
-curl -X GET 'http://localhost:8983/solr/ecommerce/select?q=16:9&qt=querqy&querqy.rewriters=regex_screen_protectors&fl=title,brand,attr_t_aspect_ratio'
+curl -X GET 'http://localhost:8983/solr/ecommerce/select?q=16:9&defType=querqy&querqy.rewriters=regex_screen_protectors&fl=title,brand,attr_t_aspect_ratio'
 ```
 
 We get back 13 different Kensington screen protectors.   Now, lets pass in some extra query information, like the model number _K58357WW_.   
 
 ```
-curl -X GET 'http://localhost:8983/solr/ecommerce/select?q=16:9%20K58357WW&qt=querqy&querqy.rewriters=regex_screen_protectors&fl=title,brand,attr_t_aspect_ratio'
+curl -X GET 'http://localhost:8983/solr/ecommerce/select?q=16:9%20K58357WW&defType=querqy&querqy.rewriters=regex_screen_protectors&fl=title,brand,attr_t_aspect_ratio'
 ```
 
 Boom!  We get just a single product result back:
