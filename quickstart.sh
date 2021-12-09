@@ -10,6 +10,8 @@ MAJOR='\033[0;34m[QUICKSTART] '
 MINOR='\033[0;37m[QUICKSTART]    '
 RESET='\033[0m' # No Color
 
+export DOCKER_SCAN_SUGGEST=false
+
 
 if ! [ -x "$(command -v curl)" ]; then
   echo '${ERROR}Error: curl is not installed.${RESET}' >&2
