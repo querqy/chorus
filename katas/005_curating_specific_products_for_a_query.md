@@ -30,7 +30,7 @@ You should see the _HP vp6110 Digital Projector_ listed as the only product.
 
 Great, but we want more!
 
-Back into SMUI, and now, change the `FILTER` rule to be a list of products filtered on the `id` field by changing the value to a space delimited list of id's, wrapped in parenthesis:  `(49058 77190520 3795453)`.   Publish the rule and go check it out!
+Back into SMUI, and now, change the `FILTER` rule to be a list of products filtered on the `id` field by changing the value to a space delimited list of id's, wrapped in parenthesis:  `(49058 77190520 3795453)`.   Publish to LIVE the rule and go check it out!
 
 ![SMUI Screenshot](005_smui_screenshot.png)
 
