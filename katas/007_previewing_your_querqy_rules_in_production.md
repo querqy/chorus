@@ -10,7 +10,9 @@ Deploy this rule to our *Prelive* environment by clicking the `Push Config to So
 
 Now, bring up the Chorus Webshop again, and this time pick from the dropdown `Querqy Prelive`.   Now do your search for `backpack` and you'll see a mixture of backpacks and some other case related products.   Swap the dropdown to `Querqy Live` and run the search again to see the difference.   
 
-Now, if you feel like the changes are worthwhile, then click the `Publish to LIVE` and those rules will be made available to everyone (assuming `Querqy Live` is the default algorithm ;-) ). 
+You can also do a quick before and after using JUST the prelive environment by unchecking and checking the checkbox next to the INPUT TERM, and then clicking `Push Config to Solr` as well.
+
+Now, if you feel like the changes are worthwhile, then click the `Publish to LIVE` and those rules will be made available to everyone (assuming `Querqy Live` is the default algorithm ;-) ).
 
 This is implemented by having two sets of querqy rules.   Up to now we have only used the `common_rules` and `replace` rewriters.   However, if you go check out the Solr end point for Querqy at http://localhost:8983/solr/ecommerce/querqy/rewriter you will see that we have now added `common_rules_prelive` and `replace_prelive`.
 
