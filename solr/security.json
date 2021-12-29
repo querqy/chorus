@@ -47,7 +47,11 @@
     "permissions": [
       {
         "name": "security-edit",
-        "role": "admin"
+        "role": ["admin", "solr-admin"]
+      },
+      {
+        "name": "security-read",
+        "role": ["admin", "solr-admin"]
       },
       {
         "comment": "This doesn't seem to work anymore under MultiAuthPlugin"
