@@ -114,6 +114,45 @@ fi
 echo -e "${MAJOR}Populating products, please give it a few minutes!${RESET}"
 tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
 
+echo -e "${MAJOR}Defining relevancy algorithems using ParamSets.${RESET}"
+curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/params -H 'Content-type:application/json'  -d '{
+  "set": {
+    "visible_products":{
+      "fq":["price:*", "-img_500x500:\"\""]
+    }
+  },
+  "set": {
+    "default_algo":{
+      "defType":"edismax",
+      "qf": "id name title product_type short_description ean search_attributes"
+    }
+  },
+  "set": {
+    "mustmatchall_algo":{
+      "deftype":"edismax",
+      "mm":"100%",
+      "qf": "id name title product_type short_description ean search_attributes"
+    }
+  },
+  "set": {
+    "querqy_algo":{
+      "defType":"querqy",
+      "querqy.rewriters":"replace,common_rules,regex_screen_protectors",
+      "querqy.infoLogging":"on",
+      "qf": "id name title product_type short_description ean search_attributes"
+    }
+  },
+  "set": {
+    "querqy_algo_prelive":{
+      "defType":"querqy",
+      "querqy.rewriters":"replace_prelive,common_rules_prelive,regex_screen_protectors",
+      "querqy.infoLogging":"on",
+      "qf": "id name title product_type short_description ean search_attributes"
+    }
+  },
+}'
+
+
 echo -e "${MAJOR}Setting up SMUI${RESET}"
 SOLR_INDEX_ID=`curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"ecommerce", "description":"Ecommerce Demo"}' http://localhost:9000/api/v1/solr-index | jq -r .returnId`
 curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"product_type"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field

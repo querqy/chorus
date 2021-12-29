@@ -77,6 +77,7 @@
 
   <!-- Used in the Solr Admin UI -->
   <requestHandler name="/select" class="solr.SearchHandler">
+    <!-- We use the useParams= parameter with ParamSets to manage our relevance algorithems -->
     <lst name="defaults">
       <str name="echoParams">all</str>
       <str name="indent">true</str>
@@ -85,19 +86,16 @@
       <str name="qf">id name title product_type short_description ean search_attributes</str>
       <str name="defType">edismax</str>
       <str name="tie">0.01</str>
-
-      <!-- setup default rewriters if you do defType=querqy -->
-      <str name="querqy.rewriters">replace,common_rules,regex_screen_protectors</str>
     </lst>
     <lst name="appends">
-      <!-- Lets not filter out the data if we don't need to -->
+      <!-- Lets not filter out the data if we don't need to at this  -->
       <!--str name="fq">price:*</str-->
       <!--str name="fq">-img_500x500:""</str-->
     </lst>
   </requestHandler>
 
   <!-- Used by the Blacklight Front End App -->
-  <requestHandler name="/blacklight" class="solr.SearchHandler">
+  <requestHandler name="/blacklight" class="solr.SearchHandler" useParams="visible_products">
     <lst name="defaults">
       <str name="echoParams">explicit</str>
       <str name="indent">true</str>
@@ -125,8 +123,6 @@
 
     </lst>
     <lst name="appends">
-      <str name="fq">price:*</str>
-      <str name="fq">-img_500x500:""</str>
     </lst>
     <arr name="last-components">
       <str>spellcheck</str>
