@@ -53,6 +53,8 @@ We are trying to strike a balance between making the setup process as easy and f
 
 If you are impatient, we have a quick start script, `./quickstart.sh` that sets you up, however I recommend you go through [Kata 0: Setting up Chorus](katas/000_setting_up_chorus.md).   
 
+# Structured Learning using Chorus
+
 After that, you can learn about how to use all the tools in Chorus to improve search by following these Katas:
 
 1. First Kata: [Lets Optimize a Query](katas/001_optimize_a_query.md)
