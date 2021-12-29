@@ -1,0 +1,44 @@
+[
+  {
+    "property": "tenant",
+    "value": "MO"
+  },
+  {
+    "property": "tenant",
+    "value": "HA"
+  },
+  {
+    "solrIndexName": "de",
+    "property": "tenant",
+    "value": "MO_DE"
+  },
+  {
+    "solrIndexName": "de",
+    "property": "tenant",
+    "value": "MO_AT"
+  },
+  {
+    "solrIndexName": "de",
+    "property": "tenant",
+    "value": "MO_CH"
+  },
+  {
+    "solrIndexName": "fr",
+    "property": "tenant",
+    "value": "MO_CH"
+  },
+  {
+    "solrIndexName": "fr",
+    "property": "tenant",
+    "value": "MO_FR"
+  },
+  {
+    "solrIndexName": "fr",
+    "property": "tenant",
+    "value": "MO_BE"
+  },
+  {
+    "value": "zero results",
+    "exported": false
+  }
+]

@@ -53,6 +53,8 @@ We are trying to strike a balance between making the setup process as easy and f
 
 If you are impatient, we have a quick start script, `./quickstart.sh` that sets you up, however I recommend you go through [Kata 0: Setting up Chorus](katas/000_setting_up_chorus.md).   
 
+# Structured Learning using Chorus
+
 After that, you can learn about how to use all the tools in Chorus to improve search by following these Katas:
 
 1. First Kata: [Lets Optimize a Query](katas/001_optimize_a_query.md)
@@ -60,6 +62,9 @@ After that, you can learn about how to use all the tools in Chorus to improve se
 1. Kata 003: [Observability in Chorus](katas/003_observability_in_chorus.md)
 1. Fourth Kata: [How to Gather Human Judgements](katas/004_gathering_human_judgements.md)
 1. Fifth Kata: [Some days you just KNOW what the right products are for a query!](katas/005_curating_specific_products_for_a_query.md)
+1. Sixth Kata: [Adding Custom Rules to Querqy!](katas/006_adding_custom_query_rules.md)
+1. Seventh Kata: [Previewing Rules Before Users See Them](katas/007_previewing_your_querqy_rules_in_production.md)
+1. Eighth Kata: [Organize your queries using Tags](katas/008_tagging_your_queries.md)
 
 There is also a video series that is very closely related called [Meet Pete](https://opensourceconnections.com/blog/2020/07/07/meet-pete-the-e-commerce-search-product-manager/)
 

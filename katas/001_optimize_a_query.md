@@ -58,7 +58,7 @@ Pick the ratings file that we already created for you from `./katas/Chorus_Elect
 
 So here is the good news/bad news.  Yes our search results are terrible, with a score of 0.14 (on a normalized scale of 0 to 1).  However now we have a numerical value of our search results, and can now think about fixing them!
 
-So now let's think about how we might actually improve them?  There are a lot of ways we could skin this cat, however for ecommerce use cases, one really powerful option is the Querqy query rewriting library for Solr and Elasticsearch.  We won't go into the details of how Querqy works with Solr in this Kata.
+So now let's think about how we might actually improve them?  There are a lot of ways we could skin this cat, however for ecommerce use cases, one really powerful option is the Querqy query rewriting library for Solr and Elasticsearch.  We won't go into the technical details of how Querqy works with Solr in this Kata.
 
 To make it easier for the Search Product Manager to do _Searchandizing_, we will use the Search Management UI, or SMUI.  Open up http://localhost:9000 and you will be in the management screen for the _Ecommerce Demo_.
 
@@ -66,7 +66,7 @@ Arrange your screens so the _Chorus Electonics_ store and SMUI are both visible.
 
 ![Layout out your webstore and tuning tools side by side](screens_side_by_side.png)
 
-Because we are working with the Querqy library, in the _Chorus Electronics_ store, make sure to change form the _Default Algo_ in the dropdown next to the search bar to the _Querqy Algo_.  Do a search for notebook, and while the initial product images may look good to you, remember, they aren't images of notebooks, they are notebook *accessories* that we are getting back!   While we are at it, let's also check _laptop_ as well.
+Because we are working with the Querqy library, in the _Chorus Electronics_ store, make sure to change form the _Default Algo_ in the dropdown next to the search bar to the _Querqy Live_.  Do a search for notebook, and while the initial product images may look good to you, remember, they aren't images of notebooks, they are notebook *accessories* that we are getting back!   While we are at it, let's also check _laptop_ as well.
 
 Let's start working on the query _notebook_ by typing it in on the left in SMUI under _Search or Create Search Rules_ text box.  Click _New_ and you get an empty rules set.  
 

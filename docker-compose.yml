@@ -37,18 +37,22 @@ services:
     ports:
       - 9000:9000
     environment:
+      - SMUI_HEADLINE=Chorus SMUI
       - SMUI_DB_URL=jdbc:mysql://mysql:3306/smui?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
       - SMUI_DB_USER=root
       - SMUI_DB_PASSWORD=password
       - SMUI_DEPLOY_PRELIVE_SOLR_HOST=solr1:8983
+      - SMUI_2SOLR_SOLR_HOST=solr1:8983
+      - SMUI_TOGGLE_DEPL_PRELIVE=true
+      - SMUI_TOGGLE_SPELLING=true
       - SMUI_TOGGLE_DEPL_CUSTOM_SCRIPT=true
       - SMUI_TOGGLE_DEPL_CUSTOM_SCRIPT_PATH=/smui/conf/smui2solrcloud.sh
       - SMUI_DEPLOY_PRELIVE_FN_RULES_TXT=/configs/ecommerce/rules.txt
-      - SMUI_TOGGLE_SPELLING=true
       - SMUI_DEPLOY_PRELIVE_FN_REPLACE_TXT=/configs/ecommerce/replace-rules.txt
       - SMUI_TOGGLE_RULE_ID_LOGGING=true
-      - SMUI_HEADLINE=Chorus SMUI
       - SMUI_TOGGLE_EVENTHISTORY=true
+      - SMUI_RULE_TAGGING_ACTIVE=true
+      - SMUI_PREDEFINED_TAGS_FILE=/smui/conf/predefined_tags.json
     depends_on:
       - mysql
 
