@@ -7,7 +7,7 @@ FROM solr:8.11.1
 #FROM apache/solr-nightly:9.0.0-SNAPSHOT
 
 # This is required by Solr 9, but not in Solr 8!
-RUN mkdir /var/solr/data
+#RUN mkdir /var/solr/data
 
 
 COPY ./lib/querqy-solr-5.1.lucene810.0-jar-with-dependencies.jar /opt/querqy/lib/
