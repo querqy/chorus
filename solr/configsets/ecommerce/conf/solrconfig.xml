@@ -25,6 +25,56 @@
     </updateLog>
   </updateHandler>
 
+  <queryParser name="querqy" class="querqy.solr.QuerqyDismaxQParserPlugin">
+    <bool name="skipUnknownRewriters">true</bool>
+    <lst name="infoLogging">
+      <!--
+        Define a 'sink' named 'responseSink' to which the logging information
+        will be sent:
+      -->
+
+      <lst name="sink">
+        <str name="id">responseSink</str>
+        <str name="class">querqy.solr.ResponseSink</str>
+      </lst>
+
+      <!--
+        Send the logging information from rewriter 'replace' to sink
+        'responseSink':
+      -->
+      <lst name="mapping">
+        <str name="rewriter">replace</str>
+        <str name="sink">responseSink</str>
+      </lst>
+      <!--
+        Send the logging information from rewriter 'common_rules' to sink
+        'responseSink' too:
+      -->
+      <lst name="mapping">
+        <str name="rewriter">common_rules</str>
+        <str name="sink">responseSink</str>
+      </lst>
+      <!--
+        Send the logging information from rewriter 'regex' to sink
+        'responseSink' as well:
+      -->
+      <lst name="mapping">
+        <str name="rewriter">regex_screen_protectors</str>
+        <str name="sink">responseSink</str>
+      </lst>
+
+    </lst>
+  </queryParser>
+
+
+  <!-- Override the default QueryComponent -->
+  <searchComponent name="query" class="querqy.solr.QuerqyQueryComponent"/>
+
+  <!--
+    Add the Querqy request handler.
+  -->
+  <requestHandler name="/querqy/rewriter" class="querqy.solr.QuerqyRewriterRequestHandler"/>
+
   <!-- Used in the Solr Admin UI -->
   <requestHandler name="/select" class="solr.SearchHandler">
     <!-- We use the useParams= parameter with ParamSets to manage our relevance algorithems -->
@@ -72,7 +122,6 @@
       <!-- filter out any collations that don't match documents -->
       <str name="spellcheck.collateParam.mm">100%</str>
 
-
     </lst>
     <lst name="appends">
     </lst>
@@ -80,57 +129,6 @@
       <str>spellcheck</str>
     </arr>
   </requestHandler>
-
-  <!-- for the purposes of understanding the impact of "light switch", we want to have
-  a mm=100% version.   Today, this is done via change to the front end GUI and changing
-  the requestHandler.  In the future, this should be a paramSet that lives in ZK and no
-  hardcoding of the front end!  Just a useParams=mustmatchall
-  -->
-  <!-- &qt=mustmatchall -->
-  <!-- No longer needed with Blacklight 7.19 -->
-  <!--
-  <requestHandler name="mustmatchall" class="solr.SearchHandler">
-    <lst name="defaults">
-      <str name="echoParams">explicit</str>
-      <str name="indent">true</str>
-      <str name="df">id</str>
-      <str name="qf">name title product_type short_description ean search_attributes</str>
-
-      <str name="defType">edismax</str>
-      <str name="tie">0.01</str>
-      <str name="mm">100&#37;</str>
-    </lst>
-    <lst name="appends">
-      <str name="fq">price:*</str>
-      <str name="fq">-img_500x500:""</str>
-    </lst>
-  </requestHandler>
-  -->
-
-  <!-- &qt=querqy -->
-  <!-- No longer needed with Blacklight 7.19 -->
-  <!--
-  <requestHandler name="querqy" class="solr.SearchHandler">
-    <lst name="defaults">
-      <str name="echoParams">explicit</str>
-      <str name="indent">true</str>
-
-      <str name="df">id</str>
-      <str name="qf">id name title product_type short_description ean search_attributes</str>
-
-      <str name="defType">querqy</str>
-
-      <str name="querqy.rewriters">replace,common_rules,regex_screen_protectors</str>
-      <str name="querqy.infoLogging">on</str>
-      <str name="tie">0.01</str>
-      <str name="mm">100&#37;</str>
-    </lst>
-    <lst name="appends">
-      <str name="fq">price:*</str>
-      <str name="fq">-img_500x500:""</str>
-    </lst>
-  </requestHandler>
-  -->
 
   <searchComponent name="suggest" class="solr.SuggestComponent">
     <lst name="suggester">
