@@ -1,4 +1,4 @@
-# Eighth Kata: Find all the Rules for dealing with Zero Results Found!
+# Eighth Kata: Tagging Your Queries.  Find all the Rules for dealing with Zero Results Found!
 
 In this Kata, we're going to learn how to start organizing your queries using the tagging UI in SMUI to let you
 label what the various rules are for.  We're going to start out with the simplest use case, tagging all the rules
