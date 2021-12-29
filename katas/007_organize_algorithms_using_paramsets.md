@@ -145,8 +145,8 @@ Some good queries for improving with some rules are:
 
 ## Curious how to understand what is happening with the ParamSet?
 
-There are two ways that you can understand what a ParamSet like the `mustmatchall_algo` does.  The first is to
-go directly against Solr:
+A potential reason to not use ParamSets is that it is another layer of indirection between you and your query.
+There are two ways that you can understand what a ParamSet like the `mustmatchall_algo` actually does when doing your relevance engineering.  The first is to go directly against Solr:
 
 ```
 http://localhost:8983/solr/ecommerce/config/requestHandler?componentName=/select&expandParams=true&useParams=mustmatchall_algo
