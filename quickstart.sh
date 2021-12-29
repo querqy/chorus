@@ -128,6 +128,13 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
     }
   },
   "set": {
+    "mustmatchall_algo":{
+      "deftype":"edismax",
+      "mm":"100%",
+      "qf": "id name title product_type short_description ean search_attributes"
+    }
+  },
+  "set": {
     "querqy_algo":{
       "defType":"querqy",
       "querqy.rewriters":"replace,common_rules,regex_screen_protectors",
@@ -136,12 +143,13 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
     }
   },
   "set": {
-    "mustmatchall_algo":{
-      "deftype":"edismax",
-      "mm":"100%",
+    "querqy_algo_prelive":{
+      "defType":"querqy",
+      "querqy.rewriters":"replace_prelive,common_rules_prelive,regex_screen_protectors",
+      "querqy.infoLogging":"on",
       "qf": "id name title product_type short_description ean search_attributes"
     }
-  }
+  },
 }'
 
 

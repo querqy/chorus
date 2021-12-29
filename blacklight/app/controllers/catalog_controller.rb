@@ -184,9 +184,7 @@ class CatalogController < ApplicationController
 
     config.add_search_field('querqy_algo_prelive', label: 'Querqy Prelive') do |field|
       field.solr_parameters = {
-        'defType': 'querqy',
-        'querqy.rewriters': 'replace_prelive,common_rules_prelive,regex_screen_protectors',
-        'querqy.infoLogging': 'on'
+        'useParams': 'querqy_algo_prelive'
       }
     end
 
