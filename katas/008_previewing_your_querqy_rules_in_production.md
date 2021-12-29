@@ -1,4 +1,4 @@
-# Seventh Kata: Seven is a lucky number in many cultures, but what if you don't feel lucky with your rules?
+# Eighth Kata: What if you aren't sure if a rule will improve search quality or not?
 
 In this Kata, we're going to learn how to preview the impact of your Querqy rules for your webshop before your customers see them!
 
