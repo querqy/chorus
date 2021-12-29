@@ -1,4 +1,54 @@
 query,docid,rating
+laptop,1229111,0
+laptop,2060476,0
+laptop,77026839,0
+laptop,77311847,0
+laptop,77026550,0
+laptop,1229110,0
+laptop,1599521,0
+laptop,77311846,0
+laptop,77311839,0
+laptop,1229109,0
+laptop,1229118,0
+laptop,1229120,0
+laptop,77026530,0
+laptop,1225502,0
+laptop,1229130,0
+laptop,1229119,0
+laptop,1751314,1
+laptop,619398,1
+laptop,2659461,0
+laptop,3956922,0
+laptop,2007047,0
+laptop,128957,0
+laptop,1751315,0
+laptop,4065838,0
+laptop,254830,0
+laptop,1952726,0
+laptop,1418540,0
+laptop,95726,0
+laptop,1178340,0
+laptop,3332203,0
+laptop,3270236,0
+laptop,3435308,0
+laptop,2112555,0
+laptop,13166,0
+laptop,1600501,0
+laptop,1418539,0
+laptop,1178662,0
+laptop,3024623,0
+laptop,799525,0
+laptop,4607401,0
+laptop,278328,1
+laptop,1712804,3
+laptop,3802249,3
+laptop,1710195,3
+laptop,1893702,3
+laptop,4564776,3
+laptop,3334324,3
+laptop,78534906,3
+laptop,1350917,3
+laptop,77386176,3
 bluetooth speaker,1993197,3
 bluetooth speaker,78503000,3
 bluetooth speaker,78502985,3
@@ -39,9 +89,30 @@ bluetooth speaker,3542361,0
 bluetooth speaker,2047224,0
 bluetooth speaker,1710195,0
 bluetooth speaker,3521171,0
+bluetooth speaker,365429,0
+bluetooth speaker,77854049,3
+bluetooth speaker,3484711,0
+bluetooth speaker,4148015,0
+bluetooth speaker,4204999,0
+bluetooth speaker,3466376,0
+bluetooth speaker,3477896,0
+bluetooth speaker,2663204,0
+bluetooth speaker,1647852,0
+bluetooth speaker,70244,0
+bluetooth speaker,1575066,0
+bluetooth speaker,3394484,0
 surround sound speakers,478578,3
 surround sound speakers,130423,0
 surround sound speakers,356862,0
+surround sound speakers,1579374,1
+surround sound speakers,58192,3
+surround sound speakers,3462841,0
+surround sound speakers,338731,0
+surround sound speakers,279672,3
+surround sound speakers,450558,3
+surround sound speakers,1348452,2
+surround sound speakers,77192151,2
+surround sound speakers,77218052,0
 phone case,3842754,3
 phone case,3428606,3
 phone case,3430648,3
@@ -186,6 +257,13 @@ nintendo switch,77487293,3
 nintendo switch,78332962,0
 nintendo switch,77192151,0
 nintendo switch,77192150,0
+nintendo switch,3932626,0
+nintendo switch,458647,0
+nintendo switch,458655,0
+nintendo switch,1679331,0
+nintendo switch,136440,0
+nintendo switch,1948452,0
+nintendo switch,1948453,0
 switch,458655,0
 switch,458647,0
 switch,77487293,3
@@ -235,6 +313,17 @@ laptop bag,4567982,3
 laptop bag,4509231,3
 laptop bag,3662408,3
 laptop bag,4548172,3
+laptop bag,278328,0
+laptop bag,1712804,0
+laptop bag,3802249,0
+laptop bag,1710195,0
+laptop bag,1893702,0
+laptop bag,4564776,0
+laptop bag,3334324,0
+laptop bag,78534906,0
+laptop bag,1350917,0
+laptop bag,77386176,0
+laptop bag,3484721,0
 gaming mouse,1929829,3
 gaming mouse,4706452,3
 gaming mouse,3660920,3
@@ -247,10 +336,22 @@ gaming mouse,77192154,3
 gaming mouse,4703509,3
 gaming mouse,77192161,3
 gaming mouse,77192162,3
+gaming mouse,78803571,0
 gaming keyboard,77192158,3
 gaming keyboard,77192157,3
 gaming keyboard,77192160,3
 gaming keyboard,77023781,3
+gaming keyboard,77195848,0
+gaming keyboard,78803571,0
+gaming keyboard,4312696,0
+gaming keyboard,77455669,0
+gaming keyboard,3663889,0
+gaming keyboard,448154,0
+gaming keyboard,4706452,0
+gaming keyboard,3660920,0
+gaming keyboard,1929829,0
+gaming keyboard,78503108,0
+gaming keyboard,3596581,0
 headphones,620649,3
 headphones,788255,3
 headphones,4144170,3
@@ -291,6 +392,8 @@ headphones,325774,3
 headphones,474739,3
 headphones,301889,3
 headphones,302706,3
+headphones,302952,3
+headphones,446370,3
 headset,3422937,3
 headset,3425258,3
 headset,3468944,3
@@ -335,6 +438,18 @@ head set,77116237,0
 head set,77116120,0
 head set,77116247,0
 head set,134294,0
+head set,1996643,0
+head set,545598,3
+head set,1519085,3
+head set,3093851,3
+head set,4508826,0
+head set,77127277,0
+head set,77127846,0
+head set,774746,0
+head set,1225121,0
+head set,4061728,0
+head set,2160438,0
+head set,2075516,0
 phone charger,3663711,2
 phone charger,476138,2
 phone charger,462268,3
@@ -345,6 +460,7 @@ phone charger,49754,0
 phone charger,78860414,3
 phone charger,560621,0
 phone charger,3993072,1
+phone charger,483781,0
 laptop case,2007047,3
 laptop case,1751315,3
 laptop case,4065838,3
@@ -385,6 +501,16 @@ laptop case,4607401,3
 laptop case,802738,3
 laptop case,1319383,3
 laptop case,128942,3
+laptop case,278328,0
+laptop case,1712804,0
+laptop case,3802249,0
+laptop case,1710195,0
+laptop case,1893702,0
+laptop case,4564776,0
+laptop case,3334324,0
+laptop case,78534906,0
+laptop case,1350917,0
+laptop case,77386176,0
 ipad,79552511,3
 ipad,4152840,0
 ipad,79525063,3
@@ -601,6 +727,8 @@ laser printer,148110,0
 laser printer,148113,0
 laser printer,148073,0
 laser printer,148103,0
+laser printer,4535086,0
+laser printer,729105,0
 radio,1232753,3
 radio,887870,3
 radio,2103213,2
@@ -759,6 +887,8 @@ camera bag,4146873,3
 camera bag,4146872,3
 camera bag,2707548,3
 camera bag,3957040,3
+camera bag,3484721,0
+camera bag,852191,0
 pro controller,1079800,2
 pro controller,882641,0
 pro controller,1413504,0
@@ -778,6 +908,16 @@ pro controller,1365857,0
 pro controller,1456962,0
 pro controller,1459091,0
 pro controller,1277679,0
+pro controller,1393579,0
+pro controller,1709029,0
+pro controller,1677235,0
+pro controller,475780,0
+pro controller,639938,0
+pro controller,1539994,0
+pro controller,3521632,0
+pro controller,1350732,0
+pro controller,1539993,0
+pro controller,1539995,0
 video camera,1674299,1
 video camera,2063624,1
 video camera,3595945,1
@@ -793,6 +933,17 @@ video camera,3843836,3
 video camera,1960604,0
 video camera,1993294,0
 light board,78533616,0
+light board,77266033,0
+light board,895842,0
+light board,938308,0
+light board,1200860,0
+light board,1849604,0
+light board,1231600,0
+light board,1231610,0
+light board,639018,0
+light board,1601777,0
+light board,1624161,0
+light board,1231730,0
 android tablet,78839328,3
 android tablet,78274585,3
 android tablet,77125863,3
@@ -803,6 +954,12 @@ android tablet,1678437,0
 android tablet,79042320,3
 android tablet,79042322,3
 android tablet,78463182,3
+android tablet,77856472,0
+android tablet,77524118,0
+android tablet,78432925,0
+android tablet,77945628,0
+android tablet,77311842,0
+android tablet,77311852,0
 apple,3325453,0
 apple,77499005,3
 apple,1857711,2
@@ -890,8 +1047,15 @@ microsoft surface,77029962,0
 microsoft surface,44596,0
 microsoft surface,2992178,0
 microsoft surface,367406,0
+microsoft surface,77311849,0
+microsoft surface,77311830,0
+microsoft surface,77311840,0
+microsoft surface,77311832,0
+microsoft surface,1278353,0
+microsoft surface,1278352,0
+microsoft surface,77311853,0
 desktop,1365646,0
-desktop,1595949,1
+desktop,1595949,0
 desktop,1746703,3
 desktop,1238683,1
 desktop,1749211,3
@@ -915,61 +1079,26 @@ desktop,3966580,0
 desktop,1593563,3
 desktop,1651832,3
 desktop,1638181,3
-desktop,881272,3
-desktop,881271,3
+desktop,881272,0
+desktop,881271,0
 desktop,77386682,3
 desktop,3458217,3
 desktop,1668462,3
 desktop,3449712,0
 desktop,79344196,0
 desktop,70072,3
-desktop,1012278,3
+desktop,1012278,0
 desktop,3890675,3
 desktop,1675263,3
 desktop,1578707,3
 desktop,1309592,3
 desktop,1012656,3
 desktop,1675262,3
-laptop,1229111,0
-laptop,2060476,0
-laptop,77026839,0
-laptop,77311847,0
-laptop,77026550,0
-laptop,1229110,0
-laptop,1599521,0
-laptop,77311846,0
-laptop,77311839,0
-laptop,1229109,0
-laptop,1229118,0
-laptop,1229120,0
-laptop,77026530,0
-laptop,1225502,0
-laptop,1229130,0
-laptop,1229119,0
-laptop,1751314,1
-laptop,619398,1
-laptop,2659461,0
-laptop,3956922,0
-laptop,2007047,0
-laptop,128957,0
-laptop,1751315,0
-laptop,4065838,0
-laptop,254830,0
-laptop,1952726,0
-laptop,1418540,0
-laptop,95726,0
-laptop,1178340,0
-laptop,3332203,0
-laptop,3270236,0
-laptop,3435308,0
-laptop,2112555,0
-laptop,13166,0
-laptop,1600501,0
-laptop,1418539,0
-laptop,1178662,0
-laptop,3024623,0
-laptop,799525,0
-laptop,4607401,0
+desktop,3709050,0
+desktop,3791396,0
+desktop,3997509,0
+desktop,3989137,0
+desktop,3996683,0
 monitor,279845,0
 monitor,1418543,0
 monitor,1645837,0
@@ -1145,6 +1274,16 @@ mouse pad,274090,3
 mouse pad,77191879,0
 gaming mouse pad,77195849,3
 gaming mouse pad,77476957,3
+gaming mouse pad,1405078,2
+gaming mouse pad,282385,2
+gaming mouse pad,332371,2
+gaming mouse pad,75974,2
+gaming mouse pad,713303,2
+gaming mouse pad,627965,2
+gaming mouse pad,77913943,2
+gaming mouse pad,713302,2
+gaming mouse pad,1929829,0
+gaming mouse pad,4706452,0
 lenovo,558352,0
 lenovo,458389,0
 lenovo,343385,0
@@ -1188,8 +1327,29 @@ lenovo,342286,3
 touchscreen computer,1856965,0
 touchscreen computer,1439010,0
 touchscreen computer,1439009,0
+touchscreen computer,1645837,0
+touchscreen computer,1596052,0
+touchscreen computer,80033,0
+touchscreen computer,77524118,0
+touchscreen computer,2152150,0
+touchscreen computer,799535,0
+touchscreen computer,523407,0
+touchscreen computer,1642362,0
+touchscreen computer,124997,0
+touchscreen computer,3637824,0
+touchscreen computer,1594900,0
 projector screen,1069226,3
 projector screen,47471,3
+projector screen,806824,0
+projector screen,323547,0
+projector screen,96914,0
+projector screen,122851,0
+projector screen,490523,0
+projector screen,885474,0
+projector screen,130956,0
+projector screen,1569583,0
+projector screen,77190520,0
+projector screen,2131521,0
 microsoft office,832540,3
 microsoft office,1905214,0
 microsoft office,2675001,0
@@ -1230,6 +1390,19 @@ microsoft office,3902497,0
 microsoft office,3902496,0
 microsoft office,1439010,0
 microsoft office,1439009,0
+microsoft office,4552215,0
+microsoft office,771103,0
+microsoft office,3484710,0
+microsoft office,3484708,0
+microsoft office,3484704,0
+microsoft office,1226602,0
+microsoft office,142046,0
+microsoft office,461710,0
+microsoft office,1586412,0
+microsoft office,2103478,0
+microsoft office,3515222,0
+microsoft office,1225725,0
+microsoft office,662595,0
 netflix,77383738,0
 netflix,77502729,0
 netflix,77151377,0
@@ -1372,6 +1545,11 @@ external dvd drive,1709725,0
 external dvd drive,4012094,0
 external dvd drive,3899921,0
 external dvd drive,2059691,0
+external dvd drive,2059277,0
+external dvd drive,107341,0
+external dvd drive,509306,0
+external dvd drive,2337746,0
+external dvd drive,4500878,0
 external cd drive,2098202,3
 external cd drive,2151978,3
 external cd drive,2400653,0
@@ -1383,6 +1561,17 @@ external cd drive,517033,0
 external cd drive,513837,0
 external cd drive,1200659,0
 external cd drive,3796068,0
+external cd drive,4141496,2
+external cd drive,2059277,0
+external cd drive,107341,0
+external cd drive,4543444,2
+external cd drive,2214965,2
+external cd drive,77971706,2
+external cd drive,509306,0
+external cd drive,2337746,0
+external cd drive,45142,1
+external cd drive,639945,1
+external cd drive,4500878,0
 cd player,314685,3
 cd player,77971706,3
 cd player,77971816,3
@@ -1464,10 +1653,34 @@ dvd player,327865,3
 ipad stand,4152840,3
 ipad stand,77311842,3
 ipad stand,77311852,3
+ipad stand,79552511,0
+ipad stand,4543373,0
+ipad stand,77499005,3
+ipad stand,78314562,0
+ipad stand,2002016,2
+ipad stand,79525063,0
+ipad stand,78682441,3
+ipad stand,77311845,2
 phone stand,77943598,3
 phone stand,1794561,0
 phone stand,1633945,0
 phone stand,1252834,0
+phone stand,4016929,0
+phone stand,2049236,2
+phone stand,49754,0
+phone stand,1311581,0
+phone stand,78503594,0
+phone stand,3663711,0
+phone stand,676320,0
+phone stand,635058,0
+phone stand,886874,0
+phone stand,875832,0
+phone stand,1591192,0
+phone stand,4150401,0
+phone stand,1928867,0
+phone stand,662621,0
+phone stand,4142678,0
+phone stand,2706309,0
 laptop stand,3332203,3
 laptop stand,4152840,3
 laptop stand,268427,3
@@ -1478,12 +1691,31 @@ laptop stand,278328,3
 laptop stand,1233713,3
 laptop stand,268426,3
 laptop stand,4547381,0
+laptop stand,4564776,0
+laptop stand,3802249,0
+laptop stand,1350917,0
+laptop stand,2053354,0
+laptop stand,1794225,0
+laptop stand,1893702,0
+laptop stand,3442775,0
+laptop stand,1710195,0
+laptop stand,3334324,0
+laptop stand,1229111,0
 computer desk,4700313,1
 computer desk,4702156,1
 computer desk,4702155,1
 computer desk,4699150,1
 computer desk,79583167,1
 computer desk,511954,0
+computer desk,1436279,0
+computer desk,1678981,1
+computer desk,1352217,1
+computer desk,1352221,1
+computer desk,3851058,1
+computer desk,1645837,1
+computer desk,1596052,1
+computer desk,1637716,1
+computer desk,2007192,1
 fan,3772112,3
 fan,3874940,3
 fan,4273767,3
@@ -1565,6 +1797,22 @@ computer fan,77388715,3
 computer fan,77680447,3
 computer fan,3540370,3
 usb gadget,3432904,0
+usb gadget,1716986,0
+usb gadget,1225791,0
+usb gadget,1225792,0
+usb gadget,1667104,1
+usb gadget,2121329,0
+usb gadget,3932333,2
+usb gadget,77522662,1
+usb gadget,2121330,1
+usb gadget,1659300,1
+usb gadget,1659303,1
+usb gadget,69711,0
+usb gadget,2121331,0
+usb gadget,2121328,0
+usb gadget,2131264,0
+usb gadget,2123805,0
+usb gadget,2121326,0
 usb hub,560498,3
 usb hub,77816688,3
 usb hub,634817,3
@@ -1632,6 +1880,17 @@ usb fan,1365857,0
 usb fan,3902497,0
 usb fan,3902496,0
 usb fan,3902602,0
+usb fan,3772112,0
+usb fan,3874940,0
+usb fan,4273767,0
+usb fan,3414353,0
+usb fan,1970134,0
+usb fan,50053,0
+usb fan,2152150,0
+usb fan,1642362,0
+usb fan,560475,0
+usb fan,560468,0
+usb fan,532095,0
 lamp,1224643,3
 lamp,990496,3
 lamp,53508,3
@@ -1675,15 +1934,20 @@ lamp,680470,3
 flashlight,888313,3
 flashlight,887613,3
 flashlight,888257,3
-night light,77266033,1
-night light,77266023,2
-night light,77266022,2
-night light,77809670,2
-night light,77804979,1
+night light,77266033,0
+night light,77266023,0
+night light,77266022,0
+night light,77809670,0
+night light,77804979,0
 night light,77804978,0
-night light,77266027,2
+night light,77266027,0
 night light,4564776,0
 night light,4609666,0
+night light,895842,0
+night light,938308,0
+night light,1200860,0
+night light,1231610,0
+night light,1231730,0
 external battery,3797119,0
 external battery,77971706,0
 external battery,810275,0
@@ -1936,6 +2200,9 @@ d battery,79552511,0
 d battery,77809730,0
 d battery,690817,0
 d battery,1794464,0
+d battery,1659549,0
+d battery,1667671,0
+d battery,2070766,0
 rechargeable batteries,454186,3
 rechargeable batteries,344084,0
 rechargeable batteries,3538940,3
@@ -2016,11 +2283,17 @@ calculator,3985686,3
 calculator,3515613,0
 calculator,2173903,0
 calculator,2934924,0
-phone cord,1667121,2
+phone cord,1667121,0
 phone cord,1667165,0
-phone cord,1667156,2
-phone cord,1667166,2
+phone cord,1667156,0
+phone cord,1667166,0
 phone cord,1667154,0
+phone cord,4016929,0
+phone cord,2049236,0
+phone cord,49754,0
+phone cord,1311581,0
+phone cord,78503594,0
+phone cord,676320,0
 extension cords,3488029,3
 extension cords,566490,3
 extension cords,3488026,3
@@ -2258,6 +2531,7 @@ usb stick,560348,0
 usb stick,1968742,0
 usb stick,1240679,0
 usb stick,1350917,0
+usb stick,3627542,0
 stylus,20750,0
 stylus,937166,0
 stylus,3494073,0
@@ -2299,6 +2573,24 @@ stylus,874717,0
 stylus,20847,0
 stylus,638963,0
 brother tn-2110 toner,1365844,3
+brother tn-2110 toner,101989,0
+brother tn-2110 toner,74811,0
+brother tn-2110 toner,811055,0
+brother tn-2110 toner,94222,0
+brother tn-2110 toner,101980,0
+brother tn-2110 toner,811057,0
+brother tn-2110 toner,1100809,0
+brother tn-2110 toner,140554,0
+brother tn-2110 toner,101985,0
+brother tn-2110 toner,1650150,0
+brother tn-2110 toner,1403866,0
+brother tn-2110 toner,63601,0
+brother tn-2110 toner,1100798,0
+brother tn-2110 toner,1403861,0
+brother tn-2110 toner,101983,0
+brother tn-2110 toner,68751,0
+brother tn-2110 toner,1970077,0
+brother tn-2110 toner,3715413,0
 nespresso vertuo,77124009,3
 ssd,3458217,0
 ssd,1533065,3
@@ -2425,11 +2717,16 @@ tv,94305,0
 tv,78684829,0
 tv,94328,0
 tv,2679042,3
-iphone 7,78872377,2
+iphone 7,78872377,0
 iphone 7,78872339,0
 iphone 7,78872369,0
 iphone 7,78872349,0
-iphone 7,78872364,2
+iphone 7,78872364,0
+iphone 7,3591851,0
+iphone 7,4597426,0
+iphone 7,4597445,0
+iphone 7,3537784,0
+iphone 7,1648546,0
 iphone x,3591851,0
 iphone x,3537784,0
 iphone x,4597426,0
@@ -2444,6 +2741,11 @@ iphone x,78681243,0
 iphone x,78681240,0
 iphone x,78805348,0
 iphone x,78860414,0
+iphone x,78872377,0
+iphone x,78872369,0
+iphone x,78872349,0
+iphone x,78872364,0
+iphone x,78872339,0
 bluetooth headphones,490765,3
 bluetooth headphones,1578266,1
 bluetooth headphones,465394,0
@@ -2484,6 +2786,20 @@ bluetooth headphones,1993294,0
 bluetooth headphones,1865389,0
 bluetooth headphones,3081266,0
 bluetooth headphones,1716100,0
+bluetooth headphones,788255,1
+bluetooth headphones,296137,1
+bluetooth headphones,620649,1
+bluetooth headphones,302952,1
+bluetooth headphones,302412,1
+bluetooth headphones,1348452,1
+bluetooth headphones,446370,1
+bluetooth headphones,1575934,1
+bluetooth headphones,4144170,1
+bluetooth headphones,3961635,1
+bluetooth headphones,1954005,1
+bluetooth headphones,711306,1
+bluetooth headphones,4144246,1
+bluetooth headphones,3965621,1
 samsung,77522648,2
 samsung,79526323,2
 samsung,79526326,2
@@ -2524,22 +2840,34 @@ samsung,465098,3
 samsung,465100,3
 samsung,77941161,3
 samsung,79062980,3
+samsung,2936032,3
 iphone 8,78872369,0
 iphone 8,78872349,0
-iphone 8,78872364,2
-iphone 8,78872377,2
-iphone 8,78872339,3
+iphone 8,78872364,0
+iphone 8,78872377,0
+iphone 8,78872339,0
 iphone 8,3537784,0
 iphone 8,78681240,0
 iphone 8,78681243,0
 iphone 8,4597411,0
 iphone 8,78805348,0
 iphone 8,78860414,0
+iphone 8,3591851,0
+iphone 8,4597426,0
+iphone 8,4597445,0
+iphone 8,1648546,0
 iphone xr,79524888,0
 iphone xr,78681243,0
 iphone xr,78681240,0
 iphone xr,78805348,0
 iphone xr,78860414,0
+iphone xr,3628216,0
+iphone xr,78872377,0
+iphone xr,78872369,0
+iphone xr,78872349,0
+iphone xr,78872364,0
+iphone xr,78872339,0
+iphone xr,636493,0
 mouse,1659892,0
 mouse,1405078,0
 mouse,1659451,0
@@ -2590,7 +2918,24 @@ micro sd card,77065748,0
 micro sd card,2122899,0
 micro sd card,3543600,0
 micro sd card,1311816,0
+micro sd card,1625640,0
+micro sd card,3802022,0
+micro sd card,3802021,0
+micro sd card,50102,0
+micro sd card,79251889,0
+micro sd card,124981,0
+micro sd card,3962614,0
 smart watch,130423,0
+smart watch,2102602,0
+smart watch,163896,0
+smart watch,77382335,3
+smart watch,79550421,3
+smart watch,77745271,0
+smart watch,78586548,3
+smart watch,78586712,3
+smart watch,78712152,3
+smart watch,78586644,3
+smart watch,79547855,3
 smartphone,3429708,0
 smartphone,4016929,0
 smartphone,49754,0
@@ -2730,6 +3075,11 @@ playstation 4,78690828,2
 playstation 4,78826421,2
 playstation 4,77459581,3
 playstation 4,77108032,2
+playstation 4,2165952,2
+playstation 4,1994079,2
+playstation 4,3958590,2
+playstation 4,3336906,1
+playstation 4,3534639,2
 earbuds,3663889,3
 smartwatch,77856472,3
 smartwatch,78432925,3
@@ -2743,55 +3093,41 @@ smartwatch,78586644,3
 smartwatch,79550429,3
 smartwatch,77382280,3
 smartwatch,77773285,3
-notebook,2274095,2
-notebook,639328,0
-notebook,1113175,0
-notebook,120239,0
-notebook,1178511,0
-notebook,4204999,0
-notebook,2977883,0
-notebook,2684109,0
-notebook,1681635,0
-notebook,3718468,0
-notebook,1638230,3
-notebook,1178339,0
-notebook,1178667,0
-notebook,1686261,3
-notebook,3669757,3
-notebook,1568502,3
-notebook,1690848,3
-notebook,4204584,3
-notebook,576075,3
-notebook,854876,3
-notebook,3324300,3
-notebook,1690843,3
-notebook,4707930,3
-notebook,1459227,3
-notebook,274603,3
-notebook,1665422,3
-notebook,883318,3
-notebook,4204487,3
-notebook,2101948,3
-notebook,2304022,0
-notebook,292713,3
-notebook,1760222,3
-notebook,1438185,3
-notebook,321027,3
-notebook,1383214,0
-notebook,877072,3
-notebook,923739,3
-notebook,1861851,3
-notebook,2111692,3
-notebook,3885201,3
 iphone 11,78805348,0
 iphone 11,78860414,0
+iphone 11,78872377,0
+iphone 11,78872369,0
+iphone 11,78872349,0
+iphone 11,78872364,0
+iphone 11,78872339,0
+iphone 11,3591851,0
+iphone 11,4597426,0
+iphone 11,4597445,0
+iphone 11,3537784,0
 power bank,77522662,3
 power bank,78314291,3
 power bank,78314303,3
 power bank,78849451,3
+power bank,523407,0
+power bank,2163355,0
+power bank,1849604,0
+power bank,62912,0
+power bank,1667209,0
+power bank,3756392,0
+power bank,639987,0
+power bank,637052,0
+power bank,1128851,0
+power bank,27526,0
 xbox one,77388652,2
 xbox one,77192150,0
 xbox one,77192151,0
+xbox one,1128752,0
+xbox one,1595277,0
+xbox one,1839,0
+xbox one,1591926,0
+xbox one,798960,0
+xbox one,3436134,0
+xbox one,3848401,0
 wireless mouse,2655019,3
 wireless mouse,2409472,3
 wireless mouse,1429222,3
@@ -2845,6 +3181,11 @@ gaming pc,79283758,3
 gaming pc,79070558,0
 gaming pc,77947270,0
 gaming pc,79325235,0
+gaming pc,78803571,0
+gaming pc,4706452,0
+gaming pc,3660920,0
+gaming pc,1929829,0
+gaming pc,78503108,3
 desk,1436279,0
 desk,1637716,1
 desk,2007192,1
@@ -2886,6 +3227,28 @@ desk,1777559,1
 desk,1437802,1
 desk,1777423,1
 gaming laptop,448154,0
+gaming laptop,78503108,3
+gaming laptop,77385234,3
+gaming laptop,79557177,3
+gaming laptop,78805127,3
+gaming laptop,78805131,3
+gaming laptop,78805133,3
+gaming laptop,78798527,3
+gaming laptop,79020181,3
+gaming laptop,79161029,3
+gaming laptop,79159932,3
+gaming laptop,1229111,0
+gaming laptop,1751314,0
+gaming laptop,1229110,0
+gaming laptop,1599521,0
+gaming laptop,77311839,0
+gaming laptop,2060476,0
+gaming laptop,619398,0
+gaming laptop,77026839,0
+gaming laptop,1751315,0
+gaming laptop,77311847,0
+gaming laptop,77026550,0
+gaming laptop,77311846,0
 earphones,286736,0
 earphones,545598,3
 earphones,461593,0
@@ -2896,7 +3259,7 @@ wireless headphones,465229,3
 wireless headphones,3954020,3
 wireless headphones,474723,3
 wireless headphones,2115615,3
-wireless headphones,1578266,0
+wireless headphones,1578266,2
 wireless headphones,357403,0
 wireless headphones,560348,0
 wireless headphones,465394,0
@@ -2925,6 +3288,10 @@ wireless headphones,4012094,0
 wireless headphones,4609666,0
 wireless headphones,4564776,0
 wireless headphones,678979,0
+wireless headphones,788255,0
+wireless headphones,296137,1
+wireless headphones,620649,0
+wireless headphones,4144170,0
 books,77499176,3
 books,77499175,3
 books,79343891,3
@@ -2945,6 +3312,18 @@ books,831063,0
 books,1311860,0
 books,1590676,0
 nintendo switch games,78332962,0
+nintendo switch games,77487293,0
+nintendo switch games,3932626,0
+nintendo switch games,77192151,0
+nintendo switch games,77192150,0
+nintendo switch games,79015471,0
+nintendo switch games,458647,0
+nintendo switch games,458655,0
+nintendo switch games,77679524,0
+nintendo switch games,77679520,0
+nintendo switch games,77679519,0
+nintendo switch games,4234635,0
+nintendo switch games,77738548,0
 sd card,1625640,3
 sd card,50102,3
 sd card,124981,3
@@ -2987,6 +3366,16 @@ sd card,3543600,0
 sd card,78433141,0
 ps4 games,77459581,3
 ps4 games,78690828,3
+ps4 games,77462820,0
+ps4 games,78511057,0
+ps4 games,78826421,3
+ps4 games,79015471,0
+ps4 games,77679524,0
+ps4 games,77679520,0
+ps4 games,77679519,0
+ps4 games,833277,0
+ps4 games,4234635,0
+ps4 games,77738548,0
 rtx 2060,78805119,3
 rtx 2060,77772883,3
 rtx 2060,77947270,3
@@ -3047,8 +3436,24 @@ ipad pro,78682441,0
 ipad pro,77311852,0
 ipad pro,79165007,0
 ipad pro,77311851,0
+ipad pro,4543373,0
+ipad pro,77499005,0
+ipad pro,4152840,0
+ipad pro,77311842,0
+ipad pro,2002016,0
 ps4 pro,77462820,0
 ps4 pro,78511057,3
+ps4 pro,77459581,1
+ps4 pro,78690828,1
+ps4 pro,78826421,3
+ps4 pro,77192151,1
+ps4 pro,77192150,1
+ps4 pro,1740050,0
+ps4 pro,283601,0
+ps4 pro,1740027,0
+ps4 pro,3466711,0
+ps4 pro,77476957,0
+ps4 pro,3714921,0
 the boys,77192093,0
 the boys,78685051,0
 the boys,78690938,0
@@ -3112,6 +3517,9 @@ windows 10,77699539,0
 windows 10,879184,0
 windows 10,480376,0
 windows 10,1796789,0
+windows 10,1560529,0
+windows 10,79013625,0
+windows 10,1973809,0
 microwave,4020048,3
 bluetooth speakers,1993197,3
 bluetooth speakers,78503000,3
@@ -3153,6 +3561,18 @@ bluetooth speakers,3542361,0
 bluetooth speakers,2047224,0
 bluetooth speakers,1710195,0
 bluetooth speakers,3521171,0
+bluetooth speakers,365429,0
+bluetooth speakers,77854049,1
+bluetooth speakers,3484711,1
+bluetooth speakers,4148015,1
+bluetooth speakers,4204999,1
+bluetooth speakers,3466376,1
+bluetooth speakers,3477896,1
+bluetooth speakers,2663204,0
+bluetooth speakers,1647852,0
+bluetooth speakers,70244,0
+bluetooth speakers,1575066,0
+bluetooth speakers,3394484,0
 coffee,1741814,2
 coffee,79583150,2
 coffee,2152922,2
@@ -3187,3 +3607,63 @@ vans,77183696,1
 vans,77183126,1
 vans,77184163,2
 vans,78773035,1
+notebook,2274095,2
+notebook,639328,0
+notebook,1113175,0
+notebook,120239,0
+notebook,1178511,0
+notebook,4204999,0
+notebook,2977883,0
+notebook,2684109,0
+notebook,1681635,0
+notebook,3718468,0
+notebook,1638230,3
+notebook,1178339,0
+notebook,1178667,0
+notebook,1686261,3
+notebook,3669757,3
+notebook,1568502,3
+notebook,1690848,3
+notebook,4204584,3
+notebook,576075,3
+notebook,854876,3
+notebook,3324300,3
+notebook,1690843,3
+notebook,4707930,3
+notebook,1459227,3
+notebook,274603,3
+notebook,1665422,3
+notebook,883318,3
+notebook,4204487,3
+notebook,2101948,3
+notebook,2304022,0
+notebook,292713,3
+notebook,1760222,3
+notebook,1438185,3
+notebook,321027,3
+notebook,1383214,0
+notebook,877072,3
+notebook,923739,3
+notebook,1861851,3
+notebook,2111692,3
+notebook,3885201,3
+notebook,278328,0
+notebook,1712804,3
+notebook,3802249,3
+notebook,1710195,3
+notebook,1893702,3
+notebook,4564776,3
+notebook,3334324,3
+notebook,78534906,3
+notebook,1350917,3
+notebook,77386176,3
+notebook,1599169,0
+notebook,1748705,0
+notebook,3933836,0
+notebook,1647350,0
+notebook,1647363,0
+notebook,3539044,0
+notebook,3539039,0
+notebook,4005367,0
+notebook,1647349,0
+notebook,1627829,0
