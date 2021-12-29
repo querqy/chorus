@@ -155,8 +155,8 @@ http://localhost:8983/solr/ecommerce/config/requestHandler?componentName=/select
 However, the second more user friendly way is to open up a specific Query and then click _Explain Query_ which
 will bring up a view of all the parameters that actually are used to generate the query:
 
-![Query Parameters](009_query_parsing.png)
+![Query Parameters](007_query_parsing.png)
 
 And you click the _Parsing_ tab and see how the query was crafted:
 
-![Query Parameters](009_query_params.png)
+![Query Parameters](007_query_params.png)
