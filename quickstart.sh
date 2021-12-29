@@ -114,7 +114,7 @@ fi
 echo -e "${MAJOR}Populating products, please give it a few minutes!${RESET}"
 tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
 
-echo -e "${MAJOR}Setting up ParamSets.${RESET}"
+echo -e "${MAJOR}Defining relevancy algorithems using ParamSets.${RESET}"
 curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/params -H 'Content-type:application/json'  -d '{
   "set": {
     "visible_products":{
