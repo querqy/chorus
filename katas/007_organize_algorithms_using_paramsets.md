@@ -157,6 +157,6 @@ will bring up a view of all the parameters that actually are used to generate th
 
 ![Query Parameters](007_query_params.png)
 
-And you click the _Parsing_ tab and see how the query was crafted:
+And you click the _Parsing_ tab and see how the query was crafted from those parameters:
 
 ![Query Parameters](007_query_parsing.png)
