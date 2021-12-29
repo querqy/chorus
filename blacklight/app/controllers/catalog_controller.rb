@@ -159,26 +159,32 @@ class CatalogController < ApplicationController
 
 
     # Now we see how to over-ride Solr request handler defaults, in this
-    # case for a BL "search field", which is really a dismax aggregate
-    # of Solr search fields.
+    # case for a BL "search field"
+
+    # We are using the magic of ParamSets to keep the relevance logic in Solr
 
     # Actually, the right way is the useParams parameter ;-)
     config.add_search_field 'default_algo', label: 'Default Algo' do |field|
       field.solr_parameters = {
+        'useParams': 'default_algo'
       }
     end
 
     config.add_search_field('mustmatchall_algo', label: 'Must Match All') do |field|
       field.solr_parameters = {
-        'mm': '100%'
+        'useParams': 'mustmatchall_algo'
       }
     end
 
-    config.add_search_field('querqy_algo', label: 'Querqy Algo') do |field|
+    config.add_search_field('querqy_algo', label: 'Querqy Live') do |field|
       field.solr_parameters = {
-        'defType': 'querqy',
-        'querqy.rewriters': 'replace,common_rules,regex_screen_protectors',
-        'querqy.infoLogging': 'on'
+        'useParams': 'querqy_algo'
+      }
+    end
+
+    config.add_search_field('querqy_algo_prelive', label: 'Querqy Prelive') do |field|
+      field.solr_parameters = {
+        'useParams': 'querqy_algo_prelive'
       }
     end
 

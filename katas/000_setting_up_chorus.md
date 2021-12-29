@@ -66,7 +66,7 @@ Grab the `returnId` from the response, something like `3f47cc75-a99f-4653-acd4-a
 
 > curl -X PUT -H "Content-Type: application/json" -d '{"name":"title"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
 
-Now go ahead and confirm that SMUI is working by visiting http://localhost:9000.  We'll learn more about using SMUI later, however test that it's working by clicking the _Push Config to Solr_ button.  You will get a confirmation message that the rules were deployed.
+Now go ahead and confirm that SMUI is working by visiting http://localhost:9000.  We'll learn more about using SMUI later, however test that it's working by clicking the _Publish to LIVE_ button.  You will get a confirmation message that the rules were deployed.
 
 
 Now we want to pivot to setting up our Offline Testing Environment.  Today we have two open source projects integrated into Chorus: Quepid and Rated Ranking Evaluator (RRE).
