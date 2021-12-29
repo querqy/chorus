@@ -12,7 +12,10 @@
 
 
 `blockUnknown` is false as we want to let RRE run against the _ecommerce_ collection.  We have locked
-down in `security.json` to allow anonymous users only to hit the /ecommerce/select/ end point.
+down in `security.json` to allow anonymous users only to hit the /ecommerce/select/ end point <-- UPDATE this isn't working.
+
+When you bring up Solr Admin and then are redirected to Keycloak, when you register and sent back to
+Solr you are given the "solr-admin" role.
 
 ### Looking at DB:
 
