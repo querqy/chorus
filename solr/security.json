@@ -2,7 +2,6 @@
   "authentication": {
     "class": "solr.MultiAuthPlugin",
     "schemes": [
-
       {
         "scheme": "bearer",
         "class": "solr.JWTAuthPlugin",
@@ -20,7 +19,7 @@
       {
         "scheme": "basic",
         "class": "solr.BasicAuthPlugin",
-        "blockUnknown": "true",
+        "blockUnknown": false,
         "realm": "Chorus Solr Cluster. Admin Credentials are solr:SolrRocks",
         "credentials": {
           "solr": "IV0EHq1OnNrj6gvRCwvFwTrZ1+z1oBbnQdiVC3otuq0= Ndd7LKvVBAaZIF0QAVi1ekCfAJXr1GGfLtRUXhgrF8c="
@@ -36,7 +35,7 @@
         "scheme": "basic",
         "class": "solr.RuleBasedAuthorizationPlugin",
         "user-role": {
-          "solr": "admin"
+          "solr": ["admin", "solr-admin"]
         }
       },
       {
@@ -54,11 +53,10 @@
         "role": ["admin", "solr-admin"]
       },
       {
-        "comment": "This doesn't seem to work anymore under MultiAuthPlugin"
-        "name": "anonymous",
+        "name": "anonymous_reader",
         "role": null,
-        "collection": ["ecommerce"],
-        "path": ["/select"],
+        "collection": "*",
+        "path": "/select",
         "method": ["GET", "POST"],
       },
       {
