@@ -1,3 +1,22 @@
+### Accounts Setup
+
+| Component | Username                    | Password  | Origin             |
+|-----------|-----------------------------|-----------|--------------------|
+| Solr      | solr                        | SolrRocks | security.json      |
+| Quepid    | admin@choruselectronics.com | password  | quickstart.sh      |
+| Grafana   | admin@choruselectronics.com | password  | quickstart.sh      |
+| Keycloak  | admin                       | password  | docker-compose.yml |
+| MySQL     | root                        | password  | docker-compose.yml |
+|           |                             |           |                    |
+|           |                             |           |                    |
+
+
+`blockUnknown` is false as we want to let RRE run against the _ecommerce_ collection.  We have locked
+down in `security.json` to allow anonymous users only to hit the /ecommerce/select/ end point <-- UPDATE this isn't working.
+
+When you bring up Solr Admin and then are redirected to Keycloak, when you register and sent back to
+Solr you are given the "solr-admin" role.
+
 ### Looking at DB:
 
 So, connect to your `smui_db` via localhost:3306, with username root, and password password.
@@ -52,7 +71,7 @@ Prometheus and Grafana setup heavily inspired by https://github.com/vegasbrianc/
 
 * https://grafana.com/docs/grafana/latest/administration/configure-docker/
 
-We update the /grafana/provisioning/dashboards/solr-dashboard_rev2.json to replace `${DS_PROMETHEUS}` with `Prometheus`
+We update the /grafana/provisioning/dashboards/solr-dashboard_rev7.json to replace `${DS_PROMETHEUS}` with `Prometheus`
 
 We imported the dashboard https://grafana.com/grafana/dashboards/10306 for Rails.   Could not get Puma metrics to be gathered by
 prometheus however.

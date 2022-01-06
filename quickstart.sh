@@ -65,7 +65,7 @@ if $observability; then
 fi
 
 if $offline_lab; then
-  services="${services} quepid rre"
+  services="${services} quepid rre keycloak"
 fi
 
 
@@ -82,19 +82,23 @@ echo -e "${MAJOR}Waiting for Solr cluster to start up and all three nodes to be 
 ./solr/wait-for-solr-cluster.sh # Wait for all three Solr nodes to be online
 
 echo -e "${MAJOR}Setting up security in solr${RESET}"
-echo -e "${MINOR}copy security.json into image${RESET}"
+echo -e "${MINOR}coping security.json into image${RESET}"
 docker cp ./solr/security.json solr1:/security.json
-echo -e "${MINOR}upload security.json to zookeeper${RESET}"
+
+echo -e "${MINOR}waiting for Keycloak to be available${RESET}"
+./keycloak/wait-for-keycloak.sh
+
+echo -e "${MINOR}uploading security.json to zookeeper${RESET}"
 docker exec solr1 solr zk cp /security.json zk:security.json -z zoo1:2181
 
-echo -e "${MINOR}wait for security.json to be available to Solr${RESET}"
+echo -e "${MINOR}waiting for security.json to be available to all Solr nodes${RESET}"
 ./solr/wait-for-zk-200.sh
 
-echo -e "${MAJOR}Package ecommerce configset.${RESET}"
+echo -e "${MAJOR}Packaging ecommerce configset.${RESET}"
 (cd solr/configsets/ecommerce/conf && zip -r - *) > ./solr/configsets/ecommerce.zip
-echo -e "${MINOR}post ecommerce.zip configset${RESET}"
+echo -e "${MINOR}posting ecommerce.zip configset${RESET}"
 curl  --user solr:SolrRocks -X PUT --header "Content-Type:application/octet-stream" --data-binary @./solr/configsets/ecommerce.zip "http://localhost:8983/api/cluster/configs/ecommerce"
-echo -e "${MAJOR}Create ecommerce collection.${RESET}"
+echo -e "${MAJOR}Creating ecommerce collection.${RESET}"
 curl --user solr:SolrRocks -X POST http://localhost:8983/api/collections -H 'Content-Type: application/json' -d'
   {
     "create": {
@@ -112,7 +116,7 @@ if [ ! -f ./icecat-products-150k-20200809.tar.gz ]; then
     curl --progress-bar -o icecat-products-150k-20200809.tar.gz -k https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
 fi
 echo -e "${MAJOR}Populating products, please give it a few minutes!${RESET}"
-tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
+tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl --user solr:SolrRocks 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
 
 echo -e "${MAJOR}Defining relevancy algorithems using ParamSets.${RESET}"
 curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/params -H 'Content-type:application/json'  -d '{

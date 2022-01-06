@@ -19,8 +19,8 @@ if __name__ == "__main__":
             "inputDelimiter": ";",
             "querqyParser": "querqy.rewrite.commonrules.WhiteSpaceQuerqyParserFactory"
         }
-    } 
+    }
 
-    resp = requests.post(rewriter_url + '?action=save', json=req)
+    resp = requests.post(rewriter_url + '?action=save', auth = ('solr', 'SolrRocks'), json=req)
     if resp.status_code != 200:
         sys.exit(2)

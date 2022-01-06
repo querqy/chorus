@@ -13,7 +13,7 @@ services:
       - 9394:9394
     command: "foreman s -f Procfile"
     environment:
-      - SOLR_URL=http://solr1:8983/solr/ecommerce
+      - SOLR_URL=http://solr:SolrRocks@solr1:8983/solr/ecommerce
       - PORT=3000
     depends_on:
       - solr1
@@ -41,8 +41,8 @@ services:
       - SMUI_DB_URL=jdbc:mysql://mysql:3306/smui?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
       - SMUI_DB_USER=root
       - SMUI_DB_PASSWORD=password
-      - SMUI_DEPLOY_PRELIVE_SOLR_HOST=solr1:8983
-      - SMUI_2SOLR_SOLR_HOST=solr1:8983
+      - SMUI_DEPLOY_PRELIVE_SOLR_HOST=solr:SolrRocks@solr1:8983
+      - SMUI_2SOLR_SOLR_HOST=solr:SolrRocks@solr1:8983
       - SMUI_TOGGLE_DEPL_PRELIVE=true
       - SMUI_TOGGLE_SPELLING=true
       - SMUI_TOGGLE_DEPL_CUSTOM_SCRIPT=true
@@ -65,12 +65,14 @@ services:
       - SOLR_OPTS=-XX:-UseLargePages
       - SOLR_HEAP=800m
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
+      - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true"
     volumes:
       - ./volumes/solr1/userfiles:/var/solr/data/userfiles
     depends_on:
       - zoo1
       - zoo2
       - zoo3
+      - keycloak
 
   solr2:
     container_name: solr2
@@ -81,12 +83,14 @@ services:
       - SOLR_OPTS=-XX:-UseLargePages
       - SOLR_HEAP=800m
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
+      - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true"
     volumes:
       - ./volumes/solr2/userfiles:/var/solr/data/userfiles
     depends_on:
       - zoo1
       - zoo2
       - zoo3
+      - keycloak
 
   solr3:
     container_name: solr3
@@ -97,12 +101,14 @@ services:
       - SOLR_OPTS=-XX:-UseLargePages
       - SOLR_HEAP=800m
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
+      - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true"
     volumes:
       - ./volumes/solr3/userfiles:/var/solr/data/userfiles
     depends_on:
       - zoo1
       - zoo2
       - zoo3
+      - keycloak
 
   zoo1:
     image: zookeeper:3.6.2
@@ -154,7 +160,7 @@ services:
 
   quepid:
     container_name: quepid
-    image: o19s/quepid:6.9.1
+    image: o19s/quepid:6.10.0
     ports:
       - 3000:3000
     command: "foreman s -f Procfile"
@@ -174,7 +180,11 @@ services:
       - PRIVACY_URL=
       - COOKIES_URL=
       - EMAIL_MARKETING_MODE=false
-      - QUEPID_DEFAULT_SCORER=AP@10
+      - EMAIL_PROVIDER=
+      - QUEPID_DEFAULT_SCORER=DCG@10
+      - KEYCLOAK_REALM=chorus
+      - KEYCLOAK_SITE=http://keycloak:9080
+      - SIGNUP_ENABLED=true
     links:
       - mysql
       - redis
@@ -198,14 +208,15 @@ services:
       - solr1
 
   solr-exporter:
-    image: solr:8.8.2
+    image: solr:8.10.0
     container_name: solr-exporter
     hostname: solr-exporter
     ports:
      - 9854:9854
-    command: /bin/bash -c "/usr/bin/wait-for-http-200.sh; ./contrib/prometheus-exporter/bin/solr-exporter -p 9854 -z zoo1:2181,zoo2:2181,zoo3:2181 -f ./contrib/prometheus-exporter/conf/solr-exporter-config.xml -n 8 -s 15"
+    command: /bin/bash -c "/usr/bin/wait-for-http-200.sh; export JAVA_OPTS='-Dsolr.httpclient.builder.factory=org.apache.solr.client.solrj.impl.PreemptiveBasicAuthClientBuilderFactory -Dsolr.httpclient.config=/home/basicauth.properties'; ./contrib/prometheus-exporter/bin/solr-exporter -p 9854 -z zoo1:2181,zoo2:2181,zoo3:2181 -f ./contrib/prometheus-exporter/conf/solr-exporter-config.xml -n 8 -s 15"
     volumes:
       - ./solr-exporter/wait-for-http-200.sh:/usr/bin/wait-for-http-200.sh
+      - ./solr-exporter/basicauth.properties:/home/basicauth.properties
     depends_on:
       - solr1
       - solr2
@@ -237,6 +248,21 @@ services:
       - GF_USERS_ALLOW_SIGN_UP=true
     depends_on:
       - prometheus
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:13.0.0
+    container_name: keycloak
+    hostname: keycloak
+    command: ["-b", "0.0.0.0", "-Dkeycloak.migration.action=import", "-Dkeycloak.migration.provider=dir", "-Dkeycloak.migration.dir=/opt/jboss/keycloak/realm-config", "-Dkeycloak.migration.strategy=OVERWRITE_EXISTING", "-Djboss.socket.binding.port-offset=1000", "-Dkeycloak.profile.feature.upload_scripts=enabled"]
+    ports:
+      - 9080:9080
+      - 9443:9443
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: password
+      DB_VENDOR: h2
+    volumes:
+      - ./keycloak/realm-config:/opt/jboss/keycloak/realm-config
 
 
 volumes:

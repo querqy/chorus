@@ -30,7 +30,7 @@ You can see that the regex pattern is `\d+:\d+`, however we escaped the backslas
 Once you have decided the pattern, we register it with Solr:
 
 ```
-curl -X POST 'http://localhost:8983/solr/ecommerce/querqy/rewriter/regex_screen_protectors?action=save' -d '
+curl --user solr:SolrRocks -X POST 'http://localhost:8983/solr/ecommerce/querqy/rewriter/regex_screen_protectors?action=save' -d '
 {
   "class": "querqy.regex.solr.RegexFilterRewriterFactory",
   "config": {
@@ -44,13 +44,13 @@ curl -X POST 'http://localhost:8983/solr/ecommerce/querqy/rewriter/regex_screen_
 Notice that the end point we use names the rewriter `regex_screen_protector` in conjunction with the `action=save` parameter?  You can confirm the change via:
 
 ```
-curl -X GET http://localhost:8983/solr/ecommerce/querqy/rewriter/regex_screen_protectors
+curl --user solr:SolrRocks -X GET http://localhost:8983/solr/ecommerce/querqy/rewriter/regex_screen_protectors
 ```
 
 You may need to reload the collection as well:
 
 ```
-curl -X POST http://localhost:8983/api/collections/ecommerce -H 'Content-Type: application/json' -d '
+curl --user solr:SolrRocks -X POST http://localhost:8983/api/collections/ecommerce -H 'Content-Type: application/json' -d '
   {
     "reload": {}
   }
@@ -62,13 +62,13 @@ Now, we can test this rewriter by issuing a query with the `querqy.rewriters=reg
 <!-- In the future, leverage SOLR-6152 to make this query prepopulated in the Solr Query Admin UI -->
 
 ```
-curl -X GET 'http://localhost:8983/solr/ecommerce/select?q=16:9&defType=querqy&querqy.rewriters=regex_screen_protectors&fl=title,brand,attr_t_aspect_ratio'
+curl --user solr:SolrRocks -X GET 'http://localhost:8983/solr/ecommerce/select?q=16:9&defType=querqy&querqy.rewriters=regex_screen_protectors&fl=title,brand,attr_t_aspect_ratio'
 ```
 
 We get back 13 different Kensington screen protectors.   Now, lets pass in some extra query information, like the model number _K58357WW_.   
 
 ```
-curl -X GET 'http://localhost:8983/solr/ecommerce/select?q=16:9%20K58357WW&defType=querqy&querqy.rewriters=regex_screen_protectors&fl=title,brand,attr_t_aspect_ratio'
+curl --user solr:SolrRocks -X GET 'http://localhost:8983/solr/ecommerce/select?q=16:9%20K58357WW&defType=querqy&querqy.rewriters=regex_screen_protectors&fl=title,brand,attr_t_aspect_ratio'
 ```
 
 Boom!  We get just a single product result back:
