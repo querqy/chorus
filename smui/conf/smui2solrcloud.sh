@@ -28,16 +28,16 @@ echo "^-- Perform rules.txt deployment (decompound-rules.txt eventually)"
 
 function common_rules_rewriter_url() {
   if [ $TARGET_SYSTEM == "LIVE" ]; then
-    URL="http://$SOLR_HOST/solr/$SOLR_COLLECTION_NAME/querqy/rewriter/common_rules"
+    URL="http://solr:SolrRocks@$SOLR_HOST/solr/$SOLR_COLLECTION_NAME/querqy/rewriter/common_rules"
   else
-    URL="http://$SOLR_HOST/solr/$SOLR_COLLECTION_NAME/querqy/rewriter/common_rules_prelive"
+    URL="http://solr:SolrRocks@$SOLR_HOST/solr/$SOLR_COLLECTION_NAME/querqy/rewriter/common_rules_prelive"
   fi
 }
 function replace_rewriter_url() {
   if [ $TARGET_SYSTEM == "LIVE" ]; then
-    URL="http://$SOLR_HOST/solr/$SOLR_COLLECTION_NAME/querqy/rewriter/replace"
+    URL="http://solr:SolrRocks@$SOLR_HOST/solr/$SOLR_COLLECTION_NAME/querqy/rewriter/replace"
   else
-    URL="http://$SOLR_HOST/solr/$SOLR_COLLECTION_NAME/querqy/rewriter/replace_prelive"
+    URL="http://solr:SolrRocks@$SOLR_HOST/solr/$SOLR_COLLECTION_NAME/querqy/rewriter/replace_prelive"
   fi
 }
 
