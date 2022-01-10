@@ -1,4 +1,6 @@
-FROM querqy/smui:3.13.9
+#FROM querqy/smui:3.13.9
+FROM o19s/smui:SNAPSHOT
+
 
 COPY conf/smui2solrcloud.sh /smui/conf/smui2solrcloud.sh
 COPY conf/*.py /smui/conf/

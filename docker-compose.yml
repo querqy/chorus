@@ -41,6 +41,7 @@ services:
       - SMUI_DB_URL=jdbc:mysql://mysql:3306/smui?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
       - SMUI_DB_USER=root
       - SMUI_DB_PASSWORD=password
+      - SMUI_AUTH_ACTION=controllers.auth.UsernamePasswordAuthenticatedAction
       - SMUI_DEPLOY_PRELIVE_SOLR_HOST=solr:SolrRocks@solr1:8983
       - SMUI_2SOLR_SOLR_HOST=solr:SolrRocks@solr1:8983
       - SMUI_TOGGLE_DEPL_PRELIVE=true
