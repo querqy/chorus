@@ -1,5 +1,5 @@
 #FROM querqy/smui:3.13.9
-FROM o19s/smui:SNAPSHOT
+FROM o19s/smui:3.14-SNAPSHOT-20200113.134200
 
 
 COPY conf/smui2solrcloud.sh /smui/conf/smui2solrcloud.sh
