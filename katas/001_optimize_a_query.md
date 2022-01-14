@@ -20,9 +20,9 @@ Since you have already gone through the Movie Demo setup, we'll need to set up a
 
 Go ahead and start a new case by clicking _Relevancy Cases_ drop down and choosing _Create a Case_.  
 
-Let's call the case _Notebook Computers_.   Then, instead of the default Solr instance, let's go ahead and use our Chorus Electronics index using this URL (notice the embedded user credentials):
+Let's call the case _Notebook Computers_.   Then, instead of the default Solr instance, let's go ahead and use our Chorus Electronics index using this URL:
 
-`http://solr:SolrRocks@localhost:8983/solr/ecommerce/select`
+`http://localhost:8983/solr/ecommerce/select`
 
 Click the _ping it_ link to confirm we can access the ecommerce index.
 
@@ -86,9 +86,9 @@ Now that we have a qualitative sense that we've improved our results using Querq
 
 We'll flip back to Quepid to do this.
 
-We need to tell Quepid that we've done some improvement using the `querqy` request handler, instead of the default handler.  For this, we need our _Tune Relevance_ pane.  Click the _Tune Relevance_ link and you will be in the _Query Sandbox_.   Append to the end of the existing query template `q=#$query##` the command to tell Solr to use the Querqy query parser: `&defType=querqy`.   Then click the _Rerun My Searches!_ button.
+We need to tell Quepid that we've done some improvement using the `querqy` request handler, instead of the default handler.  For this, we need our _Tune Relevance_ pane.  Click the _Tune Relevance_ link and you will be in the _Query Sandbox_.   Append to the end of the existing query template `q=#$query##` the command to tell Solr to use the Querqy query parser by specifying the relevant parameter: `&useParams=querqy_algo`.   Then click the _Rerun My Searches!_ button.
 
-Notice that our results have now turned green across the board from red?  Our graph has also improved from our dismal measurement of 0 to the best possible result of 1!
+Notice that our results have now turned green across the board from red?  Our graph has also improved from our dismal measurement of 0 to an almost perfect result of 0.94!
 
 There is a lot to unpack in here that is beyond the scope of this kata.  However bear with me.
 
@@ -98,9 +98,7 @@ RRE uses it's own format of ratings, so in Quepid, click the _Export Case_ optio
 
 You then need to put this ratings into RRE.  First move any ratings file in `./rre/src/etc/ratings/` out of that directory, leaving them in `./rre` is fine.  Then take your freshly exported `Notebook_Computers_rre.json` file and put it in the ratings directory.  
 
-Now, lets look at the RRE setup.  Open up the `Notebook_Computers_rre.json` file and change the index property from `Notebook Computers` to `ecommerce` to match the name of our Solr index and save that change.
-
-We want to regression test our pre Querqy algorithm and our post Querqy algorithm.  So look at the template files in `./rre/src/etc/templates`.  As you can see v1.0 is just the simplistic query.   However v1.1 is using the Querqy enabled request handler.  This is going to let us measure the two against each other.
+Now, lets look at the RRE setup. We want to regression test our pre Querqy algorithm and our post Querqy algorithm.  So look at the template files in `./rre/src/etc/templates`.  As you can see v1.0 is just the simplistic query.   However v1.1 is using the Querqy enabled request handler.  This is going to let us measure the two against each other.
 
 While in this kata we are only running the same set of queries as in Quepid, in real life you would be regression testing those two queries against 100's of other rated queries as well.
 

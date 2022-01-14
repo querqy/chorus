@@ -10,6 +10,7 @@ We're going to take advantage of how extendable Querqy is by using a custom rule
 _This is a brand new piece of code for Querqy, so it has limitations we'll document at the end.  We will update this Kata as it evolves towards a 1.0 version._
 
 We'll start by confirming that we've added the Java JAR file that contains this code to our Solr setup in `solr/lib` directory.   You should have a file with the name `querqy-regex-filter-1.1.0-SNAPSHOT.jar`.  If you don't, you'll need to go to the Github project at https://github.com/renekrie/querqy-regex-filter and download and compile the jar file via `mvn package`.  Restart Chorus and you'll be ready to continue.
+If you ran the `quickstart.sh` script you have the lib in your Solr Docker containers in `/opt/querqy/lib/` and the library is integrated via a lib directive in `solrconfig.xml`.
 
 The next step is think about the pattern you want to identify, and how you will tweak the rule.  
 
@@ -65,16 +66,16 @@ Now, we can test this rewriter by issuing a query with the `querqy.rewriters=reg
 curl --user solr:SolrRocks -X GET 'http://localhost:8983/solr/ecommerce/select?q=16:9&defType=querqy&querqy.rewriters=regex_screen_protectors&fl=title,brand,attr_t_aspect_ratio'
 ```
 
-We get back 13 different Kensington screen protectors.   Now, lets pass in some extra query information, like the model number _K58357WW_.   
+We get back 14 different Kensington screen protectors.   Now, lets pass in some extra query information, like the model number _K58357WW_.   
 
 ```
 curl --user solr:SolrRocks -X GET 'http://localhost:8983/solr/ecommerce/select?q=16:9%20K58357WW&defType=querqy&querqy.rewriters=regex_screen_protectors&fl=title,brand,attr_t_aspect_ratio'
 ```
 
-Boom!  We get just a single product result back:
+Boom!  We get just the most relevant product back on top of the hit list:
 
 ```
-"response":{"numFound":1,"start":0,"maxScore":8.232563,"numFoundExact":true,"docs":[
+"response":{"numFound":14,"start":0,"maxScore":8.232563,"numFoundExact":true,"docs":[
     {
       "title":"Kensington K58357WW display privacy filters Frameless display privacy filter 61 cm (24\")",
       "brand":"Kensington",

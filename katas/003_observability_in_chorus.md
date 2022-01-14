@@ -3,7 +3,13 @@
 This Kata is a more technical one, where we learn how to set up some basic tooling to enable _Observability_ for Chorus.
 What is Observability you ask?  Checkout this blog post by New Relic as an intro: https://blog.newrelic.com/engineering/what-is-observability/
 
-We're assuming you've run the `quickstart.sh` script, or gone through the steps in [Kata 000 Setting up Chorus](katas/000_setting_up_chorus.md) already.
+We're assuming you've run the `quickstart.sh` script. If not, there are some commands to you up & running:
+
+```
+curl -u admin:password -S -X POST -H "Content-Type: application/json" -d '{"email":"admin@choruselectronics.com", "name":"Chorus Admin", "role":"admin", "login":"admin@choruselectronics.com", "password":"password", "theme":"light"}' http://localhost:9091/api/admin/users
+curl -u admin:password -S -X PUT -H "Content-Type: application/json" -d '{"isGrafanaAdmin": true}' http://localhost:9091/api/admin/users/2/permissions
+curl -u admin:password -S -X POST -H "Content-Type: application/json" http://localhost:9091/api/users/2/using/1
+```
 
 Since Solr and Blacklight are the primary end user facing applications, we want to monitor them.   We're going to use two open
 source projects that are widely deployed in "cloud native" setups, Prometheus which gathers metrics and stores
@@ -21,7 +27,7 @@ Now, lets look at Solr.   Pop over to Dashboards icon and Manage, and you'll see
 
 Here you can see lots of low level data, from Jetty web server, to the  JVM and OS metrics being gathered, and whats nice is you can see across our cluster of three Solr nodes running.   
 
-keep going down, past the Node metrics to the Core Metrics, and here you can see details about our setup, for example, the almost 80,000 products that are in the web store.   Go ahead and do some searches, or run the indexing process and you'll see some of the line graphs move up and down.
+Keep going down, past the Node metrics to the Core Metrics, and here you can see details about our setup, for example, the almost 80,000 products that are in the web store.   Go ahead and do some searches, or run the indexing process and you'll see some of the line graphs move up and down.
 
 
 So where does Grafana get this data from?  Well, pop over to the Prometheus dashboard at http://localhost:9090.  Of interest
