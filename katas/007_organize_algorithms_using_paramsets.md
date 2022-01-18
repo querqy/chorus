@@ -124,7 +124,7 @@ After you get the score back, double click the Try label and give it a proper na
 
 At the end, if you bring up the _History_ you will see your various tries:
 
-![Tagging Your Queries](009_history_view.png)
+![Tagging Your Queries](007_history_view.png)
 
 You can use this view to flip back and forth and see the differences.   The basic scores should be:
 

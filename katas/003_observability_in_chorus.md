@@ -9,7 +9,7 @@ Since Solr and Blacklight are the primary end user facing applications, we want 
 source projects that are widely deployed in "cloud native" setups, Prometheus which gathers metrics and stores
 them, and Grafana, which gives you a really nice dashboard view of that data.   Fortunately there are already some nice dashboards in Grafana for both Solr and Rails (the underlying framework Blacklight is built in) that we've packaged in.
 
-We'll start form the Dashboards in Grafana, and then work our way back to how we get this data.  Log into Grafana at http://localhost:9091 using the username `admin@choruselectronics.com` with the password `password`.   
+We'll start from the Dashboards in Grafana, and then work our way back to how we get this data. Log into Grafana at http://localhost:9091 using the username `admin@choruselectronics.com` with the password `password`.   
 
 Pop over to Dashboards icon and Manage, and you'll see _Rails Metrics_ listed.  
 
@@ -21,7 +21,7 @@ Now, lets look at Solr.   Pop over to Dashboards icon and Manage, and you'll see
 
 Here you can see lots of low level data, from Jetty web server, to the  JVM and OS metrics being gathered, and whats nice is you can see across our cluster of three Solr nodes running.   
 
-keep going down, past the Node metrics to the Core Metrics, and here you can see details about our setup, for example, the almost 80,000 products that are in the web store.   Go ahead and do some searches, or run the indexing process and you'll see some of the line graphs move up and down.
+Keep going down, past the Node metrics to the Core Metrics, and here you can see details about our setup, for example, the almost 80,000 products that are in the web store.   Go ahead and do some searches, or run the indexing process and you'll see some of the line graphs move up and down.
 
 
 So where does Grafana get this data from?  Well, pop over to the Prometheus dashboard at http://localhost:9090.  Of interest
