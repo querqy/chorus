@@ -141,3 +141,15 @@ Now, let's go ahead and make sure we publish the results of our evaluation:
 You can now see a Excel spreadsheet saved to `./rre/target/site/rre-report.xlsx`.  
 
 Bring up http://localhost:7979 and you will see a relatively unexciting empty dashboard.  Don't worry, in our first kata, we'll do a relevancy test and fill this dashboard in.
+
+Last but not least we want to set up what we need to monitor our end user facing applications. We use Prometheus and Grafana for this task. Prometheus is already collecting and storing data. For Grafana we need to set up a user and grant this user administrative rights in Grafana:
+
+```
+curl -u admin:password -S -X POST -H "Content-Type: application/json" -d '{"email":"admin@choruselectronics.com", "name":"Chorus Admin", "role":"admin", "login":"admin@choruselectronics.com", "password":"password", "theme":"light"}' http://localhost:9091/api/admin/users
+curl -u admin:password -S -X PUT -H "Content-Type: application/json" -d '{"isGrafanaAdmin": true}' http://localhost:9091/api/admin/users/2/permissions
+curl -u admin:password -S -X POST -H "Content-Type: application/json" http://localhost:9091/api/users/2/using/1
+```
+
+Check if Grafana is up and running and the freshly created user has access by logging into Grafana at http://localhost:9091 using the username `admin@choruselectronics.com` with the password `password`. We'll dive into the details of observability in [Kata 003 Observability in Chorus](katas/003_observability_in_chorus.md).
+
+Congratulations! You now have Chorus successfully running with its components!

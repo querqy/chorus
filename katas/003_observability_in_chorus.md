@@ -3,19 +3,13 @@
 This Kata is a more technical one, where we learn how to set up some basic tooling to enable _Observability_ for Chorus.
 What is Observability you ask?  Checkout this blog post by New Relic as an intro: https://blog.newrelic.com/engineering/what-is-observability/
 
-We're assuming you've run the `quickstart.sh` script. If not, there are some commands to you up & running:
-
-```
-curl -u admin:password -S -X POST -H "Content-Type: application/json" -d '{"email":"admin@choruselectronics.com", "name":"Chorus Admin", "role":"admin", "login":"admin@choruselectronics.com", "password":"password", "theme":"light"}' http://localhost:9091/api/admin/users
-curl -u admin:password -S -X PUT -H "Content-Type: application/json" -d '{"isGrafanaAdmin": true}' http://localhost:9091/api/admin/users/2/permissions
-curl -u admin:password -S -X POST -H "Content-Type: application/json" http://localhost:9091/api/users/2/using/1
-```
+We're assuming you've run the `quickstart.sh` script, or gone through the steps in [Kata 000 Setting up Chorus](katas/000_setting_up_chorus.md) already.
 
 Since Solr and Blacklight are the primary end user facing applications, we want to monitor them.   We're going to use two open
 source projects that are widely deployed in "cloud native" setups, Prometheus which gathers metrics and stores
 them, and Grafana, which gives you a really nice dashboard view of that data.   Fortunately there are already some nice dashboards in Grafana for both Solr and Rails (the underlying framework Blacklight is built in) that we've packaged in.
 
-We'll start form the Dashboards in Grafana, and then work our way back to how we get this data.  Log into Grafana at http://localhost:9091 using the username `admin@choruselectronics.com` with the password `password`.   
+We'll start from the Dashboards in Grafana, and then work our way back to how we get this data. Log into Grafana at http://localhost:9091 using the username `admin@choruselectronics.com` with the password `password`.   
 
 Pop over to Dashboards icon and Manage, and you'll see _Rails Metrics_ listed.  
 
