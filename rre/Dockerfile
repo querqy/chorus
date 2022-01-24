@@ -1,4 +1,4 @@
-FROM maven:3.6.3-adoptopenjdk-11
+FROM maven:3-eclipse-temurin-11
 
 RUN mkdir /rre
 
