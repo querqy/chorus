@@ -105,7 +105,7 @@ docker-compose logs -tf
 If you want to narrow down to just one component of the Chorus stack do:
 ```
 docker-compose ps                       # list out the names of the components
-docker-compose logs -tf solr1 solr2     # tail solr1 and solr2 only
+docker-compose logs -tf solr            # tail solr only
 ```
 
 To destroy your environment (including any volumes created like the mysql db), just run:

@@ -38,4 +38,4 @@ scrape_configs:
 
   - job_name: 'zookeeper'
     static_configs:
-      - targets: ['zoo1:7000', 'zoo2:7000', 'zoo3:7000']      
+      - targets: ['zookeeper:7000']

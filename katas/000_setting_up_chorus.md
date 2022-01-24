@@ -17,8 +17,8 @@ Now we need to load our product data into Chorus.  Open a second terminal window
 Firstly, we're using SolrCloud, so this means a few more steps to set up our `ecommerce` collection, because we are using the management APIs to set up a new collection.  We're also making sure we start with security baked in from the beginning.  Trust me, this is the right way to do it!  Run these steps:
 
 ```sh
-docker cp ./solr/security.json solr1:/security.json
-docker exec solr1 solr zk cp /security.json zk:security.json -z zoo1:2181
+docker cp ./solr/security.json solr:/security.json
+docker exec solr solr zk cp /security.json zk:security.json -z zookeeper:2181
 
 (cd solr/configsets/ecommerce/conf && zip -r - *) > ./solr/configsets/ecommerce.zip
 curl  --user solr:SolrRocks -X PUT --header "Content-Type:application/octet-stream" --data-binary @./solr/configsets/ecommerce.zip "http://localhost:8983/api/cluster/configs/ecommerce"
@@ -28,7 +28,7 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/api/collections -H 'Con
     "create": {
       "name": "ecommerce",
       "config": "ecommerce",
-      "numShards": 2,
+      "numShards": 1,
       "replicationFactor": 1,
       "waitForFinalState": true
     }

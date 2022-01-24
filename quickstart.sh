@@ -59,7 +59,7 @@ do
 	shift
 done
 
-services="blacklight solr1 solr2 solr3 smui"
+services="blacklight solr smui"
 if $observability; then
   services="${services} grafana solr-exporter"
 fi
@@ -83,13 +83,13 @@ echo -e "${MAJOR}Waiting for Solr cluster to start up and all three nodes to be 
 
 echo -e "${MAJOR}Setting up security in solr${RESET}"
 echo -e "${MINOR}coping security.json into image${RESET}"
-docker cp ./solr/security.json solr1:/security.json
+docker cp ./solr/security.json solr:/security.json
 
 echo -e "${MINOR}waiting for Keycloak to be available${RESET}"
 ./keycloak/wait-for-keycloak.sh
 
 echo -e "${MINOR}uploading security.json to zookeeper${RESET}"
-docker exec solr1 solr zk cp /security.json zk:security.json -z zoo1:2181
+docker exec solr solr zk cp /security.json zk:security.json -z zookeeper:2181
 
 echo -e "${MINOR}waiting for security.json to be available to all Solr nodes${RESET}"
 ./solr/wait-for-zk-200.sh
@@ -104,7 +104,7 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/api/collections -H 'Con
     "create": {
       "name": "ecommerce",
       "config": "ecommerce",
-      "numShards": 2,
+      "numShards": 1,
       "replicationFactor": 1,
       "waitForFinalState": true
     }
