@@ -183,7 +183,7 @@ services:
       - EMAIL_PROVIDER=
       - QUEPID_DEFAULT_SCORER=DCG@10
       - KEYCLOAK_REALM=chorus
-      - KEYCLOAK_SITE=http://keycloak:9080
+      - KEYCLOAK_SITE=http://osc.risden.network:9080
       - SIGNUP_ENABLED=true
     links:
       - mysql

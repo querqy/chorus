@@ -664,17 +664,17 @@
       "clientId": "quepid",
       "name": "Quepid",
       "description": "Show your queries some love!",
-      "rootUrl": "http://localhost:3000",
-      "adminUrl": "http://localhost:3000",
+      "rootUrl": "http://osc.risden.network:3000",
+      "adminUrl": "http://osc.risden.network:3000",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "http://localhost:3000/*"
+        "http://osc.risden.network:3000/*"
       ],
       "webOrigins": [
-        "http://localhost:3000"
+        "http://osc.risden.network:3000"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -828,17 +828,17 @@
       "clientId": "solr",
       "name": "Solr",
       "description": "Solr Cluster",
-      "rootUrl": "http://localhost:8983",
-      "adminUrl": "http://localhost:8983",
+      "rootUrl": "http://osc.risden.network:8983",
+      "adminUrl": "http://osc.risden.network:8983",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "http://localhost:8983/*"
+        "http://osc.risden.network:8983/*"
       ],
       "webOrigins": [
-        "http://localhost:8983"
+        "http://osc.risden.network:8983"
       ],
       "notBefore": 0,
       "bearerOnly": false,
