@@ -15,6 +15,15 @@ Firstly, we're using SolrCloud, so this means a few more steps to set up our _ec
 
 ```
 docker cp ./solr/security.json solr1:/security.json
+```
+**Note:** To make Keycloak work, you need to add the following line to your hosts file (/etc/hosts on Mac/Linux, c:\Windows\System32\Drivers\etc\hosts on Windows).
+```
+127.0.0.1	keycloak
+```
+This is because you will access your application with a browser on your machine (which is named localhost, or 127.0.0.1), but inside Docker it will run in its own container, which is named keycloak.
+
+
+````
 docker exec solr1 solr zk cp /security.json zk:security.json -z zoo1:2181
 
 (cd solr/configsets/ecommerce/conf && zip -r - *) > ./solr/configsets/ecommerce.zip
