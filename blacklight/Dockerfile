@@ -1,4 +1,4 @@
-FROM ruby:2.6.5
+FROM ruby:2.7.5
 
 # Inspired by https://github.com/ualbertalib/discovery/blob/master/Dockerfile
 
@@ -9,7 +9,7 @@ RUN apt-get update -qq \
                           vim \
                           libxml2-dev \
                           libxslt-dev \
-                          sqlite
+                          sqlite3
 
 RUN mkdir -p /app
 WORKDIR /app
@@ -19,7 +19,7 @@ COPY Gemfile /app
 COPY Gemfile.lock /app
 #RUN gem install bundler #-v 2.2.20
 #RUN bundle install --jobs 20 --retry 5
-RUN gem install bundler && bundle install --jobs 20 --retry 5
+RUN gem install bundler:1.17.3 && bundle install --jobs 20 --retry 5
 
 # *NOW* we copy the codebase in
 COPY . /app
