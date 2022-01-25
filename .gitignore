@@ -4,3 +4,4 @@ volumes/solr*
 solr/configsets/ecommerce.zip
 rre/target
 icecat-products-150k-20200809.tar.gz
+.idea
