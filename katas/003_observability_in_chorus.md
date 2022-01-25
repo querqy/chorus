@@ -11,13 +11,13 @@ them, and Grafana, which gives you a really nice dashboard view of that data.   
 
 We'll start from the Dashboards in Grafana, and then work our way back to how we get this data. Log into Grafana at http://localhost:9091 using the username `admin@choruselectronics.com` with the password `password`.   
 
-Pop over to Dashboards icon and Manage, and you'll see _Rails Metrics_ listed.  
+Pop over to Dashboards icon and Manage, and you'll see `Rails Metrics` listed.  
 
-From a monitoring the web store perspective, you care about Request Duration, to see which pages are running slow or fast.
+From a monitoring the web store perspective, you care about `Request Duration`, to see which pages are running slow or fast.
 
 Note, we don't have some of the more advanced metrics (scroll down) that you might typically collect from a Rails application being collected from our Blacklight web store.
 
-Now, lets look at Solr.   Pop over to Dashboards icon and Manage, and you'll see _Solr Dashboard_ listed.  
+Now, lets look at Solr.   Pop over to Dashboards icon and Manage, and you'll see `Solr Dashboard` listed.  
 
 Here you can see lots of low level data, from Jetty web server, to the  JVM and OS metrics being gathered, and whats nice is you can see across our cluster of three Solr nodes running.   
 
@@ -25,15 +25,15 @@ Keep going down, past the Node metrics to the Core Metrics, and here you can see
 
 
 So where does Grafana get this data from?  Well, pop over to the Prometheus dashboard at http://localhost:9090.  Of interest
-is to see Status --> Targets, and see that we're monitoring Solr, Blacklight, and of course Prometheus itself.
+is to see `Status --> Targets`, and see that we're monitoring Solr, Blacklight, and of course Prometheus itself.
 
-We won't get into the graphing capabilities of Prometheus, since we have Grafana for that.   However know that you can set up Alerting behaviors here.
+We won't get into the graphing capabilities of Prometheus, since we have Grafana for that.   However, know that you can set up Alerting behaviors here.
 
 Lastly, so where does the data come into Prometheus?  The Prometheus server actually reaches out and pulls in the data periodically, it doesn't get data pushed to it.  So we have two "Exporters" that run that convert internal metrics to the Prometheus standard:
 
 * Blacklight Metrics: http://localhost:9394/metrics
 * Solr Cluster Metrics: http://localhost:9854/metrics
 
-The interesting bits in the Chorus setup are the `/grafana` and `/prometheus` directories where we configure our setup between Grafana and the Prometheus time series database, and the `/solr-exporter` which handles the _Prometheus --> Solr Exporter --> Solr_ metrics scraping chain.
+The interesting bits in the Chorus setup are the `/grafana` and `/prometheus` directories where we configure our setup between Grafana and the Prometheus time series database, and the `/solr-exporter` which handles the `Prometheus --> Solr Exporter --> Solr` metrics scraping chain.
 
 This was just a quick tour, and as we move to deploying to production via Kubernetes for Chorus, the observability aspect to Chorus will become more important!

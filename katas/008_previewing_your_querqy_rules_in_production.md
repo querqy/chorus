@@ -6,7 +6,7 @@ In this Kata, we're going to learn how to preview the impact of your Querqy rule
 
 Go ahead and do a search for `case` and then `backpack` using the `Default Algo` on the website at http://localhost:4000.   They both return reasonable results, so maybe it would make sense to make a query for `case` a SYNONYM for `backpack`?   We can test this by creating the synonym in SMUI.  
 
-Deploy this rule to our *Prelive* environment by clicking the `Push Config to Solr` button in the header instead of the normal `Publish to LIVE` button.   
+Deploy this rule to our __Prelive__ environment by clicking the `Push Config to Solr` button in the header instead of the normal `Publish to LIVE` button.   
 
 Now, bring up the Chorus Webshop again, and this time pick from the dropdown `Querqy Prelive`.   Now do your search for `backpack` and you'll see a mixture of backpacks and some other case related products.   Swap the dropdown to `Querqy Live` and run the search again to see the difference.   
 
