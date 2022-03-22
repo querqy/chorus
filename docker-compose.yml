@@ -180,7 +180,7 @@ services:
       - COOKIES_URL=
       - EMAIL_MARKETING_MODE=false
       - EMAIL_PROVIDER=
-      - QUEPID_DEFAULT_SCORER=DCG@10
+      - QUEPID_DEFAULT_SCORER=AP@10
       - KEYCLOAK_REALM=chorus
       - KEYCLOAK_SITE=http://keycloak:9080
       - SIGNUP_ENABLED=true
