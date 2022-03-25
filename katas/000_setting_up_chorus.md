@@ -14,9 +14,19 @@ Wait a while, because you'll be downloading and building quite a few images!  Yo
 
 Now we need to load our product data into Chorus.  Open a second terminal window, so you can see how as you work with Chorus how the various system respond.  
 
-Firstly, we're using SolrCloud, so this means a few more steps to set up our `ecommerce` collection, because we are using the management APIs to set up a new collection.  We're also making sure we start with security baked in from the beginning.  Trust me, this is the right way to do it!  Run these steps:
+Firstly, we're using SolrCloud, so this means a few more steps to set up our `ecommerce` collection, because we are using the management APIs to set up a new collection.  We're also making sure we start with security baked in from the beginning.  Trust me, this is the right way to do it!  
 
-```sh
+**Note:** To make Keycloak work, you need to add the following line to your hosts file (/etc/hosts on Mac/Linux, c:\Windows\System32\Drivers\etc\hosts on Windows).
+
+```
+127.0.0.1	keycloak
+```
+
+This is because you will access your application with a browser on your machine (which is named localhost, or 127.0.0.1), but inside Docker it will run in its own container, which is named keycloak.
+
+Run these steps:
+
+```
 docker cp ./solr/security.json solr1:/security.json
 docker exec solr1 solr zk cp /security.json zk:security.json -z zoo1:2181
 
@@ -92,9 +102,9 @@ tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl --user solr:Solr
 ```
 
 Otherwise you'll need to uncompress the .tar.gz file and then post with Curl:
-  
+
 ```sh
-gunzip -c icecat-products-150k-20200809.tar.gz | tar xopf - 
+gunzip -c icecat-products-150k-20200809.tar.gz | tar xopf -
 # For Mac OS
 curl --user solr:SolrRocks 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @icecat-products-150k-20200809.json -H 'Content-type:application/json'
 ```
@@ -112,7 +122,7 @@ curl -X PUT -H "Content-Type: application/json" -d '{"name":"ecommerce", "descri
 ```
 
 Grab the `returnId` from the response, something like `3f47cc75-a99f-4653-acd4-a9dc73adfcd1`, you'll need it for the next steps!
-  
+
 ```sh
 export SOLR_INDEX_ID=5bc6e917-33b7-45ec-91ba-8e2c4a2e8085
 curl -X PUT -H "Content-Type: application/json" -d '{"name":"product_type"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
@@ -127,7 +137,7 @@ Now we want to pivot to setting up our Offline Testing Environment.  Today we ha
 We'll start with Quepid and then move on to RRE.
 
 First we need to create the database for Quepid:
- 
+
 ```sh
 docker-compose run --rm quepid bin/rake db:setup
 ```
@@ -145,7 +155,7 @@ Go through the initial case setup process.  Quepid will walk you through setting
 Now we are ready to confirm our second Offline Testing tool, Rated Ranking Evaluator, commonly called RRE, is ready to go.  Unlike Quepid, which is a webapp, RRE is a set of command line tools that run tests, and then publishes the results in both a Excel spreadsheet format and a web dashboard.   
 
 Now, lets confirm that you can run the RRE command line tool.  Go ahead and run a regression:  
-    
+
 ```sh
 docker-compose run rre mvn rre:evaluate
 ```
@@ -153,7 +163,7 @@ docker-compose run rre mvn rre:evaluate
 You should see some output, and you should see the output saved to `./rre/target/rre/evaluation.json` in your local directory.  We've wrapped RRE inside of the Docker container, so you can edit the RRE configurations locally, but run RRE in the container.
 
 Now, let's go ahead and make sure we publish the results of our evaluation:
-            
+
 ```sh
 docker-compose run rre mvn rre-report:report
 ```
