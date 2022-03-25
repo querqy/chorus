@@ -103,6 +103,10 @@ echo -e "${MAJOR}Setting up security in solr${RESET}"
 echo -e "${MINOR}coping security.json into image${RESET}"
 docker cp ./solr/security.json solr1:/security.json
 
+if $local_deploy; then
+  ./keycloak/check-for-host-configuration.sh
+fi
+
 echo -e "${MINOR}waiting for Keycloak to be available${RESET}"
 ./keycloak/wait-for-keycloak.sh
 
