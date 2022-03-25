@@ -68,3 +68,11 @@ We created `admin@choruselectronics.com` / `password` in `quickstart.sh`.
 The two prometheus exporters run at http://localhost:9394/metrics and http://localhost:9854/metrics.
 
 The monitoring should probably be on it's own network ;-)
+
+## Keycloak
+
+Lots going on here!   Keycloak in non localhost wants SSL, so make sure to disable it in the administration tool.
+
+```
+In the "master" realm, over login tab. Change 'Require SSL' property to none.
+```

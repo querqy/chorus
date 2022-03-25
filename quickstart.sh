@@ -33,6 +33,7 @@ fi
 observability=false
 shutdown=false
 offline_lab=false
+local_deploy=true
 
 while [ ! $# -eq 0 ]
 do
@@ -41,6 +42,7 @@ do
       echo -e "Use the option --with-offline-lab | -lab to include Quepid and RRE services in Chorus."
 			echo -e "Use the option --with-observability | -obs to include Grafana, Prometheus, and Solr Exporter services in Chorus."
       echo -e "Use the option --shutdown | -s to shutdown and remove the Docker containers and data."
+      echo -e "Use the option --online-deployment | -online to update configuration to run on chorus.dev.o19s.com environment."
 			exit
 			;;
 		--with-observability | -obs)
@@ -51,6 +53,10 @@ do
 			offline_lab=true
       echo -e "${MAJOR}Running Chorus with offline lab environment enabled${RESET}"
 			;;
+    --online-deployment | -online)
+			local_deploy=false
+      echo -e "${MAJOR}Configuring Chorus for chorus.dev.o19s.com environment${RESET}"
+			;;
     --shutdown | -s)
 			shutdown=true
       echo -e "${MAJOR}Shutting down Chorus${RESET}"
@@ -59,13 +65,25 @@ do
 	shift
 done
 
-services="blacklight solr1 solr2 solr3 smui"
+services="blacklight solr1 solr2 solr3 keycloak smui"
 if $observability; then
   services="${services} grafana solr-exporter"
 fi
 
 if $offline_lab; then
-  services="${services} quepid rre keycloak"
+  services="${services} quepid rre"
+fi
+
+if ! $local_deploy; then
+  echo -e "${MAJOR}Updating configuration files for online deploy${RESET}"
+  sed -i.bu 's/localhost:3000/chorus.dev.o19s.com:3000/g'  ./keycloak/realm-config/chorus-realm.json
+  sed -i.bu 's/localhost:8983/chorus.dev.o19s.com:8983/g'  ./keycloak/realm-config/chorus-realm.json
+  sed -i.bu 's/keycloak:9080/chorus.dev.o19s.com:9080/g'  ./keycloak/wait-for-keycloak.sh
+  sed -i.bu 's/localhost:8983/chorus.dev.o19s.com:8983/g'  ./solr/wait-for-solr-cluster.sh
+  sed -i.bu 's/localhost:8983/chorus.dev.o19s.com:8983/g'  ./solr/wait-for-zk-200.sh
+  sed -i.bu 's/keycloak:9080/chorus.dev.o19s.com:9080/g'  ./solr/security.json
+
+  sed -i.bu 's/keycloak:9080/chorus.dev.o19s.com:9080/g'  ./docker-compose.yml
 fi
 
 
@@ -84,6 +102,10 @@ echo -e "${MAJOR}Waiting for Solr cluster to start up and all three nodes to be 
 echo -e "${MAJOR}Setting up security in solr${RESET}"
 echo -e "${MINOR}coping security.json into image${RESET}"
 docker cp ./solr/security.json solr1:/security.json
+
+if $local_deploy; then
+  ./keycloak/check-for-host-configuration.sh
+fi
 
 echo -e "${MINOR}waiting for Keycloak to be available${RESET}"
 ./keycloak/wait-for-keycloak.sh
