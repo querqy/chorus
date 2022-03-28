@@ -23,7 +23,7 @@ Chorus makes deploying powerful ecommerce search easier by shifting the **buy vs
 Want to stay up-to-date with the community? Visit https://querqy.org/ to learn more, and join the [E-Commerce Search Slack](https://ecom-search.slack.com/) group for tips, tricks and news on what's new in the Chorus ecosystem.
 
 ## News
- * March 2022: Merged branch demonstrating securing Solr Admin and Quepid via OpenID using Keycloak.
+ * 23 March 2022: [Chorus, now also for Elasticsearch!](https://opensourceconnections.com/blog/2022/03/23/chorus-now-also-for-elasticsearch/)
  * 17th June 2021: [Encores? - Going beyond matching and ranking of search results](https://www.slideshare.net/o19s/encores) - Chorus is used at BerlinBuzzwords.
  * 15th November 2020: [Chorus Workshop Series Announced](https://plainschwarz.com/ps-salon/) - Learn from the creators of the components of Chorus via six workshops.
  * 17th October 2020: [Chorus featured at ApacheCon @Home](https://www.youtube.com/watch?v=NGtmSbOoFjA) - René and Eric give a talk at ApacheCon on Chorus.
