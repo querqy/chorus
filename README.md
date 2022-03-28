@@ -23,7 +23,7 @@ Chorus makes deploying powerful ecommerce search easier by shifting the **buy vs
 Want to stay up-to-date with the community? Visit https://querqy.org/ to learn more, and join the [E-Commerce Search Slack](https://ecom-search.slack.com/) group for tips, tricks and news on what's new in the Chorus ecosystem.
 
 ## News
-
+ * March 2022: Merged branch demonstrating securing Solr Admin and Quepid via OpenID using Keycloak.
  * 17th June 2021: [Encores? - Going beyond matching and ranking of search results](https://www.slideshare.net/o19s/encores) - Chorus is used at BerlinBuzzwords.
  * 15th November 2020: [Chorus Workshop Series Announced](https://plainschwarz.com/ps-salon/) - Learn from the creators of the components of Chorus via six workshops.
  * 17th October 2020: [Chorus featured at ApacheCon @Home](https://www.youtube.com/watch?v=NGtmSbOoFjA) - René and Eric give a talk at ApacheCon on Chorus.
@@ -40,6 +40,7 @@ We host a complete demonstration environment online for you to play with, see li
 * SMUI runs at http://localhost:9000 |  http://chorus.dev.o19s.com:9000
 * Quepid runs at http://localhost:3000 |  http://chorus.dev.o19s.com:3000
 * RRE runs at http://localhost:7979 |  http://chorus.dev.o19s.com:7979
+* Keycloak runs at http://keycloak:9080 |  http://chorus.dev.o19s.com:9080
 * Prometheus runs at http://localhost:9090 |  http://chorus.dev.o19s.com:9090
 * Grafana runs at http://localhost:9091 |  http://chorus.dev.o19s.com:9091
 
