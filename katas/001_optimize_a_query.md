@@ -86,7 +86,7 @@ Now that we have a qualitative sense that we've improved our results using Querq
 
 We'll flip back to Quepid to do this.
 
-We need to tell Quepid that we've done some improvement using the `querqy` request handler, instead of the default handler.  For this, we need our `Tune Relevance` pane.  Click the `Tune Relevance` link and you will be in the `Query Sandbox`.   Append to the end of the existing query template `q=#$query##` the command to tell Solr to use the Querqy query parser by specifying the relevant parameter: `&useParams=querqy_algo`.   Then click the `Rerun My Searches!` button.
+We need to tell Quepid that we've done some improvement using the `querqy` query parser, instead of the default query parser.  For this, we need our `Tune Relevance` pane.  Click the `Tune Relevance` link and you will be in the `Query Sandbox`.   Append to the end of the existing query template `q=#$query##` the command to tell Solr to use the Querqy query parser by specifying the relevant parameter: `&useParams=visible_products,querqy_algo`.   Then click the `Rerun My Searches!` button.
 
 Notice that our results have now turned green across the board from red?  Our graph has also improved from our dismal measurement of 0 to an almost perfect result of 0.94!
 
@@ -103,7 +103,7 @@ Now, lets look at the RRE setup. We want to regression test our pre Querqy algor
 While in this kata we are only running the same set of queries as in Quepid, in real life you would be regression testing those two queries against 100's of other rated queries as well.
 
 So let's go run our evaluation!  We're back on the command line:
-  
+
 ```sh
 docker-compose run rre mvn rre:evaluate
 ```
@@ -111,7 +111,7 @@ docker-compose run rre mvn rre:evaluate
 Look for a message about `completed all 2 evaluations` to know that it's running properly.
 
 And once that completes, lets go ahead and publish the reports:
-         
+
 ```sh
 docker-compose run rre mvn rre-report:report
 ```
