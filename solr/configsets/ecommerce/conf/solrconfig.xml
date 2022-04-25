@@ -32,18 +32,34 @@
         Define a 'sink' named 'responseSink' to which the logging information
         will be sent:
       -->
-
       <lst name="sink">
         <str name="id">responseSink</str>
         <str name="class">querqy.solr.ResponseSink</str>
       </lst>
 
       <!--
+        Send the logging information from rewriter 'replace_prelive' to sink
+        'responseSink':
+      -->
+      <lst name="mapping">
+        <str name="rewriter">replace_prelive</str>
+        <str name="sink">responseSink</str>
+      </lst>
+      <!--
         Send the logging information from rewriter 'replace' to sink
         'responseSink':
       -->
       <lst name="mapping">
         <str name="rewriter">replace</str>
+        <str name="sink">responseSink</str>
+      </lst>
+
+      <!--
+        Send the logging information from rewriter 'common_rules_prelive' to sink
+        'responseSink' too:
+      -->
+      <lst name="mapping">
+        <str name="rewriter">common_rules_prelive</str>
         <str name="sink">responseSink</str>
       </lst>
       <!--
@@ -54,6 +70,7 @@
         <str name="rewriter">common_rules</str>
         <str name="sink">responseSink</str>
       </lst>
+
       <!--
         Send the logging information from rewriter 'regex' to sink
         'responseSink' as well:
@@ -62,7 +79,6 @@
         <str name="rewriter">regex_screen_protectors</str>
         <str name="sink">responseSink</str>
       </lst>
-
     </lst>
   </queryParser>
 
