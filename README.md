@@ -1,5 +1,5 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fquerqy%2Fchorus%2Fbadge%3Fref%3Dmaster&style=flat)](https://actions-badge.atrox.dev/querqy/chorus/goto?ref=master)
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fquerqy%2Fchorus%2Fbadge%3Fref%3Dmaster&style=flat)](https://actions-badge.atrox.dev/querqy/chorus/goto?ref=main)
 
 
 <img src="assets/chorus-logo.png" alt="Chorus Logo" title="Chorus: Towards a open stack for ecommerce search" width="200" align="right"/>
