@@ -64,7 +64,7 @@ services:
       - SOLR_OPTS=-XX:-UseLargePages
       - SOLR_HEAP=800m
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
-      - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true"
+      - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true -Dsolr.modules=jwt-auth"
     volumes:
       - ./volumes/solr1/userfiles:/var/solr/data/userfiles
     depends_on:
@@ -82,7 +82,7 @@ services:
       - SOLR_OPTS=-XX:-UseLargePages
       - SOLR_HEAP=800m
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
-      - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true"
+      - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true -Dsolr.modules=jwt-auth"
     volumes:
       - ./volumes/solr2/userfiles:/var/solr/data/userfiles
     depends_on:
@@ -100,7 +100,7 @@ services:
       - SOLR_OPTS=-XX:-UseLargePages
       - SOLR_HEAP=800m
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
-      - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true"
+      - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true -Dsolr.modules=jwt-auth"
     volumes:
       - ./volumes/solr3/userfiles:/var/solr/data/userfiles
     depends_on:
@@ -197,7 +197,7 @@ services:
       - solr1
 
   solr-exporter:
-    image: solr:8.11.1
+    image: solr:9.0.0
     container_name: solr-exporter
     hostname: solr-exporter
     ports:
