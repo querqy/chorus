@@ -6,7 +6,7 @@
         "scheme": "bearer",
         "class": "solr.JWTAuthPlugin",
         "blockUnknown": "true",
-        "realm": "Chorus Solr Cluster"
+        "realm": "Chorus Solr Cluster",
         "scope": "openid",
         "issuers":[
           {
@@ -57,7 +57,7 @@
         "role": null,
         "collection": "*",
         "path": "/select",
-        "method": ["GET", "POST"],
+        "method": ["GET", "POST"]
       },
       {
         "name": "all",
