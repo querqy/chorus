@@ -36,12 +36,6 @@
     <!--reporter name="jmx_metrics" group="core" class="org.apache.solr.metrics.reporters.SolrJmxReporter"/-->
   </metrics>
 
-  <tracerConfig name="tracerConfig" class="org.apache.solr.jaeger.JaegerTracerConfigurator">
-    <!--str name="agentHost">jaeger</str>
-    <int name="agentPort">5775</int>
-    <bool name="logSpans">true</bool>
-    <int name="flushInterval">1000</int>
-    <int name="maxQueueSize">10000</int/-->
-  </tracerConfig>
+  <tracerConfig name="tracerConfig" class="org.apache.solr.jaeger.JaegerTracerConfigurator"/>
 
 </solr>
