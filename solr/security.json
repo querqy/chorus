@@ -53,6 +53,10 @@
         "role": ["admin", "solr-admin"]
       },
       {
+        "name": "config-read",
+        "role": ["admin", "solr-admin"]
+      },
+      {
         "name": "anonymous_reader",
         "role": null,
         "collection": "*",
