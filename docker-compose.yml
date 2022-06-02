@@ -15,8 +15,10 @@ services:
     environment:
       - SOLR_URL=http://solr:SolrRocks@solr1:8983/solr/ecommerce
       - PORT=3000
+      - OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
     depends_on:
       - solr1
+      - jaeger
 
   mysql:
     container_name: mysql

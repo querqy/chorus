@@ -69,10 +69,13 @@ The two prometheus exporters run at http://localhost:9394/metrics and http://loc
 
 The monitoring should probably be on it's own network ;-)
 
-## Tracing Details
+## Jaeger for distributed Tracing Details
 
-The tracing is set up for demo purposes, using the `JAEGER_SAMPLER_TYPE=const` and `JAEGER_SAMPLER_PARAM=1` only
-makes sense in a toy deployment!
+The tracing in Solr is set up for demo purposes, using the `JAEGER_SAMPLER_TYPE=const` and `JAEGER_SAMPLER_PARAM=1` only
+makes sense in a toy deployment!  
+
+For Solr we use the UDP method, however for Blacklight we use the HTTP method for pushing data to Jaeger.
+We are only part of the way (I think!) to using OpenTelemetry protocols w Jaeger.
 
 ## Keycloak
 
