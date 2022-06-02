@@ -69,6 +69,11 @@ The two prometheus exporters run at http://localhost:9394/metrics and http://loc
 
 The monitoring should probably be on it's own network ;-)
 
+## Tracing Details
+
+The tracing is set up for demo purposes, using the `JAEGER_SAMPLER_TYPE=const` and `JAEGER_SAMPLER_PARAM=1` only
+makes sense in a toy deployment!
+
 ## Keycloak
 
 Lots going on here!   Keycloak in non localhost wants SSL, so make sure to disable it in the administration tool.

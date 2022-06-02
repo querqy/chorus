@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<solr>
+
+  <int name="maxBooleanClauses">${solr.max.booleanClauses:1024}</int>
+  <str name="sharedLib">${solr.sharedLib:}</str>
+  <str name="modules">${solr.modules:}</str>
+  <str name="allowPaths">${solr.allowPaths:}</str>
+  <str name="allowUrls">${solr.allowUrls:}</str>
+
+  <solrcloud>
+
+    <str name="host">${host:}</str>
+    <int name="hostPort">${solr.port.advertise:0}</int>
+    <str name="hostContext">${hostContext:solr}</str>
+
+    <bool name="genericCoreNodeNames">${genericCoreNodeNames:true}</bool>
+
+    <int name="zkClientTimeout">${zkClientTimeout:30000}</int>
+    <int name="distribUpdateSoTimeout">${distribUpdateSoTimeout:600000}</int>
+    <int name="distribUpdateConnTimeout">${distribUpdateConnTimeout:60000}</int>
+    <str name="zkCredentialsProvider">${zkCredentialsProvider:org.apache.solr.common.cloud.DefaultZkCredentialsProvider}</str>
+    <str name="zkACLProvider">${zkACLProvider:org.apache.solr.common.cloud.DefaultZkACLProvider}</str>
+    <bool name="distributedClusterStateUpdates">${distributedClusterStateUpdates:false}</bool>
+    <bool name="distributedCollectionConfigSetExecution">${distributedCollectionConfigSetExecution:false}</bool>
+
+  </solrcloud>
+
+  <shardHandlerFactory name="shardHandlerFactory"
+    class="HttpShardHandlerFactory">
+    <int name="socketTimeout">${socketTimeout:600000}</int>
+    <int name="connTimeout">${connTimeout:60000}</int>
+  </shardHandlerFactory>
+
+  <metrics enabled="${metricsEnabled:true}">
+    <!--reporter name="jmx_metrics" group="core" class="org.apache.solr.metrics.reporters.SolrJmxReporter"/-->
+  </metrics>
+
+  <tracerConfig name="tracerConfig" class="org.apache.solr.jaeger.JaegerTracerConfigurator">
+    <!--str name="agentHost">jaeger</str>
+    <int name="agentPort">5775</int>
+    <bool name="logSpans">true</bool>
+    <int name="flushInterval">1000</int>
+    <int name="maxQueueSize">10000</int/-->
+  </tracerConfig>
+
+</solr>
