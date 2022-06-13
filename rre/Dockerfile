@@ -1,5 +1,7 @@
 FROM maven:3-eclipse-temurin-11
 
+ENV MAVEN_OPTS="-Xms1024M -Xmx2048M -XX:MaxMetaspaceSize=1024m -XX:-UseGCOverheadLimit -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
+
 RUN mkdir /rre
 
 WORKDIR /rre
