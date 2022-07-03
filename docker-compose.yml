@@ -216,6 +216,10 @@ services:
     container_name: prometheus
     restart: always
     hostname: prometheus
+    healthcheck:
+      test: ["CMD", "wget", "--tries=1", "--spider", "http://localhost:9090"]
+      interval: 5s
+      timeout: 10s
     ports:
       - 9090:9090
     command:
@@ -226,8 +230,12 @@ services:
   grafana:
     image: grafana/grafana:7.5.13
     container_name: grafana
-    restart: always
+    restart: unless-stopped
     hostname: grafana
+    healthcheck:
+      test: ["CMD", "wget", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 5s
+      timeout: 10s
     ports:
       - 9091:3000
     volumes:
@@ -239,16 +247,21 @@ services:
       - prometheus
 
   keycloak:
-    image: quay.io/keycloak/keycloak:17.0.1-legacy
+    image: quay.io/keycloak/keycloak:18.0.2
     container_name: keycloak
     hostname: keycloak
-    command: ["-b", "0.0.0.0", "-Dkeycloak.migration.action=import", "-Dkeycloak.migration.provider=dir", "-Dkeycloak.migration.dir=/opt/jboss/keycloak/realm-config", "-Dkeycloak.migration.strategy=OVERWRITE_EXISTING", "-Djboss.socket.binding.port-offset=1000", "-Dkeycloak.profile.feature.upload_scripts=enabled"]
+    #command: ["-b", "0.0.0.0", "-Dkeycloak.migration.action=import", "-Dkeycloak.migration.provider=dir", "-Dkeycloak.migration.dir=/opt/jboss/keycloak/realm-config", "-Dkeycloak.migration.strategy=OVERWRITE_EXISTING", "-Djboss.socket.binding.port-offset=1000", "-Dkeycloak.profile.feature.upload_scripts=enabled"]
+    #command: ["start-dev", "-Dkeycloak.migration.action=import", "-Dkeycloak.migration.provider=dir", "-Dkeycloak.migration.dir=/opt/jboss/keycloak/realm-config", "-Dkeycloak.migration.strategy=OVERWRITE_EXISTING", "-Dkeycloak.profile.feature.upload_scripts=enabled"]
+    command: ["start-dev", "--import-realm"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
     ports:
       - 9080:9080
-      - 9443:9443
     environment:
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: password
+      KC_HTTP_PORT: 9080
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: password
       DB_VENDOR: h2
     volumes:
-      - ./keycloak/realm-config:/opt/jboss/keycloak/realm-config
+      - ./keycloak/realm-config/chorus-realm.json:/opt/keycloak/data/import/chorus-realm.json:ro
