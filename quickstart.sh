@@ -189,6 +189,9 @@ if $offline_lab; then
   echo -e "${MAJOR}Setting up Quepid${RESET}"
   docker-compose run --rm quepid bin/rake db:setup
   docker-compose run quepid thor user:create -a admin@choruselectronics.com "Chorus Admin" password
+  docker-compose run quepid thor case:create "Chorus Baseline Relevance" solr http://localhost:8983/solr/ecommerce/select JSONP "id:id, title:title, thumb:img_500x500, name, brand, product_type" "q=#$query##&defType=edismax&qf=text_all&tie=1.0" nDCG@10 admin@choruselectronics.com
+  docker-compose cp ./katas/Chorus_Electronics_basic.csv quepid:/srv/app/Chorus_Electronics_basic.csv
+
 
   echo -e "${MAJOR}Setting up RRE${RESET}"
   docker-compose run rre mvn rre:evaluate
