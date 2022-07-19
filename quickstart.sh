@@ -100,7 +100,7 @@ echo -e "${MAJOR}Waiting for Solr cluster to start up and all three nodes to be 
 ./solr/wait-for-solr-cluster.sh # Wait for all three Solr nodes to be online
 
 echo -e "${MAJOR}Setting up security in solr${RESET}"
-echo -e "${MINOR}coping security.json into image${RESET}"
+echo -e "${MINOR}copying security.json into image${RESET}"
 docker cp ./solr/security.json solr1:/security.json
 
 if $local_deploy; then
