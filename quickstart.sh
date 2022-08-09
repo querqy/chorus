@@ -17,10 +17,14 @@ if ! [ -x "$(command -v curl)" ]; then
   echo '${ERROR}Error: curl is not installed.${RESET}' >&2
   exit 1
 fi
-if ! [ -x "$(command -v docker-compose)" ]; then
-  echo '${ERROR}Error: docker-compose is not installed.${RESET}' >&2
+
+# test if docker-compose v2 is installed by running "docker compose" and check output.
+docker compose > /dev/null
+if ! [ $? -eq 0 ]; then
+  echo '${ERROR}Error: docker compose (v2 version of docker-compose) is not installed.${RESET}' >&2
   exit 1
 fi
+
 if ! [ -x "$(command -v jq)" ]; then
   echo '${ERROR}Error: jq is not installed.${RESET}' >&2
   exit 1
@@ -89,12 +93,12 @@ fi
 
 
 
-docker-compose down -v
+docker compose down -v
 if $shutdown; then
   exit
 fi
 
-docker-compose up -d --build ${services}
+docker compose up -d --build ${services}
 
 echo -e "${MAJOR}Waiting for Solr cluster to start up and all three nodes to be online.${RESET}"
 ./solr/wait-for-solr-cluster.sh # Wait for all three Solr nodes to be online
@@ -187,16 +191,16 @@ curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"brand"}' http://
 
 if $offline_lab; then
   echo -e "${MAJOR}Setting up Quepid${RESET}"
-  docker-compose run --rm quepid bin/rake db:setup
-  docker-compose run quepid thor user:create -a admin@choruselectronics.com "Chorus Admin" password
-  docker-compose run quepid thor case:create "Chorus Baseline Relevance" solr http://localhost:8983/solr/ecommerce/select JSONP "id:id, title:title, thumb:img_500x500, name, brand, product_type" "q=#\$query##&useParams=visible_products,querqy_algo" nDCG@10 admin@choruselectronics.com
+  docker compose run --rm quepid bin/rake db:setup
+  docker compose run quepid thor user:create -a admin@choruselectronics.com "Chorus Admin" password
+  docker compose run quepid thor case:create "Chorus Baseline Relevance" solr http://localhost:8983/solr/ecommerce/select JSONP "id:id, title:title, thumb:img_500x500, name, brand, product_type" "q=#\$query##&useParams=visible_products,querqy_algo" nDCG@10 admin@choruselectronics.com
   docker cp ./katas/Broad_Query_Set_rated.csv quepid:/srv/app/Broad_Query_Set_rated.csv
   docker exec quepid thor ratings:import 1 /srv/app/Broad_Query_Set_rated.csv
 
 
   echo -e "${MAJOR}Setting up RRE${RESET}"
-  docker-compose run rre mvn rre:evaluate
-  docker-compose run rre mvn rre-report:report
+  docker compose run rre mvn rre:evaluate
+  docker compose run rre mvn rre-report:report
 fi
 
 if $observability; then
