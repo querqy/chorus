@@ -170,9 +170,15 @@ services:
       ZOO_4LW_COMMANDS_WHITELIST: mntr,conf,ruok
       ZOO_CFG_EXTRA: "metricsProvider.className=org.apache.zookeeper.metrics.prometheus.PrometheusMetricsProvider metricsProvider.httpPort=7000 metricsProvider.exportJvmInfo=true"
 
+  redis:
+    container_name: quepid_redis
+    image: redis:6.2.7-alpine
+    ports:
+      - 6379:6379
+
   quepid:
     container_name: quepid
-    image: o19s/quepid:6.11.0
+    image: o19s/quepid:6.12.0
     ports:
       - 3000:3000
     command: "foreman s -f Procfile"
@@ -181,6 +187,7 @@ services:
       - RACK_ENV=production
       - RAILS_ENV=production
       - DATABASE_URL=mysql2://root:password@mysql:3306/quepid
+      - REDIS_URL=redis://redis:6379/1
       - FORCE_SSL=false
       - MAX_THREADS=2
       - WEB_CONCURRENCY=2
@@ -198,8 +205,16 @@ services:
       - SIGNUP_ENABLED=true
     links:
       - mysql
+      - redis
     depends_on:
       - mysql
+      - redis
+
+  redis:
+    container_name: quepid_redis
+    image: redis:6.2.6-alpine
+    ports:
+      - 6379:6379
 
   rre:
     container_name: rre
@@ -236,6 +251,10 @@ services:
     container_name: prometheus
     restart: always
     hostname: prometheus
+    healthcheck:
+      test: ["CMD", "wget", "--tries=1", "--spider", "http://localhost:9090"]
+      interval: 5s
+      timeout: 10s
     ports:
       - 9090:9090
     command:
@@ -246,8 +265,12 @@ services:
   grafana:
     image: grafana/grafana:7.5.13
     container_name: grafana
-    restart: always
+    restart: unless-stopped
     hostname: grafana
+    healthcheck:
+      test: ["CMD", "wget", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 5s
+      timeout: 10s
     ports:
       - 9091:3000
     volumes:
@@ -281,16 +304,21 @@ services:
       - COLLECTOR_OTLP_ENABLED=true
 
   keycloak:
-    image: quay.io/keycloak/keycloak:16.1.0
+    image: quay.io/keycloak/keycloak:18.0.2
     container_name: keycloak
     hostname: keycloak
-    command: ["-b", "0.0.0.0", "-Dkeycloak.migration.action=import", "-Dkeycloak.migration.provider=dir", "-Dkeycloak.migration.dir=/opt/jboss/keycloak/realm-config", "-Dkeycloak.migration.strategy=OVERWRITE_EXISTING", "-Djboss.socket.binding.port-offset=1000", "-Dkeycloak.profile.feature.upload_scripts=enabled"]
+    #command: ["-b", "0.0.0.0", "-Dkeycloak.migration.action=import", "-Dkeycloak.migration.provider=dir", "-Dkeycloak.migration.dir=/opt/jboss/keycloak/realm-config", "-Dkeycloak.migration.strategy=OVERWRITE_EXISTING", "-Djboss.socket.binding.port-offset=1000", "-Dkeycloak.profile.feature.upload_scripts=enabled"]
+    #command: ["start-dev", "-Dkeycloak.migration.action=import", "-Dkeycloak.migration.provider=dir", "-Dkeycloak.migration.dir=/opt/jboss/keycloak/realm-config", "-Dkeycloak.migration.strategy=OVERWRITE_EXISTING", "-Dkeycloak.profile.feature.upload_scripts=enabled"]
+    command: ["start-dev", "--import-realm"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
     ports:
       - 9080:9080
-      - 9443:9443
     environment:
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: password
+      KC_HTTP_PORT: 9080
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: password
       DB_VENDOR: h2
     volumes:
-      - ./keycloak/realm-config:/opt/jboss/keycloak/realm-config
+      - ./keycloak/realm-config/chorus-realm.json:/opt/keycloak/data/import/chorus-realm.json:ro
