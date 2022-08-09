@@ -11,7 +11,7 @@
         "issuers":[
           {
             "name": "keycloak",
-            "wellKnownUrl": "http://keycloak:9080/auth/realms/chorus/.well-known/openid-configuration",
+            "wellKnownUrl": "http://keycloak:9080/realms/chorus/.well-known/openid-configuration",
             "clientId": "solr"
           }
         ]
@@ -50,6 +50,10 @@
       },
       {
         "name": "security-read",
+        "role": ["admin", "solr-admin"]
+      },
+      {
+        "name": "config-read",
         "role": ["admin", "solr-admin"]
       },
       {
