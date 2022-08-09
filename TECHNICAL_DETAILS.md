@@ -71,7 +71,12 @@ The monitoring should probably be on it's own network ;-)
 
 ## Keycloak
 
-Lots going on here!   Keycloak in non localhost wants SSL, so make sure to disable it in the administration tool.
+Lots going on here!   We have migrated to the Quarkus version, which promises better startup times, but
+we don't use the production version, so we get a 12 second start up penality ;-(.
+
+https://github.com/eabykov/keycloak-compose for ideas.
+
+Keycloak in non localhost wants SSL, so make sure to disable it in the administration tool.
 
 ```
 In the "master" realm, over login tab. Change 'Require SSL' property to none.
