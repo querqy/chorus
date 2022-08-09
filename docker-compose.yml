@@ -190,6 +190,12 @@ services:
       - mysql
       - redis
 
+  redis:
+    container_name: quepid_redis
+    image: redis:6.2.6-alpine
+    ports:
+      - 6379:6379
+
   rre:
     container_name: rre
     build:
