@@ -15,8 +15,10 @@ services:
     environment:
       - SOLR_URL=http://solr:SolrRocks@solr1:8983/solr/ecommerce
       - PORT=3000
+      - OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
     depends_on:
       - solr1
+      - jaeger
 
   mysql:
     container_name: mysql
@@ -64,7 +66,12 @@ services:
       - SOLR_OPTS=-XX:-UseLargePages
       - SOLR_HEAP=800m
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
-      - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true -Dsolr.modules=jwt-auth"
+      - JAEGER_SERVICE_NAME=solr1  # not working ;-(
+      - JAEGER_SAMPLER_TYPE=const
+      - JAEGER_SAMPLER_PARAM=1
+      - JAEGER_AGENT_HOST=jaeger
+      - JAEGER_AGENT_PORT=5775
+      - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true -Dsolr.modules=jwt-auth,jaegertracer-configurator"
     volumes:
       - ./volumes/solr1/userfiles:/var/solr/data/userfiles
     depends_on:
@@ -72,6 +79,7 @@ services:
       - zoo2
       - zoo3
       - keycloak
+      - jaeger
 
   solr2:
     container_name: solr2
@@ -82,7 +90,12 @@ services:
       - SOLR_OPTS=-XX:-UseLargePages
       - SOLR_HEAP=800m
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
-      - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true -Dsolr.modules=jwt-auth"
+      - JAEGER_SERVICE_NAME=solr2
+      - JAEGER_SAMPLER_TYPE=const
+      - JAEGER_SAMPLER_PARAM=1
+      - JAEGER_AGENT_HOST=jaeger
+      - JAEGER_AGENT_PORT=5775
+      - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true -Dsolr.modules=jwt-auth,jaegertracer-configurator"
     volumes:
       - ./volumes/solr2/userfiles:/var/solr/data/userfiles
     depends_on:
@@ -90,6 +103,7 @@ services:
       - zoo2
       - zoo3
       - keycloak
+      - jaeger
 
   solr3:
     container_name: solr3
@@ -100,7 +114,12 @@ services:
       - SOLR_OPTS=-XX:-UseLargePages
       - SOLR_HEAP=800m
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
-      - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true -Dsolr.modules=jwt-auth"
+      - JAEGER_SERVICE_NAME=solr3
+      - JAEGER_SAMPLER_TYPE=const
+      - JAEGER_SAMPLER_PARAM=1
+      - JAEGER_AGENT_HOST=jaeger
+      - JAEGER_AGENT_PORT=5775
+      - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true -Dsolr.modules=jwt-auth,jaegertracer-configurator"
     volumes:
       - ./volumes/solr3/userfiles:/var/solr/data/userfiles
     depends_on:
@@ -108,6 +127,7 @@ services:
       - zoo2
       - zoo3
       - keycloak
+      - jaeger
 
   zoo1:
     image: zookeeper:3.7.0
@@ -260,6 +280,28 @@ services:
       - GF_USERS_ALLOW_SIGN_UP=true
     depends_on:
       - prometheus
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.35.1
+    container_name: jaeger
+    restart: always
+    hostname: jaegertracing
+    ports:
+      - 6831:6831/udp
+      - 6832:6832/udp
+      - 5778:5778
+      - 16686:16686
+      - 4317:4317
+      - 4318:4318
+      - 14250:14250
+      - 14268:14268
+      - 14269:14269
+      - 9411:9411
+    volumes:
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    environment:
+      - COLLECTOR_ZIPKIN_HOST_PORT=:9411
+      - COLLECTOR_OTLP_ENABLED=true
 
   keycloak:
     image: quay.io/keycloak/keycloak:18.0.2

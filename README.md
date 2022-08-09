@@ -43,6 +43,7 @@ We host a complete demonstration environment online for you to play with, see li
 * Keycloak runs at http://keycloak:9080 |  http://chorus.dev.o19s.com:9080
 * Prometheus runs at http://localhost:9090 |  http://chorus.dev.o19s.com:9090
 * Grafana runs at http://localhost:9091 |  http://chorus.dev.o19s.com:9091
+* Jaeger runs at http://localhost:16686 |  http://chorus.dev.o19s.com:16686
 
 Working with macOS?   Pop open all the tuning related web pages with one terminal command:
 > open http://localhost:4000 http://localhost:8983 http://localhost:9000 http://localhost:3000 http://localhost:7979

@@ -67,7 +67,7 @@ done
 
 services="blacklight solr1 solr2 solr3 keycloak smui"
 if $observability; then
-  services="${services} grafana solr-exporter"
+  services="${services} grafana solr-exporter jaeger"
 fi
 
 if $offline_lab; then
