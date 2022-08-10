@@ -4,7 +4,7 @@
 
 In this first Kata, we're going to take the query 'notebook' that we know is bad, and see if we can improve it using Active Search Management.   How do we know that the results for the query `notebook` is bad?  Easy, just take a look at it in our `Chorus Electronics` store ;-).
 
-Visit the web store at http://localhost:4000/ and make sure the drop down has `Default Algo` next to the search bar selected.   Now do a search for `notebook`, and notice that while the products are all vaguely related to notebooks, none of them are actual notebook computers.   We believe that our users, when they type in `notebook`, are looking for notebook computers, or possibly a paper notebook (which we don't carry as we are a electronics store), not accessories to notebooks.
+Visit the web store at http://localhost:4000/ and make sure the drop down has `Default Algo` next to the search bar selected.   Now do a search for `notebook`, and notice that while the products are all vaguely related to notebooks, none of them are actual notebook computers.   We believe that our users, when they type in `notebook`, are looking for notebook computers, or possibly a paper notebook (which we don't carry as we are a electronics store), not accessories to notebooks!
 
 So what can we do?   Well, first off, just by looking at the search results, we have a intuitive understanding of the problem, but we don't have a good way of measuring the problem. How bad are our search results for these two queries?  Ideally we would have a numerical (quantitative) value to measure the problem.
 
