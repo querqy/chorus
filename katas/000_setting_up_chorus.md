@@ -168,7 +168,7 @@ Now, let's go ahead and make sure we publish the results of our evaluation:
 docker-compose run rre mvn rre-report:report
 ```
 
-You can now see a Excel spreadsheet saved to `./rre/target/site/rre-report.xlsx`.  
+You can now see a html page saved to `./rre/target/site/rre-report.html`.  
 
 Bring up http://localhost:7979 and you will see a relatively unexciting empty dashboard.  Don't worry, in our first kata, we'll do a relevancy test and fill this dashboard in.
 
