@@ -72,8 +72,6 @@ services:
       - JAEGER_AGENT_HOST=jaeger
       - JAEGER_AGENT_PORT=5775
       - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true -Dsolr.modules=jwt-auth,jaegertracer-configurator"
-    volumes:
-      - ./volumes/solr1/userfiles:/var/solr/data/userfiles
     depends_on:
       - zoo1
       - zoo2
@@ -96,8 +94,6 @@ services:
       - JAEGER_AGENT_HOST=jaeger
       - JAEGER_AGENT_PORT=5775
       - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true -Dsolr.modules=jwt-auth,jaegertracer-configurator"
-    volumes:
-      - ./volumes/solr2/userfiles:/var/solr/data/userfiles
     depends_on:
       - zoo1
       - zoo2
@@ -120,8 +116,6 @@ services:
       - JAEGER_AGENT_HOST=jaeger
       - JAEGER_AGENT_PORT=5775
       - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true -Dsolr.modules=jwt-auth,jaegertracer-configurator"
-    volumes:
-      - ./volumes/solr3/userfiles:/var/solr/data/userfiles
     depends_on:
       - zoo1
       - zoo2
@@ -209,12 +203,6 @@ services:
     depends_on:
       - mysql
       - redis
-
-  redis:
-    container_name: quepid_redis
-    image: redis:6.2.6-alpine
-    ports:
-      - 6379:6379
 
   rre:
     container_name: rre
