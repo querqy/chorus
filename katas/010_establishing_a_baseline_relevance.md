@@ -8,16 +8,31 @@ At this point, you are probably starting to see that the butterfly effect has a 
 
 Where we see this in our relevancy tuning is that you improve the results for one query, and yet that has unanticipated impacts on many other queries.   Some times the unanticipated impacts are a pleasant surprise, improving many other queries.  More commonly, the optimal solution for one query has some negative impact on other queries.    
 
-To deal with this, to use the old phrase, we need to look at the forest, not the trees, and we do this via a Baseline Relevancy Case in Quepid.
+To deal with this, to use another analogy; _we need to look at the forest, not the trees_, and we do this by creating a Baseline Relevancy Case in Quepid.
 
-The Baseline Relevancy Case is a set of queries that represents the typical queries we are getting.   You can source them from your query logs, and it should have queries that come from both your Head and your Long Tail of queries that users are running.   
+The Baseline Relevancy Case is a set of queries that represents the typical queries we are getting.   You should source them from your query logs to they represent real queries, and it should have queries that come from both your Head and your Long Tail of queries that users are running.  100 queries is enough to get started, though more is always better ;-).
 
-Once you have those queries defined, make sure you get them
+Once you have those queries defined, go ahead and pick your rating scheme.   Some folks like a binary grade of _relevant_ and _irrelevant_, others go with a graded approach.   For more on the graded approach, see https://github.com/o19s/quepid/wiki/Judgement-Rating-Best-Practices.
 
-   We need to create a Baseline Relevancy Case in Quepid that lets us understand the impact of changes to a query (the tree), as well as understand it over a representative
+Now go through and rate your queries.  You may be interested in [Fourth Kata: How to Gather Human Judgements](004_gathering_human_judgements.md) and the Meet Pete blog post [Pete learns how to scale up search result rating](https://opensourceconnections.com/blog/2021/01/25/pete-learns-how-to-scale-up-search-result-rating/).
 
-- what is  abaseline
+For the purposes of Chorus, we have a set of queries that are already rated called (Broad_Query_Set_rated.csv)[Broad_Query_Set_rated.csv] that are ready to be imported into Quepid.  
 
-- reference how we got the data.
+For those who are using the `quickstart.sh` script, we programmatically create the case and load the queries and rating data for you.
 
-- talk about establishing a snapshot and an annotation for baseline.
+Go ahead and create a case in Quepid, called "Chorus Baseline Relevance" with the following settings:
+
+* Name: `Chorus Baseline Relevance`
+* Search engine: `solr`
+* URL: `http://localhost:8983/solr/ecommerce/select`
+* ID:  `id`
+* Title: `title`
+* Fields: `thumb:img_500x500, name, brand, product_type`
+* Queries: skip this step
+
+Pick the scorer `nDCG@10` and tweak the default query to be `q=#\$query##&useParams=visible_products,querqy_algo`.
+
+Now you are ready to import the (Broad_Query_Set_rated.csv)[Broad_Query_Set_rated.csv] file.  Use the Import Blah.
+
+
+You how have your _Chorus Baseline Relevance_ case ready.   Go ahead and take a snapshot, giving it the current date.  This will be what you compare back against as you solve specific relevancy problems.   Each time you have a candidate algorithem ready to go, bring up this baseline, and compare it against your snapshot.  
