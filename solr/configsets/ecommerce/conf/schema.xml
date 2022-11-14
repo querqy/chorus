@@ -30,7 +30,8 @@ for demo purposes
   <field name="title_stored" type="string" indexed="true" stored="true"/>
   <field name="brand_stored" type="string" indexed="true" stored="true"/>
   <field name="short_description_stored" type="string" indexed="true" stored="true"/>
-
+  <field name="text_all" type="text_general" indexed="true" stored="true" multiValued="true"/>
+  
   <copyField source="name" dest="name_stored" />
   <copyField source="title" dest="title_stored" />
   <copyField source="brand" dest="brand_stored" />
@@ -40,7 +41,10 @@ for demo purposes
   <copyField source="title" dest="suggestions" />
   <copyField source="brand" dest="suggestions" />
   <copyField source="short_description" dest="suggestions" />
-
+  <copyField source="name" dest="text_all" />
+  <copyField source="title" dest="text_all" />
+  <copyField source="brand" dest="text_all" />
+  <copyField source="short_description" dest="text_all" />
 
   <!--
     First step towards standardized ecommerce schema where we map from other
