@@ -62,7 +62,7 @@ So now let's think about how we might actually improve them?  There are a lot of
 
 To make it easier for the Search Product Manager to do `Searchandizing`, we will use the Search Management UI, or SMUI.  Open up http://localhost:9000 and you will be in the management screen for the `Ecommerce Demo`.
 
-Arrange your screens so the `Chorus Electonics` store and SMUI are both visible.  
+Arrange your screens so the `Chorus Electronics` store and SMUI are both visible.  
 
 ![Layout out your webstore and tuning tools side by side](images/001_screens_side_by_side.png)
 
