@@ -6,11 +6,11 @@ At this point, you are probably starting to see that the butterfly effect has a 
 
 > is the idea that small, seemingly trivial events may ultimately result in something with much larger consequences – in other words, they have non-linear impacts on very complex systems. For instance, when a butterfly flaps its wings in India, that tiny change in air pressure could eventually cause a tornado in Iowa.  https://science.howstuffworks.com/math-concepts/butterfly-effect.htm
 
-We see this effect daily in our relevancy tuning work.  You improve the results for one query, and that change has unanticipated impacts on many other queries.   Some times the unanticipated impacts are a pleasant surprise, improving many other queries.  More commonly, it has a negative impact on other queries.    
+We see this effect daily in our relevancy tuning work. You improve the results for one query, and that change has unanticipated impacts on many other queries. Sometimes the unanticipated impacts are a pleasant surprise, improving many other queries. More commonly, it has a negative impact on other queries.    
 
 To deal with this, to use another analogy; _we need to look at the forest, not the trees_, and we do this by creating a Baseline Relevancy Case in Quepid.
 
-The Baseline Relevancy Case is a set of queries that represents the typical queries we are getting.   You should source them from your query logs to they represent real queries, and it should have queries that come from both your Head and your Long Tail of queries that users are running.  100 queries is typically enough to get started, though more is always better ;-).
+The Baseline Relevancy Case is a set of queries that represents the typical queries we are getting. You should source them from your query logs so they represent real queries, and it should have queries that come from both your Head and your Long Tail of queries that users are running. 100 queries is typically enough to get started, though more is always better ;-).
 
 Once you have those queries defined, go ahead and pick your rating scheme.   Some folks like a binary grade of _relevant_ and _irrelevant_, others go with a graded approach.   For more on the graded approach, see https://github.com/o19s/quepid/wiki/Judgement-Rating-Best-Practices.
 
