@@ -22,7 +22,7 @@ services:
 
   mysql:
     container_name: mysql
-    image: amd64/mysql:5.7.37
+    image: amd64/mysql:5.7.40
     ports:
       - 3306:3306
     environment:
@@ -251,7 +251,7 @@ services:
       - ./prometheus/:/etc/prometheus/
 
   grafana:
-    image: grafana/grafana:7.5.13
+    image: grafana/grafana:7.5.17
     container_name: grafana
     restart: unless-stopped
     hostname: grafana
@@ -270,7 +270,7 @@ services:
       - prometheus
 
   jaeger:
-    image: jaegertracing/all-in-one:1.35.1
+    image: jaegertracing/all-in-one:1.39
     container_name: jaeger
     restart: always
     hostname: jaegertracing
