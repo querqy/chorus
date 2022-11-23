@@ -29,6 +29,10 @@ services:
       - MYSQL_ROOT_PASSWORD=password
     volumes:
       - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=password --execute \"SHOW DATABASES;\""
+      interval: 10s
+      timeout: 30s
 
   smui:
     container_name: smui
