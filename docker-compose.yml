@@ -13,7 +13,7 @@ services:
       - 9394:9394
     command: "foreman s -f Procfile"
     environment:
-      - SOLR_URL=http://solr:SolrRocks@solr1:8983/solr/ecommerce
+      - SOLR_URL=http://${SOLR_USER}:${SOLR_PASSWORD}@solr1:8983/solr/ecommerce
       - PORT=3000
       - OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
     depends_on:
@@ -22,7 +22,7 @@ services:
 
   mysql:
     container_name: mysql
-    image: amd64/mysql:5.7.37
+    image: amd64/mysql:5.7.40
     ports:
       - 3306:3306
     environment:
@@ -41,9 +41,9 @@ services:
       - SMUI_HEADLINE=Chorus SMUI
       - SMUI_DB_URL=jdbc:mysql://mysql:3306/smui?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
       - SMUI_DB_USER=root
-      - SMUI_DB_PASSWORD=password
-      - SMUI_DEPLOY_PRELIVE_SOLR_HOST=solr:SolrRocks@solr1:8983
-      - SMUI_2SOLR_SOLR_HOST=solr:SolrRocks@solr1:8983
+      - SMUI_DB_PASSWORD=${SMUI_DB_PASSWORD}
+      - SMUI_DEPLOY_PRELIVE_SOLR_HOST=${SOLR_USER}:${SOLR_PASSWORD}@solr1:8983
+      - SMUI_2SOLR_SOLR_HOST=${SOLR_USER}:${SOLR_PASSWORD}@solr1:8983
       - SMUI_TOGGLE_DEPL_PRELIVE=true
       - SMUI_TOGGLE_SPELLING=true
       - SMUI_TOGGLE_DEPL_CUSTOM_SCRIPT=true
@@ -180,7 +180,7 @@ services:
       - PORT=3000
       - RACK_ENV=production
       - RAILS_ENV=production
-      - DATABASE_URL=mysql2://root:password@mysql:3306/quepid
+      - DATABASE_URL=mysql2://root:${MYSQL_ROOT_PASSWORD}@mysql:3306/quepid
       - REDIS_URL=redis://redis:6379/1
       - FORCE_SSL=false
       - MAX_THREADS=2
@@ -251,7 +251,7 @@ services:
       - ./prometheus/:/etc/prometheus/
 
   grafana:
-    image: grafana/grafana:7.5.13
+    image: grafana/grafana:7.5.17
     container_name: grafana
     restart: unless-stopped
     hostname: grafana
@@ -264,7 +264,7 @@ services:
     volumes:
       - ./grafana/provisioning/:/etc/grafana/provisioning/
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=password
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
       - GF_USERS_ALLOW_SIGN_UP=true
     depends_on:
       - prometheus
@@ -295,8 +295,6 @@ services:
     image: quay.io/keycloak/keycloak:18.0.2
     container_name: keycloak
     hostname: keycloak
-    #command: ["-b", "0.0.0.0", "-Dkeycloak.migration.action=import", "-Dkeycloak.migration.provider=dir", "-Dkeycloak.migration.dir=/opt/jboss/keycloak/realm-config", "-Dkeycloak.migration.strategy=OVERWRITE_EXISTING", "-Djboss.socket.binding.port-offset=1000", "-Dkeycloak.profile.feature.upload_scripts=enabled"]
-    #command: ["start-dev", "-Dkeycloak.migration.action=import", "-Dkeycloak.migration.provider=dir", "-Dkeycloak.migration.dir=/opt/jboss/keycloak/realm-config", "-Dkeycloak.migration.strategy=OVERWRITE_EXISTING", "-Dkeycloak.profile.feature.upload_scripts=enabled"]
     command: ["start-dev", "--import-realm"]
     restart: unless-stopped
     healthcheck:
@@ -306,7 +304,7 @@ services:
     environment:
       KC_HTTP_PORT: 9080
       KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: password
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
       DB_VENDOR: h2
     volumes:
       - ./keycloak/realm-config/chorus-realm.json:/opt/keycloak/data/import/chorus-realm.json:ro
