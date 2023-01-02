@@ -34,6 +34,6 @@ Pick the scorer `nDCG@10` and tweak the query sandbox to be `q=#$query##&usePara
 
 Now you are ready to import the [Broad_Query_Set_rated.csv](Broad_Query_Set_rated.csv) file.  Use the Import button and pick the CSV format and import the file.  This will load all the queries and ratings in Quepid, and then run all the queries and rescore everything.
 
-You how have your _Chorus Baseline Relevance_ case established using the nDCG@10 metric. Go ahead and take a snapshot, giving it today's date.  This will be what you compare back against as you solve specific relevancy problems.  Each time you have a candidate algorithm ready to go, bring up this baseline case, and update the algorithem settings for your new candidate setting.  Then, rerun the queries, and compare it against the snapshot you just established.
+You how have your _Chorus Baseline Relevance_ case established using the nDCG@10 metric. Go ahead and take a snapshot, giving it today's date.  This will be what you compare back against as you solve specific relevancy problems.  Each time you have a candidate algorithm ready to go, bring up this baseline case, and update the algorithm settings for your new candidate setting.  Then, rerun the queries, and compare it against the snapshot you just established.
 
 In our next Kata we'll go into more depth on the lifecycle of running an experiment and coming back and comparing it to the Baseline.
