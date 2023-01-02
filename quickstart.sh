@@ -187,6 +187,8 @@ curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"brand"}' http://
 
 if $offline_lab; then
   echo -e "${MAJOR}Setting up Quepid${RESET}"
+  ./mysql/wait-for-mysql.sh
+
   docker-compose run --rm quepid bin/rake db:setup
   docker-compose run quepid thor user:create -a admin@choruselectronics.com "Chorus Admin" password
   echo -e "${MINOR}Setting up Chorus Baseline Relevance case${RESET}"
