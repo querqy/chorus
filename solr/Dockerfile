@@ -1,4 +1,4 @@
-FROM solr:9.0.0
+FROM solr:9.1.0
 
 COPY --chown=solr:solr solr.xml /var/solr/data/
 
