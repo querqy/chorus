@@ -20,9 +20,10 @@
         "scheme": "basic",
         "class": "solr.BasicAuthPlugin",
         "blockUnknown": false,
-        "realm": "Chorus Solr Cluster. Admin Credentials are solr:SolrRocks",
+        "realm": "Chorus Solr Cluster. Admin Credentials are admin:password",
         "credentials": {
-          "solr": "IV0EHq1OnNrj6gvRCwvFwTrZ1+z1oBbnQdiVC3otuq0= Ndd7LKvVBAaZIF0QAVi1ekCfAJXr1GGfLtRUXhgrF8c="
+          "solr": "IV0EHq1OnNrj6gvRCwvFwTrZ1+z1oBbnQdiVC3otuq0= Ndd7LKvVBAaZIF0QAVi1ekCfAJXr1GGfLtRUXhgrF8c=",
+          "admin": "zAm91o0czC72A7Y4dtzicTMDOwk6b4MZbwhSTC7od8Q= emJhcWFoZzBnaGQ4MncwZQ=="
         },
         "forwardCredentials": false
       }
@@ -35,7 +36,8 @@
         "scheme": "basic",
         "class": "solr.RuleBasedAuthorizationPlugin",
         "user-role": {
-          "solr": ["admin", "solr-admin"]
+          "solr": ["admin", "solr-admin"],
+          "admin": ["admin", "solr-admin"]
         }
       },
       {
