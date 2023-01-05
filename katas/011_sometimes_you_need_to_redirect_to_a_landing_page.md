@@ -4,10 +4,13 @@
 
 Sometimes the right answer to a user's question isn't to actually run a search, but instead to drop them on the perfect page for them.  
 
-We see a very common pattern that among the most common search queries is for someone looking for information about the site they are on, not looking
-for what the site delivers.  Think someone looking for the returns policy on an ecommerce website or parking information on a hospital website.  
+Redirect rules bypass the normal search results and redirect the page to a specific URL when the search query is entered. This is useful for terms that are very broad or for non-product searches.
 
-The way we solve this is to create some redirection rules for specific queries.  __As an aside, this kind Active Search Management capability has been the biggest feature that commercial engines have had over the open source options ;-)__
+For example, a search for _computer_ can redirect to the computers category. Because the term computer is very broad, redirecting the user to the category page allows them to browse subcategories of computers to find a specific type of computer.
+
+Another example is a search for _employment_. Since an ecommerce site typically only indexes the product catalog, a redirect is necessary to send users to the careers page for this search.
+
+ __Active Search Management capability has been the biggest feature that commercial engines have had over the open source options for many years ;-)__
 
 In this Kata we're going to walk you through creating a REDIRECT rule in SMUI, and we'll call out the bit of code that makes the redirection work.
 
@@ -35,7 +38,6 @@ So let's learn a bit more about how this all works.  When you do a search that m
 		}]
 	}
 }
-
 ```  
 
 Here you can see the Solr response for yourself:
@@ -45,3 +47,12 @@ http://localhost:8983/solr/ecommerce/select?q=returns&useParams=visible_products
 Your web layer is going to need to receive this information so that it can redirect the user instead of rendering the typical results page.  Since we are using an existing front end tool called Blacklight, we had to kind of "hack" our way in by layering our logic into the existing Pagination component.
 
 You can see the check for the return of the REDIRECT rule here https://github.com/querqy/chorus/blob/demo_redirect/blacklight/app/components/blacklight/response/pagination_component.rb#L14.  The `@redirect_url` is then passed to the HTML rendered view to drive a Javascript based redirect https://github.com/querqy/chorus/blob/demo_redirect/blacklight/app/components/blacklight/response/pagination_component.html.erb#L10.
+
+Notice how we did a basic redirect?  If your redirection is a fully qualified url, like `http://example.com` then you will redirect to that website instead.
+
+To wrap up this kata, go ahead and try some queries like _returns policy_ and _how do I do returns_ and you'll see they redirect the way you expect.
+However if you try out _return policy_ you will be disappointed, and that is because Querqy doesn't match that token.   So you'll need to add a REDIRECT for _return_.
+
+You might think you can do `redirect*` in SMUI, however that pattern only works with the SYNONYM rule and specifically directed synonyms.  This is to reduce the chances of unanticipated matches ;-).
+
+Lastly, remember, that this rule is going to kick in for any query that has the words _return_ or _returns_, so it would be wise to check your user query logs ;-).  For example, if a *Return Shelf* is a product you sell, then you would need to deal with this.   
