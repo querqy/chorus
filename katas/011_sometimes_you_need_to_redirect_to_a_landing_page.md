@@ -51,8 +51,10 @@ You can see the check for the return of the REDIRECT rule here https://github.co
 Notice how we did a basic redirect?  If your redirection is a fully qualified url, like `http://example.com` then you will redirect to that website instead.
 
 To wrap up this kata, go ahead and try some queries like _returns policy_ and _how do I do returns_ and you'll see they redirect the way you expect.
-However if you try out _return policy_ you will be disappointed, and that is because Querqy doesn't match that token.   So you'll need to add a REDIRECT for _return_.
+However if you try out _return policy_ you will be disappointed, and that is because Querqy doesn't match that token.   You have two options...  
 
-You might think you can do `redirect*` in SMUI, however that pattern only works with the SYNONYM rule and specifically directed synonyms.  This is to reduce the chances of unanticipated matches ;-).
+First you could just add a REDIRECT for _return_.
 
-Lastly, remember, that this rule is going to kick in for any query that has the words _return_ or _returns_, so it would be wise to check your user query logs ;-).  For example, if a *Return Shelf* is a product you sell, then you would need to deal with this.   
+Alternatively you could change the query to `retur*`.  The `*` means match 1 or more characters, so `return*` will NOT match the query `return`.
+
+Lastly, remember, that this rule is going to kick in for any query that has the words _return_ or _returns_, so it would be wise to check your user query logs ;-).  For example, if a *Return Shelf* is a product you sell, then you would need to deal with this.  
