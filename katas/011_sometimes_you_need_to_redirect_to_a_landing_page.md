@@ -10,7 +10,7 @@ For example, a search for _computer_ can redirect to the computers category. Bec
 
 Another example is a search for _employment_. Since an ecommerce site typically only indexes the product catalog, a redirect is necessary to send users to the careers page for this search.
 
- __Active Search Management capability has been the biggest feature that commercial engines have had over the open source options for many years ;-)__
+ __Active Search Management capability has been the biggest feature that commercial engines have had over the open source options for many years ;-)  With open source tools like Querqy which is part of the Chorus stack, Lucene-based search engines have closed this gap for good.__
 
 In this Kata we're going to walk you through creating a REDIRECT rule in SMUI, and we'll call out the bit of code that makes the redirection work.
 
