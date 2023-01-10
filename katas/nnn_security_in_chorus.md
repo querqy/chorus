@@ -14,3 +14,5 @@ However, for our users, well we need to be able to manage them in a central loca
 
 
 http://localhost:9080/auth/realms/chorus/.well-known/openid-configuration
+
+https://clemente-biondo.github.io/ for generating solr passwords.
