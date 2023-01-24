@@ -3,13 +3,14 @@
 | Component | Username                    | Password  | Origin             |
 |-----------|-----------------------------|-----------|--------------------|
 | Solr      | solr                        | SolrRocks | security.json      |
+| Solr      | admin                       | password  | security.json      |
 | Quepid    | admin@choruselectronics.com | password  | quickstart.sh      |
 | Grafana   | admin@choruselectronics.com | password  | quickstart.sh      |
 | Keycloak  | admin                       | password  | docker-compose.yml |
 | MySQL     | root                        | password  | docker-compose.yml |
 
 
-`blockUnknown` is false as we want to let RRE run against the `ecommerce` collection.  We have locked down in `security.json` to allow anonymous users only to hit the /ecommerce/select/ end point <-- UPDATE this isn't working.
+`blockUnknown` is false as we want to let RRE run against the `ecommerce` collection.  We have locked down in `security.json` to allow anonymous users only to hit the /ecommerce/select/ end point
 
 When you bring up Solr Admin and then are redirected to Keycloak, when you register and sent back to Solr you are given the `solr-admin` role.
 
