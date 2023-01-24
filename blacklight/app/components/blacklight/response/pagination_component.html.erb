@@ -1,0 +1,16 @@
+<!--
+# Copied from https://github.com/projectblacklight/blacklight/blob/v7.19.2/app/components/blacklight/response/pagination_component.html.erb
+# in order to inject the REDIRECT logic from querqy ;-)  Hacky, I know.
+-->
+
+<%= content_tag :nav, class: 'pagination', role: 'region', **@html_attr do %>
+  <%= pagination %>
+<% end %>
+
+<% if @redirect_url %>
+Redirecting to <%=@redirect_url%>
+<!-- Script which will redirect to another page based on the redirect url -->
+<script>
+  window.location = "<%= @redirect_url %>";  
+</script>
+<% end %>

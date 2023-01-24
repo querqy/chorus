@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# Small change of the logic to support collations along with words!
+# Copied from https://github.com/projectblacklight/blacklight/blob/v7.19.2/app/components/blacklight/response/spellcheck_component.rb
+# in order to blend in collations.
 
 module Blacklight
   module Response

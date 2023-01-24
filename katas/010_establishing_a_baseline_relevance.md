@@ -1,6 +1,6 @@
 # Tenth Kata: Establishing a Baseline Metric for Relevancy
 
-<i><a href="PLACEHOLDER: https://opensourceconnections.com/blog/2020/10/19/pete-estabalishes-a-baseline/" target="_BLANK">Read the blog, watch the video version of this Kata</a></i>
+<i><a href="https://opensourceconnections.com/blog/2023/01/03/establishing-a-baseline-relevance-metric/" target="_BLANK">Read the blog, watch the video version of this Kata</a></i>
 
 At this point, you are probably starting to see that the butterfly effect has a very powerful impact on your relevancy tuning efforts.  For those you aren't familiar with the term, the butterfly effect is:
 
@@ -36,4 +36,4 @@ Now you are ready to import the [Broad_Query_Set_rated.csv](Broad_Query_Set_rate
 
 You how have your _Chorus Baseline Relevance_ case established using the nDCG@10 metric. Go ahead and take a snapshot, giving it today's date.  This will be what you compare back against as you solve specific relevancy problems.  Each time you have a candidate algorithm ready to go, bring up this baseline case, and update the algorithm settings for your new candidate setting.  Then, rerun the queries, and compare it against the snapshot you just established.
 
-In our next Kata we'll go into more depth on the lifecycle of running an experiment and coming back and comparing it to the Baseline.
+In a future Kata we'll go into more depth on the lifecycle of running an experiment and coming back and comparing it to the Baseline.
