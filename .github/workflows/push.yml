@@ -11,7 +11,7 @@ jobs:
       - name: Build the stack
         run: ./quickstart.sh
       - name: Test
-        run: docker run --network container:solr1 appropriate/curl -s --retry 10 --retry-connrefused http://localhost:8983/solr/ecommerce/admin/ping
+        run: docker run --network container:solr1 appropriate/curl -s --retry 10 --retry-connrefused --show-error --fail http://localhost:8983/solr/ecommerce/admin/ping
         #run: docker run --network container:quepid appropriate/curl -s --retry 10 --retry-connrefused http://localhost:3000
         #run: docker run --network container:rre appropriate/curl -s --retry 10 --retry-connrefused http://localhost:8080
         #run: docker run --network container:blacklight appropriate/curl --retry 10 --retry-connrefused http://localhost:3000/
