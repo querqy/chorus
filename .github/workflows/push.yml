@@ -5,7 +5,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Add hosts to /etc/hosts
         run: sudo echo "0.0.0.0 keycloak" | sudo tee -a /etc/hosts
       - name: Build the stack
