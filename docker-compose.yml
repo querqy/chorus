@@ -220,6 +220,19 @@ services:
     depends_on:
       - solr1
 
+
+  embeddings:
+    container_name: embeddings
+    build:
+      context: ./embeddings
+      dockerfile: Dockerfile
+    volumes:
+      - ./embeddings:/embeddings
+    ports:
+      - "8000:8000"
+
+
+
   solr-exporter:
     image: solr:9.1.1
     container_name: solr-exporter
