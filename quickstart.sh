@@ -65,7 +65,7 @@ do
 	shift
 done
 
-services="blacklight solr1 solr2 solr3 keycloak smui"
+services="blacklight  embeddings solr1 solr2 solr3 keycloak smui"
 if $observability; then
   services="${services} grafana solr-exporter jaeger"
 fi
