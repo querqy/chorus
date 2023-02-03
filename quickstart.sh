@@ -116,7 +116,20 @@ fi
 log_major "Populating products, please give it a few minutes!"
 tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl --user solr:SolrRocks 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
 
-log_major "Defining relevancy algorithems using ParamSets."
+echo -e "${MAJOR}Preparing embeddings rewriter.${RESET}"
+
+curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/emb?action=save -H 'Content-type:application/json'  -d '{
+  "class": "querqy.solr.embeddings.SolrEmbeddingsRewriterFactory",
+         "config": {
+             "model" : {
+               "class": "querqy.embeddings.ChorusEmbeddingModel",
+               "url": "http://embeddings:8000/strans/text/"
+
+             }
+         }
+}'
+
+echo -e "${MAJOR}Defining relevancy algorithms using ParamSets.${RESET}"
 curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/params -H 'Content-type:application/json'  -d '{
   "set": {
     "visible_products":{
@@ -150,6 +163,49 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
       "querqy.rewriters":"replace_prelive,common_rules_prelive,regex_screen_protectors",
       "querqy.infoLogging":"on",
       "qf": "id name title product_type short_description ean search_attributes"
+    }
+  },
+  "set": {
+    "querqy_boost_by_img_emb":{
+      "defType":"querqy",
+      "querqy.rewriters":"emb",
+      "querqy.emb.topK": 100,
+      "querqy.emb.mode": "BOOST",
+      "querqy.emb.boost": 100,
+      "querqy.emb.f": "product_image_vector",
+      "qf": "id name title product_type short_description ean search_attributes",
+      "querqy.infoLogging":"on"
+    }
+  },
+  "set": {
+    "querqy_match_by_img_emb":{
+      "defType":"querqy",
+      "querqy.rewriters":"emb",
+      "querqy.emb.topK":100,
+      "querqy.emb.mode": "MAIN_QUERY",
+      "querqy.emb.f": "product_image_vector",
+      "qf": "id name title product_type short_description ean search_attributes",
+      "querqy.infoLogging":"on"
+
+    },
+    "querqy_boost_by_txt_emb":{
+      "defType":"querqy",
+      "querqy.rewriters":"emb",
+      "querqy.emb.topK": 100,
+      "querqy.emb.mode": "BOOST",
+      "querqy.emb.boost": 100,
+      "querqy.emb.f": "product_vector",
+      "qf": "id name title product_type short_description ean search_attributes",
+      "querqy.infoLogging":"on"
+    },
+    "querqy_match_by_txt_emb":{
+      "defType":"querqy",
+      "querqy.rewriters":"emb",
+      "querqy.emb.topK":100,
+      "querqy.emb.mode": "MAIN_QUERY",
+      "querqy.emb.f": "product_vector",
+      "qf": "id name title product_type short_description ean search_attributes",
+      "querqy.infoLogging":"on"
     }
   },
 }'
