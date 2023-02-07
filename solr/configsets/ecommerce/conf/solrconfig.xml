@@ -4,6 +4,9 @@
 <!-- Minimal solrconfig.xml with /select, /admin and /update only -->
 
 <config>
+
+  <codecFactory class="solr.SchemaCodecFactory"/>
+
   <!-- Load the Querqy Jar that comes with all it's dependencies -->
   <lib dir="/opt/querqy/lib/" />
 

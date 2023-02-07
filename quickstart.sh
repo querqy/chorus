@@ -118,16 +118,30 @@ tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl --user solr:Solr
 
 echo -e "${MAJOR}Preparing embeddings rewriter.${RESET}"
 
-curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/emb?action=save -H 'Content-type:application/json'  -d '{
+curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/embtxt?action=save -H 'Content-type:application/json'  -d '{
   "class": "querqy.solr.embeddings.SolrEmbeddingsRewriterFactory",
          "config": {
              "model" : {
                "class": "querqy.embeddings.ChorusEmbeddingModel",
-               "url": "http://embeddings:8000/strans/text/"
+               "url": "http://embeddings:8000/minilm/text/",
+               "normalize": false
 
              }
          }
 }'
+
+curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/embimg?action=save -H 'Content-type:application/json'  -d '{
+  "class": "querqy.solr.embeddings.SolrEmbeddingsRewriterFactory",
+         "config": {
+             "model" : {
+               "class": "querqy.embeddings.ChorusEmbeddingModel",
+               "url": "http://embeddings:8000/clip/text/",
+               "normalize": false
+
+             }
+         }
+}'
+
 
 echo -e "${MAJOR}Defining relevancy algorithms using ParamSets.${RESET}"
 curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/params -H 'Content-type:application/json'  -d '{
@@ -168,44 +182,48 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
   "set": {
     "querqy_boost_by_img_emb":{
       "defType":"querqy",
-      "querqy.rewriters":"emb",
-      "querqy.emb.topK": 100,
-      "querqy.emb.mode": "BOOST",
-      "querqy.emb.boost": 100,
-      "querqy.emb.f": "product_image_vector",
+      "querqy.rewriters":"embimg",
+      "querqy.embimg.topK": 100,
+      "querqy.embimg.mode": "BOOST",
+      "querqy.embimg.boost": 10000,
+      "querqy.embimg.f": "product_image_vector",
       "qf": "id name title product_type short_description ean search_attributes",
-      "querqy.infoLogging":"on"
+      "querqy.infoLogging":"on",
+      "mm" : "100%"
     }
   },
   "set": {
     "querqy_match_by_img_emb":{
       "defType":"querqy",
-      "querqy.rewriters":"emb",
-      "querqy.emb.topK":100,
-      "querqy.emb.mode": "MAIN_QUERY",
-      "querqy.emb.f": "product_image_vector",
+      "querqy.rewriters":"embimg",
+      "querqy.embimg.topK":100,
+      "querqy.embimg.mode": "MAIN_QUERY",
+      "querqy.embimg.f": "product_image_vector",
       "qf": "id name title product_type short_description ean search_attributes",
-      "querqy.infoLogging":"on"
+      "querqy.infoLogging":"on",
+      "mm" : "100%"
 
     },
     "querqy_boost_by_txt_emb":{
       "defType":"querqy",
-      "querqy.rewriters":"emb",
-      "querqy.emb.topK": 100,
-      "querqy.emb.mode": "BOOST",
-      "querqy.emb.boost": 100,
-      "querqy.emb.f": "product_vector",
+      "querqy.rewriters":"embtxt",
+      "querqy.embtxt.topK": 100,
+      "querqy.embtxt.mode": "BOOST",
+      "querqy.embtxt.boost": 10000,
+      "querqy.embtxt.f": "product_vector",
       "qf": "id name title product_type short_description ean search_attributes",
-      "querqy.infoLogging":"on"
+      "querqy.infoLogging":"on",
+      "mm" : "100%"
     },
     "querqy_match_by_txt_emb":{
       "defType":"querqy",
-      "querqy.rewriters":"emb",
-      "querqy.emb.topK":100,
-      "querqy.emb.mode": "MAIN_QUERY",
-      "querqy.emb.f": "product_vector",
+      "querqy.rewriters":"embtxt",
+      "querqy.embtxt.topK":100,
+      "querqy.embtxt.mode": "MAIN_QUERY",
+      "querqy.embtxt.f": "product_vector",
       "qf": "id name title product_type short_description ean search_attributes",
-      "querqy.infoLogging":"on"
+      "querqy.infoLogging":"on",
+      "mm" : "100%"
     }
   },
 }'
