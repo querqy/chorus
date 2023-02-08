@@ -224,7 +224,7 @@ services:
       - solr1
 
   solr-exporter:
-    image: solr:9.1.0
+    image: solr:9.1.1
     container_name: solr-exporter
     hostname: solr-exporter
     ports:
@@ -296,7 +296,7 @@ services:
       - COLLECTOR_OTLP_ENABLED=true
 
   keycloak:
-    image: quay.io/keycloak/keycloak:18.0.2
+    image: quay.io/keycloak/keycloak:20.0.3
     container_name: keycloak
     hostname: keycloak
     command: ["start-dev", "--import-realm"]
