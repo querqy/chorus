@@ -30,11 +30,13 @@ if ! [ -x "$(command -v zip)" ]; then
   exit 1
 fi
 
-observability=false
-shutdown=false
+
 offline_lab=false
+observability=false
 local_deploy=true
 vector_search=false
+active_search_management=false
+shutdown=false
 
 while [ ! $# -eq 0 ]
 do
@@ -42,9 +44,10 @@ do
 		--help | -h)
       echo -e "Use the option --with-offline-lab | -lab to include Quepid and RRE services in Chorus."
 			echo -e "Use the option --with-observability | -obs to include Grafana, Prometheus, and Solr Exporter services in Chorus."
+      echo -e "Use the option --with-vector-search | -vector to include Vector Search services in Chorus."
+      echo -e "Use the option --with-active-search-management | -active to include Active Search Management in Chorus."
       echo -e "Use the option --shutdown | -s to shutdown and remove the Docker containers and data."
       echo -e "Use the option --online-deployment | -online to update configuration to run on chorus.dev.o19s.com environment."
-      echo -e "Use the option --with-vector-search | -vector to include Vector Search services in Chorus."
 			exit
 			;;
 		--with-observability | -obs)
@@ -62,6 +65,10 @@ do
 	  --with-vector-search | -vector)
   		vector_search=true
       echo -e "${MAJOR}Configuring Chorus with vector search services enabled${RESET}"
+  		;;
+    --with-active-search-management | -active)
+  		active_search_management=true
+      echo -e "${MAJOR}Configuring Chorus with active search management enabled${RESET}"
   		;;
     --shutdown | -s)
 			shutdown=true
@@ -83,13 +90,21 @@ if [ $vector_search ]; then
   fi
 fi
 
-services="blacklight  embeddings solr1 solr2 solr3 keycloak smui"
+services="blacklight solr1 solr2 solr3 keycloak"
 if $observability; then
   services="${services} grafana solr-exporter jaeger"
 fi
 
 if $offline_lab; then
   services="${services} quepid rre"
+fi
+
+if $vector_search; then
+  services="${services} embeddings"
+fi
+
+if $active_search_management; then
+  services="${services} smui"
 fi
 
 if ! $local_deploy; then
@@ -278,11 +293,13 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
 }'
 
 
-echo -e "${MAJOR}Setting up SMUI${RESET}"
-SOLR_INDEX_ID=`curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"ecommerce", "description":"Chorus Webshop"}' http://localhost:9000/api/v1/solr-index | jq -r .returnId`
-curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"product_type"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
-curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"title"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
-curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"brand"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
+if $active_search_management; then
+  echo -e "${MAJOR}Setting up SMUI${RESET}"
+  SOLR_INDEX_ID=`curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"ecommerce", "description":"Chorus Webshop"}' http://localhost:9000/api/v1/solr-index | jq -r .returnId`
+  curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"product_type"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
+  curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"title"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
+  curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"brand"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
+fi
 
 if $offline_lab; then
   echo -e "${MAJOR}Setting up Quepid${RESET}"
