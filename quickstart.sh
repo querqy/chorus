@@ -12,6 +12,7 @@ observability=false
 shutdown=false
 offline_lab=false
 local_deploy=true
+vector_search=false
 
 while [ ! $# -eq 0 ]
 do
@@ -32,6 +33,10 @@ do
 			local_deploy=false
       log_major "Configuring Chorus for chorus.dev.o19s.com environment"
 			;;
+	  --with-vector-search | -vector)
+  		vector_search=true
+      echo -e "${MAJOR}Configuring Chorus with vector search services enabled${RESET}"
+  		;;
     --shutdown | -s)
 			shutdown=true
       log_major "Shutting down Chorus"
@@ -108,14 +113,22 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/api/collections -H 'Con
     }
   }
 '
-
-if [ ! -f ./icecat-products-150k-20200809.tar.gz ]; then
-    log_major "Downloading the sample product data."
+# Populating product data for non-vector search
+if [ ! $vector_search ] && [ ! -f ./icecat-products-150k-20200809.tar.gz ]; then
+    echo -e "${MAJOR}Downloading the sample product data.${RESET}"
     curl --progress-bar -o icecat-products-150k-20200809.tar.gz -k https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
-fi
-log_major "Populating products, please give it a few minutes!"
-tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl --user solr:SolrRocks 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
 
+    echo -e "${MAJOR}Populating products, please give it a few minutes!${RESET}"
+    tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl --user solr:SolrRocks 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
+fi
+
+# Populating product data for vector search
+if [ $vector_search ]; then
+  echo -e "${MAJOR}Populating products for vector search, please give it a few minutes!${RESET}"
+  ./index-vectors.sh
+fi
+
+# Embedding service for vector search
 echo -e "${MAJOR}Preparing embeddings rewriter.${RESET}"
 
 curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/embtxt?action=save -H 'Content-type:application/json'  -d '{
