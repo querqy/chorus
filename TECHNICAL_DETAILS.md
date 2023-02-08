@@ -2,8 +2,10 @@
 
 | Component | Username                    | Password  | Origin             |
 |-----------|-----------------------------|-----------|--------------------|
-| Solr      | solr                        | SolrRocks | security.json      |
+| Solr      | admin@choruselectronics.com | password  | chorus-realm.json  |
 | Solr      | admin                       | password  | security.json      |
+| Solr      | solr                        | SolrRocks | security.json      |
+| Quepid    | admin@choruselectronics.com | password  | chorus-realm.json      |
 | Quepid    | admin@choruselectronics.com | password  | quickstart.sh      |
 | Grafana   | admin@choruselectronics.com | password  | quickstart.sh      |
 | Keycloak  | admin                       | password  | docker-compose.yml |
