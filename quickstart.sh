@@ -130,18 +130,19 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/api/collections -H 'Con
   }
 '
 # Populating product data for non-vector search
-if [ ! $vector_search ] && [ ! -f ./icecat-products-150k-20200809.tar.gz ]; then
+if ! $vector_search; then
+  if [ ! -f ./solr/data/icecat-products-150k-20200809.tar.gz ]; then
     echo -e "${MAJOR}Downloading the sample product data.${RESET}"
-    curl --progress-bar -o icecat-products-150k-20200809.tar.gz -k https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
-
-    echo -e "${MAJOR}Populating products, please give it a few minutes!${RESET}"
-    tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl --user solr:SolrRocks 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
+    curl --progress-bar -o ./solr/data/icecat-products-150k-20200809.tar.gz -k https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
+  fi
+  echo -e "${MAJOR}Populating products, please give it a few minutes!${RESET}"
+  tar xzf ./solr/data/icecat-products-150k-20200809.tar.gz --to-stdout | curl --user solr:SolrRocks 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
 fi
 
 # Populating product data for vector search
-if [ $vector_search ]; then
+if $vector_search; then
   echo -e "${MAJOR}Populating products for vector search, please give it a few minutes!${RESET}"
-  ./index-vectors.sh
+  ./solr/index-vectors.sh
 fi
 
 # Embedding service for vector search
