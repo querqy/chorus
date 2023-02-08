@@ -79,16 +79,17 @@ do
 done
 
 ## Download models (clip and minilm) before starting embeddings service
-if [ $vector_search ]; then
-  MODEL_DIR_1="./embeddings/app/clip-ViT-L-14.model"
-  MODEL_DIR_2="./embeddings/app/all-MiniLM-L12-v2.model"
-  if [ ! -d "$MODEL_DIR_1" ]; then
-      python embeddings/app/clip/loadModel.py
-  fi
-  if [ ! -d "$MODEL_DIR_2" ]; then
-      python embeddings/app/minilm/loadModel.py
-  fi
-fi
+# THIS IS NOW DONE IN embeddings DOCKERFILE
+#if [ $vector_search ]; then
+#  MODEL_DIR_1="./embeddings/app/clip-ViT-L-14.model"
+#  MODEL_DIR_2="./embeddings/app/all-MiniLM-L12-v2.model"
+#  if [ ! -d "$MODEL_DIR_1" ]; then
+#      python embeddings/app/clip/loadModel.py
+#  fi
+#  if [ ! -d "$MODEL_DIR_2" ]; then
+#      python embeddings/app/minilm/loadModel.py
+#  fi
+#fi
 
 services="blacklight solr1 solr2 solr3 keycloak"
 if $observability; then
