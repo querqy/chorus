@@ -226,8 +226,8 @@ services:
     build:
       context: ./embeddings
       dockerfile: Dockerfile
-    volumes:
-      - ./embeddings:/embeddings
+    #volumes:
+      #- ./embeddings:/embeddings
     ports:
       - "8000:8000"
 
