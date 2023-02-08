@@ -8,11 +8,13 @@ set -e
 
 log_awesome "Thank you for trying Chorus! Welcome!"
 
-observability=false
-shutdown=false
+
 offline_lab=false
+observability=false
 local_deploy=true
 vector_search=false
+active_search_management=false
+shutdown=false
 
 while [ ! $# -eq 0 ]
 do
@@ -37,6 +39,10 @@ do
   		vector_search=true
       echo -e "${MAJOR}Configuring Chorus with vector search services enabled${RESET}"
   		;;
+    --with-active-search-management | -active)
+  		active_search_management=true
+      echo -e "${MAJOR}Configuring Chorus with active search management enabled${RESET}"
+  		;;
     --shutdown | -s)
 			shutdown=true
       log_major "Shutting down Chorus"
@@ -50,6 +56,9 @@ check_prerequisites
 
 services="blacklight solr1 solr2 solr3 keycloak smui"
 
+
+services="blacklight solr1 solr2 solr3 keycloak"
+
 if $observability; then
   services="${services} grafana solr-exporter jaeger"
 fi
@@ -58,6 +67,13 @@ if $offline_lab; then
   services="${services} quepid rre"
 fi
 
+if $vector_search; then
+  services="${services} embeddings"
+fi
+
+if $active_search_management; then
+  services="${services} smui"
+fi
 
 if ! $local_deploy; then
   log_major "Updating configuration files for online deploy"
@@ -242,11 +258,13 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
 }'
 
 
-log_major "Setting up SMUI"
-SOLR_INDEX_ID=`curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"ecommerce", "description":"Chorus Webshop"}' http://localhost:9000/api/v1/solr-index | jq -r .returnId`
-curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"product_type"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
-curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"title"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
-curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"brand"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
+if $active_search_management; then
+  echo -e "${MAJOR}Setting up SMUI${RESET}"
+  SOLR_INDEX_ID=`curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"ecommerce", "description":"Chorus Webshop"}' http://localhost:9000/api/v1/solr-index | jq -r .returnId`
+  curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"product_type"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
+  curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"title"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
+  curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"brand"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
+fi
 
 if $offline_lab; then
   log_major "Setting up Quepid"
