@@ -20,8 +20,8 @@ if [ ! -f ./solr/data/products-vectors-4.json ]; then
 fi
 
 cd $DATA_DIR
-for f in *.json;
+for f in products-vectors*.json;
   do
-    echo "Populating products from $f , please give it a few minutes!"
+    echo "Populating products from ${f}, please give it a few minutes!"
     curl --user solr:SolrRocks 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @"$f" -H 'Content-type:application/json ';
    done;
