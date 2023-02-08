@@ -34,6 +34,7 @@ observability=false
 shutdown=false
 offline_lab=false
 local_deploy=true
+vector_search=false
 
 while [ ! $# -eq 0 ]
 do
@@ -43,6 +44,7 @@ do
 			echo -e "Use the option --with-observability | -obs to include Grafana, Prometheus, and Solr Exporter services in Chorus."
       echo -e "Use the option --shutdown | -s to shutdown and remove the Docker containers and data."
       echo -e "Use the option --online-deployment | -online to update configuration to run on chorus.dev.o19s.com environment."
+      echo -e "Use the option --with-vector-search | -vector to include Vector Search services in Chorus."
 			exit
 			;;
 		--with-observability | -obs)
@@ -57,6 +59,10 @@ do
 			local_deploy=false
       echo -e "${MAJOR}Configuring Chorus for chorus.dev.o19s.com environment${RESET}"
 			;;
+	  --with-vector-search | -vector)
+  		vector_search=true
+      echo -e "${MAJOR}Configuring Chorus with vector search services enabled${RESET}"
+  		;;
     --shutdown | -s)
 			shutdown=true
       echo -e "${MAJOR}Shutting down Chorus${RESET}"
@@ -64,6 +70,18 @@ do
 	esac
 	shift
 done
+
+## Download models (clip and minilm) before starting embeddings service
+if [ $vector_search ]; then
+  MODEL_DIR_1="./embeddings/app/clip-ViT-L-14.model"
+  MODEL_DIR_2="./embeddings/app/all-MiniLM-L12-v2.model"
+  if [ ! -d "$MODEL_DIR_1" ]; then
+      python embeddings/app/clip/loadModel.py
+  fi
+  if [ ! -d "$MODEL_DIR_2" ]; then
+      python embeddings/app/minilm/loadModel.py
+  fi
+fi
 
 services="blacklight  embeddings solr1 solr2 solr3 keycloak smui"
 if $observability; then
@@ -82,7 +100,6 @@ if ! $local_deploy; then
   sed -i.bu 's/localhost:8983/chorus.dev.o19s.com:8983/g'  ./solr/wait-for-solr-cluster.sh
   sed -i.bu 's/localhost:8983/chorus.dev.o19s.com:8983/g'  ./solr/wait-for-zk-200.sh
   sed -i.bu 's/keycloak:9080/chorus.dev.o19s.com:9080/g'  ./solr/security.json
-
   sed -i.bu 's/keycloak:9080/chorus.dev.o19s.com:9080/g'  ./docker-compose.yml
 fi
 
@@ -132,14 +149,22 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/api/collections -H 'Con
     }
   }
 '
-
-if [ ! -f ./icecat-products-150k-20200809.tar.gz ]; then
+# Populating product data for non-vector search
+if [ ! $vector_search ] && [ ! -f ./icecat-products-150k-20200809.tar.gz ]; then
     echo -e "${MAJOR}Downloading the sample product data.${RESET}"
     curl --progress-bar -o icecat-products-150k-20200809.tar.gz -k https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
-fi
-echo -e "${MAJOR}Populating products, please give it a few minutes!${RESET}"
-#tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl --user solr:SolrRocks 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
 
+    echo -e "${MAJOR}Populating products, please give it a few minutes!${RESET}"
+    tar xzf icecat-products-150k-20200809.tar.gz --to-stdout | curl --user solr:SolrRocks 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
+fi
+
+# Populating product data for vector search
+if [ $vector_search ]; then
+  echo -e "${MAJOR}Populating products for vector search, please give it a few minutes!${RESET}"
+  ./index-vectors.sh
+fi
+
+# Embedding service for vector search
 echo -e "${MAJOR}Preparing embeddings rewriter.${RESET}"
 
 curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/embtxt?action=save -H 'Content-type:application/json'  -d '{
