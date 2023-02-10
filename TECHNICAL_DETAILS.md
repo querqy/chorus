@@ -2,8 +2,10 @@
 
 | Component | Username                    | Password  | Origin             |
 |-----------|-----------------------------|-----------|--------------------|
-| Solr      | solr                        | SolrRocks | security.json      |
+| Solr      | admin@choruselectronics.com | password  | chorus-realm.json  |
 | Solr      | admin                       | password  | security.json      |
+| Solr      | solr                        | SolrRocks | security.json      |
+| Quepid    | admin@choruselectronics.com | password  | chorus-realm.json      |
 | Quepid    | admin@choruselectronics.com | password  | quickstart.sh      |
 | Grafana   | admin@choruselectronics.com | password  | quickstart.sh      |
 | Keycloak  | admin                       | password  | docker-compose.yml |
@@ -81,7 +83,7 @@ We are only part of the way (I think!) to using OpenTelemetry protocols w Jaeger
 ## Keycloak
 
 Lots going on here!   We have migrated to the Quarkus version, which promises better startup times, but
-we don't use the production version, so we get a 12 second start up penality ;-(.
+we don't use the production version, so we get a 12 second start up penalty ;-(.
 
 https://github.com/eabykov/keycloak-compose for ideas.
 
@@ -90,3 +92,8 @@ Keycloak in non localhost wants SSL, so make sure to disable it in the administr
 ```
 In the "master" realm, over login tab. Change 'Require SSL' property to none.
 ```
+To update our Keycloak set up (like add new users or clients) the pattern we've used is to just log into the Keycloak UI and make the changes.   Then, use Docker CLI to log in, and use the `kc.sh`:
+
+`./kc.sh export --users realm_file --dir /opt/keycloak/data/export/`
+
+Then cat the contents of `/opt/keycloak/data/export/chorus-realm.json` and paste it into our local copy of the file.
