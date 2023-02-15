@@ -8,6 +8,14 @@ set -e
 
 log_awesome "Thank you for trying Chorus! Welcome!"
 
+
+offline_lab=false
+observability=false
+local_deploy=true
+vector_search=false
+active_search_management=false
+shutdown=false
+
 while [ ! $# -eq 0 ]
 do
 	case "$1" in
@@ -25,24 +33,19 @@ do
 			;;
     --online-deployment | -online)
 			local_deploy=false
-      log_major "Configuring Chorus for chorus.dev.o19s.com environment"
+      echo -e "${MAJOR}Configuring Chorus for chorus.dev.o19s.com environment${RESET}"
 			;;
 	  --with-vector-search | -vector)
   		vector_search=true
-      log_major "Configuring Chorus with vector search services enabled"
+      echo -e "${MAJOR}Configuring Chorus with vector search services enabled${RESET}"
   		;;
     --with-active-search-management | -active)
   		active_search_management=true
-      log_major "Configuring Chorus with active search management enabled"
+      echo -e "${MAJOR}Configuring Chorus with active search management enabled${RESET}"
   		;;
-    --with-apple-silicon | -apple)
-      export DOCKER_DEFAULT_PLATFORM=linux/arm64
-      export DOCKER_DEFAULT_PLATFORM2=linux/arm64/v8
-      log_major "Configuring Chorus for Apple silicon"
-      ;;
     --shutdown | -s)
 			shutdown=true
-      log_major "Shutting down Chorus"
+      echo -e "${MAJOR}Shutting down Chorus${RESET}"
 			;;
 	esac
 	shift
@@ -73,7 +76,7 @@ if $active_search_management; then
 fi
 
 if ! $local_deploy; then
-  log_major "Updating configuration files for online deploy"
+  echo -e "${MAJOR}Updating configuration files for online deploy${RESET}"
   sed -i.bu 's/localhost:3000/chorus.dev.o19s.com:3000/g'  ./keycloak/realm-config/chorus-realm.json
   sed -i.bu 's/localhost:8983/chorus.dev.o19s.com:8983/g'  ./keycloak/realm-config/chorus-realm.json
   sed -i.bu 's/keycloak:9080/chorus.dev.o19s.com:9080/g'  ./keycloak/wait-for-keycloak.sh
@@ -83,6 +86,9 @@ if ! $local_deploy; then
   sed -i.bu 's/keycloak:9080/chorus.dev.o19s.com:9080/g'  ./docker-compose.yml
 fi
 
+
+
+
 docker-compose down -v
 if $shutdown; then
   exit
@@ -90,7 +96,7 @@ fi
 
 docker-compose up -d --build ${services}
 
-log_major "Waiting for Solr cluster to start up and all three nodes to be online."
+echo -e "${MAJOR}Waiting for Solr cluster to start up and all three nodes to be online.${RESET}"
 ./solr/wait-for-solr-cluster.sh # Wait for all three Solr nodes to be online
 
 log_major "Setting up security in solr"
@@ -110,7 +116,7 @@ docker exec solr1 solr zk cp /security.json zk:security.json -z zoo1:2181
 log_minor "waiting for security.json to be available to all Solr nodes"
 ./solr/wait-for-zk-200.sh
 
-log_major "Packaging ecommerce configset."
+echo -e "${MAJOR}Packaging ecommerce configset.${RESET}"
 (cd solr/configsets/ecommerce/conf && zip -r - *) > ./solr/configsets/ecommerce.zip
 log_minor "posting ecommerce.zip configset"
 curl  --user solr:SolrRocks -X PUT --header "Content-Type:application/octet-stream" --data-binary @./solr/configsets/ecommerce.zip "http://localhost:8983/api/cluster/configs/ecommerce"
@@ -129,22 +135,22 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/api/collections -H 'Con
 
 if $vector_search; then
   # Populating product data for vector search
-  log_major "Populating products for vector search, please give it a few minutes!"
+  echo -e "${MAJOR}Populating products for vector search, please give it a few minutes!${RESET}"
   ./solr/index-vectors.sh
 else
   # Populating product data for non-vector search
   if [ ! -f ./solr/data/icecat-products-150k-20200809.tar.gz ]; then
-    log_major "Downloading the sample product data."
-    retry_until_command_success_and_responseHeader_status_is_zero "curl --progress-bar -o ./solr/data/icecat-products-150k-20200809.tar.gz -k https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz"
+    echo -e "${MAJOR}Downloading the sample product data.${RESET}"
+    curl --progress-bar -o ./solr/data/icecat-products-150k-20200809.tar.gz -k https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
   fi
-  log_major "Populating products, please give it a few minutes!"
-  tar xzf ./solr/data/icecat-products-150k-20200809.tar.gz --to-stdout | curl --user $SOLR_USER:$SOLR_PASS 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
+  echo -e "${MAJOR}Populating products, please give it a few minutes!${RESET}"
+  tar xzf ./solr/data/icecat-products-150k-20200809.tar.gz --to-stdout | curl --user solr:SolrRocks 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
 fi
 
 # Embedding service for vector search
-log_major "Preparing embeddings rewriter."
+echo -e "${MAJOR}Preparing embeddings rewriter.${RESET}"
 
-curl --user $SOLR_USER:$SOLR_PASS -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/embtxt?action=save -H 'Content-type:application/json' -d '{
+curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/embtxt?action=save -H 'Content-type:application/json'  -d '{
   "class": "querqy.solr.embeddings.SolrEmbeddingsRewriterFactory",
          "config": {
              "model" : {
@@ -156,7 +162,7 @@ curl --user $SOLR_USER:$SOLR_PASS -X POST http://localhost:8983/solr/ecommerce/q
          }
 }'
 
-curl --user $SOLR_USER:$SOLR_PASS -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/embimg?action=save -H 'Content-type:application/json' -d '{
+curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/embimg?action=save -H 'Content-type:application/json'  -d '{
   "class": "querqy.solr.embeddings.SolrEmbeddingsRewriterFactory",
          "config": {
              "model" : {
@@ -168,8 +174,9 @@ curl --user $SOLR_USER:$SOLR_PASS -X POST http://localhost:8983/solr/ecommerce/q
          }
 }'
 
-log_major "Defining relevancy algorithms using ParamSets."
-curl --user $SOLR_USER:$SOLR_PASS -X POST http://localhost:8983/solr/ecommerce/config/params -H 'Content-type:application/json' -d '{
+
+echo -e "${MAJOR}Defining relevancy algorithms using ParamSets.${RESET}"
+curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/params -H 'Content-type:application/json'  -d '{
   "set": {
     "visible_products":{
       "fq":["price:*", "-img_500x500:\"\""]
@@ -255,7 +262,7 @@ curl --user $SOLR_USER:$SOLR_PASS -X POST http://localhost:8983/solr/ecommerce/c
 
 
 if $active_search_management; then
-  log_major "Setting up SMUI"
+  echo -e "${MAJOR}Setting up SMUI${RESET}"
   SOLR_INDEX_ID=`curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"ecommerce", "description":"Chorus Webshop"}' http://localhost:9000/api/v1/solr-index | jq -r .returnId`
   curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"product_type"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
   curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"title"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
@@ -268,7 +275,7 @@ if $offline_lab; then
 
   docker-compose run --rm quepid bin/rake db:setup
   docker-compose run quepid thor user:create -a admin@choruselectronics.com "Chorus Admin" password
-  log_minor "Setting up Chorus Baseline Relevance case"
+  echo -e "${MINOR}Setting up Chorus Baseline Relevance case${RESET}"
   docker-compose run quepid thor case:create "Chorus Baseline Relevance" solr http://localhost:8983/solr/ecommerce/select JSONP "id:id, title:title, thumb:img_500x500, name, brand, product_type" "q=#\$query##&useParams=visible_products,querqy_algo" nDCG@10 admin@choruselectronics.com
   docker cp ./katas/Broad_Query_Set_rated.csv quepid:/srv/app/Broad_Query_Set_rated.csv
   docker exec quepid thor ratings:import 1 /srv/app/Broad_Query_Set_rated.csv >> /dev/null
@@ -280,7 +287,7 @@ if $offline_lab; then
 fi
 
 if $observability; then
-  log_major "Setting up Grafana"
+  echo -e "${MAJOR}Setting up Grafana${RESET}"
   curl -u admin:password -S -X POST -H "Content-Type: application/json" -d '{"email":"admin@choruselectronics.com", "name":"Chorus Admin", "role":"admin", "login":"admin@choruselectronics.com", "password":"password", "theme":"light"}' http://localhost:9091/api/admin/users
   curl -u admin:password -S -X PUT -H "Content-Type: application/json" -d '{"isGrafanaAdmin": true}' http://localhost:9091/api/admin/users/2/permissions
   curl -u admin:password -S -X POST -H "Content-Type: application/json" http://localhost:9091/api/users/2/using/1

@@ -2,7 +2,6 @@ version: '3'
 services:
 
   blacklight:
-    platform: ${DOCKER_DEFAULT_PLATFORM}
     container_name: blacklight
     build:
       context: ./blacklight
@@ -22,9 +21,8 @@ services:
     #  - jaeger
 
   mysql:
-    platform: ${DOCKER_AMD64_PLATFORM}
     container_name: mysql
-    image: amd64/mysql:5.7.41
+    image: amd64/mysql:5.7.40
     ports:
       - 3306:3306
     environment:
@@ -37,7 +35,6 @@ services:
       timeout: 30s
 
   smui:
-    platform: ${DOCKER_DEFAULT_PLATFORM}
     container_name: smui
     build:
       context: ./smui
@@ -65,7 +62,6 @@ services:
       - mysql
 
   solr1:
-    platform: ${DOCKER_DEFAULT_PLATFORM2}
     container_name: solr1
     build: ./solr
     ports:
@@ -87,7 +83,6 @@ services:
       - keycloak
 
   solr2:
-    platform: ${DOCKER_DEFAULT_PLATFORM2}
     container_name: solr2
     build: ./solr
     ports:
@@ -109,7 +104,6 @@ services:
       - keycloak
 
   solr3:
-    platform: ${DOCKER_DEFAULT_PLATFORM2}
     container_name: solr3
     build: ./solr
     ports:
@@ -131,7 +125,6 @@ services:
       - keycloak
 
   zoo1:
-    platform: ${DOCKER_AMD64_PLATFORM}
     image: zookeeper:3.7.0
     container_name: zoo1
     hostname: zoo1
@@ -146,7 +139,6 @@ services:
 
 
   zoo2:
-    platform: ${DOCKER_AMD64_PLATFORM}
     image: zookeeper:3.7.0
     container_name: zoo2
     hostname: zoo2
@@ -161,7 +153,6 @@ services:
 
 
   zoo3:
-    platform: ${DOCKER_AMD64_PLATFORM}
     image: zookeeper:3.7.0
     container_name: zoo3
     hostname: zoo3
@@ -175,14 +166,12 @@ services:
       ZOO_CFG_EXTRA: "metricsProvider.className=org.apache.zookeeper.metrics.prometheus.PrometheusMetricsProvider metricsProvider.httpPort=7000 metricsProvider.exportJvmInfo=true"
 
   redis:
-    platform: ${DOCKER_DEFAULT_PLATFORM}
     container_name: quepid_redis
     image: redis:6.2.7-alpine
     ports:
       - 6379:6379
 
   quepid:
-    platform: ${DOCKER_AMD64_PLATFORM}
     container_name: quepid
     image: o19s/quepid:6.14.0
     ports:
@@ -209,7 +198,6 @@ services:
       - KEYCLOAK_REALM=chorus
       - KEYCLOAK_SITE=http://keycloak:9080
       - SIGNUP_ENABLED=true
-      - DISABLE_DATABASE_ENVIRONMENT_CHECK=0
     links:
       - mysql
       - redis
@@ -218,7 +206,6 @@ services:
       - redis
 
   rre:
-    platform: ${DOCKER_DEFAULT_PLATFORM}
     container_name: rre
     build:
       context: ./rre
@@ -233,8 +220,8 @@ services:
     depends_on:
       - solr1
 
+
   embeddings:
-    platform: ${DOCKER_DEFAULT_PLATFORM}
     container_name: embeddings
     build:
       context: ./embeddings
@@ -243,6 +230,8 @@ services:
       #- ./embeddings:/embeddings
     ports:
       - "8000:8000"
+
+
 
   solr-exporter:
     image: solr:9.1.1
@@ -260,7 +249,6 @@ services:
       - solr3
 
   prometheus:
-    platform: ${DOCKER_DEFAULT_PLATFORM}
     image: prom/prometheus:v2.32.1
     container_name: prometheus
     restart: always
@@ -277,7 +265,6 @@ services:
       - ./prometheus/:/etc/prometheus/
 
   grafana:
-    platform: ${DOCKER_DEFAULT_PLATFORM}
     image: grafana/grafana:7.5.17
     container_name: grafana
     restart: unless-stopped
@@ -297,8 +284,7 @@ services:
       - prometheus
 
   jaeger:
-    platform: ${DOCKER_DEFAULT_PLATFORM}
-    image: jaegertracing/all-in-one:1.42
+    image: jaegertracing/all-in-one:1.39
     container_name: jaeger
     restart: always
     hostname: jaegertracing
