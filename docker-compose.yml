@@ -230,7 +230,8 @@ services:
       #- ./embeddings:/embeddings
     ports:
       - "8000:8000"
-
+    environment:
+      - OMP_NUM_THREADS=1
 
 
   solr-exporter:
