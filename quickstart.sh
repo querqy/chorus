@@ -2,41 +2,31 @@
 
 # This script starts up Chorus and runs through the basic setup tasks.
 
+source settings.sh
+source helpers.sh
+
 set -e
 
-# Ansi color code variables
-ERROR='\033[0;31m[QUICKSTART] '
-MAJOR='\033[0;34m[QUICKSTART] '
-MINOR='\033[0;37m[QUICKSTART]    '
-RESET='\033[0m' # No Color
-
-export DOCKER_SCAN_SUGGEST=false
-
+log_reset
+log_awesome "Thank you for trying Chorus!"
+log_reset
 
 if ! [ -x "$(command -v curl)" ]; then
-  echo '${ERROR}Error: curl is not installed.${RESET}' >&2
+  log_error "curl is not installed."
   exit 1
 fi
 if ! [ -x "$(command -v docker-compose)" ]; then
-  echo '${ERROR}Error: docker-compose is not installed.${RESET}' >&2
+  log_error "docker-compose is not installed."
   exit 1
 fi
 if ! [ -x "$(command -v jq)" ]; then
-  echo '${ERROR}Error: jq is not installed.${RESET}' >&2
+  log_error "jq is not installed."
   exit 1
 fi
 if ! [ -x "$(command -v zip)" ]; then
-  echo 'Error: zip is not installed.' >&2
+  log_error "zip is not installed."
   exit 1
 fi
-
-
-offline_lab=false
-observability=false
-local_deploy=true
-vector_search=false
-active_search_management=false
-shutdown=false
 
 while [ ! $# -eq 0 ]
 do
@@ -52,27 +42,32 @@ do
 			;;
 		--with-observability | -obs)
 			observability=true
-      echo -e "${MAJOR}Running Chorus with observability services enabled${RESET}"
+      log_major "Configuring Chorus with observability services enabled"
 			;;
     --with-offline-lab | -lab)
 			offline_lab=true
-      echo -e "${MAJOR}Running Chorus with offline lab environment enabled${RESET}"
+      log_major "Configuring Chorus with offline lab environment enabled"
 			;;
     --online-deployment | -online)
 			local_deploy=false
-      echo -e "${MAJOR}Configuring Chorus for chorus.dev.o19s.com environment${RESET}"
+      log_major "Configuring Chorus for chorus.dev.o19s.com environment"
 			;;
 	  --with-vector-search | -vector)
   		vector_search=true
-      echo -e "${MAJOR}Configuring Chorus with vector search services enabled${RESET}"
+      log_major "Configuring Chorus with vector search services enabled"
   		;;
     --with-active-search-management | -active)
   		active_search_management=true
-      echo -e "${MAJOR}Configuring Chorus with active search management enabled${RESET}"
+      log_major "Configuring Chorus with active search management enabled"
   		;;
+    --with-apple-silicon | -apple)
+      export DOCKER_DEFAULT_PLATFORM=linux/arm64
+      export DOCKER_DEFAULT_PLATFORM2=linux/arm64/v8
+      log_major "Configuring Chorus for Apple silicon"
+      ;;
     --shutdown | -s)
 			shutdown=true
-      echo -e "${MAJOR}Shutting down Chorus${RESET}"
+      log_major "Shutting down Chorus"
 			;;
 	esac
 	shift
@@ -109,7 +104,7 @@ if $active_search_management; then
 fi
 
 if ! $local_deploy; then
-  echo -e "${MAJOR}Updating configuration files for online deploy${RESET}"
+  log_major "Updating configuration files for online deploy"
   sed -i.bu 's/localhost:3000/chorus.dev.o19s.com:3000/g'  ./keycloak/realm-config/chorus-realm.json
   sed -i.bu 's/localhost:8983/chorus.dev.o19s.com:8983/g'  ./keycloak/realm-config/chorus-realm.json
   sed -i.bu 's/keycloak:9080/chorus.dev.o19s.com:9080/g'  ./keycloak/wait-for-keycloak.sh
@@ -119,9 +114,6 @@ if ! $local_deploy; then
   sed -i.bu 's/keycloak:9080/chorus.dev.o19s.com:9080/g'  ./docker-compose.yml
 fi
 
-
-
-
 docker-compose down -v
 if $shutdown; then
   exit
@@ -129,61 +121,54 @@ fi
 
 docker-compose up -d --build ${services}
 
-echo -e "${MAJOR}Waiting for Solr cluster to start up and all three nodes to be online.${RESET}"
+log_major "Waiting for Solr cluster to start up and all three nodes to be online."
 ./solr/wait-for-solr-cluster.sh # Wait for all three Solr nodes to be online
 
-echo -e "${MAJOR}Setting up security in solr${RESET}"
-echo -e "${MINOR}copying security.json into image${RESET}"
+log_major "Setting up security in solr"
+
+log_minor "Copying security.json into image"
 docker cp ./solr/security.json solr1:/security.json
 
 if $local_deploy; then
   ./keycloak/check-for-host-configuration.sh
 fi
 
-echo -e "${MINOR}waiting for Keycloak to be available${RESET}"
+log_minor "Waiting for Keycloak to be available"
 ./keycloak/wait-for-keycloak.sh
 
-echo -e "${MINOR}uploading security.json to zookeeper${RESET}"
+log_minor "Uploading security.json to zookeeper"
 docker exec solr1 solr zk cp /security.json zk:security.json -z zoo1:2181
 
-echo -e "${MINOR}waiting for security.json to be available to all Solr nodes${RESET}"
+log_minor "Waiting for security.json to be available to all Solr nodes"
 ./solr/wait-for-zk-200.sh
 
-echo -e "${MAJOR}Packaging ecommerce configset.${RESET}"
+log_major "Packaging ecommerce configset."
 (cd solr/configsets/ecommerce/conf && zip -r - *) > ./solr/configsets/ecommerce.zip
-echo -e "${MINOR}posting ecommerce.zip configset${RESET}"
-curl  --user solr:SolrRocks -X PUT --header "Content-Type:application/octet-stream" --data-binary @./solr/configsets/ecommerce.zip "http://localhost:8983/api/cluster/configs/ecommerce"
-echo -e "${MAJOR}Creating ecommerce collection.${RESET}"
-curl --user solr:SolrRocks -X POST http://localhost:8983/api/collections -H 'Content-Type: application/json' -d'
-  {
-    "create": {
-      "name": "ecommerce",
-      "config": "ecommerce",
-      "numShards": 2,
-      "replicationFactor": 1,
-      "waitForFinalState": true
-    }
-  }
-'
+
+log_minor "Posting ecommerce.zip configset"
+retry_until_command_success_and_responseHeader_status_is_zero "curl -s --user ${SOLR_USER}:${SOLR_PASS} -X PUT -H \"Content-Type:application/octet-stream\" --data-binary @./solr/configsets/ecommerce.zip http://localhost:8983/api/cluster/configs/ecommerce"
+
+log_major "Creating ecommerce collection."
+retry_until_command_success_and_responseHeader_status_is_zero "curl -s --user ${SOLR_USER}:${SOLR_PASS} http://localhost:8983/api/collections -H \"Content-Type:application/json\" -d '{\"create\":{\"name\":\"ecommerce\",\"config\":\"ecommerce\",\"numShards\":2,\"replicationFactor\":1,\"waitForFinalState\":true}}'"
 
 if $vector_search; then
   # Populating product data for vector search
-  echo -e "${MAJOR}Populating products for vector search, please give it a few minutes!${RESET}"
+  log_major "Populating products for vector search, please give it a few minutes!"
   ./solr/index-vectors.sh
 else
   # Populating product data for non-vector search
   if [ ! -f ./solr/data/icecat-products-150k-20200809.tar.gz ]; then
-    echo -e "${MAJOR}Downloading the sample product data.${RESET}"
-    curl --progress-bar -o ./solr/data/icecat-products-150k-20200809.tar.gz -k https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
+    log_major "Downloading the sample product data."
+    retry_until_command_success_and_responseHeader_status_is_zero "curl --progress-bar -o ./solr/data/icecat-products-150k-20200809.tar.gz -k https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz"
   fi
-  echo -e "${MAJOR}Populating products, please give it a few minutes!${RESET}"
-  tar xzf ./solr/data/icecat-products-150k-20200809.tar.gz --to-stdout | curl --user solr:SolrRocks 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
+  log_major "Populating products, please give it a few minutes!"
+  tar xzf ./solr/data/icecat-products-150k-20200809.tar.gz --to-stdout | curl --user $SOLR_USER:$SOLR_PASS 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
 fi
 
 # Embedding service for vector search
-echo -e "${MAJOR}Preparing embeddings rewriter.${RESET}"
+log_major "Preparing embeddings rewriter."
 
-curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/embtxt?action=save -H 'Content-type:application/json'  -d '{
+curl --user $SOLR_USER:$SOLR_PASS -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/embtxt?action=save -H 'Content-type:application/json' -d '{
   "class": "querqy.solr.embeddings.SolrEmbeddingsRewriterFactory",
          "config": {
              "model" : {
@@ -195,7 +180,7 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/r
          }
 }'
 
-curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/embimg?action=save -H 'Content-type:application/json'  -d '{
+curl --user $SOLR_USER:$SOLR_PASS -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/embimg?action=save -H 'Content-type:application/json' -d '{
   "class": "querqy.solr.embeddings.SolrEmbeddingsRewriterFactory",
          "config": {
              "model" : {
@@ -207,9 +192,8 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/r
          }
 }'
 
-
-echo -e "${MAJOR}Defining relevancy algorithms using ParamSets.${RESET}"
-curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/params -H 'Content-type:application/json'  -d '{
+log_major "Defining relevancy algorithms using ParamSets."
+curl --user $SOLR_USER:$SOLR_PASS -X POST http://localhost:8983/solr/ecommerce/config/params -H 'Content-type:application/json' -d '{
   "set": {
     "visible_products":{
       "fq":["price:*", "-img_500x500:\"\""]
@@ -295,7 +279,7 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
 
 
 if $active_search_management; then
-  echo -e "${MAJOR}Setting up SMUI${RESET}"
+  log_major "Setting up SMUI"
   SOLR_INDEX_ID=`curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"ecommerce", "description":"Chorus Webshop"}' http://localhost:9000/api/v1/solr-index | jq -r .returnId`
   curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"product_type"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
   curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"title"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
@@ -303,27 +287,29 @@ if $active_search_management; then
 fi
 
 if $offline_lab; then
-  echo -e "${MAJOR}Setting up Quepid${RESET}"
+  log_reset
+  log_major "Setting up Quepid"
   ./mysql/wait-for-mysql.sh
 
   docker-compose run --rm quepid bin/rake db:setup
   docker-compose run quepid thor user:create -a admin@choruselectronics.com "Chorus Admin" password
-  echo -e "${MINOR}Setting up Chorus Baseline Relevance case${RESET}"
+  log_minor "Setting up Chorus Baseline Relevance case"
   docker-compose run quepid thor case:create "Chorus Baseline Relevance" solr http://localhost:8983/solr/ecommerce/select JSONP "id:id, title:title, thumb:img_500x500, name, brand, product_type" "q=#\$query##&useParams=visible_products,querqy_algo" nDCG@10 admin@choruselectronics.com
   docker cp ./katas/Broad_Query_Set_rated.csv quepid:/srv/app/Broad_Query_Set_rated.csv
   docker exec quepid thor ratings:import 1 /srv/app/Broad_Query_Set_rated.csv >> /dev/null
 
-
-  echo -e "${MAJOR}Setting up RRE${RESET}"
+  log_major "Setting up RRE"
   docker-compose run rre mvn rre:evaluate
   docker-compose run rre mvn rre-report:report
 fi
 
 if $observability; then
-  echo -e "${MAJOR}Setting up Grafana${RESET}"
+  log_major "Setting up Grafana"
   curl -u admin:password -S -X POST -H "Content-Type: application/json" -d '{"email":"admin@choruselectronics.com", "name":"Chorus Admin", "role":"admin", "login":"admin@choruselectronics.com", "password":"password", "theme":"light"}' http://localhost:9091/api/admin/users
   curl -u admin:password -S -X PUT -H "Content-Type: application/json" -d '{"isGrafanaAdmin": true}' http://localhost:9091/api/admin/users/2/permissions
   curl -u admin:password -S -X POST -H "Content-Type: application/json" http://localhost:9091/api/users/2/using/1
 fi
 
-echo -e "${MAJOR}Welcome to Chorus!${RESET}"
+log_reset
+log_awesome "Welcome to Chorus!"
+log_reset
