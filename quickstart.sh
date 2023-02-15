@@ -156,8 +156,8 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/r
              "model" : {
                "class": "querqy.embeddings.ChorusEmbeddingModel",
                "url": "http://embeddings:8000/minilm/text/",
-               "normalize": false
-
+               "normalize": false,
+               "cache" : "embeddings" 
              }
          }
 }'
@@ -168,8 +168,8 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/r
              "model" : {
                "class": "querqy.embeddings.ChorusEmbeddingModel",
                "url": "http://embeddings:8000/clip/text/",
-               "normalize": false
-
+               "normalize": false,
+               "cache" : "embeddings" 
              }
          }
 }'

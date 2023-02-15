@@ -28,6 +28,13 @@
     </updateLog>
   </updateHandler>
 
+  <query>
+    <cache name="embeddings" class="solr.CaffeineCache"
+                              size="1024"
+                              initialSize="128"
+                               />
+  </query>
+
   <queryParser name="querqy" class="querqy.solr.QuerqyDismaxQParserPlugin">
     <bool name="skipUnknownRewriters">true</bool>
     <lst name="infoLogging">
