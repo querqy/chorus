@@ -2,12 +2,16 @@
 
 # This script starts up Chorus and runs through the basic setup tasks.
 
-source settings.sh
 source helpers.sh
 
 set -e
 
 log_awesome "Thank you for trying Chorus! Welcome!"
+
+observability=false
+shutdown=false
+offline_lab=false
+local_deploy=true
 
 while [ ! $# -eq 0 ]
 do

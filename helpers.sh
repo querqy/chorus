@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# This is because true is usually 1 in most programming contexts, however in linux and bash
+# 0 usually means "success", so let's just be clear.
+TRUE=1
+FALSE=0
+
 # Ansi color code variables
 PROGRAM_NAME="QUICKSTART"
 ERROR='\033[0;31m['$PROGRAM_NAME'] '
