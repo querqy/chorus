@@ -12,6 +12,9 @@ observability=false
 shutdown=false
 offline_lab=false
 local_deploy=true
+apple_silicon=false
+
+KEYCLOAK_ADMIN_PASSWORD=password12345
 
 while [ ! $# -eq 0 ]
 do
@@ -28,6 +31,10 @@ do
 			offline_lab=true
       log_major "Running Chorus with offline lab environment enabled"
 			;;
+    --apple-silicon | -apple)
+      apple_silicon=true
+      log_major "Configuring Chorus for Apple Silicon"
+      ;;
     --online-deployment | -online)
 			local_deploy=false
       log_major "Configuring Chorus for chorus.dev.o19s.com environment"
@@ -44,12 +51,19 @@ done
 check_prerequisites
 
 services="blacklight solr1 solr2 solr3 keycloak smui"
+
 if $observability; then
   services="${services} grafana solr-exporter jaeger"
 fi
 
 if $offline_lab; then
   services="${services} quepid rre"
+fi
+
+if $apple_silicon; then
+  export KEYCLOAK_DOCKER_PLATFORM=linux/arm64/v8
+else
+  export KEYCLOAK_DOCKER_PLATFORM=linux/amd64
 fi
 
 if ! $local_deploy; then
@@ -60,11 +74,8 @@ if ! $local_deploy; then
   sed -i.bu 's/localhost:8983/chorus.dev.o19s.com:8983/g'  ./solr/wait-for-solr-cluster.sh
   sed -i.bu 's/localhost:8983/chorus.dev.o19s.com:8983/g'  ./solr/wait-for-zk-200.sh
   sed -i.bu 's/keycloak:9080/chorus.dev.o19s.com:9080/g'  ./solr/security.json
-
   sed -i.bu 's/keycloak:9080/chorus.dev.o19s.com:9080/g'  ./docker-compose.yml
 fi
-
-
 
 docker-compose down -v
 if $shutdown; then
