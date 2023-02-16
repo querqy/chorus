@@ -40,6 +40,7 @@ do
 	shift
 done
 
+# Function check_prerequisites makes sure that you have curl, jq, docker-compose, and zip installed. See helpers.sh for details.
 check_prerequisites
 
 services="blacklight solr1 solr2 solr3 keycloak smui"
