@@ -40,16 +40,25 @@ do
 	shift
 done
 
+
 # Function check_prerequisites makes sure that you have curl, jq, docker-compose, and zip installed. See helpers.sh for details.
 check_prerequisites
 
-services="blacklight solr1 solr2 solr3 keycloak smui"
+early_services="keycloak"
+services="solr1 solr2 solr3"
+late_services="blacklight"
+
 if $observability; then
-  services="${services} grafana solr-exporter jaeger"
+  services="${services} solr-exporter jaeger"
+  late_services="${late_services} grafana"
 fi
 
 if $offline_lab; then
-  services="${services} quepid rre"
+  late_services="${late_services} quepid rre"
+fi
+
+if $active_search_management; then
+  late_services="${late_services} smui"
 fi
 
 if ! $local_deploy; then
@@ -71,14 +80,7 @@ if $shutdown; then
   exit
 fi
 
-docker-compose up -d --build ${services}
-
-log_major "Waiting for Solr cluster to start up and all three nodes to be online."
-./solr/wait-for-solr-cluster.sh # Wait for all three Solr nodes to be online
-
-log_major "Setting up security in solr"
-log_minor "copying security.json into image"
-docker cp ./solr/security.json solr1:/security.json
+docker-compose up -d --build ${early_services}
 
 if $local_deploy; then
   ./keycloak/check-for-host-configuration.sh
@@ -86,6 +88,17 @@ fi
 
 log_minor "waiting for Keycloak to be available"
 ./keycloak/wait-for-keycloak.sh
+
+docker-compose up -d --build ${services}
+
+log_major "Waiting for Solr cluster to start up and all three nodes to be online."
+./solr/wait-for-solr-cluster.sh # Wait for all three Solr nodes to be online
+
+docker-compose up -d --build ${late_services}
+
+log_major "Setting up security in solr"
+log_minor "copying security.json into image"
+docker cp ./solr/security.json solr1:/security.json
 
 log_minor "uploading security.json to zookeeper"
 docker exec solr1 solr zk cp /security.json zk:security.json -z zoo1:2181
