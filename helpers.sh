@@ -65,9 +65,7 @@ function check_prerequisites() {
     do
         prerequisite_is_available "${PREREQUISITE}"
         PREREQ_AVAILABLE=$?
-        if [ $PREREQ_AVAILABLE = $TRUE ]; then
-            #log_prerequisite_found $PREREQUISITE
-        else
+        if [ $PREREQ_AVAILABLE = $FALSE ]; then
             log_prerequisite_missing "${PREREQUISITE}"
             COUNT_MISSING_PREQUISITES=$((COUNT_MISSING_PREQUISITES+1))
         fi
