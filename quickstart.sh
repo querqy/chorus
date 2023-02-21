@@ -37,11 +37,11 @@ do
 			;;
 	  --with-vector-search | -vector)
   		vector_search=true
-      echo -e "${MAJOR}Configuring Chorus with vector search services enabled${RESET}"
+      log_major "Configuring Chorus with vector search services enabled"
   		;;
     --with-active-search-management | -active)
   		active_search_management=true
-      echo -e "${MAJOR}Configuring Chorus with active search management enabled${RESET}"
+      log_major "Configuring Chorus with active search management enabled"
   		;;
     --shutdown | -s)
 			shutdown=true
@@ -135,20 +135,21 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/api/collections -H 'Con
 
 if $vector_search; then
   # Populating product data for vector search
-  echo -e "${MAJOR}Populating products for vector search, please give it a few minutes!${RESET}"
+  log_major "Populating products for vector search, please give it a few minutes!"
   ./solr/index-vectors.sh
 else
   # Populating product data for non-vector search
   if [ ! -f ./solr/data/icecat-products-150k-20200809.tar.gz ]; then
-    echo -e "${MAJOR}Downloading the sample product data.${RESET}"
+    log_major "Downloading the sample product data."
     curl --progress-bar -o ./solr/data/icecat-products-150k-20200809.tar.gz -k https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
   fi
-  echo -e "${MAJOR}Populating products, please give it a few minutes!${RESET}"
+  log_major "Populating products, please give it a few minutes!"
   tar xzf ./solr/data/icecat-products-150k-20200809.tar.gz --to-stdout | curl --user solr:SolrRocks 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
 fi
 
-# Embedding service for vector search
-echo -e "${MAJOR}Preparing embeddings rewriter.${RESET}"
+if $vector_search; then
+	# Embedding service for vector search
+	log_major "Preparing embeddings rewriter."
 
 curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/embtxt?action=save -H 'Content-type:application/json'  -d '{
   "class": "querqy.solr.embeddings.SolrEmbeddingsRewriterFactory",
@@ -157,7 +158,7 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/r
                "class": "querqy.embeddings.ChorusEmbeddingModel",
                "url": "http://embeddings:8000/minilm/text/",
                "normalize": false,
-               "cache" : "embeddings" 
+               "cache" : "embeddings"
              }
          }
 }'
@@ -169,7 +170,7 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/r
                "class": "querqy.embeddings.ChorusEmbeddingModel",
                "url": "http://embeddings:8000/clip/text/",
                "normalize": false,
-               "cache" : "embeddings" 
+               "cache" : "embeddings"
              }
          }
 }'
@@ -275,7 +276,7 @@ if $offline_lab; then
 
   docker-compose run --rm quepid bin/rake db:setup
   docker-compose run quepid thor user:create -a admin@choruselectronics.com "Chorus Admin" password
-  echo -e "${MINOR}Setting up Chorus Baseline Relevance case${RESET}"
+  log_minor "Setting up Chorus Baseline Relevance case"
   docker-compose run quepid thor case:create "Chorus Baseline Relevance" solr http://localhost:8983/solr/ecommerce/select JSONP "id:id, title:title, thumb:img_500x500, name, brand, product_type" "q=#\$query##&useParams=visible_products,querqy_algo" nDCG@10 admin@choruselectronics.com
   docker cp ./katas/Broad_Query_Set_rated.csv quepid:/srv/app/Broad_Query_Set_rated.csv
   docker exec quepid thor ratings:import 1 /srv/app/Broad_Query_Set_rated.csv >> /dev/null
