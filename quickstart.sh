@@ -337,7 +337,7 @@ if $offline_lab; then
   else
     solr_collection_url=http://chorus.dev.o19s.com:8983/solr/ecommerce/select
   fi
-  docker-compose run quepid thor case:create "Chorus Baseline Relevance" solr ${solr_url} JSONP "id:id, title:title, thumb:img_500x500, name, brand, product_type" "q=#\$query##&useParams=visible_products,querqy_algo" nDCG@10 admin@choruselectronics.com
+  docker-compose run quepid thor case:create "Chorus Baseline Relevance" solr ${solr_collection_url} JSONP "id:id, title:title, thumb:img_500x500, name, brand, product_type" "q=#\$query##&useParams=visible_products,querqy_algo" nDCG@10 admin@choruselectronics.com
 
   docker cp ./katas/Broad_Query_Set_rated.csv quepid:/srv/app/Broad_Query_Set_rated.csv
   docker exec quepid thor ratings:import 1 /srv/app/Broad_Query_Set_rated.csv >> /dev/null
