@@ -332,7 +332,13 @@ if $offline_lab; then
   docker-compose run --rm quepid bin/rake db:setup
   docker-compose run quepid thor user:create -a admin@choruselectronics.com "Chorus Admin" password
   log_minor "Setting up Chorus Baseline Relevance case"
-  docker-compose run quepid thor case:create "Chorus Baseline Relevance" solr http://localhost:8983/solr/ecommerce/select JSONP "id:id, title:title, thumb:img_500x500, name, brand, product_type" "q=#\$query##&useParams=visible_products,querqy_algo" nDCG@10 admin@choruselectronics.com
+  if $local_deploy; then
+    solr_collection_url=http://localhost:8983/solr/ecommerce/select
+  else
+    solr_collection_url=http://chorus.dev.o19s.com:8983/solr/ecommerce/select
+  fi
+  docker-compose run quepid thor case:create "Chorus Baseline Relevance" solr ${solr_url} JSONP "id:id, title:title, thumb:img_500x500, name, brand, product_type" "q=#\$query##&useParams=visible_products,querqy_algo" nDCG@10 admin@choruselectronics.com
+
   docker cp ./katas/Broad_Query_Set_rated.csv quepid:/srv/app/Broad_Query_Set_rated.csv
   docker exec quepid thor ratings:import 1 /srv/app/Broad_Query_Set_rated.csv >> /dev/null
 
