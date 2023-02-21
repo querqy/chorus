@@ -8,11 +8,13 @@ from PIL import Image
 from imgbeddings import imgbeddings
 from transformers import CLIPTokenizer
 
+# Currently you need to unzip the 4.json.zip file first.
 PATH_PRODUCTS_DATASET = "data-encoder/ecommerce/vectors/data/4.json"
 PATH_PRODUCTS_MODEL = "all-MiniLM-L6-v2"
 PATH_PRODUCTS_VECTORS_JSON = "data-encoder/ecommerce/vectors/data/products-vectors-4.json"
 
 def load_products_dataset():
+    # TODO, read in the files as .zip files so you don't have to unzip them yourself.
     with open(PATH_PRODUCTS_DATASET, "r") as infile:
         products_dataset = json.load(infile)
     return products_dataset
