@@ -18,37 +18,37 @@ shutdown=false
 
 while [ ! $# -eq 0 ]
 do
-	case "$1" in
-		--help | -h)
+  case "$1" in
+    --help | -h)
       display_help_message
-			exit
-			;;
-		--with-observability | -obs)
-			observability=true
+      exit
+      ;;
+    --with-observability | -obs)
+      observability=true
       log_major "Running Chorus with observability services enabled"
-			;;
+      ;;
     --with-offline-lab | -lab)
-			offline_lab=true
+      offline_lab=true
       log_major "Running Chorus with offline lab environment enabled"
-			;;
+      ;;
     --online-deployment | -online)
-			local_deploy=false
+      local_deploy=false
       log_major "Configuring Chorus for chorus.dev.o19s.com environment"
-			;;
-	  --with-vector-search | -vector)
-  		vector_search=true
+      ;;
+    --with-vector-search | -vector)
+      vector_search=true
       log_major "Configuring Chorus with vector search services enabled"
-  		;;
+      ;;
     --with-active-search-management | -active)
-  		active_search_management=true
+      active_search_management=true
       log_major "Configuring Chorus with active search management enabled"
-  		;;
+      ;;
     --shutdown | -s)
-			shutdown=true
+      shutdown=true
       log_major "Shutting down Chorus"
-			;;
-	esac
-	shift
+      ;;
+  esac
+  shift
 done
 
 # Function check_prerequisites makes sure that you have curl, jq, docker-compose, and zip installed. See helpers.sh for details.
@@ -144,32 +144,32 @@ else
 fi
 
 if $vector_search; then
-	# Embedding service for vector search
-	log_major "Preparing embeddings rewriter."
+  # Embedding service for vector search
+  log_major "Preparing embeddings rewriter."
 
-	curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/embtxt?action=save -H 'Content-type:application/json'  -d '{
-	  "class": "querqy.solr.embeddings.SolrEmbeddingsRewriterFactory",
-	         "config": {
-	             "model" : {
-	               "class": "querqy.embeddings.ChorusEmbeddingModel",
-	               "url": "http://embeddings:8000/minilm/text/",
-	               "normalize": false,
-	               "cache" : "embeddings"
-	             }
-	         }
-	}'
+  curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/embtxt?action=save -H 'Content-type:application/json'  -d '{
+    "class": "querqy.solr.embeddings.SolrEmbeddingsRewriterFactory",
+           "config": {
+               "model" : {
+                 "class": "querqy.embeddings.ChorusEmbeddingModel",
+                 "url": "http://embeddings:8000/minilm/text/",
+                 "normalize": false,
+                 "cache" : "embeddings"
+               }
+           }
+  }'
 
-	curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/embimg?action=save -H 'Content-type:application/json'  -d '{
-	  "class": "querqy.solr.embeddings.SolrEmbeddingsRewriterFactory",
-	         "config": {
-	             "model" : {
-	               "class": "querqy.embeddings.ChorusEmbeddingModel",
-	               "url": "http://embeddings:8000/clip/text/",
-	               "normalize": false,
-	               "cache" : "embeddings"
-	             }
-	         }
-	}'
+  curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/embimg?action=save -H 'Content-type:application/json'  -d '{
+    "class": "querqy.solr.embeddings.SolrEmbeddingsRewriterFactory",
+           "config": {
+               "model" : {
+                 "class": "querqy.embeddings.ChorusEmbeddingModel",
+                 "url": "http://embeddings:8000/clip/text/",
+                 "normalize": false,
+                 "cache" : "embeddings"
+               }
+           }
+  }'
 fi
 
 
@@ -213,57 +213,57 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
 }'
 
 if $vector_search; then
-	log_minor "Defining Vector enabled relevancy algorithms using ParamSets."
+  log_minor "Defining Vector enabled relevancy algorithms using ParamSets."
 
-	curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/params -H 'Content-type:application/json'  -d '{
-	  "set": {
-	    "querqy_boost_by_img_emb":{
-	      "defType":"querqy",
-	      "querqy.rewriters":"embimg",
-	      "querqy.embimg.topK": 100,
-	      "querqy.embimg.mode": "BOOST",
-	      "querqy.embimg.boost": 10000,
-	      "querqy.embimg.f": "product_image_vector",
-	      "qf": "id name title product_type short_description ean search_attributes",
-	      "querqy.infoLogging":"on",
-	      "mm" : "100%"
-	    }
-	  },
-	  "set": {
-	    "querqy_match_by_img_emb":{
-	      "defType":"querqy",
-	      "querqy.rewriters":"embimg",
-	      "querqy.embimg.topK":100,
-	      "querqy.embimg.mode": "MAIN_QUERY",
-	      "querqy.embimg.f": "product_image_vector",
-	      "qf": "id name title product_type short_description ean search_attributes",
-	      "querqy.infoLogging":"on",
-	      "mm" : "100%"
+  curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/params -H 'Content-type:application/json'  -d '{
+    "set": {
+      "querqy_boost_by_img_emb":{
+        "defType":"querqy",
+        "querqy.rewriters":"embimg",
+        "querqy.embimg.topK": 100,
+        "querqy.embimg.mode": "BOOST",
+        "querqy.embimg.boost": 10000,
+        "querqy.embimg.f": "product_image_vector",
+        "qf": "id name title product_type short_description ean search_attributes",
+        "querqy.infoLogging":"on",
+        "mm" : "100%"
+      }
+    },
+    "set": {
+      "querqy_match_by_img_emb":{
+        "defType":"querqy",
+        "querqy.rewriters":"embimg",
+        "querqy.embimg.topK":100,
+        "querqy.embimg.mode": "MAIN_QUERY",
+        "querqy.embimg.f": "product_image_vector",
+        "qf": "id name title product_type short_description ean search_attributes",
+        "querqy.infoLogging":"on",
+        "mm" : "100%"
 
-	    },
-	    "querqy_boost_by_txt_emb":{
-	      "defType":"querqy",
-	      "querqy.rewriters":"embtxt",
-	      "querqy.embtxt.topK": 100,
-	      "querqy.embtxt.mode": "BOOST",
-	      "querqy.embtxt.boost": 10000,
-	      "querqy.embtxt.f": "product_vector",
-	      "qf": "id name title product_type short_description ean search_attributes",
-	      "querqy.infoLogging":"on",
-	      "mm" : "100%"
-	    },
-	    "querqy_match_by_txt_emb":{
-	      "defType":"querqy",
-	      "querqy.rewriters":"embtxt",
-	      "querqy.embtxt.topK":100,
-	      "querqy.embtxt.mode": "MAIN_QUERY",
-	      "querqy.embtxt.f": "product_vector",
-	      "qf": "id name title product_type short_description ean search_attributes",
-	      "querqy.infoLogging":"on",
-	      "mm" : "100%"
-	    }
-	  },
-	}'
+      },
+      "querqy_boost_by_txt_emb":{
+        "defType":"querqy",
+        "querqy.rewriters":"embtxt",
+        "querqy.embtxt.topK": 100,
+        "querqy.embtxt.mode": "BOOST",
+        "querqy.embtxt.boost": 10000,
+        "querqy.embtxt.f": "product_vector",
+        "qf": "id name title product_type short_description ean search_attributes",
+        "querqy.infoLogging":"on",
+        "mm" : "100%"
+      },
+      "querqy_match_by_txt_emb":{
+        "defType":"querqy",
+        "querqy.rewriters":"embtxt",
+        "querqy.embtxt.topK":100,
+        "querqy.embtxt.mode": "MAIN_QUERY",
+        "querqy.embtxt.f": "product_vector",
+        "qf": "id name title product_type short_description ean search_attributes",
+        "querqy.infoLogging":"on",
+        "mm" : "100%"
+      }
+    },
+  }'
 fi
 
 
