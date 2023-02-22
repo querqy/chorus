@@ -12,9 +12,6 @@ observability=false
 shutdown=false
 offline_lab=false
 local_deploy=true
-apple_silicon=false
-
-KEYCLOAK_ADMIN_PASSWORD=password12345
 
 while [ ! $# -eq 0 ]
 do
@@ -31,10 +28,6 @@ do
 			offline_lab=true
       log_major "Running Chorus with offline lab environment enabled"
 			;;
-    --apple-silicon | -apple)
-      apple_silicon=true
-      log_major "Configuring Chorus for Apple Silicon"
-      ;;
     --online-deployment | -online)
 			local_deploy=false
       log_major "Configuring Chorus for chorus.dev.o19s.com environment"
@@ -60,11 +53,6 @@ if $offline_lab; then
   services="${services} quepid rre"
 fi
 
-if $apple_silicon; then
-  export KEYCLOAK_DOCKER_PLATFORM=linux/arm64/v8
-else
-  export KEYCLOAK_DOCKER_PLATFORM=linux/amd64
-fi
 
 if ! $local_deploy; then
   log_major "Updating configuration files for online deploy"
