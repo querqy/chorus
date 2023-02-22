@@ -5,9 +5,10 @@
       {
         "scheme": "bearer",
         "class": "solr.JWTAuthPlugin",
-        "blockUnknown": "true",
+        "blockUnknown": true,
         "realm": "Chorus Solr Cluster",
-        "scope": "openid",
+        "scope": "openid solr-admin",
+        "adminUiScope": "solr-admin",
         "issuers":[
           {
             "name": "keycloak",
@@ -55,7 +56,55 @@
         "role": ["admin", "solr-admin"]
       },
       {
+        "name": "schema-edit",
+        "role": ["admin", "solr-admin"]
+      },
+      {
+        "name": "schema-read",
+        "role": ["admin", "solr-admin"]
+      },
+      {
+        "name": "config-edit",
+        "role": ["admin", "solr-admin"]
+      },
+      {
         "name": "config-read",
+        "role": ["admin", "solr-admin"]
+      },
+      {
+        "name": "metrics-read",
+        "role": ["admin", "solr-admin"]
+      },
+      {
+        "name": "health",
+        "role": ["admin", "solr-admin"]
+      },
+      {
+        "name": "core-admin-edit",
+        "role": ["admin", "solr-admin"]
+      },
+      {
+        "name": "core-admin-read",
+        "role": ["admin", "solr-admin"]
+      },
+      {
+        "name": "collection-admin-edit",
+        "role": ["admin", "solr-admin"]
+      },
+      {
+        "name": "collection-admin-read",
+        "role": ["admin", "solr-admin"]
+      },
+      {
+        "name": "update",
+        "role": ["admin", "solr-admin"]
+      },
+      {
+        "name": "read",
+        "role": ["admin", "solr-admin"]
+      },
+      {
+        "name": "zk-read",
         "role": ["admin", "solr-admin"]
       },
       {
