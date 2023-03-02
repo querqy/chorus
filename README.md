@@ -71,6 +71,9 @@ After that, you can learn about how to use all the tools in Chorus to improve se
 1. Eighth Kata: [Previewing Rules Before Users See Them](katas/008_previewing_your_querqy_rules_in_production.md)
 1. Ninth Kata: [Organize your queries using Tags](katas/009_tagging_your_queries.md)
 1. Tenth Kata: [Establishing a Baseline Metric for Relevancy](katas/010_establishing_a_baseline_relevance.md)
+1. Eleventh Kata: [Establishing a Baseline Metric for Relevancy](katas/011_sometimes_you_need_to_redirect_to_a_landing_page.md)
+1. Twelfth Kata: [Vector Search](katas/012_vector_search.md)
+
 
 There is also a video series that is very closely related called [Meet Pete](https://opensourceconnections.com/blog/2020/07/07/meet-pete-the-e-commerce-search-product-manager/)
 
