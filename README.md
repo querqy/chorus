@@ -91,7 +91,7 @@ The quickstart command will launch a Solr cluster, load the configsets and produ
 ./quickstart.sh
 ```
 
-Interested in dense vectors?  Make sure Docker has at least 8 GB of RAM and then run:
+Interested in dense vectors?  Make sure Docker has at least 10 GB of RAM and then run:
 
 ```
 ./quickstart.sh --with-vector-search
