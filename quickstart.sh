@@ -71,9 +71,15 @@ if $offline_lab; then
   services="${services} quepid rre"
 fi
 
-#if $vector_search; then
-#  services="${services} embeddings"
-#fi
+if $vector_search; then
+  docker_memory_allocated=`docker info --format '{{json .MemTotal}}'`
+  echo "Memory total is ${docker_memory_allocated}"
+
+  if (( $docker_memory_allocated < 10737418240 )); then
+    docker_memory_allocated_in_gb=$((docker_memory_allocated/1024/1024/1024))
+    log_red "You have only ${docker_memory_allocated_in_gb} GB memory allocated to Docker, and you need at least 10GB for vectors demo."
+  fi
+fi
 
 if $active_search_management; then
   services="${services} smui"
@@ -357,7 +363,9 @@ if $observability; then
 fi
 
 if $vector_search; then
+  log_major "Setting up Embeddings service"
   docker-compose up -d --build embeddings
+  ./embeddings/wait-for-api.sh
 fi
 
 log_awesome "Chorus is now running!"
