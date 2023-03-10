@@ -57,7 +57,11 @@ check_prerequisites
 services="blacklight solr1 solr2 solr3 keycloak"
 
 if $observability; then
+  export JAEGER_SAMPLER_PARAM="1"
   services="${services} grafana solr-exporter jaeger"
+else
+  # Prevents Jaeger in Solr for attempting to send events.
+  export JAEGER_SAMPLER_PARAM=
 fi
 
 if $offline_lab; then
