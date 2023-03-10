@@ -18,7 +18,7 @@ services:
       - OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
     depends_on:
       - solr1
-      - jaeger
+    #  - jaeger
 
   mysql:
     container_name: mysql
@@ -81,7 +81,6 @@ services:
       - zoo2
       - zoo3
       - keycloak
-      - jaeger
 
   solr2:
     container_name: solr2
@@ -103,7 +102,6 @@ services:
       - zoo2
       - zoo3
       - keycloak
-      - jaeger
 
   solr3:
     container_name: solr3
@@ -125,7 +123,6 @@ services:
       - zoo2
       - zoo3
       - keycloak
-      - jaeger
 
   zoo1:
     image: zookeeper:3.7.0
