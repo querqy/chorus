@@ -68,7 +68,7 @@ services:
      - "8983:8983"
     environment:
       - SOLR_OPTS=-XX:-UseLargePages
-      - SOLR_HEAP=3g
+      - SOLR_HEAP=1g
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
       - JAEGER_SERVICE_NAME=solr1  # not working ;-(
       - JAEGER_SAMPLER_TYPE=const
@@ -89,7 +89,7 @@ services:
      - "8984:8983"
     environment:
       - SOLR_OPTS=-XX:-UseLargePages
-      - SOLR_HEAP=3g
+      - SOLR_HEAP=1g
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
       - JAEGER_SERVICE_NAME=solr2
       - JAEGER_SAMPLER_TYPE=const
@@ -110,7 +110,7 @@ services:
      - "8985:8983"
     environment:
       - SOLR_OPTS=-XX:-UseLargePages
-      - SOLR_HEAP=3g
+      - SOLR_HEAP=1g
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
       - JAEGER_SERVICE_NAME=solr3
       - JAEGER_SAMPLER_TYPE=const
@@ -226,12 +226,16 @@ services:
     build:
       context: ./embeddings
       dockerfile: Dockerfile
-    #volumes:
-      #- ./embeddings:/embeddings
     ports:
       - "8000:8000"
     environment:
       - OMP_NUM_THREADS=1
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+        reservations:
+          memory: 512M
 
 
   solr-exporter:
