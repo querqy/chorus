@@ -44,6 +44,7 @@ We host a complete demonstration environment online for you to play with, see li
 * Prometheus runs at http://localhost:9090 |  http://chorus.dev.o19s.com:9090
 * Grafana runs at http://localhost:9091 |  http://chorus.dev.o19s.com:9091
 * Jaeger runs at http://localhost:16686 |  http://chorus.dev.o19s.com:16686
+* Embeddings runs at http://localhost:8000/docs |  http://chorus.dev.o19s.com:8000/docs
 
 Relevant username and passwords are listed in [TECHNICAL_DETAILS.md](TECHNICAL_DETAILS.md#accounts-setup) file.
 
@@ -88,6 +89,12 @@ The quickstart command will launch a Solr cluster, load the configsets and produ
 
 ```
 ./quickstart.sh
+```
+
+Interested in dense vectors?  Make sure Docker has at least 8 GB of RAM and then run:
+
+```
+./quickstart.sh --with-vector-search
 ```
 
 If you want to add in the offline lab environment based on Quepid, then tack on the `--with-offline-lab` parameter:
