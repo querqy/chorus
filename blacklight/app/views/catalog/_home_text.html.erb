@@ -17,5 +17,14 @@
   <p>Are <i>notebooks</i> the same as <a href="/catalog?search_field=default_algo&q=laptops&view=gallery">laptops<a>?</p>
   <p>Look at  <a href="/catalog?search_field=default_algo&q=*&view=gallery">all products<a> in the catalog.</p>
   <p>Let's look at some <a href="/catalog?f[filter_product_type][]=Drip+coffee+maker&q=coffee&search_field=default_algo&view=gallery">Drip coffee makers</a>.</p>
-  <p>Notice that you can swap between the Default Algorithm and the Querqy Algorithm from the drop down to the left of the search bar?</p>
+  <p>
+    What about using dense vectors?
+    <ul>
+      <li>Using text vector for matches for <a href="/catalog?search_field=querqy_match_by_txt_emb&q=Projector+screen&view=gallery">projector screen<a>.</li>
+      <li>Image vectors for the query <i>network cable</i> works with <a href="/catalog?search_field=querqy_boost_by_img_emb&q=network+cable&view=gallery">image embedding boost<a> but not so much as <a href="/catalog?search_field=querqy_match_by_img_emb&q=network+cable&view=gallery">filter<a>.</li>
+      <li>Let's use vectors to deal with a badly spelled query!  <a href="/catalog?search_field=querqy_match_by_txt_emb&q=Toner+catrdge+from+leximark+brand&view=gallery">Toner catrdge from leximark brand</a>.
+
+    </ul>
+  </p>
+  <p>Notice that you can swap between the various Algorithms using the drop down to the left of the search bar?</p>
 </div>
