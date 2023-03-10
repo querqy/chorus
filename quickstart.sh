@@ -83,8 +83,6 @@ if ! $local_deploy; then
   sed -i.bu 's/keycloak:9080/chorus.dev.o19s.com:9080/g'  ./docker-compose.yml
 fi
 
-
-
 docker-compose down -v
 if $shutdown; then
   exit
