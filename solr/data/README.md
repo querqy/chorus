@@ -1,0 +1,1 @@
+This directory should contain the data JSON intended to be ingested into the Solr Cluster.

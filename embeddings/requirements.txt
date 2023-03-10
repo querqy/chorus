@@ -1,0 +1,7 @@
+sentence-transformers
+fastapi
+uvicorn[standard]
+gunicorn
+pydantic
+
+

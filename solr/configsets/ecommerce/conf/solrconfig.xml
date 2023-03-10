@@ -4,6 +4,9 @@
 <!-- Minimal solrconfig.xml with /select, /admin and /update only -->
 
 <config>
+
+  <codecFactory class="solr.SchemaCodecFactory"/>
+
   <!-- Load the Querqy Jar that comes with all it's dependencies -->
   <lib dir="/opt/querqy/lib/" />
 
@@ -24,6 +27,33 @@
       <int name="numVersionBuckets">${solr.ulog.numVersionBuckets:65536}</int>
     </updateLog>
   </updateHandler>
+
+  <query>
+
+    <filterCache class="solr.CaffeineCache"
+                 size="1024"
+                 autowarmCount="256"
+                 async="true"/>
+
+    <queryResultCache class="solr.CaffeineCache"
+                  size="1024"
+                  initialSize="256"
+                  autowarmCount="128"/>
+
+    <documentCache size="512" initialSize="512" autowarmCount="0"/>
+
+    <cache name="embeddings" class="solr.CaffeineCache"
+                              size="1024"
+                              initialSize="128"
+                               />
+
+    <queryResultWindowSize>100</queryResultWindowSize>
+
+    <!-- Maximum number of documents to cache for any entry in the
+                                    queryResultCache.
+    -->
+    <queryResultMaxDocsCached>200</queryResultMaxDocsCached>
+  </query>
 
   <queryParser name="querqy" class="querqy.solr.QuerqyDismaxQParserPlugin">
     <bool name="skipUnknownRewriters">true</bool>
