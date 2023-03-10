@@ -71,9 +71,9 @@ if $offline_lab; then
   services="${services} quepid rre"
 fi
 
-if $vector_search; then
-  services="${services} embeddings"
-fi
+#if $vector_search; then
+#  services="${services} embeddings"
+#fi
 
 if $active_search_management; then
   services="${services} smui"
@@ -90,7 +90,7 @@ if ! $local_deploy; then
   sed -i.bu 's/keycloak:9080/chorus.dev.o19s.com:9080/g'  ./docker-compose.yml
 fi
 
-docker-compose down -t 20 -v
+docker-compose down -t 30 -v
 if $shutdown; then
   exit
 fi
@@ -354,6 +354,10 @@ if $observability; then
   curl -u admin:password -S -X POST -H "Content-Type: application/json" -d '{"email":"admin@choruselectronics.com", "name":"Chorus Admin", "role":"admin", "login":"admin@choruselectronics.com", "password":"password", "theme":"light"}' http://localhost:9091/api/admin/users
   curl -u admin:password -S -X PUT -H "Content-Type: application/json" -d '{"isGrafanaAdmin": true}' http://localhost:9091/api/admin/users/2/permissions
   curl -u admin:password -S -X POST -H "Content-Type: application/json" http://localhost:9091/api/users/2/using/1
+fi
+
+if $vector_search; then
+  docker-compose up -d --build embeddings
 fi
 
 log_awesome "Chorus is now running!"
