@@ -72,7 +72,7 @@ services:
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
       - JAEGER_SERVICE_NAME=solr1  # not working ;-(
       - JAEGER_SAMPLER_TYPE=const
-      - JAEGER_SAMPLER_PARAM=1
+      - JAEGER_SAMPLER_PARAM=${JAEGER_SAMPLER_PARAM}
       - JAEGER_AGENT_HOST=jaeger
       - JAEGER_AGENT_PORT=5775
       - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true -Dsolr.modules=jwt-auth,jaegertracer-configurator"
@@ -93,7 +93,7 @@ services:
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
       - JAEGER_SERVICE_NAME=solr2
       - JAEGER_SAMPLER_TYPE=const
-      - JAEGER_SAMPLER_PARAM=1
+      - JAEGER_SAMPLER_PARAM=${JAEGER_SAMPLER_PARAM}
       - JAEGER_AGENT_HOST=jaeger
       - JAEGER_AGENT_PORT=5775
       - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true -Dsolr.modules=jwt-auth,jaegertracer-configurator"
@@ -114,7 +114,7 @@ services:
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
       - JAEGER_SERVICE_NAME=solr3
       - JAEGER_SAMPLER_TYPE=const
-      - JAEGER_SAMPLER_PARAM=1
+      - JAEGER_SAMPLER_PARAM=${JAEGER_SAMPLER_PARAM}
       - JAEGER_AGENT_HOST=jaeger
       - JAEGER_AGENT_PORT=5775
       - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true -Dsolr.modules=jwt-auth,jaegertracer-configurator"
