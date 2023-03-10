@@ -44,6 +44,7 @@ done
 check_prerequisites
 
 services="blacklight solr1 solr2 solr3 keycloak smui"
+
 if $observability; then
   services="${services} grafana solr-exporter jaeger"
 fi
@@ -51,6 +52,7 @@ fi
 if $offline_lab; then
   services="${services} quepid rre"
 fi
+
 
 if ! $local_deploy; then
   log_major "Updating configuration files for online deploy"
@@ -60,11 +62,8 @@ if ! $local_deploy; then
   sed -i.bu 's/localhost:8983/chorus.dev.o19s.com:8983/g'  ./solr/wait-for-solr-cluster.sh
   sed -i.bu 's/localhost:8983/chorus.dev.o19s.com:8983/g'  ./solr/wait-for-zk-200.sh
   sed -i.bu 's/keycloak:9080/chorus.dev.o19s.com:9080/g'  ./solr/security.json
-
   sed -i.bu 's/keycloak:9080/chorus.dev.o19s.com:9080/g'  ./docker-compose.yml
 fi
-
-
 
 docker-compose down -v
 if $shutdown; then
