@@ -188,32 +188,6 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('querqy_boost_by_img_emb', label: 'Querqy boost by image vector') do |field|
-      field.solr_parameters = {
-        'useParams': 'querqy_boost_by_img_emb'
-      }
-    end
-
-    config.add_search_field('querqy_match_by_img_emb', label: 'Querqy match by image vector') do |field|
-      field.solr_parameters = {
-        'useParams': 'querqy_match_by_img_emb'
-      }
-    end
-
-    config.add_search_field('querqy_boost_by_txt_emb', label: 'Querqy boost by text vector') do |field|
-      field.solr_parameters = {
-        'useParams': 'querqy_boost_by_txt_emb'
-      }
-    end
-
-    config.add_search_field('querqy_match_by_txt_emb', label: 'Querqy match by text vector') do |field|
-      field.solr_parameters = {
-        'useParams': 'querqy_match_by_txt_emb'
-      }
-    end
-
-
-
     #config.add_search_field('title') do |field|
     #  # solr_parameters hash are sent to Solr as ordinary url query params.
     #  field.solr_parameters = {
