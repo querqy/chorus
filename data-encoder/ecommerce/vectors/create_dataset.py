@@ -3,7 +3,6 @@
 from sentence_transformers import SentenceTransformer, util
 import products
 
-model_img = SentenceTransformer('clip-ViT-L-14')
 model_txt = SentenceTransformer('all-MiniLM-L6-v2')
 
 #### Load the original products dataset
@@ -14,7 +13,7 @@ products_vectors = products.calculate_products_vectors(model_txt, products_datas
 
 #### Use the embedding model to calculate image vectors for all products
 #products_image_vectors = products.calculate_products_image_vectors(products_dataset)
-products_image_vectors = products.calculate_products_image_vectors_clip(model_img, products_dataset)
+products_image_vectors = products.calculate_products_image_vectors_clip(products_dataset)
 
 #### Create the new products dataset by creating a new field with the embedding vector
 for idx in range(len(products_dataset)):
