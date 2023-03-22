@@ -7,11 +7,19 @@ from sentence_transformers import SentenceTransformer
 from PIL import Image
 from imgbeddings import imgbeddings
 from transformers import CLIPTokenizer
+import torch
+import torchvision.transforms as transforms
+import clip
+
 
 # Currently you need to unzip the 4.json.zip file first.
-PATH_PRODUCTS_DATASET = "data-encoder/ecommerce/vectors/data/4.json"
+PATH_PRODUCTS_DATASET = "data-encoder/ecommerce/vectors/data/1.json"
 PATH_PRODUCTS_MODEL = "all-MiniLM-L6-v2"
-PATH_PRODUCTS_VECTORS_JSON = "data-encoder/ecommerce/vectors/data/products-vectors-4.json"
+PATH_PRODUCTS_VECTORS_JSON = "data-encoder/ecommerce/vectors/data/products-vectors-1.json"
+
+# Load the CLIP model
+device = "cuda" if torch.cuda.is_available() else "cpu"
+model, preprocess = clip.load('ViT-L/14', device)
 
 def load_products_dataset():
     # TODO, read in the files as .zip files so you don't have to unzip them yourself.
@@ -54,12 +62,18 @@ def calculate_products_vectors(model, products_dataset):
     products_sentences = get_products_sentences(model, products_dataset)
     return model.encode(products_sentences)
 
-def calculate_product_image_vectors(model , product):
+def calculate_product_image_vectors(product):
     try:
         image = get_product_image(product)
         r = requests.get(image, stream=True)
-        pImage = Image.open(io.BytesIO(r.content))
-        return model.encode(image)
+        # Load and preprocess the image
+        validated_image = Image.open(r.raw)
+        preprocess_image = preprocess(validated_image).unsqueeze(0).to(device)
+        # Encode the image
+        with torch.no_grad():
+            image_encoding = model.encode_image(preprocess_image)
+            #print(image_encoding)
+            return image_encoding
     except Exception:
         return []
 
@@ -86,8 +100,8 @@ def calculate_products_image_vectors(products_dataset):
     products_images = [calculate_product_image_vector(product) for product in products_dataset]
     return products_images
 
-def calculate_products_image_vectors_clip(model, products_dataset):
-    products_images = [calculate_product_image_vectors(model, product) for product in products_dataset]
+def calculate_products_image_vectors_clip(products_dataset):
+    products_images = [calculate_product_image_vectors(product) for product in products_dataset]
     return products_images
 
 def export_products_json(products_dataset):
