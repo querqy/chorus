@@ -13,9 +13,9 @@ import clip
 
 
 # Currently you need to unzip the 4.json.zip file first.
-PATH_PRODUCTS_DATASET = "data-encoder/ecommerce/vectors/data/1.json"
+PATH_PRODUCTS_DATASET = "data-encoder/ecommerce/vectors/data/test.json"
 PATH_PRODUCTS_MODEL = "all-MiniLM-L6-v2"
-PATH_PRODUCTS_VECTORS_JSON = "data-encoder/ecommerce/vectors/data/products-vectors-1.json"
+PATH_PRODUCTS_VECTORS_JSON = "data-encoder/ecommerce/vectors/data/products-vectors-test.json"
 
 # Load the CLIP model
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -71,7 +71,7 @@ def calculate_product_image_vectors(product):
         preprocess_image = preprocess(validated_image).unsqueeze(0).to(device)
         # Encode the image
         with torch.no_grad():
-            image_encoding = model.encode_image(preprocess_image)
+            image_encoding = model.encode_image(preprocess_image)[0]
             #print(image_encoding)
             return image_encoding
     except Exception:

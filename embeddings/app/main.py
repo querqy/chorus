@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from clip import router as router_clip
+from clipL14 import router as router_clip
 from minilm import router as router_minilm
 
 app = FastAPI()
