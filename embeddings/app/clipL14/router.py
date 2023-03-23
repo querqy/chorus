@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from clip.model import get_text_sentence_embedding
+from clipL14.model import get_text_sentence_embedding
 
 from embeddings import EmbeddingsTextRequest, OutputFormat
 

@@ -7,7 +7,7 @@ COPY ./app /code/app
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 # Download models from the internet and store in Docker image
-RUN python code/app/clip/loadModel.py
+#RUN python code/app/clip/loadModel.py
 RUN python code/app/minilm/loadModel.py
 
 WORKDIR /code/app
