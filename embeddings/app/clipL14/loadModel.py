@@ -8,3 +8,5 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 model, preprocess = clip.load('ViT-L/14', device)
 
 #model.save('/code/app/clip-ViT-L-14.model')
+# Running into AttributeError: 'CLIP' object has no attribute 'save'
+# No save method at https://github.com/openai/CLIP
