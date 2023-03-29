@@ -3,37 +3,32 @@
 import json
 import io
 import requests
+from zipfile import *
 from sentence_transformers import SentenceTransformer
 from PIL import Image
-from imgbeddings import imgbeddings
 from transformers import CLIPTokenizer
 import torch
-import torchvision.transforms as transforms
 import clip
 
-
-# Currently you need to unzip the 4.json.zip file first.
-PATH_PRODUCTS_DATASET = "data-encoder/ecommerce/vectors/data/test.json"
+PATH_PRODUCTS_DATASET = "data-encoder/ecommerce/vectors/data"
+# Name of the zip file (without .zip extension)
+NAME_DATASET = "1.json"
 PATH_PRODUCTS_MODEL = "all-MiniLM-L6-v2"
-PATH_PRODUCTS_VECTORS_JSON = "data-encoder/ecommerce/vectors/data/products-vectors-test.json"
 
 # Load the CLIP model
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model, preprocess = clip.load('ViT-L/14', device)
 
 def load_products_dataset():
-    # TODO, read in the files as .zip files so you don't have to unzip them yourself.
-    with open(PATH_PRODUCTS_DATASET, "r") as infile:
-        products_dataset = json.load(infile)
+    with ZipFile(PATH_PRODUCTS_DATASET+"/"+NAME_DATASET+".zip") as dataZip:
+        with dataZip.open(NAME_DATASET,mode='r') as dataFile:
+            products_dataset = json.load(dataFile)
     return products_dataset
 
 
 def get_product_sentence(model, product):
     #print(f"{(product['title'])} {(product['supplier'])}")
     return f"{(product['title'])} {(product['supplier'])}"
-    #tokenizer = model._first_module().processor.tokenizer
-    #product_sent = f"{(product['title'])}"
-    #return truncate_sentence(product_sent, tokenizer)
 
 
 def get_products_sentences(model, products_dataset):
@@ -43,10 +38,6 @@ def get_products_sentences(model, products_dataset):
 def get_product_image(product):
     product_img = f"{(product['img_high'])}"
     return product_img
-
-
-def get_product_images(products_dataset):
-    return [get_product_image(product) for product in products_dataset]
 
 
 def load_products_embedding_model():
@@ -78,40 +69,18 @@ def calculate_product_image_vectors(product):
         return []
 
 
-def calculate_product_image_vector(product):
-    try:
-        image = get_product_image(product)
-        r = requests.get(image, stream=True)
-        pImage = Image.open(io.BytesIO(r.content))
-        ibed = imgbeddings()
-        embedding = ibed.to_embeddings(pImage)
-        return embedding[0][0:10]
-    except Exception:
-        print(image)
-        return []
-
-def calculate_image_vector(product_image):
-    ibed = imgbeddings()
-    embedding = ibed.to_embeddings(product_image)
-    return embedding[0][0:10]
-
-
-def calculate_products_image_vectors(products_dataset):
-    products_images = [calculate_product_image_vector(product) for product in products_dataset]
-    return products_images
-
 def calculate_products_image_vectors_clip(products_dataset):
     products_images = [calculate_product_image_vectors(product) for product in products_dataset]
     return products_images
 
+
 def export_products_json(products_dataset):
     # Serializing json
     json_object = json.dumps(products_dataset, indent=2)
-    # Writing to sample.json
-    with open(PATH_PRODUCTS_VECTORS_JSON, "w") as outfile:
+    # Writing to dataset.json
+    with open(PATH_PRODUCTS_DATASET+"/"+"products-vectors-"+NAME_DATASET, "w") as outfile:
         outfile.write(json_object)
-    #with open(PATH_PRODUCTS_VECTORS_JSON, "w") as outfile:
-    #    json.dumps(products_dataset, outfile, indent=2)
+
 
 def truncate_sentence(sentence, tokenizer):
     """
@@ -120,7 +89,7 @@ def truncate_sentence(sentence, tokenizer):
 
     Args:
         sentence(string): The sentence to truncate.
-        tokenizer(CLIPTokenizer): Rretrained CLIP tokenizer.
+        tokenizer(CLIPTokenizer): Retrained CLIP tokenizer.
     """
 
     cur_sentence = sentence
