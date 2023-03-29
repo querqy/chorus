@@ -13,7 +13,6 @@ products_dataset = products.load_products_dataset()
 products_vectors = products.calculate_products_vectors(model_txt, products_dataset)
 
 #### Use the embedding model to calculate image vectors for all products
-#products_image_vectors = products.calculate_products_image_vectors(products_dataset)
 products_image_vectors = products.calculate_products_image_vectors_clip(products_dataset)
 
 #### Create the new products dataset by creating a new field with the embedding vector
