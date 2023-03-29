@@ -18,15 +18,17 @@ Chorus makes deploying powerful ecommerce search easier by shifting the **buy vs
 3. ***Sharing Knowledge is a Must!*** It isn't enough to just have conference talks, we need sample code and sample data in order to share knowledge about improving ecommerce search. Chorus is that public environment that you can use to share your next great idea!
 
 
-[Explore a demo](https://github.com/querqy/chorus#what-runs-where), watch [a video about the project](https://www.youtube.com/watch?v=aoWx7KJzvCs) or try it out by [running the quickstart.sh script](#5-minutes-to-run-chorus).   Go deeper by watching the [six part series _Meet Pete_](https://opensourceconnections.com/blog/2020/07/07/meet-pete-the-e-commerce-search-product-manager/).
+[Explore a demo](https://github.com/querqy/chorus#what-runs-where), watch [a video about the project](https://www.youtube.com/watch?v=aoWx7KJzvCs) or try it out by [running the quickstart.sh script](#5-minutes-to-run-chorus).   Go deeper by watching the [nine part series _Meet Pete_](https://opensourceconnections.com/blog/2020/07/07/meet-pete-the-e-commerce-search-product-manager/).
 
 Want to stay up-to-date with the community? Visit https://querqy.org/ to learn more, and join the [E-Commerce Search Slack](https://ecom-search.slack.com/) group for tips, tricks and news on what's new in the Chorus ecosystem.
 
 ## News
+ * 29 March 2023: [Building Vector Search in Chorus: A Technical Deep Dive](https://opensourceconnections.com/blog/2023/03/22/building-vector-search-in-chorus-a-technical-deep-dive/)
+ * 23 Feb 2023: [Haystack On Tour, Kraków Feb 2023 - Atita Arora: Vectorize your E-commerce Search (video)](https://www.youtube.com/watch?v=qZg2vXZSTkw)
  * 23 March 2022: [Chorus, now also for Elasticsearch!](https://opensourceconnections.com/blog/2022/03/23/chorus-now-also-for-elasticsearch/)
  * 17th June 2021: [Encores? - Going beyond matching and ranking of search results](https://www.slideshare.net/o19s/encores) - Chorus is used at BerlinBuzzwords.
  * 15th November 2020: [Chorus Workshop Series Announced](https://plainschwarz.com/ps-salon/) - Learn from the creators of the components of Chorus via six workshops.
- * 17th October 2020: [Chorus featured at ApacheCon @Home](https://www.youtube.com/watch?v=NGtmSbOoFjA) - René and Eric give a talk at ApacheCon on Chorus.
+ * 17th October 2020: [Chorus featured at ApacheCon @Home (video)](https://www.youtube.com/watch?v=NGtmSbOoFjA) - René and Eric give a talk at ApacheCon on Chorus.
  * 10th June 2020: [Chorus Announced at BerlinBuzzwords](https://2020.berlinbuzzwords.de/session/towards-open-source-tool-stack-e-commerce-search) - First release of Chorus shared with the world at a workshop.
  * April 2020: [Paul Maria Bartusch](https://twitter.com/paulbartusch), [René Kriegler](https://twitter.com/renekrie), [Johannes Peter](https://github.com/JohannesDaniel) & [Eric Pugh](https://twitter.com/dep4b) brainstorm challenges with search teams adopting technologies like Querqy and come up with the Chorus idea.
 
