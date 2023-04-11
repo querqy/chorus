@@ -18,7 +18,7 @@ services:
       - OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
     depends_on:
       - solr1
-      - jaeger
+    #  - jaeger
 
   mysql:
     container_name: mysql
@@ -68,11 +68,11 @@ services:
      - "8983:8983"
     environment:
       - SOLR_OPTS=-XX:-UseLargePages
-      - SOLR_HEAP=3g
+      - SOLR_HEAP=1g
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
       - JAEGER_SERVICE_NAME=solr1  # not working ;-(
       - JAEGER_SAMPLER_TYPE=const
-      - JAEGER_SAMPLER_PARAM=1
+      - JAEGER_SAMPLER_PARAM=${JAEGER_SAMPLER_PARAM}
       - JAEGER_AGENT_HOST=jaeger
       - JAEGER_AGENT_PORT=5775
       - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true -Dsolr.modules=jwt-auth,jaegertracer-configurator"
@@ -81,7 +81,6 @@ services:
       - zoo2
       - zoo3
       - keycloak
-      - jaeger
 
   solr2:
     container_name: solr2
@@ -90,11 +89,11 @@ services:
      - "8984:8983"
     environment:
       - SOLR_OPTS=-XX:-UseLargePages
-      - SOLR_HEAP=3g
+      - SOLR_HEAP=1g
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
       - JAEGER_SERVICE_NAME=solr2
       - JAEGER_SAMPLER_TYPE=const
-      - JAEGER_SAMPLER_PARAM=1
+      - JAEGER_SAMPLER_PARAM=${JAEGER_SAMPLER_PARAM}
       - JAEGER_AGENT_HOST=jaeger
       - JAEGER_AGENT_PORT=5775
       - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true -Dsolr.modules=jwt-auth,jaegertracer-configurator"
@@ -103,7 +102,6 @@ services:
       - zoo2
       - zoo3
       - keycloak
-      - jaeger
 
   solr3:
     container_name: solr3
@@ -112,11 +110,11 @@ services:
      - "8985:8983"
     environment:
       - SOLR_OPTS=-XX:-UseLargePages
-      - SOLR_HEAP=3g
+      - SOLR_HEAP=1g
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
       - JAEGER_SERVICE_NAME=solr3
       - JAEGER_SAMPLER_TYPE=const
-      - JAEGER_SAMPLER_PARAM=1
+      - JAEGER_SAMPLER_PARAM=${JAEGER_SAMPLER_PARAM}
       - JAEGER_AGENT_HOST=jaeger
       - JAEGER_AGENT_PORT=5775
       - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true -Dsolr.modules=jwt-auth,jaegertracer-configurator"
@@ -125,7 +123,6 @@ services:
       - zoo2
       - zoo3
       - keycloak
-      - jaeger
 
   zoo1:
     image: zookeeper:3.7.0
@@ -229,12 +226,16 @@ services:
     build:
       context: ./embeddings
       dockerfile: Dockerfile
-    #volumes:
-      #- ./embeddings:/embeddings
     ports:
       - "8000:8000"
     environment:
       - OMP_NUM_THREADS=1
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+        reservations:
+          memory: 512M
 
 
   solr-exporter:
@@ -310,19 +311,24 @@ services:
       - COLLECTOR_OTLP_ENABLED=true
 
   keycloak:
-    image: quay.io/keycloak/keycloak:20.0.3
+    image: chorus-keycloak
     container_name: keycloak
-    hostname: keycloak
-    command: ["start-dev", "--import-realm"]
+    build:
+      context: ./keycloak
+      dockerfile: Dockerfile
+    command: start --optimized --import-realm
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
     ports:
       - 9080:9080
     environment:
-      KC_HTTP_PORT: 9080
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-      DB_VENDOR: h2
-    volumes:
-      - ./keycloak/realm-config/chorus-realm.json:/opt/keycloak/data/import/chorus-realm.json:ro
+      - KC_HTTP_ENABLED=true
+      - KC_HTTP_PORT=9080
+      - KC_HOSTNAME=keycloak
+      - KC_HOSTNAME_STRICT=false
+      - KC_HOSTNAME_STRICT_HTTPS=false
+      - PROXY_ADDRESS_FORWARDING=true
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=password
+      - DB_VENDOR=h2

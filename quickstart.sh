@@ -54,10 +54,17 @@ done
 # Function check_prerequisites makes sure that you have curl, jq, docker-compose, and zip installed. See helpers.sh for details.
 check_prerequisites
 
+services="blacklight solr1 solr2 solr3 keycloak smui"
+
+
 services="blacklight solr1 solr2 solr3 keycloak"
 
 if $observability; then
+  export JAEGER_SAMPLER_PARAM="1"
   services="${services} grafana solr-exporter jaeger"
+else
+  # Prevents Jaeger in Solr for attempting to send events.
+  export JAEGER_SAMPLER_PARAM=
 fi
 
 if $offline_lab; then
@@ -65,7 +72,13 @@ if $offline_lab; then
 fi
 
 if $vector_search; then
-  services="${services} embeddings"
+  docker_memory_allocated=`docker info --format '{{json .MemTotal}}'`
+  echo "Memory total is ${docker_memory_allocated}"
+
+  if (( $docker_memory_allocated < 10737418240 )); then
+    docker_memory_allocated_in_gb=$((docker_memory_allocated/1024/1024/1024))
+    log_red "You have only ${docker_memory_allocated_in_gb} GB memory allocated to Docker, and you need at least 10GB for vectors demo."
+  fi
 fi
 
 if $active_search_management; then
@@ -73,7 +86,7 @@ if $active_search_management; then
 fi
 
 if ! $local_deploy; then
-  log_major "Updating configuration files for online deploy"
+  echo -e "${MAJOR}Updating configuration files for online deploy${RESET}"
   sed -i.bu 's/localhost:3000/chorus.dev.o19s.com:3000/g'  ./keycloak/realm-config/chorus-realm.json
   sed -i.bu 's/localhost:8983/chorus.dev.o19s.com:8983/g'  ./keycloak/realm-config/chorus-realm.json
   sed -i.bu 's/keycloak:9080/chorus.dev.o19s.com:9080/g'  ./keycloak/wait-for-keycloak.sh
@@ -83,16 +96,14 @@ if ! $local_deploy; then
   sed -i.bu 's/keycloak:9080/chorus.dev.o19s.com:9080/g'  ./docker-compose.yml
 fi
 
-
-
-docker-compose down -v
+docker-compose down -t 30 -v
 if $shutdown; then
   exit
 fi
 
 docker-compose up -d --build ${services}
 
-log_major "Waiting for Solr cluster to start up and all three nodes to be online."
+echo -e "${MAJOR}Waiting for Solr cluster to start up and all three nodes to be online.${RESET}"
 ./solr/wait-for-solr-cluster.sh # Wait for all three Solr nodes to be online
 
 log_major "Setting up security in solr"
@@ -112,7 +123,7 @@ docker exec solr1 solr zk cp /security.json zk:security.json -z zoo1:2181
 log_minor "waiting for security.json to be available to all Solr nodes"
 ./solr/wait-for-zk-200.sh
 
-log_major "Packaging ecommerce configset."
+echo -e "${MAJOR}Packaging ecommerce configset.${RESET}"
 (cd solr/configsets/ecommerce/conf && zip -r - *) > ./solr/configsets/ecommerce.zip
 log_minor "posting ecommerce.zip configset"
 curl  --user solr:SolrRocks -X PUT --header "Content-Type:application/octet-stream" --data-binary @./solr/configsets/ecommerce.zip "http://localhost:8983/api/cluster/configs/ecommerce"
@@ -173,8 +184,7 @@ if $vector_search; then
 fi
 
 
-log_major "Defining relevancy algorithms using ParamSets."
-
+echo -e "${MAJOR}Defining relevancy algorithms using ParamSets.${RESET}"
 curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/params -H 'Content-type:application/json'  -d '{
   "set": {
     "visible_products":{
@@ -209,7 +219,54 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
       "querqy.infoLogging":"on",
       "qf": "id name title product_type short_description ean search_attributes"
     }
-  }
+  },
+  "set": {
+    "querqy_boost_by_img_emb":{
+      "defType":"querqy",
+      "querqy.rewriters":"embimg",
+      "querqy.embimg.topK": 100,
+      "querqy.embimg.mode": "BOOST",
+      "querqy.embimg.boost": 10000,
+      "querqy.embimg.f": "product_image_vector",
+      "qf": "id name title product_type short_description ean search_attributes",
+      "querqy.infoLogging":"on",
+      "mm" : "100%"
+    }
+  },
+  "set": {
+    "querqy_match_by_img_emb":{
+      "defType":"querqy",
+      "querqy.rewriters":"embimg",
+      "querqy.embimg.topK":100,
+      "querqy.embimg.mode": "MAIN_QUERY",
+      "querqy.embimg.f": "product_image_vector",
+      "qf": "id name title product_type short_description ean search_attributes",
+      "querqy.infoLogging":"on",
+      "mm" : "100%"
+
+    },
+    "querqy_boost_by_txt_emb":{
+      "defType":"querqy",
+      "querqy.rewriters":"embtxt",
+      "querqy.embtxt.topK": 100,
+      "querqy.embtxt.mode": "BOOST",
+      "querqy.embtxt.boost": 10000,
+      "querqy.embtxt.f": "product_vector",
+      "qf": "id name title product_type short_description ean search_attributes",
+      "querqy.infoLogging":"on",
+      "mm" : "100%"
+    },
+    "querqy_match_by_txt_emb":{
+      "defType":"querqy",
+      "querqy.rewriters":"embtxt",
+      "querqy.embtxt.topK":100,
+      "querqy.embtxt.mode": "MAIN_QUERY",
+      "querqy.embtxt.f": "product_vector",
+      "qf": "id name title product_type short_description ean search_attributes",
+      "querqy.infoLogging":"on",
+      "mm" : "100%"
+    }
+  },
 }'
 
 if $vector_search; then
@@ -268,7 +325,7 @@ fi
 
 
 if $active_search_management; then
-  log_major "Setting up SMUI"
+  echo -e "${MAJOR}Setting up SMUI${RESET}"
   SOLR_INDEX_ID=`curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"ecommerce", "description":"Chorus Webshop"}' http://localhost:9000/api/v1/solr-index | jq -r .returnId`
   curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"product_type"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
   curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"title"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
@@ -299,10 +356,16 @@ if $offline_lab; then
 fi
 
 if $observability; then
-  log_major "Setting up Grafana"
+  echo -e "${MAJOR}Setting up Grafana${RESET}"
   curl -u admin:password -S -X POST -H "Content-Type: application/json" -d '{"email":"admin@choruselectronics.com", "name":"Chorus Admin", "role":"admin", "login":"admin@choruselectronics.com", "password":"password", "theme":"light"}' http://localhost:9091/api/admin/users
   curl -u admin:password -S -X PUT -H "Content-Type: application/json" -d '{"isGrafanaAdmin": true}' http://localhost:9091/api/admin/users/2/permissions
   curl -u admin:password -S -X POST -H "Content-Type: application/json" http://localhost:9091/api/users/2/using/1
+fi
+
+if $vector_search; then
+  log_major "Setting up Embeddings service"
+  docker-compose up -d --build embeddings
+  ./embeddings/wait-for-api.sh
 fi
 
 log_awesome "Chorus is now running!"
