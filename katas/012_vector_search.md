@@ -175,30 +175,36 @@ fi
 
 In the Chorus webshop we have an explicit dropdown listing these 4 relevancy algorithms that you can use to try out different flavours of pure or hybrid vector search. 
 They are listed as below :
+
 ![Layout out showing vector search algos](images/012_vector_search_algos.png)
 
 Let's go ahead and try some queries like `notebook` , visit the web store at http://localhost:4000/ and make sure the dropdown has `Default Algo` next to the search bar selected.   
 Now do a search for `notebook`, and notice that we're getting a lot of accessories for notebook aka laptop.
+
 ![Layout out showing default search with notebook](images/012_default_algo_notebook_search.png)
 
 We have learnt to fix this using Querqy in [Kata5](chorus/katas/005_curating_specific_products_for_a_query.md). Now let's look at how the results change using vectors!
 
 Let us now select `Query match by text vector` from the algorithm dropdown and search again. You'll notice the results already improved fetching the most related notebook aka laptop in the search results.
+
 ![Layout out showing text vector search with notebook](images/012_text_vector_notebook_search.png)
 
 Next let's select `Query match by image vector` from the algorithm dropdown and search again. Notice the results fetching the actual notebooks in the search results, which are certainly relevant to our query.
+
 ![Layout out showing image search with notebook](images/012_image_vector_notebook_search.png)
 
 The example seen above with Text and Image vectors are pure vector search. Let us now explore the hybrid search algorithms.
 
 Select `Query boost by text vector` from the algorithm dropdown and repeat the search for `notebook`. You'll notice the due to the boost on text vector field we got the hybrid of BM25 + vector based results.
+
 ![Layout out showing default search with notebook](images/012_text_vector_boost_notebook_search.png)
 
 Lastly select `Query boost by image vector` from the algorithm dropdown and repeat the search for `notebook`. You'll notice the result set to contain notebooks and the laptops. 
+
 ![Layout out showing default search with notebook](images/012_image_vector_boost_notebook_search.png)
 
 
-We hope this Kata may have helped you get deeper understanding of Vector Search , different ways it could be exposed in an e-commerce search engine and getting it up and running in Chorus.
+We hope this Kata helped you get deeper understanding of Vector Search.  It shows different ways it could be used in an e-commerce search engine and it shows you how to get Vector Search up and running with Chorus.
 
 We also recommend you checking out our blogs for further info :
 1. [https://opensourceconnections.com/blog/2023/03/15/revolutionizing-e-commerce-search-with-vectors/](https://opensourceconnections.com/blog/2023/03/15/revolutionizing-e-commerce-search-with-vectors/)
