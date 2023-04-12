@@ -65,15 +65,18 @@ If you are impatient, we have a quick start script, `./quickstart.sh` that sets 
 After that, you can learn about how to use all the tools in Chorus to improve search by following these Katas:
 
 1. First Kata: [Lets Optimize a Query](katas/001_optimize_a_query.md)
-1. Second Kata: [How to Sell Search Keywords and Terms](katas/002_how_to_sell_search_keywords.md)
-1. Kata 003: [Observability in Chorus](katas/003_observability_in_chorus.md)
-1. Fourth Kata: [How to Gather Human Judgements](katas/004_gathering_human_judgements.md)
-1. Fifth Kata: [Some days you just KNOW what the right products are for a query!](katas/005_curating_specific_products_for_a_query.md)
-1. Sixth Kata: [Adding Custom Rules to Querqy!](katas/006_adding_custom_query_rules.md)
-1. Seventh Kata: [Name you Algorithms using ParamSets](katas/007_organize_algorithms_using_paramsets.md)
-1. Eighth Kata: [Previewing Rules Before Users See Them](katas/008_previewing_your_querqy_rules_in_production.md)
-1. Ninth Kata: [Organize your queries using Tags](katas/009_tagging_your_queries.md)
-1. Tenth Kata: [Establishing a Baseline Metric for Relevancy](katas/010_establishing_a_baseline_relevance.md)
+2. Second Kata: [How to Sell Search Keywords and Terms](katas/002_how_to_sell_search_keywords.md)
+3. Kata 003: [Observability in Chorus](katas/003_observability_in_chorus.md)
+4. Fourth Kata: [How to Gather Human Judgements](katas/004_gathering_human_judgements.md)
+5. Fifth Kata: [Some days you just KNOW what the right products are for a query!](katas/005_curating_specific_products_for_a_query.md)
+6. Sixth Kata: [Adding Custom Rules to Querqy!](katas/006_adding_custom_query_rules.md)
+7. Seventh Kata: [Name you Algorithms using ParamSets](katas/007_organize_algorithms_using_paramsets.md)
+8. Eighth Kata: [Previewing Rules Before Users See Them](katas/008_previewing_your_querqy_rules_in_production.md)
+9. Ninth Kata: [Organize your queries using Tags](katas/009_tagging_your_queries.md)
+10. Tenth Kata: [Establishing a Baseline Metric for Relevancy](katas/010_establishing_a_baseline_relevance.md)
+11. Eleventh Kata: [Establishing a Baseline Metric for Relevancy](katas/011_sometimes_you_need_to_redirect_to_a_landing_page.md)
+12. Twelfth Kata: [Vector Search](katas/012_vector_search.md)
+
 
 There is also a video series that is very closely related called [Meet Pete](https://opensourceconnections.com/blog/2020/07/07/meet-pete-the-e-commerce-search-product-manager/)
 
