@@ -1,6 +1,6 @@
 # Eleventh Kata: Sometimes You Need to Redirect to a Landing Page
 
-<i><a href="PLACEHOLDER: https://opensourceconnections.com/blog/2020/blah/blah" target="_BLANK">Read the blog, watch the video version of this Kata</a></i>
+<i><a href="https://opensourceconnections.com/blog/2023/02/22/redirects-are-all-you-need/" target="_BLANK">Read the blog, watch the video version of this Kata</a></i>
 
 Sometimes the right answer to a user's question isn't to actually run a search, but instead to drop them on the perfect page for them.  
 
