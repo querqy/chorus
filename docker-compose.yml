@@ -18,7 +18,6 @@ services:
       - OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
     depends_on:
       - solr1
-    #  - jaeger
 
   mysql:
     container_name: mysql
@@ -29,6 +28,8 @@ services:
       - MYSQL_ROOT_PASSWORD=password
     volumes:
       - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./volumes/mysql_data:/var/lib/mysql
+    restart: always      
     healthcheck:
       test: "/usr/bin/mysql --user=root --password=password --execute \"SHOW DATABASES;\""
       interval: 10s
