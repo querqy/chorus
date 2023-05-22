@@ -1,0 +1,1 @@
+split -l 1000 styles.csv

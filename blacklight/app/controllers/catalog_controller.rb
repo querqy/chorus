@@ -43,10 +43,10 @@ class CatalogController < ApplicationController
     config.per_page = [30,50,100]
 
     # solr field configuration for search results/index views
-    config.index.title_field = 'title'
+    config.index.title_field = 'productDisplayName'
     #config.index.display_type_field = 'format'
     #config.index.thumbnail_field = 'thumbnail_path_ss'
-    config.index.thumbnail_field = 'img_500x500'
+    config.index.thumbnail_field = 'image'
 
     config.add_results_document_tool(:bookmark, partial: 'bookmark_control', if: :render_bookmarks_control?)
 
@@ -64,10 +64,10 @@ class CatalogController < ApplicationController
 
     # solr field configuration for document/show views
     #config.show.title_field = 'title_tsim'
-    config.show.title_field = 'title'
+    config.show.title_field = 'productDisplayName'
     #config.show.display_type_field = 'format'
     #config.show.thumbnail_field = 'thumbnail_path_ss'
-    config.show.thumbnail_field = 'img_500x500'
+    config.show.thumbnail_field = 'image'
 
     # solr fields that will be treated as facets by the blacklight application
     #   The ordering of the field names is the order of the display
@@ -100,18 +100,18 @@ class CatalogController < ApplicationController
     #config.add_facet_field 'lc_1letter_ssim', label: 'Call Number'
     #config.add_facet_field 'subject_geo_ssim', label: 'Region'
     #config.add_facet_field 'subject_era_ssim', label: 'Era'
-    config.add_facet_field 'filter_brand', label: 'Brands', limit: 20
-    config.add_facet_field 'filter_product_type', label: 'Product Type', limit: 20
-    config.add_facet_field 'filter_t_product_colour', label: 'Product Colour', limit: 20
+    config.add_facet_field 'gender', label: 'Gender', limit: 20
+    config.add_facet_field 'articleType', label: 'Product Type', limit: 20
+    config.add_facet_field 'baseColour', label: 'Product Colour', limit: 20
 
 
-    config.add_facet_field 'example_pivot_field', label: 'Categories', :pivot => ['filter_product_type', 'filter_brand'], limit: 5
+    config.add_facet_field 'example_pivot_field', label: 'Categories', :pivot => ['articleType', 'baseColour'], limit: 5
 
-    config.add_facet_field 'example_query_facet_field', label: 'Released', :query => {
-       :years_5 => { label: 'within 5 Years', fq: "date_released:[NOW-5YEAR/DAY TO NOW]" },
-       :years_10 => { label: 'within 10 Years', fq: "date_released:[NOW-10YEAR/DAY TO NOW]" },
-       :years_25 => { label: 'within 25 Years', fq: "date_released:[NOW-25YEAR/DAY TO NOW]" }
-    }
+    #config.add_facet_field 'year', label: 'Released', :query => {
+    #   :years_5 => { label: 'within 5 Years', fq: "year:[NOW-5YEAR/DAY TO NOW]" },
+    #   :years_10 => { label: 'within 10 Years', fq: "year:[NOW-10YEAR/DAY TO NOW]" },
+    #   :years_25 => { label: 'within 25 Years', fq: "year:[NOW-25YEAR/DAY TO NOW]" }
+    #}
 
 
     # Have BL send all facet field names to Solr, which has been the default
@@ -122,15 +122,15 @@ class CatalogController < ApplicationController
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display
     config.add_show_field 'brand', label: 'Brand'
-    config.add_show_field 'attr_t_product_type', label: 'Product Type'
-    config.add_show_field 'attr_t_aspect_ratio', label: 'Aspect Ratio'
+    config.add_show_field 'articleType', label: 'Product Type'
+    #config.add_show_field 'attr_t_aspect_ratio', label: 'Aspect Ratio'
     #config.add_show_field 'product_type', label: 'Product Type'
-    config.add_show_field 'short_description', label: 'Short Desc'
-    config.add_show_field 'ean', label: 'EAN'
-    config.add_show_field 'date_released', label: 'Released', helper_method: 'prettify_date'
-    config.add_show_field 'price', label: 'Price', helper_method: 'prettify_price'
+    config.add_show_field 'subCategory', label: 'Short Desc'
+    #config.add_show_field 'ean', label: 'EAN'
+    config.add_show_field 'year', label: 'Released', helper_method: 'prettify_date'
+    #config.add_show_field 'price', label: 'Price', helper_method: 'prettify_price'
 
-    config.add_show_field 'search_attributes', label: 'Searchable Attributes'
+    #config.add_show_field 'search_attributes', label: 'Searchable Attributes'
 
 
     # "fielded" search configuration. Used by pulldown among other places.
@@ -248,7 +248,7 @@ class CatalogController < ApplicationController
     # except in the relevancy case). Add the sort: option to configure a
     # custom Blacklight url parameter value separate from the Solr sort fields.
     config.add_sort_field 'score desc', label: 'relevance'
-    config.add_sort_field 'date_released desc', label: 'released'
+    config.add_sort_field 'year desc', label: 'released'
 
     #config.add_sort_field 'relevance', sort: 'score desc, pub_date_si desc, title_si asc', label: 'relevance'
     #config.add_sort_field 'year-desc', sort: 'pub_date_si desc, title_si asc', label: 'year'

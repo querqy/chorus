@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+for demo purposes
+-->
+
+<schema name="minimal-ecommerce-demo" version="1.6">
+  <uniqueKey>id</uniqueKey>
+
+  <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false"/>
+  <field name="gender" type="text_stemmed_en" indexed="true" stored="true"/>
+  <field name="productDisplayName" type="text_stemmed_en" indexed="true" stored="true"/>
+  <field name="price" type="integer" indexed="true" stored="true" multiValued="false"/>
+  <field name="masterCategory" type="text_general" indexed="true" stored="true"/>
+  <field name="subCategory" type="text_general" indexed="true" stored="true"/>
+  <field name="image" type="string" indexed="false" stored="true"/>
+  <field name="year" type="string" indexed="true" stored="true" />
+  <field name="articleType" type="text_stemmed_en" indexed="true" stored="true"/>
+  <field name="baseColour" type="text_stemmed_en" indexed="true" stored="true"/>
+  <field name="season" type="text_stemmed_en" indexed="true" stored="true"/>
+  <field name="usage" type="text_stemmed_en" indexed="true" stored="true"/>
+  <field name="product_vector" type="knn_vector_768" indexed="true" stored="true"/>
+  <field name="product_image_vector" type="knn_vector_768" indexed="true" stored="true"/>
+
+  <!-- we don't stem names -->
+
+  <field name="_version_" type="long" indexed="true" stored="false"/>
+  <field name="suggestions" type="text_general" indexed="true" stored="true" multiValued="true"/>
+  <field name="search_attributes" type="text_stemmed_en" indexed="true" stored="true" multiValued="true"/>
+
+  <!-- Stored with docvalues as a string -->
+  <field name="name_stored" type="string" indexed="true" stored="true"/>
+  <field name="masterCategory_stored" type="string" indexed="true" stored="true"/>
+  <field name="subCategory_stored" type="string" indexed="true" stored="true"/>
+  <field name="articleType_stored" type="string" indexed="true" stored="true"/>
+
+  <copyField source="productDisplayName" dest="name_stored" />
+  <copyField source="masterCategory" dest="masterCategory_stored" />
+  <copyField source="subCategory" dest="subCategory_stored" />
+  <copyField source="articleType" dest="articleType_stored" />
+
+  <copyField source="productDisplayName" dest="suggestions" />
+  <copyField source="baseColour" dest="suggestions" />
+  <copyField source="masterCategory" dest="suggestions" />
+  <copyField source="subCategory" dest="suggestions" />
+  <copyField source="gender" dest="suggestions" />
+
+
+
+  <!-- TODO: split into stemmed/unstemmed, good/noisy attributes. Resolve attr_waterproof:yes -->
+  <!-- Remove me???
+  <dynamicField name="*_attr" type="text_stemmed_en" indexed="true" stored="true"/>
+  -->
+  <dynamicField name="attr_t_*" type="text_stemmed_en" indexed="true" stored="true"/>
+  <dynamicField name="attr_b_*" type="boolean" indexed="true" stored="true"/>
+  <dynamicField name="attr_n_*" type="float" indexed="true" stored="true"/>
+  <dynamicField name="filter_t*" type="string" indexed="true" stored="true"/>
+
+  <dynamicField name="random_*" type="random"/>
+
+  <copyField source="attr_t*" dest="filter_t*"/>
+
+  <copyField source="attr_t*" dest="search_attributes"/>
+
+  <fieldType name="string" class="solr.StrField" sortMissingLast="true" docValues="true"/>
+  <fieldType name="strings" class="solr.StrField" sortMissingLast="true" multiValued="true" docValues="true"/>
+
+  <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
+  <fieldType name="booleans" class="solr.BoolField" sortMissingLast="true" multiValued="true"/>
+  <fieldType name="integer" class="solr.IntPointField" docValues="true"/>
+  <fieldType name="float" class="solr.FloatPointField" docValues="true"/>
+  <fieldType name="long" class="solr.LongPointField" docValues="true"/>
+  <fieldType name="double" class="solr.DoublePointField" docValues="true"/>
+
+  <fieldType name="integers" class="solr.IntPointField" docValues="true" multiValued="true"/>
+  <fieldType name="floats" class="solr.FloatPointField" docValues="true" multiValued="true"/>
+  <fieldType name="longs" class="solr.LongPointField" docValues="true" multiValued="true"/>
+  <fieldType name="doubles" class="solr.DoublePointField" docValues="true" multiValued="true"/>
+
+  <fieldType name="date" class="solr.DatePointField" docValues="true"/>
+  <fieldType name="dates" class="solr.DatePointField" docValues="true" multiValued="true"/>
+
+  <fieldType name="random" class="solr.RandomSortField" indexed="true"/>
+
+  <fieldType name="knn_vector_768" class="solr.DenseVectorField" vectorDimension="768" similarityFunction="cosine" knnAlgorithm="hnsw"/>
+  <fieldType name="knn_vector_384" class="solr.DenseVectorField" vectorDimension="384" similarityFunction="cosine" knnAlgorithm="hnsw"/>
+
+  <fieldType name="text_stemmed_en" class="solr.TextField" autoGeneratePhraseQueries="false"
+             enableGraphQueries="false" positionIncrementGap="100" multiValued="false">
+      <analyzer type="index">
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.EnglishMinimalStemFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.EnglishMinimalStemFilterFactory"/>
+      </analyzer>
+  </fieldType>
+
+  <!-- TODO: unstemmed text per language for dealing with diacritics etc. in a language specific way -->
+  <fieldType name="text_general" class="solr.TextField" autoGeneratePhraseQueries="false"
+             enableGraphQueries="false" positionIncrementGap="100" multiValued="false">
+      <analyzer type="index">
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+  </fieldType>
+
+  <fieldType name="textSpell" class="solr.TextField" positionIncrementGap="100" >
+    <analyzer>
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+    </analyzer>
+  </fieldType>
+</schema>

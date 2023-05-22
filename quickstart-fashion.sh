@@ -15,7 +15,6 @@ local_deploy=true
 vector_search=false
 active_search_management=false
 shutdown=false
-fashion=false
 
 while [ ! $# -eq 0 ]
 do
@@ -40,10 +39,6 @@ do
       vector_search=true
       log_major "Configuring Chorus with vector search services enabled"
       ;;
-    --fashion-search | -fashion)
-          fashion=true
-          log_major "Configuring Chorus with fashion vector search services enabled"
-          ;;
     --with-active-search-management | -active)
       active_search_management=true
       log_major "Configuring Chorus with active search management enabled"
@@ -129,7 +124,7 @@ log_minor "waiting for security.json to be available to all Solr nodes"
 ./solr/wait-for-zk-200.sh
 
 echo -e "${MAJOR}Packaging ecommerce configset.${RESET}"
-(cd solr/configsets/ecommerce/conf && zip -r - *) > ./solr/configsets/ecommerce.zip
+(cd solr/configsets/fashion/conf && zip -r - *) > ./solr/configsets/ecommerce.zip
 log_minor "posting ecommerce.zip configset"
 curl  --user solr:SolrRocks -X PUT --header "Content-Type:application/octet-stream" --data-binary @./solr/configsets/ecommerce.zip "http://localhost:8983/api/cluster/configs/ecommerce"
 log_major "Creating ecommerce collection."
@@ -148,11 +143,7 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/api/collections -H 'Con
 if $vector_search; then
   # Populating product data for vector search
   log_major "Populating products for vector search, please give it a few minutes!"
-  if $fashion; then
-    ./solr/index-fashion-vectors.sh
-  else
-    ./solr/index-vectors.sh
-  fi
+  ./solr/index-fashion-vectors.sh
 else
   # Populating product data for non-vector search
   if [ ! -f ./solr/data/icecat-products-150k-20200809.tar.gz ]; then
@@ -197,20 +188,20 @@ echo -e "${MAJOR}Defining relevancy algorithms using ParamSets.${RESET}"
 curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/params -H 'Content-type:application/json'  -d '{
   "set": {
     "visible_products":{
-      "fq":["price:*", "-img_500x500:\"\""]
+      "fq":["-image:\"\""]
     }
   },
   "set": {
     "default_algo":{
       "defType":"edismax",
-      "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage search_attributes"
+      "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage"
     }
   },
   "set": {
     "mustmatchall_algo":{
       "deftype":"edismax",
       "mm":"100%",
-      "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage search_attributes"
+      "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage"
     }
   },
   "set": {
@@ -218,7 +209,7 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
       "defType":"querqy",
       "querqy.rewriters":"replace,common_rules,regex_screen_protectors",
       "querqy.infoLogging":"on",
-      "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage search_attributes"
+      "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage"
     }
   },
   "set": {
@@ -226,7 +217,7 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
       "defType":"querqy",
       "querqy.rewriters":"replace_prelive,common_rules_prelive,regex_screen_protectors",
       "querqy.infoLogging":"on",
-      "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage search_attributes"
+      "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage"
     }
   },
   "set": {
@@ -237,7 +228,7 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
       "querqy.embimg.mode": "BOOST",
       "querqy.embimg.boost": 10000,
       "querqy.embimg.f": "product_image_vector",
-      "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage search_attributes",
+      "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage",
       "querqy.infoLogging":"on",
       "mm" : "100%"
     }
@@ -249,7 +240,7 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
       "querqy.embimg.topK":100,
       "querqy.embimg.mode": "MAIN_QUERY",
       "querqy.embimg.f": "product_image_vector",
-      "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage search_attributes",
+      "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage",
       "querqy.infoLogging":"on",
       "mm" : "100%"
 
@@ -261,7 +252,7 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
       "querqy.embtxt.mode": "BOOST",
       "querqy.embtxt.boost": 10000,
       "querqy.embtxt.f": "product_vector",
-      "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage search_attributes",
+      "qf": "id productDisplayName masterCategory articleType subCategory baseColour usages",
       "querqy.infoLogging":"on",
       "mm" : "100%"
     },
@@ -271,7 +262,7 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
       "querqy.embtxt.topK":100,
       "querqy.embtxt.mode": "MAIN_QUERY",
       "querqy.embtxt.f": "product_vector",
-      "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage search_attributes",
+      "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage",
       "querqy.infoLogging":"on",
       "mm" : "100%"
     }
@@ -290,7 +281,7 @@ if $vector_search; then
         "querqy.embimg.mode": "BOOST",
         "querqy.embimg.boost": 10000,
         "querqy.embimg.f": "product_image_vector",
-        "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage search_attributes",
+        "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage",
         "querqy.infoLogging":"on",
         "mm" : "100%"
       }
@@ -302,29 +293,29 @@ if $vector_search; then
         "querqy.embimg.topK":100,
         "querqy.embimg.mode": "MAIN_QUERY",
         "querqy.embimg.f": "product_image_vector",
-        "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage search_attributes",
+        "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage",
         "querqy.infoLogging":"on",
         "mm" : "100%"
 
       },
       "querqy_boost_by_txt_emb":{
         "defType":"querqy",
-        "querqy.rewriters":"embtxt",
-        "querqy.embtxt.topK": 100,
-        "querqy.embtxt.mode": "BOOST",
-        "querqy.embtxt.boost": 10000,
-        "querqy.embtxt.f": "product_vector",
-        "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage search_attributes",
+        "querqy.rewriters":"embimg",
+        "querqy.embimg.topK": 100,
+        "querqy.embimg.mode": "BOOST",
+        "querqy.embimg.boost": 10000,
+        "querqy.embimg.f": "product_vector",
+        "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage",
         "querqy.infoLogging":"on",
         "mm" : "100%"
       },
       "querqy_match_by_txt_emb":{
         "defType":"querqy",
-        "querqy.rewriters":"embtxt",
-        "querqy.embtxt.topK":100,
-        "querqy.embtxt.mode": "MAIN_QUERY",
-        "querqy.embtxt.f": "product_vector",
-        "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage search_attributes",
+        "querqy.rewriters":"embimg",
+        "querqy.embimg.topK":100,
+        "querqy.embimg.mode": "MAIN_QUERY",
+        "querqy.embimg.f": "product_vector",
+        "qf": "id productDisplayName masterCategory articleType subCategory baseColour usage",
         "querqy.infoLogging":"on",
         "mm" : "100%"
       }
