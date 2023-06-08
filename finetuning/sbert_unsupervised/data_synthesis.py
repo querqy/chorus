@@ -8,8 +8,8 @@ DATASET_RUN_NAME = 'ecommerce-synthesis'
 finetuner.login(force=True)
 
 # load the datasets pre-prepared for Finetuner
-queries = DocumentArray.load_binary('queries.da')
-corpus = DocumentArray.load_binary('corpus.da')
+queries = DocumentArray.load_binary('sbert_unsupervised/queries.da')
+corpus = DocumentArray.load_binary('sbert_unsupervised/corpus.da')
 
 # upload the data to the Jina AI Cloud
 queries.push('ecommerce-queries')

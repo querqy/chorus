@@ -36,6 +36,21 @@ After that, you can run a job to generated training data for a text-to-text embe
 python3 sbert_unsupervised/data_synthesis.py
 ```
 
+If the you terminated the script or the connection to the log stream got interrupted (which happens from time to time),
+you can execute the following code in a script or the Python interpreter to get the current status the logs of the job:
+
+```python
+import finetuner
+
+finetuner.login()
+
+run = finetuner.get_run('ecommerce-synthesis')
+print(f'Status: {run.status()["status"]}')
+print('Logs:\n', run.logs())
+
+```
+
+
 Finally, you can run the fine-tuning job by running:
 ```
 python3 sbert_unsupervised/finetune.py

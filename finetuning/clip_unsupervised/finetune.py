@@ -1,12 +1,15 @@
 import finetuner
+from docarray import DocumentArray
 
 # To use finetuner an account for the Jina AI Cloud is required.
 finetuner.login()
 
+training_data = DocumentArray.from_bytes('clip_unsupervised/clip_train_dataset.da')
+
 training_run = finetuner.fit(
     model='clip-large-en',
     # name of the pre-trained model
-    train_data='clip_unsupervised/clip_train_dataset.da',
+    train_data=training_data,
     # path to the prepared training dataset
     loss='CLIPLoss',
     # contrastive loss function for text-image pairs
