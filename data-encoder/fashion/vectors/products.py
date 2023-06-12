@@ -11,7 +11,7 @@ import numpy as np
 
 images = None
 PATH_PRODUCTS_DATASET = "data-encoder/fashion/vectors/data/"
-NAME_DATASET = "6.json"
+#NAME_DATASET = "6.json"
 
 # Load the CLIP model
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -20,11 +20,12 @@ model, preprocess = clip.load('ViT-L/14', device)
 #processor = CLIPProcessor.from_pretrained("patrickjohncyh/fashion-clip")
 
 
-def load_products_dataset():
+def load_products_dataset(file_name):
     # Read JSON file
-    with open(PATH_PRODUCTS_DATASET+NAME_DATASET, 'r') as json_file:
-        products_dataset = json.load(json_file)
-    return products_dataset
+    if(file_name != ".DS_Store"):
+        with open(PATH_PRODUCTS_DATASET+"chunked-json/"+file_name, 'r') as json_file:
+            products_dataset = json.load(json_file)
+        return products_dataset
 
 
 def get_all_filenames(directory):
@@ -47,18 +48,23 @@ def check_image_exists(image_filename, images):
         #print(image_filename)
         return image_filename
     else:
-        return np.nan
+        return ""
 
 
 def get_product_sentence(product):
-    sent = f"gender:{(product['gender'])} mastercategory:{(product['masterCategory'])} subcategory:{(product['subCategory'])} " \
-           f"colour:{(product['baseColour'])} type: {(product['articleType'])} title:{(product['productDisplayName'])}"
+    sent = f"title:{(product['productDisplayName'])} colour:{(product['baseColour'])} gender:{(product['gender'])} " \
+           f"mastercategory:{(product['masterCategory'])} subcategory:{(product['subCategory'])} " \
+           f"type: {(product['articleType'])} usage:{(product['usage'])} "
     #print("get_product_sentence " + sent)
     return sent
 
 
 def get_products_vectors(products_dataset):
-    return [calculate_product_vector(product) for product in products_dataset]
+    listProdVectors = []
+    for product in products_dataset:
+        print(("processing id: "+product['id']))
+        listProdVectors.append(calculate_product_vector(product))
+    return listProdVectors
 
 
 def get_product_image(product,images):
@@ -90,6 +96,7 @@ def calculate_product_image_vectors(product, images):
             #print(image_encoding)
             return image_encoding
     except Exception:
+        print(product['id'])
         print("image exception"+ Exception)
         return []
 
@@ -102,11 +109,12 @@ def calculate_products_image_vectors_clip(products_dataset):
     return products_images
 
 
-def export_products_json(products_dataset):
+def export_products_json(products_dataset, file_name):
     # Serializing json
+    print("writing file"+file_name)
     json_object = json.dumps(products_dataset, indent=2)
     # Writing to dataset.json
-    with open(PATH_PRODUCTS_DATASET + "fashion-vectors-" + NAME_DATASET, "w") as outfile:
+    with open(PATH_PRODUCTS_DATASET + "fashion-vectors-" + file_name, "w") as outfile:
         outfile.write(json_object)
 
 
