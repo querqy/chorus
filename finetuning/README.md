@@ -13,7 +13,7 @@ We recommend you to create also a virtual environment by running:
 ``python3 -m venv venv``
 Afterward, you can activate the environment by running:
 ``source venv/bin/activate``
-To install the dependencies, to run the fine-tuning exaples, run
+To install the dependencies, to run the fine-tuning examples, run
 ``pip install -r requirements.txt``
 
 ## Run Unsupervised SBERT fine-tuning (Text-to-Text Search)
@@ -30,13 +30,14 @@ To extract queries and documents and transform them into Finetuner's preferred f
 python3 sbert_unsupervised/data_preparation.py
 ```
 *While running the script, a browser window will open up and ask you to log into your Jina account. If you don't have one, you need to sign up to run the script.
+After you logged into your account, a session token will be sent back to the script. This token is then used to authenticate the script to the Jina Cloud in order to download or upload models and datasets.
 
 After that, you can run a job to generated training data for a text-to-text embedding model automatically by running:
 ```
 python3 sbert_unsupervised/data_synthesis.py
 ```
 
-If the you terminated the script or the connection to the log stream got interrupted (which happens from time to time),
+If you terminated the script or the connection to the log stream got interrupted (which happens from time to time),
 you can execute the following code in a script or the Python interpreter to get the current status the logs of the job:
 
 ```python
@@ -55,11 +56,11 @@ Finally, you can run the fine-tuning job by running:
 ```
 python3 sbert_unsupervised/finetune.py
 ```
-This will save a finetuned model in the `finetuning` folder with the name `sbert_unsupervised`.
+This will save a fine-tuned model in the `finetuning` folder with the name `sbert_unsupervised`.
 
 ## Run Unsupervised CLIP fine-tuning (Text-to-Image Search)
 
-For finetuning a CLIP model we directly create a dataset with text image pairs from the product dataset.
+For fine-tuning a CLIP model we directly create a dataset with text image pairs from the product dataset.
 This can be executed with the following command:
 ```
 python3 clip_unsupervised/data_preparation.py
@@ -69,7 +70,7 @@ After that the fine-tuning job can be executed with the following command:
 python3 clip_unsupervised/finetune.py
 ```
 
-## Integrate the Finetuned Models into Chorus
+## Integrate the Fine-Tuned Models into Chorus
 
 After running the scripts mentioned above, you obtain fine-tuned embedding models which can be integrated into Chorus.
 If you are only interested in the integration, you can download the final models from the following links:

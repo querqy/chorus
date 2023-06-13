@@ -37,8 +37,9 @@ We begin by fine-tuning a pure text embedding model using an unsupervised approa
 In this approach, data annotation is not required.
 Instead, the finetuner framework generates a dataset using a given corpus, such as our product database, along with a set of queries that can be extracted from a query log.
 Since there is no query log for the demo database, we provide generated [queries](https://finetuner-ecommerce-experiment.s3.eu-central-1.amazonaws.com/generated-queries.jsonl) for download to run the demo code.
+Those queries are generated with a [T5 language model trained on generating questions](https://huggingface.co/BeIR/query-gen-msmarco-t5-base-v1).
 
-To establish relationships between queries and documents, we employ a pseudo labeling approach, similar to the one described in this paper.
+To establish relationships between queries and documents, we employ a pseudo labeling approach, similar to the one described in [this paper](https://arxiv.org/abs/2112.07577).
 Specifically, for each query, we select two related documents using a pre-trained embedding model, as explained in the twelfth kata.
 Subsequently, a cross-encoder model is employed to obtain a more precise estimation of relevance for both documents.
 It is important to note that the cross-encoder model is more accurate but computationally more expensive, as it operates on the raw text inputs of the query and document, instead of relying on condensed vector representations.
