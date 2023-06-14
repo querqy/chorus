@@ -212,6 +212,18 @@ class CatalogController < ApplicationController
       }
     end
 
+    config.add_search_field('querqy_match_by_ft_txt_emb', label: 'Querqy match by finetuned text vector') do |field|
+      field.solr_parameters = {
+        'useParams': 'querqy_match_by_ft_txt_emb'
+      }
+    end
+
+    config.add_search_field('querqy_match_by_ft_img_emb', label: 'Querqy match by finetuned image vector') do |field|
+      field.solr_parameters = {
+        'useParams': 'querqy_match_by_ft_img_emb'
+      }
+    end
+
 
 
     #config.add_search_field('title') do |field|
