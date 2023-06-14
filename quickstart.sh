@@ -181,6 +181,31 @@ if $vector_search; then
                }
            }
   }'
+
+  curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/embfttxt?action=save -H 'Content-type:application/json'  -d '{
+      "class": "querqy.solr.embeddings.SolrEmbeddingsRewriterFactory",
+             "config": {
+                 "model" : {
+                   "class": "querqy.embeddings.ChorusEmbeddingModel",
+                   "url": "http://embeddings:8000/ftbert/text/",
+                   "normalize": false,
+                   "cache" : "embeddings"
+                 }
+             }
+    }'
+
+    curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/embftimg?action=save -H 'Content-type:application/json'  -d '{
+        "class": "querqy.solr.embeddings.SolrEmbeddingsRewriterFactory",
+               "config": {
+                   "model" : {
+                     "class": "querqy.embeddings.ChorusEmbeddingModel",
+                     "url": "http://embeddings:8000/ftclip/text/",
+                     "normalize": false,
+                     "cache" : "embeddings"
+                   }
+               }
+      }'
+
 fi
 
 
@@ -243,7 +268,6 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
       "qf": "id name title product_type short_description ean search_attributes",
       "querqy.infoLogging":"on",
       "mm" : "100%"
-
     },
     "querqy_boost_by_txt_emb":{
       "defType":"querqy",
@@ -262,6 +286,26 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
       "querqy.embtxt.topK":100,
       "querqy.embtxt.mode": "MAIN_QUERY",
       "querqy.embtxt.f": "product_vector",
+      "qf": "id name title product_type short_description ean search_attributes",
+      "querqy.infoLogging":"on",
+      "mm" : "100%"
+    },
+    "querqy_match_by_ft_txt_emb":{
+      "defType":"querqy",
+      "querqy.rewriters":"embfttxt",
+      "querqy.embfttxt.topK":100,
+      "querqy.embfttxt.mode": "MAIN_QUERY",
+      "querqy.embfttxt.f": "finetuned_product_vector",
+      "qf": "id name title product_type short_description ean search_attributes",
+      "querqy.infoLogging":"on",
+      "mm" : "100%"
+    },
+    "querqy_match_by_ft_img_emb":{
+      "defType":"querqy",
+      "querqy.rewriters":"embftimg",
+      "querqy.embftimg.topK":100,
+      "querqy.embftimg.mode": "MAIN_QUERY",
+      "querqy.embftimg.f": "finetuned_product_image_vector",
       "qf": "id name title product_type short_description ean search_attributes",
       "querqy.infoLogging":"on",
       "mm" : "100%"
@@ -315,6 +359,26 @@ if $vector_search; then
         "querqy.embtxt.topK":100,
         "querqy.embtxt.mode": "MAIN_QUERY",
         "querqy.embtxt.f": "product_vector",
+        "qf": "id name title product_type short_description ean search_attributes",
+        "querqy.infoLogging":"on",
+        "mm" : "100%"
+      },
+      "querqy_match_by_ft_txt_emb":{
+        "defType":"querqy",
+        "querqy.rewriters":"embfttxt",
+        "querqy.embfttxt.topK":100,
+        "querqy.embfttxt.mode": "MAIN_QUERY",
+        "querqy.embfttxt.f": "finetuned_product_vector",
+        "qf": "id name title product_type short_description ean search_attributes",
+        "querqy.infoLogging":"on",
+        "mm" : "100%"
+      },
+      "querqy_match_by_ft_img_emb":{
+        "defType":"querqy",
+        "querqy.rewriters":"embftimg",
+        "querqy.embftimg.topK":100,
+        "querqy.embftimg.mode": "MAIN_QUERY",
+        "querqy.embftimg.f": "finetuned_product_image_vector",
         "qf": "id name title product_type short_description ean search_attributes",
         "querqy.infoLogging":"on",
         "mm" : "100%"
