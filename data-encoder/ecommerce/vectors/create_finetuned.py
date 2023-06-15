@@ -22,7 +22,7 @@ for index in range(1, 5):
     for idx in range(len(products_dataset)):
         try:
             products_dataset[idx]["finetuned_product_vector"] = products_vectors[idx].tolist()
-            products_dataset[idx]["finetuned_image_vector"] = products_image_vectors[idx].tolist()
+            products_dataset[idx]["finetuned_product_image_vector"] = products_image_vectors[idx].tolist()
         except Exception:
             print(f'{products_dataset[idx]["id"]}')
 
