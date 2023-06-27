@@ -254,8 +254,7 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
       "querqy.embimg.boost": 10000,
       "querqy.embimg.f": "product_image_vector",
       "qf": "id name title product_type short_description ean search_attributes",
-      "querqy.infoLogging":"on",
-      "mm" : "100%"
+      "querqy.infoLogging":"on"
     }
   },
   "set": {
@@ -277,8 +276,7 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
       "querqy.embtxt.boost": 10000,
       "querqy.embtxt.f": "product_vector",
       "qf": "id name title product_type short_description ean search_attributes",
-      "querqy.infoLogging":"on",
-      "mm" : "100%"
+      "querqy.infoLogging":"on"
     },
     "querqy_match_by_txt_emb":{
       "defType":"querqy",
@@ -326,8 +324,7 @@ if $vector_search; then
         "querqy.embimg.boost": 10000,
         "querqy.embimg.f": "product_image_vector",
         "qf": "id name title product_type short_description ean search_attributes",
-        "querqy.infoLogging":"on",
-        "mm" : "100%"
+        "querqy.infoLogging":"on"
       }
     },
     "set": {
@@ -350,8 +347,7 @@ if $vector_search; then
         "querqy.embtxt.boost": 10000,
         "querqy.embtxt.f": "product_vector",
         "qf": "id name title product_type short_description ean search_attributes",
-        "querqy.infoLogging":"on",
-        "mm" : "100%"
+        "querqy.infoLogging":"on"
       },
       "querqy_match_by_txt_emb":{
         "defType":"querqy",
