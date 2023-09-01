@@ -90,32 +90,6 @@ Notice that our results have now turned green across the board from red?  Our gr
 
 There is a lot to unpack in here that is beyond the scope of this kata.  However bear with me.
 
-So now we feel like this is good results.  However, while we've just tuned these notebook examples, what has the impact of the Querqy rule changes been on potentially other queries?  Quepid is great for up to 60 or so queries per case, but it doesn't handle 100's or 1000's of queries well.  Plus, we only get one search metric, in our case NDCG at a time. What if I want to calculate all the search metrics.  For that, enter RRE.
-
-RRE uses it's own format of ratings, so in Quepid, click the `Export` option in the toolbar.  This will pop up a modal box, and choose the `Rated Ranking Evaluator` option.  Then click `Export` and save this file on your desktop.  
-
-You then need to put this ratings into RRE.  First move any ratings file in `./rre/src/etc/ratings/` out of that directory, leaving them in `./rre` is fine.  Then take your freshly exported `Notebook_Computers_rre.json` file and put it in the `ratings` directory.  
-
-Now, lets look at the RRE setup. We want to regression test our pre Querqy algorithm and our post Querqy algorithm.  So look at the template files in `./rre/src/etc/templates`.  As you can see `v1.0` is just the simplistic query.   However `v1.1` is using the Querqy enabled request handler.  This is going to let us measure the two against each other.
-
-While in this kata we are only running the same set of queries as in Quepid, in real life you would be regression testing those two queries against 100's of other rated queries as well.
-
-So let's go run our evaluation!  We're back on the command line:
-
-```sh
-docker-compose run rre mvn rre:evaluate
-```
-
-Look for a message about `completed all 2 evaluations` to know that it's running properly.
-
-And once that completes, lets go ahead and publish the reports:
-
-```sh
-docker-compose run rre mvn rre-report:report
-```
-
-You have two ways of looking at the results of RRE running.  There is an Excel spreadsheet you can look at, or you can use the online Dashboard available at http://localhost:7979.
-
-Going into what all the metrics that RRE provides, and this is just a small sample set, is beyond this.   Suffice to say, if you look at the NDCG@4 and NDCG@10, you will see that we had a big jump from the terrible results of v1.0 to the amazing results in v1.1!
+So now we feel like this is good results.  However, while we've just tuned these notebook examples, what has the impact of the Querqy rule changes been on potentially other queries?  Quepid is great for up to 60 or so queries per case, but it doesn't handle 100's or 1000's of queries well.  Plus, we only get one search metric, in our case NDCG at a time. 
 
 That all folks!  You've successfully taken a bad 'notebook' query, assessed it to put a numerical value on the quality of the search, and then improved it using some rules to rewrite the query.  You then remeasured, saw the quantitative improvement, and then ran a simulated regression test of those queries (and all your other ones in the real world), and have meaningfully improved search quality, which drives more revenue!

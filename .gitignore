@@ -4,7 +4,6 @@ volumes/solr*
 solr/configsets/ecommerce.zip
 solr/data/*.json
 solr/data/*.gz
-rre/target
 .idea
 *.iml
 __pycache__

@@ -12,7 +12,7 @@
 | MySQL     | root                        | password  | docker-compose.yml |
 
 
-`blockUnknown` is false as we want to let RRE run against the `ecommerce` collection.  We have locked down in `security.json` to allow anonymous users only to hit the /ecommerce/select/ end point
+`blockUnknown` is false as we want to let RRE (now removed from Chorus) run against the `ecommerce` collection.  We have locked down in `security.json` to allow anonymous users only to hit the /ecommerce/select/ end point
 
 When you bring up Solr Admin and then are redirected to Keycloak, when you register and sent back to Solr you are given the `solr-admin` role.
 
@@ -47,13 +47,6 @@ docker-compose run quepid thor user:create -a demo@example.com "Demo User" passw
 ```
 
 For Quepid case, pick `name` for title, and `id` for identifier.  Add `thumb:imageUrl` to the list of fields.
-
-## Setting up RRE
-
-```sh
-docker-compose run rre mvn rre:evaluate
-docker-compose run rre mvn rre-report:report
-```
 
 ## Monitoring Details
 

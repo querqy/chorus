@@ -1,6 +1,0 @@
-{
-  "q": "$query",
-  "useParams": "querqy_algo",
-  "querqy.rewriters": "replace,common_rules"
-  "template_version": "v1.1-querqy"
-}
