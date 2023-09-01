@@ -33,6 +33,20 @@ services:
       test: "/usr/bin/mysql --user=root --password=password --execute \"SHOW DATABASES;\""
       interval: 10s
       timeout: 30s
+      
+  mysql8:
+    container_name: mysql8
+    image: amd64/mysql:8.0.33
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    volumes:
+      - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=password --execute \"SHOW DATABASES;\""
+      interval: 10s
+      timeout: 30s         
 
   smui:
     container_name: smui
@@ -173,7 +187,7 @@ services:
 
   quepid:
     container_name: quepid
-    image: o19s/quepid:6.14.0
+    image: o19s/quepid:7.7.0
     ports:
       - 3000:3000
     command: "foreman s -f Procfile"
@@ -181,7 +195,7 @@ services:
       - PORT=3000
       - RACK_ENV=production
       - RAILS_ENV=production
-      - DATABASE_URL=mysql2://root:${MYSQL_ROOT_PASSWORD}@mysql:3306/quepid
+      - DATABASE_URL=mysql2://root:${MYSQL_ROOT_PASSWORD}@mysql8:3306/quepid
       - REDIS_URL=redis://redis:6379/1
       - FORCE_SSL=false
       - MAX_THREADS=2
@@ -199,27 +213,11 @@ services:
       - KEYCLOAK_SITE=http://keycloak:9080
       - SIGNUP_ENABLED=true
     links:
-      - mysql
+      - mysql8
       - redis
     depends_on:
-      - mysql
+      - mysql8
       - redis
-
-  rre:
-    container_name: rre
-    build:
-      context: ./rre
-      dockerfile: Dockerfile
-    volumes:
-      - ./rre:/rre
-    ports:
-      - "7979:8080"
-    command: "java -jar rre-server-1.1.jar"
-    environment:
-      - SOLR_URL=http://solr1:8983/solr/ecommerce
-    depends_on:
-      - solr1
-
 
   embeddings:
     container_name: embeddings

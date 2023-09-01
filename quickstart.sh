@@ -68,7 +68,7 @@ else
 fi
 
 if $offline_lab; then
-  services="${services} quepid rre"
+  services="${services} quepid"
 fi
 
 if $vector_search; then
@@ -409,10 +409,6 @@ if $offline_lab; then
   docker cp ./katas/Broad_Query_Set_rated.csv quepid:/srv/app/Broad_Query_Set_rated.csv
   docker exec quepid thor ratings:import 1 /srv/app/Broad_Query_Set_rated.csv >> /dev/null
 
-
-  log_major "Setting up RRE"
-  docker-compose run rre mvn rre:evaluate
-  docker-compose run rre mvn rre-report:report
 fi
 
 if $observability; then
