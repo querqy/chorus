@@ -38,9 +38,10 @@ services:
     container_name: mysql8
     image: amd64/mysql:8.0.33
     ports:
-      - 3306:3306
+      - 3307:3307
     environment:
       - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_TCP_PORT=3307
     volumes:
       - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     healthcheck:
@@ -195,7 +196,7 @@ services:
       - PORT=3000
       - RACK_ENV=production
       - RAILS_ENV=production
-      - DATABASE_URL=mysql2://root:${MYSQL_ROOT_PASSWORD}@mysql8:3306/quepid
+      - DATABASE_URL=mysql2://root:${MYSQL_ROOT_PASSWORD}@mysql8:3307/quepid
       - REDIS_URL=redis://redis:6379/1
       - FORCE_SSL=false
       - MAX_THREADS=2
