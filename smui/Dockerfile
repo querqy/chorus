@@ -1,6 +1,6 @@
 FROM querqy/smui:3.14.0
 
-COPY --chown=1024:1024 conf/* conf/
+COPY --chown=smui:smui conf/* conf/
 
 USER root
 RUN chmod +x conf/smui2*.sh
