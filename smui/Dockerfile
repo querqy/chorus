@@ -1,12 +1,10 @@
-FROM querqy/smui:3.14.0
+FROM querqy/smui:4.0.11
 
-COPY conf/smui2solrcloud.sh /smui/conf/smui2solrcloud.sh
-COPY conf/*.py /smui/conf/
-COPY conf/predefined_tags.json /smui/conf/predefined_tags.json
+COPY --chown=smui:smui conf/* conf/
 
 USER root
-RUN apt-get update -y
-RUN apt-get install -y python3
-RUN apt-get install -y python3-pip
+RUN chmod +x conf/smui2*.sh
+RUN apt-get update -y && apt-get install -y python3 python3-pip
+
 USER smui
 RUN python3 -m pip install requests
