@@ -22,7 +22,7 @@ services:
 
   mysql:
     container_name: mysql
-    image: amd64/mysql:5.7.40
+    image: mysql:8.3.0
     ports:
       - 3306:3306
     environment:
@@ -173,7 +173,7 @@ services:
 
   quepid:
     container_name: quepid
-    image: o19s/quepid:6.14.0
+    image: o19s/quepid:7.15.1
     ports:
       - 3000:3000
     command: "foreman s -f Procfile"
@@ -204,22 +204,6 @@ services:
     depends_on:
       - mysql
       - redis
-
-  rre:
-    container_name: rre
-    build:
-      context: ./rre
-      dockerfile: Dockerfile
-    volumes:
-      - ./rre:/rre
-    ports:
-      - "7979:8080"
-    command: "java -jar rre-server-1.1.jar"
-    environment:
-      - SOLR_URL=http://solr1:8983/solr/ecommerce
-    depends_on:
-      - solr1
-
 
   embeddings:
     container_name: embeddings

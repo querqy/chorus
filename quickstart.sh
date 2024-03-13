@@ -54,9 +54,6 @@ done
 # Function check_prerequisites makes sure that you have curl, jq, docker-compose, and zip installed. See helpers.sh for details.
 check_prerequisites
 
-services="blacklight solr1 solr2 solr3 keycloak smui"
-
-
 services="blacklight solr1 solr2 solr3 keycloak"
 
 if $observability; then
@@ -68,7 +65,7 @@ else
 fi
 
 if $offline_lab; then
-  services="${services} quepid rre"
+  services="${services} quepid"
 fi
 
 if $vector_search; then
@@ -81,9 +78,7 @@ if $vector_search; then
   fi
 fi
 
-if $active_search_management; then
-  services="${services} smui"
-fi
+
 
 if ! $local_deploy; then
   echo -e "${MAJOR}Updating configuration files for online deploy${RESET}"
@@ -99,6 +94,15 @@ fi
 docker-compose down -t 30 -v
 if $shutdown; then
   exit
+fi
+
+if $active_search_management; then  
+  # need to start MySQL and verify it is up and running before starting SMUI.
+  #log_major "Starting MySQL first to ensure fully available prior to starting SMUI."
+  docker compose up -d mysql  
+  ./mysql/wait-for-mysql.sh
+  services="${services} smui"
+  
 fi
 
 docker-compose up -d --build ${services}
@@ -123,7 +127,7 @@ docker exec solr1 solr zk cp /security.json zk:security.json -z zoo1:2181
 log_minor "waiting for security.json to be available to all Solr nodes"
 ./solr/wait-for-zk-200.sh
 
-echo -e "${MAJOR}Packaging ecommerce configset.${RESET}"
+log_major "Packaging ecommerce configset."
 (cd solr/configsets/ecommerce/conf && zip -r - *) > ./solr/configsets/ecommerce.zip
 log_minor "posting ecommerce.zip configset"
 curl  --user solr:SolrRocks -X PUT --header "Content-Type:application/octet-stream" --data-binary @./solr/configsets/ecommerce.zip "http://localhost:8983/api/cluster/configs/ecommerce"
@@ -209,7 +213,7 @@ if $vector_search; then
 fi
 
 
-echo -e "${MAJOR}Defining relevancy algorithms using ParamSets.${RESET}"
+log_major "Defining relevancy algorithms using ParamSets."
 curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/params -H 'Content-type:application/json'  -d '{
   "set": {
     "visible_products":{
@@ -385,7 +389,7 @@ fi
 
 
 if $active_search_management; then
-  echo -e "${MAJOR}Setting up SMUI${RESET}"
+  log_major "Setting up SMUI"
   SOLR_INDEX_ID=`curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"ecommerce", "description":"Chorus Webshop"}' http://localhost:9000/api/v1/solr-index | jq -r .returnId`
   curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"product_type"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
   curl -S -X PUT -H "Content-Type: application/json" -d '{"name":"title"}' http://localhost:9000/api/v1/${SOLR_INDEX_ID}/suggested-solr-field
@@ -396,27 +400,23 @@ if $offline_lab; then
   log_major "Setting up Quepid"
   ./mysql/wait-for-mysql.sh
 
-  docker-compose run --rm quepid bin/rake db:setup
-  docker-compose run quepid thor user:create -a admin@choruselectronics.com "Chorus Admin" password
+  docker-compose run --rm quepid bundle exec bin/rake db:setup
+  docker-compose run quepid bundle exec thor user:create -a admin@choruselectronics.com "Chorus Admin" password
   log_minor "Setting up Chorus Baseline Relevance case"
   if $local_deploy; then
     solr_collection_url=http://localhost:8983/solr/ecommerce/select
   else
     solr_collection_url=http://chorus.dev.o19s.com:8983/solr/ecommerce/select
   fi
-  docker-compose run quepid thor case:create "Chorus Baseline Relevance" solr ${solr_collection_url} JSONP "id:id, title:title, thumb:img_500x500, name, brand, product_type" "q=#\$query##&useParams=visible_products,querqy_algo" nDCG@10 admin@choruselectronics.com
+  docker-compose run quepid bundle exec thor case:create "Chorus Baseline Relevance" solr ${solr_collection_url} JSONP "id:id, title:title, thumb:img_500x500, name, brand, product_type" "q=#\$query##&useParams=visible_products,querqy_algo" nDCG@10 admin@choruselectronics.com
 
   docker cp ./katas/Broad_Query_Set_rated.csv quepid:/srv/app/Broad_Query_Set_rated.csv
-  docker exec quepid thor ratings:import 1 /srv/app/Broad_Query_Set_rated.csv >> /dev/null
+  docker exec quepid bundle exec thor ratings:import 1 /srv/app/Broad_Query_Set_rated.csv >> /dev/null
 
-
-  log_major "Setting up RRE"
-  docker-compose run rre mvn rre:evaluate
-  docker-compose run rre mvn rre-report:report
 fi
 
 if $observability; then
-  echo -e "${MAJOR}Setting up Grafana${RESET}"
+  log_major "Setting up Grafana"
   curl -u admin:password -S -X POST -H "Content-Type: application/json" -d '{"email":"admin@choruselectronics.com", "name":"Chorus Admin", "role":"admin", "login":"admin@choruselectronics.com", "password":"password", "theme":"light"}' http://localhost:9091/api/admin/users
   curl -u admin:password -S -X PUT -H "Content-Type: application/json" -d '{"isGrafanaAdmin": true}' http://localhost:9091/api/admin/users/2/permissions
   curl -u admin:password -S -X POST -H "Content-Type: application/json" http://localhost:9091/api/users/2/using/1

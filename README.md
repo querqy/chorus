@@ -41,7 +41,6 @@ We host a complete demonstration environment online for you to play with, see li
 * Solr runs at http://localhost:8983 |  http://chorus.dev.o19s.com:8983
 * SMUI runs at http://localhost:9000 |  http://chorus.dev.o19s.com:9000
 * Quepid runs at http://localhost:3000 |  http://chorus.dev.o19s.com:3000
-* RRE runs at http://localhost:7979 |  http://chorus.dev.o19s.com:7979
 * Keycloak runs at http://keycloak:9080 |  http://chorus.dev.o19s.com:9080
 * Prometheus runs at http://localhost:9090 |  http://chorus.dev.o19s.com:9090
 * Grafana runs at http://localhost:9091 |  http://chorus.dev.o19s.com:9091
