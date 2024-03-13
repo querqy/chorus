@@ -54,9 +54,6 @@ done
 # Function check_prerequisites makes sure that you have curl, jq, docker-compose, and zip installed. See helpers.sh for details.
 check_prerequisites
 
-services="blacklight solr1 solr2 solr3 keycloak smui"
-
-
 services="blacklight solr1 solr2 solr3 keycloak"
 
 if $observability; then
@@ -81,9 +78,7 @@ if $vector_search; then
   fi
 fi
 
-if $active_search_management; then
-  services="${services} smui"
-fi
+
 
 if ! $local_deploy; then
   echo -e "${MAJOR}Updating configuration files for online deploy${RESET}"
@@ -99,6 +94,14 @@ fi
 docker-compose down -t 30 -v
 if $shutdown; then
   exit
+fi
+
+if $active_search_management; then  
+  # need to start MySQL and verify it is up and running before starting SMUI.
+  docker compose up -d mysql  
+  ./mysql/wait-for-mysql.sh
+  services="${services} smui"
+  
 fi
 
 docker-compose up -d --build ${services}
@@ -151,7 +154,7 @@ else
     curl --progress-bar -o ./solr/data/icecat-products-150k-20200809.tar.gz -k https://querqy.org/datasets/icecat/icecat-products-150k-20200809.tar.gz
   fi
   log_major "Populating products, please give it a few minutes!"
-  tar xzf ./solr/data/icecat-products-150k-20200809.tar.gz --to-stdout | curl --user solr:SolrRocks 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
+  #tar xzf ./solr/data/icecat-products-150k-20200809.tar.gz --to-stdout | curl --user solr:SolrRocks 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @- -H 'Content-type:application/json'
 fi
 
 if $vector_search; then
