@@ -43,7 +43,7 @@ curl http://localhost:8983/solr/ecommerce/config -H 'Content-type:application/js
 
 Create a user with the email `demo@example.com` and the password `password`:
 ```sh
-docker-compose run quepid thor user:create -a demo@example.com "Demo User" password
+docker-compose run quepid bundle exec thor user:create -a demo@example.com "Demo User" password
 ```
 
 For Quepid case, pick `name` for title, and `id` for identifier.  Add `thumb:imageUrl` to the list of fields.

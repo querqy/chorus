@@ -50,7 +50,7 @@ We host a complete demonstration environment online for you to play with, see li
 Relevant username and passwords are listed in [TECHNICAL_DETAILS.md](TECHNICAL_DETAILS.md#accounts-setup) file.
 
 Working with macOS?   Pop open all the tuning related web pages with one terminal command:
-> open http://localhost:4000 http://localhost:8983 http://localhost:9000 http://localhost:3000 http://localhost:7979
+> open http://localhost:4000 http://localhost:8983 http://localhost:9000 http://localhost:3000
 
 
 # 5 Minutes to Run Chorus!
