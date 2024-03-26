@@ -145,7 +145,7 @@ docker-compose run --rm quepid bin/rake db:setup
 We also need to create you an account with Administrator permissions:
 
 ```sh
-docker-compose run quepid thor user:create -a admin@choruselectronics.com "Chorus Admin" password
+docker-compose run quepid bundle exec thor user:create -a admin@choruselectronics.com "Chorus Admin" password
 ```
 
 Visit Quepid at http://localhost:3000 and log in with the email and password you just set up.
