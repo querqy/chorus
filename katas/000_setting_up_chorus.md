@@ -152,10 +152,6 @@ Visit Quepid at http://localhost:3000 and log in with the email and password you
 
 Go through the initial case setup process.  Quepid will walk you through setting up a `Movie Cases` case via a Wizard interface, and then show you some of the key features of Quepid's UI.  I know you want to skip the tour of Quepid interface, however there is a lot of interactivity in the UI, so it's worth going through the tutorial to get acquainted!
 
-Now, let's go ahead and make sure we publish the results of our evaluation:
-
-
-Bring up http://localhost:7979 and you will see a relatively unexciting empty dashboard.  Don't worry, in our first kata, we'll do a relevancy test and fill this dashboard in.
 
 Last but not least we want to set up what we need to monitor our end user facing applications. We use Prometheus and Grafana for this task. Prometheus is already collecting and storing data. For Grafana we need to set up a user and grant this user administrative rights in Grafana:
 
