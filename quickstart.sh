@@ -60,7 +60,7 @@ if $observability; then
   export JAEGER_SAMPLER_PARAM="1"
   services="${services} grafana solr-exporter jaeger"
 else
-  # Prevents Jaeger in Solr for attempting to send events.
+  # Prevents Jaeger in Solr from attempting to send events.
   export JAEGER_SAMPLER_PARAM=
 fi
 
