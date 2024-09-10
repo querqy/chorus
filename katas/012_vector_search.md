@@ -183,7 +183,7 @@ Now do a search for `notebook`, and notice that we're getting a lot of accessori
 
 ![Layout out showing default search with notebook](images/012_default_algo_notebook_search.png)
 
-We have learnt to fix this using Querqy in [Kata5](chorus/katas/005_curating_specific_products_for_a_query.md). Now let's look at how the results change using vectors!
+We have learnt to fix this using Querqy in [Kata 5](chorus/katas/005_curating_specific_products_for_a_query.md). Now let's look at how the results change using vectors!
 
 Let us now select `Query match by text vector` from the algorithm dropdown and search again. You'll notice the results already improved fetching the most related notebook aka laptop in the search results.
 
@@ -209,4 +209,3 @@ We hope this Kata helped you get deeper understanding of Vector Search.  It show
 We also recommend you checking out our blogs for further info :
 1. [https://opensourceconnections.com/blog/2023/03/15/revolutionizing-e-commerce-search-with-vectors/](https://opensourceconnections.com/blog/2023/03/15/revolutionizing-e-commerce-search-with-vectors/)
 2. [https://opensourceconnections.com/blog/2023/03/22/building-vector-search-in-chorus-a-technical-deep-dive/](https://opensourceconnections.com/blog/2023/03/22/building-vector-search-in-chorus-a-technical-deep-dive/)
-
