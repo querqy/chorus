@@ -58,7 +58,7 @@ function log_prerequisite_missing() {
 
 function check_prerequisites() {
     set +e
-    PREREQUISITES=("curl" "jq" "docker-compose" "zip")
+    PREREQUISITES=("curl" "jq" "docker" "zip")
     log_major "Checking availability of prerequisites..."
     COUNT_MISSING_PREQUISITES=0
     for PREREQUISITE in "${PREREQUISITES[@]}"

@@ -7,7 +7,7 @@ We use a Docker Compose based environment to manage firing up all the components
 Open up a terminal window and run:
 
 ```sh
-docker-compose up --build
+docker compose up --build
 ```
 
 Wait a while, because you'll be downloading and building quite a few images!  You may think it's frozen at various points, but go for a walk and come back and it'll be up and running.
@@ -139,13 +139,13 @@ We'll start with Quepid and then move on to RRE.
 First we need to create the database for Quepid:
 
 ```sh
-docker-compose run --rm quepid bin/rake db:setup
+docker compose run --rm quepid bin/rake db:setup
 ```
 
 We also need to create you an account with Administrator permissions:
 
 ```sh
-docker-compose run quepid bundle exec thor user:create -a admin@choruselectronics.com "Chorus Admin" password
+docker compose run quepid bundle exec thor user:create -a admin@choruselectronics.com "Chorus Admin" password
 ```
 
 Visit Quepid at http://localhost:3000 and log in with the email and password you just set up.
