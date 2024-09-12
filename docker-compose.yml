@@ -1,4 +1,3 @@
-version: '3'
 services:
 
   blacklight:
@@ -125,7 +124,7 @@ services:
       - keycloak
 
   zoo1:
-    image: zookeeper:3.7.0
+    image: zookeeper:3.9.2
     container_name: zoo1
     hostname: zoo1
     ports:
@@ -139,7 +138,7 @@ services:
 
 
   zoo2:
-    image: zookeeper:3.7.0
+    image: zookeeper:3.9.2
     container_name: zoo2
     hostname: zoo2
     ports:
@@ -153,7 +152,7 @@ services:
 
 
   zoo3:
-    image: zookeeper:3.7.0
+    image: zookeeper:3.9.2
     container_name: zoo3
     hostname: zoo3
     ports:
