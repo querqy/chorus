@@ -57,7 +57,7 @@ services:
       - SMUI_TOGGLE_EVENTHISTORY=true
       - SMUI_RULE_TAGGING_ACTIVE=true
       - SMUI_PREDEFINED_TAGS_FILE=/smui/conf/predefined_tags.json
-      - SMUI_RULE_USAGE_STATISTICS_LOCATION=file:///smui/data/stats.csv    
+      - SMUI_RULE_USAGE_STATISTICS_LOCATION=file:///smui/data/stats-on-rules-usage.csv    
     volumes:
         - ./smui/data/:/smui/data      
     depends_on:
