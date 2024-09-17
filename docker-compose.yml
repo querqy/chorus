@@ -57,6 +57,9 @@ services:
       - SMUI_TOGGLE_EVENTHISTORY=true
       - SMUI_RULE_TAGGING_ACTIVE=true
       - SMUI_PREDEFINED_TAGS_FILE=/smui/conf/predefined_tags.json
+      - smui.target-environment.config=file:///smui/data/stats.csv    
+    volumes:
+        - ./smui/data/:/smui/data      
     depends_on:
       - mysql
 
