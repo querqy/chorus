@@ -12,3 +12,11 @@ RUN apt-get update -y && apt-get install -y python3 python3-pip
 
 USER smui
 RUN python3 -m pip install requests
+
+# Need custom CMD to include our custom-application.conf
+CMD java \
+  -Dpidfile.path=$SMUI_CONF_PID_PATH \
+  -Dlogback.configurationFile=$SMUI_CONF_LOGBACK_XML_PATH \
+  -Dhttp.port=$SMUI_CONF_HTTP_PORT \
+  -Dconfig.file="/smui/conf/custom-application.conf" \
+  -jar /smui/search-management-ui-assembly-$SMUI_VERSION.jar
