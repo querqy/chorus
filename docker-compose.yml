@@ -1,4 +1,3 @@
-version: '3'
 services:
 
   blacklight:
@@ -58,6 +57,9 @@ services:
       - SMUI_TOGGLE_EVENTHISTORY=true
       - SMUI_RULE_TAGGING_ACTIVE=true
       - SMUI_PREDEFINED_TAGS_FILE=/smui/conf/predefined_tags.json
+      - SMUI_RULE_USAGE_STATISTICS_LOCATION=file:///smui/data/rules-usage-stats.csv    
+    volumes:
+        - ./smui/data/:/smui/data      
     depends_on:
       - mysql
 
@@ -125,7 +127,7 @@ services:
       - keycloak
 
   zoo1:
-    image: zookeeper:3.7.0
+    image: zookeeper:3.9.2
     container_name: zoo1
     hostname: zoo1
     ports:
@@ -139,7 +141,7 @@ services:
 
 
   zoo2:
-    image: zookeeper:3.7.0
+    image: zookeeper:3.9.2
     container_name: zoo2
     hostname: zoo2
     ports:
@@ -153,7 +155,7 @@ services:
 
 
   zoo3:
-    image: zookeeper:3.7.0
+    image: zookeeper:3.9.2
     container_name: zoo3
     hostname: zoo3
     ports:

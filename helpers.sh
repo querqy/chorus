@@ -58,7 +58,7 @@ function log_prerequisite_missing() {
 
 function check_prerequisites() {
     set +e
-    PREREQUISITES=("curl" "jq" "docker-compose" "zip")
+    PREREQUISITES=("curl" "jq" "docker" "zip")
     log_major "Checking availability of prerequisites..."
     COUNT_MISSING_PREQUISITES=0
     for PREREQUISITE in "${PREREQUISITES[@]}"
@@ -81,10 +81,10 @@ function check_prerequisites() {
 }
 
 function display_help_message() {
-    echo -e "Use the option --with-offline-lab | -lab to include Quepid and RRE services in Chorus."
+    echo -e "Use the option --with-offline-lab | -lab to include Quepid in Chorus."
     echo -e "Use the option --with-observability | -obs to include Grafana, Prometheus, and Solr Exporter services in Chorus."
+    echo -e "Use the option --with-active-search-management | -active to include Active Search Management via SMUI in Chorus."    
     echo -e "Use the option --with-vector-search | -vector to include Vector Search services in Chorus."
-    echo -e "Use the option --with-active-search-management | -active to include Active Search Management in Chorus."
     echo -e "Use the option --shutdown | -s to shutdown and remove the Docker containers and data."
     echo -e "Use the option --online-deployment | -online to update configuration to run on chorus.dev.o19s.com environment."
 }
