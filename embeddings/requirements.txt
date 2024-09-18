@@ -1,4 +1,3 @@
-docarray==0.21.0 # See https://github.com/querqy/chorus/issues/169
 sentence-transformers
 fastapi
 uvicorn[standard]
