@@ -5,4 +5,5 @@ gunicorn
 pydantic
 torch
 git+https://github.com/openai/CLIP.git
-finetuner[full]
+finetuner[full]==0.7.8
+docarray[commons]==0.21.0
