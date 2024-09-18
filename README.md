@@ -86,7 +86,7 @@ There is also a video series that is very closely related called [Meet Pete](htt
 To start your environment, but still run each command to setup the integrations manually, run:
 
 ```
-docker-compose up --build -d
+docker compose up --build -d
 ```
 
 The quickstart command will launch a Solr cluster, load the configsets and product data for the _ecommerce_ index, and launch the SMUI user interface:
@@ -115,18 +115,18 @@ To include the observability features, run:
 
 To see what is happening in the Chorus stack you can tail the logs for all the components via:
 ```
-docker-compose logs -tf
+docker compose logs -tf
 ```
 
 If you want to narrow down to just one component of the Chorus stack do:
 ```
-docker-compose ps                       # list out the names of the components
-docker-compose logs -tf solr1 solr2     # tail solr1 and solr2 only
+docker compose ps                       # list out the names of the components
+docker compose logs -tf solr1 solr2     # tail solr1 and solr2 only
 ```
 
 To destroy your environment (including any volumes created like the mysql db), just run:
 ```
-docker-compose down -v
+docker compose down -v
 ```
 
 or
