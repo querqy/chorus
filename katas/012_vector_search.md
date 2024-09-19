@@ -55,7 +55,7 @@ Also, notice that this also triggers an additional 'embedding service' based on 
 ```bash
 if $vector_search; then
   log_major "Setting up Embeddings service"
-  docker-compose up -d --build embeddings
+  docker compose up -d --build embeddings
   ./embeddings/wait-for-api.sh
 fi
 ```

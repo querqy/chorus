@@ -1,4 +1,4 @@
-FROM querqy/smui:4.0.11
+FROM querqy/smui:4.3.0
 
 COPY --chown=smui:smui conf/* conf/
 
