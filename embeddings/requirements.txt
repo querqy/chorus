@@ -4,6 +4,7 @@ uvicorn[standard]
 gunicorn
 pydantic
 torch
+numpy<2.0
 git+https://github.com/openai/CLIP.git
 finetuner[full]==0.7.8
 docarray[commons]==0.21.0
