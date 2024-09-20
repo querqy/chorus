@@ -1,4 +1,3 @@
-docarray==0.21.0 # See https://github.com/querqy/chorus/issues/169
 sentence-transformers
 fastapi
 uvicorn[standard]
@@ -6,4 +5,5 @@ gunicorn
 pydantic
 torch
 git+https://github.com/openai/CLIP.git
-finetuner[full]
+finetuner[full]==0.7.8
+docarray[commons]==0.21.0
