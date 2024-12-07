@@ -410,8 +410,13 @@ if $offline_lab; then
   fi
   docker compose run quepid bundle exec thor case:create "Chorus Baseline Relevance" solr ${solr_collection_url} JSONP "id:id, title:title, thumb:img_500x500, name, brand, product_type" "q=#\$query##&useParams=visible_products,querqy_algo" nDCG@10 admin@choruselectronics.com
 
-  docker cp ./katas/Broad_Query_Set_rated.csv quepid:/srv/app/Broad_Query_Set_rated.csv
-  docker exec quepid bundle exec thor ratings:import 1 /srv/app/Broad_Query_Set_rated.csv >> /dev/null
+  docker cp ./katas/Broad_Query_Set_rated.csv quepid:/rails/Broad_Query_Set_rated.csv
+
+  sleep 5
+  docker compose start quepid
+  
+  docker exec quepid bundle exec thor ratings:import 1 /rails/Broad_Query_Set_rated.csv #>> /dev/null
+
 
 fi
 
