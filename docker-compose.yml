@@ -12,9 +12,11 @@ services:
       - 9394:9394
     command: "foreman s -f Procfile"
     environment:
+      - RAILS_LOG_TO_STDOUT=true
       - SOLR_URL=http://${SOLR_USER}:${SOLR_PASSWORD}@solr1:8983/solr/ecommerce
       - PORT=3000
       - OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
+      - OPENSEARCH_URL=http://chorus-opensearch-edition.dev.o19s.com:9200/
     depends_on:
       - solr1
     #  - jaeger

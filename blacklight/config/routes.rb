@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  # UBI tracking endpoints
+  post '/ubi_queries', to: 'ubi#queries'
+  post '/ubi_events', to: 'ubi#events'
+
   mount Blacklight::Engine => '/'
   root to: "catalog#index"
   concern :searchable, Blacklight::Routes::Searchable.new

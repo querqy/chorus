@@ -1,3 +1,127 @@
+<script>
+  // UBI Tracking Setup - Added directly here as workaround
+  console.log('UBI: Setting up tracking in search header');
+  
+  // Simple UBI implementation
+  if (!window.UbiTracking) {
+    window.UbiTracking = {
+      trackSearchQuery: function(query, objectIdField, queryAttributes) {
+        console.log('UBI: Tracking search query:', query);
+        
+        const data = [{
+          application: 'chorus-electronics',
+          query_id: 'query-' + Date.now(),
+          client_id: 'client-' + Date.now(),
+          user_query: query,
+          object_id_field: objectIdField || '_id',
+          query_attributes: queryAttributes || {},
+          timestamp: new Date().toISOString()
+        }];
+        
+        fetch('/ubi_queries', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        }).then(response => {
+          if (response.ok) {
+            console.log('🎉 UBI: Query successfully tracked! Search for "' + query + '" sent to OpenSearch via Rails proxy');
+          } else {
+            console.error('UBI: ❌ Query tracking failed. Response:', response.status);
+          }
+          return response.json();
+        }).then(data => {
+          console.log('UBI: Server response:', data);
+        }).catch(error => {
+          console.error('UBI: ❌ Network error tracking query:', error);
+        });
+      },
+      
+      trackProductClick: function(productId, productTitle, position) {
+        console.log('UBI: Click tracked:', productTitle, 'position:', position);
+        
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/ubi_events');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            console.log('🎉 UBI: Click sent successfully');
+          } else {
+            console.error('UBI: Failed to send click');
+          }
+        };
+        xhr.send(JSON.stringify([{
+          application: 'chorus-electronics',
+          action_name: 'product_click',
+          query_id: 'q-' + Date.now(),
+          client_id: 'c-' + Date.now(),
+          session_id: 's-' + Date.now(),
+          timestamp: new Date().toISOString(),
+          event_attributes: {
+            object: {
+              object_id: productId,
+              object_id_field: 'product_id',
+              description: productTitle
+            },
+            position: { ordinal: position }
+          }
+        }]));
+      }
+    };
+  }
+  
+  // Track search query when results are displayed
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log("Setting up UBI search query tracking");
+    const searchField = document.querySelector('input[name="q"]');
+    if (searchField && searchField.value) {
+      console.log("Search field value:", searchField.value);
+      if (typeof window.UbiTracking !== 'undefined') {
+        console.log("About to track search query:", searchField.value);
+        window.UbiTracking.trackSearchQuery(searchField.value, '_id', {
+          algorithm: '<%= params[:search_field] %>',
+          filters: <%= params[:f]&.to_json || '{}' %>,
+          total_results: <%= @response.total rescue 0 %>
+        });
+      } else {
+        console.error("UbiTracking not available!");
+      }
+    }
+    
+    // Simple click tracking setup
+    setTimeout(function() {
+      document.querySelectorAll('a[href*="/catalog/"]').forEach(function(link, index) {
+        if (!link.hasAttribute('data-ubi-tracked')) {
+          link.setAttribute('data-ubi-tracked', 'true');
+          link.addEventListener('click', function() {
+            var productId = link.href.match(/\/catalog\/([^\/\?]+)/);
+            var productTitle = link.textContent.trim();
+            
+            // If link text is empty, try to find title from nearby elements
+            if (!productTitle) {
+              var parent = link.closest('.document, .blacklight-document, .search-result');
+              if (parent) {
+                var titleEl = parent.querySelector('h1, h2, h3, h4, .title, .document-title');
+                if (titleEl) {
+                  productTitle = titleEl.textContent.trim();
+                }
+              }
+            }
+            
+            // Fallback to product ID if still no title
+            if (!productTitle) {
+              productTitle = 'Product ' + (productId ? productId[1] : 'Unknown');
+            }
+            
+            if (productId && window.UbiTracking) {
+              window.UbiTracking.trackProductClick(productId[1], productTitle, index);
+            }
+          });
+        }
+      });
+    }, 500);
+  });
+</script>
+
 <%= render 'did_you_mean' %>
 <%= render 'sort_and_per_page' %>
 

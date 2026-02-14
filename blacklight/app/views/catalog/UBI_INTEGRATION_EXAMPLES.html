@@ -1,0 +1,89 @@
+<!-- 
+  UBI Integration Example for Product Links
+  
+  Add this JavaScript snippet to track product clicks in your search results.
+  Place this in your document partial or wherever you display product links.
+-->
+
+<script>
+  // Example: Track product clicks in search results
+  document.addEventListener('DOMContentLoaded', function() {
+    // Find all product links (adjust selector to match your HTML structure)
+    const productLinks = document.querySelectorAll('.document a[href*="/catalog/"]');
+    
+    productLinks.forEach(function(link, index) {
+      link.addEventListener('click', function(e) {
+        if (typeof window.UbiTracking !== 'undefined') {
+          // Extract product information from the link's parent element
+          const productElement = link.closest('.document');
+          
+          // Build product object (adjust based on your data structure)
+          const product = {
+            id: productElement.dataset.documentId || productElement.id,
+            title: productElement.querySelector('.document-title-heading')?.textContent?.trim(),
+            url: link.href
+          };
+          
+          // Track the click event with position
+          window.UbiTracking.trackProductClick(product, index);
+        }
+      });
+    });
+  });
+</script>
+
+<!-- 
+  Alternative approach: Add onclick handlers directly to product links
+  
+  In your ERB template where you render products:
+  
+  <div class="document" data-document-id="<%= document.id %>">
+    <a href="<%= url_for_document(document) %>" 
+       onclick="if (window.UbiTracking) { 
+         window.UbiTracking.trackProductClick({
+           id: '<%= document.id %>',
+           title: '<%= j(document.title.first) %>',
+           price: '<%= document.price %>'
+         }, <%= counter %>);
+       }">
+      <%= document.title.first %>
+    </a>
+  </div>
+-->
+
+<!-- 
+  Usage examples for different events:
+  
+  1. Track a product view on detail page:
+  <script>
+    if (window.UbiTracking) {
+      window.UbiTracking.trackProductView({
+        id: '<%= @document.id %>',
+        title: '<%= j(@document.title.first) %>',
+        price: '<%= @document.price %>',
+        category: '<%= @document.category %>'
+      });
+    }
+  </script>
+  
+  2. Track add to cart:
+  <button onclick="
+    addToCart(productData);
+    if (window.UbiTracking) {
+      window.UbiTracking.trackAddToCart(productData, quantity);
+    }
+  ">Add to Cart</button>
+  
+  3. Track purchase/conversion:
+  <script>
+    if (window.UbiTracking) {
+      window.UbiTracking.trackPurchase(
+        [
+          { id: 'prod1', title: 'Product 1', price: 29.99, quantity: 1 },
+          { id: 'prod2', title: 'Product 2', price: 39.99, quantity: 2 }
+        ],
+        { order_id: 'ORDER-123', total: 109.97 }
+      );
+    }
+  </script>
+-->
