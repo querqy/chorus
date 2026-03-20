@@ -57,11 +57,11 @@ check_prerequisites
 services="blacklight solr1 solr2 solr3 keycloak"
 
 if $observability; then
-  export JAEGER_SAMPLER_PARAM="1"
+  #export JAEGER_SAMPLER_PARAM="1"
   services="${services} grafana solr-exporter jaeger"
 else
-  # Prevents Jaeger in Solr from attempting to send events.
-  export JAEGER_SAMPLER_PARAM=
+  # Prevents OpenTelementry in Solr from attempting to send events.
+  export OTEL_SDK_DISABLED=true
 fi
 
 if $offline_lab; then
@@ -130,17 +130,15 @@ log_minor "waiting for security.json to be available to all Solr nodes"
 log_major "Packaging ecommerce configset."
 (cd solr/configsets/ecommerce/conf && zip -r - *) > ./solr/configsets/ecommerce.zip
 log_minor "posting ecommerce.zip configset"
-curl  --user solr:SolrRocks -X PUT --header "Content-Type:application/octet-stream" --data-binary @./solr/configsets/ecommerce.zip "http://localhost:8983/api/cluster/configs/ecommerce"
+curl  --user solr:SolrRocks -X PUT --header "Content-Type:application/octet-stream" --data-binary @./solr/configsets/ecommerce.zip "http://localhost:8983/api/configsets/ecommerce"
 log_major "Creating ecommerce collection."
 curl --user solr:SolrRocks -X POST http://localhost:8983/api/collections -H 'Content-Type: application/json' -d'
   {
-    "create": {
-      "name": "ecommerce",
-      "config": "ecommerce",
-      "numShards": 2,
-      "replicationFactor": 1,
-      "waitForFinalState": true
-    }
+    "name": "ecommerce",
+    "config": "ecommerce",
+    "numShards": 2,
+    "replicationFactor": 1,
+    "waitForFinalState": true
   }
 '
 
