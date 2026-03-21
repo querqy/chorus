@@ -57,10 +57,12 @@ check_prerequisites
 services="blacklight solr1 solr2 solr3 keycloak"
 
 if $observability; then
-  #export JAEGER_SAMPLER_PARAM="1"
-  services="${services} grafana solr-exporter jaeger"
+  export SOLR_METRICS_OTLP_EXPORTER_ENABLED=true
+  export OTEL_SDK_DISABLED=false
+  services="${services} lgtm"
 else
   # Prevents OpenTelementry in Solr from attempting to send events.
+  export SOLR_METRICS_OTLP_EXPORTER_ENABLED=false
   export OTEL_SDK_DISABLED=true
 fi
 
