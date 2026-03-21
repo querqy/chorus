@@ -8,7 +8,7 @@
   <codecFactory class="solr.SchemaCodecFactory"/>
 
   <!-- Load the Querqy Jar that comes with all it's dependencies -->
-  <lib dir="/opt/querqy/lib/" />
+  <!--lib dir="/opt/querqy/lib/" /-->
 
   <dataDir>${solr.data.dir:}</dataDir>
 
@@ -16,7 +16,7 @@
                     class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}"/>
   <schemaFactory class="ManagedIndexSchemaFactory"/>
 
-  <luceneMatchVersion>8.9</luceneMatchVersion>
+  <luceneMatchVersion>10.0</luceneMatchVersion>
 
   <updateHandler class="solr.DirectUpdateHandler2">
     <commitWithin>
@@ -55,7 +55,7 @@
     <queryResultMaxDocsCached>200</queryResultMaxDocsCached>
   </query>
 
-  <queryParser name="querqy" class="querqy.solr.QuerqyDismaxQParserPlugin">
+  <queryParser name="querqy" class="querqy.solr.QuerqyDismaxQParserPlugin" startup="lazy">
     <bool name="skipUnknownRewriters">true</bool>
     <lst name="infoLogging">
       <!--
@@ -114,12 +114,13 @@
 
 
   <!-- Override the default QueryComponent -->
-  <searchComponent name="query" class="querqy.solr.QuerqyQueryComponent"/>
+  <!-- Need Solr 10 version -->
+  <!--searchComponent name="query" class="querqy.solr.QuerqyQueryComponent"/-->
 
   <!--
     Add the Querqy request handler.
   -->
-  <requestHandler name="/querqy/rewriter" class="querqy.solr.QuerqyRewriterRequestHandler"/>
+  <requestHandler name="/querqy/rewriter" class="querqy.solr.QuerqyRewriterRequestHandler" startup="lazy"/>
 
   <!-- Used in the Solr Admin UI -->
   <requestHandler name="/select" class="solr.SearchHandler">

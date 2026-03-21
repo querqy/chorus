@@ -14,10 +14,12 @@ services:
     environment:
       - SOLR_URL=http://${SOLR_USER}:${SOLR_PASSWORD}@solr1:8983/solr/ecommerce
       - PORT=3000
-      - OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
+      - OTEL_SERVICE_NAME=blacklight
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://lgtm:4317
+      - OTEL_TRACES_EXPORTER=otlp
     depends_on:
       - solr1
-    #  - jaeger
+      - lgtm
 
   mysql:
     container_name: mysql
@@ -72,12 +74,12 @@ services:
       - SOLR_OPTS=-XX:-UseLargePages
       - SOLR_HEAP=1g
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
-      - JAEGER_SERVICE_NAME=solr1  # not working ;-(
-      - JAEGER_SAMPLER_TYPE=const
-      - JAEGER_SAMPLER_PARAM=${JAEGER_SAMPLER_PARAM}
-      - JAEGER_AGENT_HOST=jaeger
-      - JAEGER_AGENT_PORT=5775
-      - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true -Dsolr.modules=jwt-auth,jaegertracer-configurator"
+      - OTEL_SERVICE_NAME=solr
+      - OTEL_SDK_DISABLED=${OTEL_SDK_DISABLED}
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://lgtm:4317
+      - SOLR_METRICS_OTLP_GRPC_EXPORTER_ENDPOINT=http://lgtm:4317
+      - SOLR_METRICS_OTLP_EXPORTER_ENABLED=${SOLR_METRICS_OTLP_EXPORTER_ENABLED}      
+      - "SOLR_OPTS=-Dsolr.auth.jwt.outbound.http.enabled=true -Dsolr.modules=jwt-auth,opentelemetry"
     depends_on:
       - zoo1
       - zoo2
@@ -93,12 +95,12 @@ services:
       - SOLR_OPTS=-XX:-UseLargePages
       - SOLR_HEAP=1g
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
-      - JAEGER_SERVICE_NAME=solr2
-      - JAEGER_SAMPLER_TYPE=const
-      - JAEGER_SAMPLER_PARAM=${JAEGER_SAMPLER_PARAM}
-      - JAEGER_AGENT_HOST=jaeger
-      - JAEGER_AGENT_PORT=5775
-      - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true -Dsolr.modules=jwt-auth,jaegertracer-configurator"
+      - OTEL_SERVICE_NAME=solr
+      - OTEL_SDK_DISABLED=${OTEL_SDK_DISABLED}
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://lgtm:4317
+      - SOLR_METRICS_OTLP_GRPC_EXPORTER_ENDPOINT=http://lgtm:4317
+      - SOLR_METRICS_OTLP_EXPORTER_ENABLED=${SOLR_METRICS_OTLP_EXPORTER_ENABLED}
+      - "SOLR_OPTS=-Dsolr.auth.jwt.outbound.http.enabled=true -Dsolr.modules=jwt-auth,opentelemetry"
     depends_on:
       - zoo1
       - zoo2
@@ -114,12 +116,12 @@ services:
       - SOLR_OPTS=-XX:-UseLargePages
       - SOLR_HEAP=1g
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
-      - JAEGER_SERVICE_NAME=solr3
-      - JAEGER_SAMPLER_TYPE=const
-      - JAEGER_SAMPLER_PARAM=${JAEGER_SAMPLER_PARAM}
-      - JAEGER_AGENT_HOST=jaeger
-      - JAEGER_AGENT_PORT=5775
-      - "SOLR_OPTS=-Dsolr.auth.jwt.allowOutboundHttp=true -Dsolr.modules=jwt-auth,jaegertracer-configurator"
+      - OTEL_SERVICE_NAME=solr
+      - OTEL_SDK_DISABLED=${OTEL_SDK_DISABLED}
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://lgtm:4317
+      - SOLR_METRICS_OTLP_GRPC_EXPORTER_ENDPOINT=http://lgtm:4317
+      - SOLR_METRICS_OTLP_EXPORTER_ENABLED=${SOLR_METRICS_OTLP_EXPORTER_ENABLED}
+      - "SOLR_OPTS=-Dsolr.auth.jwt.outbound.http.enabled=true -Dsolr.modules=jwt-auth,opentelemetry"
     depends_on:
       - zoo1
       - zoo2
@@ -127,7 +129,7 @@ services:
       - keycloak
 
   zoo1:
-    image: zookeeper:3.9.2
+    image: zookeeper:3.9.5
     container_name: zoo1
     hostname: zoo1
     ports:
@@ -141,7 +143,7 @@ services:
 
 
   zoo2:
-    image: zookeeper:3.9.2
+    image: zookeeper:3.9.5
     container_name: zoo2
     hostname: zoo2
     ports:
@@ -155,7 +157,7 @@ services:
 
 
   zoo3:
-    image: zookeeper:3.9.2
+    image: zookeeper:3.9.5
     container_name: zoo3
     hostname: zoo3
     ports:
@@ -169,7 +171,7 @@ services:
 
   quepid:
     container_name: quepid
-    image: o19s/quepid:8.3.0
+    image: o19s/quepid:8.5.0
     ports:
       - 3000:3000
     command: "foreman s -f Procfile"
@@ -215,82 +217,9 @@ services:
         reservations:
           memory: 512M
 
-
-  solr-exporter:
-    image: solr:9.1.1
-    container_name: solr-exporter
-    hostname: solr-exporter
-    ports:
-     - 9854:9854
-    command: /bin/bash -c "/usr/bin/wait-for-http-200.sh; export JAVA_OPTS='-Dsolr.httpclient.builder.factory=org.apache.solr.client.solrj.impl.PreemptiveBasicAuthClientBuilderFactory -Dsolr.httpclient.config=/home/basicauth.properties'; ./contrib/prometheus-exporter/bin/solr-exporter -p 9854 -z zoo1:2181,zoo2:2181,zoo3:2181 -f ./contrib/prometheus-exporter/conf/solr-exporter-config.xml -n 8 -s 15"
-    volumes:
-      - ./solr-exporter/wait-for-http-200.sh:/usr/bin/wait-for-http-200.sh
-      - ./solr-exporter/basicauth.properties:/home/basicauth.properties
-    depends_on:
-      - solr1
-      - solr2
-      - solr3
-
-  prometheus:
-    image: prom/prometheus:v2.32.1
-    container_name: prometheus
-    restart: always
-    hostname: prometheus
-    healthcheck:
-      test: ["CMD", "wget", "--tries=1", "--spider", "http://localhost:9090"]
-      interval: 5s
-      timeout: 10s
-    ports:
-      - 9090:9090
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-    volumes:
-      - ./prometheus/:/etc/prometheus/
-
-  grafana:
-    image: grafana/grafana:7.5.17
-    container_name: grafana
-    restart: unless-stopped
-    hostname: grafana
-    healthcheck:
-      test: ["CMD", "wget", "--tries=1", "--spider", "http://localhost:3000"]
-      interval: 5s
-      timeout: 10s
-    ports:
-      - 9091:3000
-    volumes:
-      - ./grafana/provisioning/:/etc/grafana/provisioning/
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
-      - GF_USERS_ALLOW_SIGN_UP=true
-    depends_on:
-      - prometheus
-
-  jaeger:
-    image: jaegertracing/all-in-one:1.39
-    container_name: jaeger
-    restart: always
-    hostname: jaegertracing
-    ports:
-      - 6831:6831/udp
-      - 6832:6832/udp
-      - 5778:5778
-      - 16686:16686
-      - 4317:4317
-      - 4318:4318
-      - 14250:14250
-      - 14268:14268
-      - 14269:14269
-      - 9411:9411
-    volumes:
-      - ./grafana/provisioning/:/etc/grafana/provisioning/
-    environment:
-      - COLLECTOR_ZIPKIN_HOST_PORT=:9411
-      - COLLECTOR_OTLP_ENABLED=true
-
   keycloak:
-    image: chorus-keycloak
     container_name: keycloak
+    image: chorus-keycloak
     build:
       context: ./keycloak
       dockerfile: Dockerfile
@@ -310,3 +239,20 @@ services:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=password
       - DB_VENDOR=h2
+
+        
+  lgtm:
+    container_name: lgtm
+    image: grafana/otel-lgtm:latest
+    ports:
+      - "9091:3000"   # Grafana UI
+      - "4317:4317"   # OTLP gRPC receiver
+      - "4318:4318"   # OTLP HTTP receiver
+    # Come back to this with https://github.com/grafana/docker-otel-lgtm?tab=readme-ov-file#add-custom-dashboards
+    #volumes:  
+     # - ./grafana/provisioning/dashboards:/otel-lgtm/grafana/conf/provisioning/dashboards/
+     # - ./grafana/provisioning/datasources:/otel-lgtm/grafana/conf/provisioning/datasources/
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=password
+      - GF_USERS_ALLOW_SIGN_UP=true
