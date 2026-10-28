@@ -1,0 +1,229 @@
+diff --git a/pom.xml b/pom.xml
+index 917a9cc..55feef5 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -48,17 +48,88 @@
+         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+ 
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+-        <java.version>11</java.version>
++        <java.version>21</java.version>
+         <junit.version>4.12</junit.version>
+         <hamcrest.version>2.1</hamcrest.version>
+         <mockito.version>2.27.0</mockito.version>
+ 
+-        <querqy.solr.version>5.4.lucene900.0</querqy.solr.version>
+-        <solr.version>9.0.0</solr.version>
++        <querqy.solr.version>5.10.lucene1021.0-SNAPSHOT</querqy.solr.version>
++        <solr.version>10.0.0</solr.version>
+ 
+     </properties>
+ 
+     <dependencies>
++        <dependency>
++            <!-- local workaround: querqy-solr only has solr-core as provided, so it is not transitive -->
++            <groupId>org.apache.solr</groupId>
++            <artifactId>solr-core</artifactId>
++            <version>${solr.version}</version>
++            <scope>provided</scope>
++        </dependency>
++        <dependency>
++            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
++            <groupId>org.apache.solr</groupId>
++            <artifactId>solr-api</artifactId>
++            <version>10.0.0</version>
++            <scope>provided</scope>
++        </dependency>
++        <dependency>
++            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
++            <groupId>org.apache.solr</groupId>
++            <artifactId>solr-solrj</artifactId>
++            <version>10.0.0</version>
++            <scope>provided</scope>
++        </dependency>
++        <dependency>
++            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
++            <groupId>org.apache.solr</groupId>
++            <artifactId>solr-solrj-zookeeper</artifactId>
++            <version>10.0.0</version>
++            <scope>provided</scope>
++        </dependency>
++        <dependency>
++            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
++            <groupId>org.apache.lucene</groupId>
++            <artifactId>lucene-core</artifactId>
++            <version>10.3.2</version>
++            <scope>provided</scope>
++        </dependency>
++        <dependency>
++            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
++            <groupId>org.apache.lucene</groupId>
++            <artifactId>lucene-analysis-common</artifactId>
++            <version>10.3.2</version>
++            <scope>provided</scope>
++        </dependency>
++        <dependency>
++            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
++            <groupId>org.apache.lucene</groupId>
++            <artifactId>lucene-queries</artifactId>
++            <version>10.3.2</version>
++            <scope>provided</scope>
++        </dependency>
++        <dependency>
++            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
++            <groupId>org.apache.lucene</groupId>
++            <artifactId>lucene-queryparser</artifactId>
++            <version>10.3.2</version>
++            <scope>provided</scope>
++        </dependency>
++        <dependency>
++            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
++            <groupId>org.apache.commons</groupId>
++            <artifactId>commons-lang3</artifactId>
++            <version>3.20.0</version>
++            <scope>provided</scope>
++        </dependency>
++        <dependency>
++            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
++            <groupId>io.opentelemetry</groupId>
++            <artifactId>opentelemetry-api</artifactId>
++            <version>1.56.0</version>
++            <scope>provided</scope>
++        </dependency>
++
+ 
+         <dependency>
+             <groupId>org.apache.solr</groupId>
+@@ -80,9 +151,9 @@
+                 <plugin>
+                     <groupId>org.apache.maven.plugins</groupId>
+                     <artifactId>maven-compiler-plugin</artifactId>
+-                    <version>${maven-compiler-plugin.version}</version>
++                    <version>3.15.0</version>
+                     <configuration>
+-                        <release>11</release>
++                        <release>21</release>
+                         <showDeprecation>true</showDeprecation>
+                     </configuration>
+                 </plugin>
+diff --git a/src/main/java/querqy/regex/core/RegexFilterRewriter.java b/src/main/java/querqy/regex/core/RegexFilterRewriter.java
+index 9b26fe5..0dc44d5 100644
+--- a/src/main/java/querqy/regex/core/RegexFilterRewriter.java
++++ b/src/main/java/querqy/regex/core/RegexFilterRewriter.java
+@@ -1,5 +1,6 @@
+ package querqy.regex.core;
+ 
++import querqy.model.AbstractNodeVisitor;
+ import querqy.model.BooleanClause;
+ import querqy.model.BooleanQuery;
+ import querqy.model.DisjunctionMaxClause;
+@@ -9,14 +10,18 @@ import querqy.model.Node;
+ import querqy.model.QuerqyQuery;
+ import querqy.model.Query;
+ import querqy.model.Term;
+-import querqy.rewrite.AbstractLoggingRewriter;
+-import querqy.rewrite.ContextAwareQueryRewriter;
++import querqy.rewrite.QueryRewriter;
++import querqy.rewrite.RewriterOutput;
+ import querqy.rewrite.SearchEngineRequestAdapter;
++import querqy.rewrite.logging.ActionLog;
++import querqy.rewrite.logging.InstructionLog;
++import querqy.rewrite.logging.MatchLog;
++import querqy.rewrite.logging.RewriterLog;
+ 
+-import java.util.Set;
++import java.util.Collections;
+ import java.util.regex.Pattern;
+ 
+-public class RegexFilterRewriter extends AbstractLoggingRewriter implements ContextAwareQueryRewriter {
++public class RegexFilterRewriter extends AbstractNodeVisitor<Node> implements QueryRewriter {
+ 
+     /**
+      * The pattern to match
+@@ -34,9 +39,8 @@ public class RegexFilterRewriter extends AbstractLoggingRewriter implements Cont
+ 
+     private boolean matchFound = false;
+ 
+-    // used for info logging
+-    private Set<String> infoLogMessages;
+-    private SearchEngineRequestAdapter searchEngineRequestAdapter;
++    // the term that matched, used for the rewriter log
++    private String matchedTerm;
+ 
+     public RegexFilterRewriter(final Pattern pattern, final boolean acceptGeneratedTerms,
+                                final QuerqyQuery<?> filterQuery) {
+@@ -46,18 +50,15 @@ public class RegexFilterRewriter extends AbstractLoggingRewriter implements Cont
+     }
+ 
+     @Override
+-    public ExpandedQuery rewrite(final ExpandedQuery query, final SearchEngineRequestAdapter searchEngineRequestAdapter,
+-                                 final Set<String> infoLogMessages) {
++    public RewriterOutput rewrite(final ExpandedQuery query,
++                                  final SearchEngineRequestAdapter searchEngineRequestAdapter) {
+ 
+         final QuerqyQuery<?> userQuery = query.getUserQuery();
+         if (userQuery instanceof Query) {
+ 
+             // reset the status flag (should already be false anyway)
+             matchFound = false;
+-
+-            // logging support
+-            this.infoLogMessages = infoLogMessages;
+-            this.searchEngineRequestAdapter = searchEngineRequestAdapter;
++            matchedTerm = null;
+ 
+             // traverse the query tree
+             visit((Query) userQuery);
+@@ -66,9 +67,27 @@ public class RegexFilterRewriter extends AbstractLoggingRewriter implements Cont
+                 // add the filter query if we found the match
+                 query.addFilterQuery(filterQuery);
+ 
++                // the rewrite chain decides whether this log is emitted (querqy.infoLogging)
++                return RewriterOutput.builder()
++                        .expandedQuery(query)
++                        .rewriterLog(RewriterLog.builder()
++                                .hasAppliedRewriting(true)
++                                .addActionLogs(ActionLog.builder()
++                                        .message(matchedTerm)
++                                        .match(MatchLog.builder()
++                                                .term(matchedTerm)
++                                                .type(MatchLog.MatchType.REGEX)
++                                                .build())
++                                        .instructions(Collections.singletonList(InstructionLog.builder()
++                                                .type("filter")
++                                                .value(filterQuery.toString())
++                                                .build()))
++                                        .build())
++                                .build())
++                        .build();
+             }
+         }
+-        return query;
++        return RewriterOutput.builder().expandedQuery(query).build();
+     }
+ 
+     @Override
+@@ -86,22 +105,13 @@ public class RegexFilterRewriter extends AbstractLoggingRewriter implements Cont
+ 
+             // set status
+             matchFound = true;
+-
+-            // and append log message
+-            if (isInfoLogging(searchEngineRequestAdapter)) {
+-                infoLogMessages.add(term.getValue().toString());
+-            }
++            matchedTerm = term.getValue().toString();
+ 
+         }
+ 
+         return super.visit(term);
+     }
+ 
+-    @Override
+-    public ExpandedQuery rewrite(final ExpandedQuery query) {
+-        throw new UnsupportedOperationException("This rewriter needs a query context");
+-    }
+-
+     // ************************************************************************
+     // What follows below is just a performance optimisation: we override some methods that handle the query tree
+     // traversal as we can abort the traversal if we've already matched the pattern

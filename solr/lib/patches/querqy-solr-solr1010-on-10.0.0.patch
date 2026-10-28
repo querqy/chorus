@@ -1,0 +1,126 @@
+diff --git a/pom.xml b/pom.xml
+index 6603ffb..39ae9bd 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -154,6 +154,90 @@
+             <version>${solr.version}</version>
+             <scope>provided</scope>
+         </dependency>
++        <dependency>
++            <!-- local workaround: version bundled in solr:10.0.0 -->
++            <groupId>io.opentelemetry</groupId>
++            <artifactId>opentelemetry-api</artifactId>
++            <version>1.56.0</version>
++            <scope>provided</scope>
++        </dependency>
++        <dependency>
++            <!-- local workaround: version bundled in solr:10.0.0 -->
++            <groupId>org.apache.commons</groupId>
++            <artifactId>commons-lang3</artifactId>
++            <version>3.20.0</version>
++            <scope>provided</scope>
++        </dependency>
++        <dependency>
++            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
++            <groupId>org.apache.solr</groupId>
++            <artifactId>solr-api</artifactId>
++            <version>${solr.version}</version>
++            <scope>provided</scope>
++        </dependency>
++        <dependency>
++            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
++            <groupId>org.apache.solr</groupId>
++            <artifactId>solr-solrj</artifactId>
++            <version>${solr.version}</version>
++            <scope>provided</scope>
++        </dependency>
++        <dependency>
++            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
++            <groupId>org.apache.solr</groupId>
++            <artifactId>solr-solrj-zookeeper</artifactId>
++            <version>${solr.version}</version>
++            <scope>provided</scope>
++        </dependency>
++        <dependency>
++            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
++            <groupId>org.apache.solr</groupId>
++            <artifactId>solr-solrj-streaming</artifactId>
++            <version>${solr.version}</version>
++            <scope>provided</scope>
++        </dependency>
++        <dependency>
++            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
++            <groupId>org.apache.lucene</groupId>
++            <artifactId>lucene-core</artifactId>
++            <version>10.3.2</version>
++            <scope>provided</scope>
++        </dependency>
++        <dependency>
++            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
++            <groupId>org.apache.lucene</groupId>
++            <artifactId>lucene-analysis-common</artifactId>
++            <version>10.3.2</version>
++            <scope>provided</scope>
++        </dependency>
++        <dependency>
++            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
++            <groupId>org.apache.lucene</groupId>
++            <artifactId>lucene-queries</artifactId>
++            <version>10.3.2</version>
++            <scope>provided</scope>
++        </dependency>
++        <dependency>
++            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
++            <groupId>org.apache.lucene</groupId>
++            <artifactId>lucene-queryparser</artifactId>
++            <version>10.3.2</version>
++            <scope>provided</scope>
++        </dependency>
++        <dependency>
++            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
++            <groupId>org.apache.lucene</groupId>
++            <artifactId>lucene-sandbox</artifactId>
++            <version>10.3.2</version>
++            <scope>provided</scope>
++        </dependency>
++        <dependency>
++            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
++            <groupId>org.apache.lucene</groupId>
++            <artifactId>lucene-suggest</artifactId>
++            <version>10.3.2</version>
++            <scope>provided</scope>
++        </dependency>
+ 
+         <dependency>
+             <!--
+diff --git a/src/main/java/querqy/solr/DismaxSearchEngineRequestAdapter.java b/src/main/java/querqy/solr/DismaxSearchEngineRequestAdapter.java
+index db2d3aa..7619535 100644
+--- a/src/main/java/querqy/solr/DismaxSearchEngineRequestAdapter.java
++++ b/src/main/java/querqy/solr/DismaxSearchEngineRequestAdapter.java
+@@ -142,7 +142,10 @@ public class DismaxSearchEngineRequestAdapter implements LuceneSearchEngineReque
+         allPhraseFields.addAll(phraseFields2);
+         allPhraseFields.addAll(phraseFields3);
+ 
+-        minShouldMatch = SolrPluginUtils.parseMinShouldMatch(request.getSchema(), solrParams);
++        // local workaround: SolrPluginUtils.parseMinShouldMatch only exists after Solr 10.0.0; same logic inlined
++        minShouldMatch = solrParams.get(org.apache.solr.common.params.DisMaxParams.MM,
++                org.apache.solr.search.QueryParsing.parseOP(solrParams.get(org.apache.solr.search.QueryParsing.OP))
++                        .equals(org.apache.lucene.queryparser.classic.QueryParser.Operator.AND) ? "100%" : "0%");
+ 
+     }
+ 
+diff --git a/src/test/java/querqy/solr/CacheStatsTestSupport.java b/src/test/java/querqy/solr/CacheStatsTestSupport.java
+index a174c23..b6c08b3 100644
+--- a/src/test/java/querqy/solr/CacheStatsTestSupport.java
++++ b/src/test/java/querqy/solr/CacheStatsTestSupport.java
+@@ -48,8 +48,8 @@ final class CacheStatsTestSupport {
+     private static MetricSnapshots collect(SolrCore core, String metricNames) throws Exception {
+         try (MetricsHandler handler = new MetricsHandler(core.getCoreContainer())) {
+             SolrParams params = new MapSolrParams(Map.of(
+-                    CommonParams.WT, MetricUtils.PROMETHEUS_METRICS_WT,
+-                    MetricUtils.METRIC_NAME_PARAM, metricNames));
++                    CommonParams.WT, MetricsHandler.PROMETHEUS_METRICS_WT,
++                    MetricsHandler.METRIC_NAME_PARAM, metricNames));
+             SolrQueryRequest req = new SolrQueryRequestBase(core, params) {};
+             SolrQueryResponse resp = new SolrQueryResponse();
+             try {
