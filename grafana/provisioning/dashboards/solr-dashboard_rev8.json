@@ -1,0 +1,1946 @@
+{
+  "uid": "yt5eXHbMz5",
+  "title": "Solr Dashboard",
+  "description": "Solr 10 native Prometheus metrics (scraped from /solr/admin/metrics on each node).",
+  "tags": [
+    "solr"
+  ],
+  "schemaVersion": 26,
+  "version": 8,
+  "editable": true,
+  "graphTooltip": 1,
+  "refresh": "30s",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "annotations": {
+    "list": []
+  },
+  "links": [],
+  "templating": {
+    "list": [
+      {
+        "name": "instance",
+        "label": "Node",
+        "type": "query",
+        "datasource": "Prometheus",
+        "query": "label_values(up{job=\"solr\"}, instance)",
+        "definition": "label_values(up{job=\"solr\"}, instance)",
+        "refresh": 2,
+        "includeAll": true,
+        "multi": true,
+        "allValue": ".*",
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "options": [],
+        "sort": 1,
+        "hide": 0,
+        "regex": "",
+        "skipUrlSync": false,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "useTags": false
+      },
+      {
+        "name": "collection",
+        "label": "Collection",
+        "type": "query",
+        "datasource": "Prometheus",
+        "query": "label_values(solr_core_index_size_megabytes{job=\"solr\"}, collection)",
+        "definition": "label_values(solr_core_index_size_megabytes{job=\"solr\"}, collection)",
+        "refresh": 2,
+        "includeAll": true,
+        "multi": true,
+        "allValue": ".*",
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "options": [],
+        "sort": 1,
+        "hide": 0,
+        "regex": "",
+        "skipUrlSync": false,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "useTags": false
+      },
+      {
+        "name": "handler",
+        "label": "Handler",
+        "type": "query",
+        "datasource": "Prometheus",
+        "query": "label_values(solr_core_requests_total{job=\"solr\",category=\"QUERY\"}, handler)",
+        "definition": "label_values(solr_core_requests_total{job=\"solr\",category=\"QUERY\"}, handler)",
+        "refresh": 2,
+        "includeAll": true,
+        "multi": true,
+        "allValue": ".*",
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "options": [],
+        "sort": 1,
+        "hide": 0,
+        "regex": "",
+        "skipUrlSync": false,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "useTags": false
+      }
+    ]
+  },
+  "panels": [
+    {
+      "type": "row",
+      "title": "Cluster",
+      "id": 1,
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "panels": []
+    },
+    {
+      "type": "stat",
+      "title": "Live nodes",
+      "id": 2,
+      "datasource": "Prometheus",
+      "description": "",
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 1
+      },
+      "targets": [
+        {
+          "expr": "count(up{job=\"solr\"} == 1)",
+          "instant": true,
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Collections",
+      "id": 3,
+      "datasource": "Prometheus",
+      "description": "",
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 4,
+        "y": 1
+      },
+      "targets": [
+        {
+          "expr": "count(count by (collection) (solr_core_index_size_megabytes{job=\"solr\"}))",
+          "instant": true,
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Replicas",
+      "id": 4,
+      "datasource": "Prometheus",
+      "description": "",
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 1
+      },
+      "targets": [
+        {
+          "expr": "count(solr_core_is_leader{job=\"solr\",instance=~\"$instance\",collection=~\"$collection\"})",
+          "instant": true,
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Shard leaders",
+      "id": 5,
+      "datasource": "Prometheus",
+      "description": "",
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 1
+      },
+      "targets": [
+        {
+          "expr": "sum(solr_core_is_leader{job=\"solr\",instance=~\"$instance\",collection=~\"$collection\"})",
+          "instant": true,
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Documents",
+      "id": 6,
+      "datasource": "Prometheus",
+      "description": "Live documents, counted once per shard (max over replicas).",
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 1
+      },
+      "targets": [
+        {
+          "expr": "sum(max by (collection, shard) (solr_core_indexsearcher_index_num_docs{job=\"solr\",instance=~\"$instance\",collection=~\"$collection\"}))",
+          "instant": true,
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Index size",
+      "id": 7,
+      "datasource": "Prometheus",
+      "description": "",
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 1
+      },
+      "targets": [
+        {
+          "expr": "sum(max by (collection, shard) (solr_core_index_size_megabytes{job=\"solr\",instance=~\"$instance\",collection=~\"$collection\"}))",
+          "instant": true,
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "decmbytes",
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "type": "row",
+      "title": "Queries",
+      "id": 8,
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      },
+      "panels": []
+    },
+    {
+      "type": "graph",
+      "title": "Query rate by handler",
+      "id": 9,
+      "datasource": "Prometheus",
+      "description": "External (internal=false) query requests per second, summed over cores.",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 6
+      },
+      "targets": [
+        {
+          "expr": "sum by (handler) (rate(solr_core_requests_total{job=\"solr\",instance=~\"$instance\",collection=~\"$collection\",category=\"QUERY\",internal=\"false\",handler=~\"$handler\"}[1m]))",
+          "legendFormat": "{{handler}}",
+          "interval": "",
+          "refId": "A"
+        }
+      ],
+      "lines": true,
+      "linewidth": 1,
+      "fill": 0,
+      "stack": false,
+      "nullPointMode": "null",
+      "legend": {
+        "show": true,
+        "alignAsTable": false,
+        "values": false
+      },
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "xaxis": {
+        "mode": "time",
+        "show": true
+      },
+      "yaxes": [
+        {
+          "format": "reqps",
+          "logBase": 1,
+          "show": true,
+          "min": 0
+        },
+        {
+          "format": "short",
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "alertThreshold": true
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashes": false,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "thresholds": [],
+      "timeRegions": [],
+      "percentage": false,
+      "steppedLine": false,
+      "pointradius": 2,
+      "dashLength": 10,
+      "spaceLength": 10,
+      "hiddenSeries": false
+    },
+    {
+      "type": "graph",
+      "title": "Query latency by handler (p50 / p95 / p99)",
+      "id": 10,
+      "datasource": "Prometheus",
+      "description": "",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 6
+      },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.5, sum by (le, handler) (rate(solr_core_requests_times_milliseconds_bucket{job=\"solr\",instance=~\"$instance\",collection=~\"$collection\",category=\"QUERY\",internal=\"false\",handler=~\"$handler\"}[5m])))",
+          "legendFormat": "{{handler}} p50",
+          "interval": "",
+          "refId": "A"
+        },
+        {
+          "expr": "histogram_quantile(0.95, sum by (le, handler) (rate(solr_core_requests_times_milliseconds_bucket{job=\"solr\",instance=~\"$instance\",collection=~\"$collection\",category=\"QUERY\",internal=\"false\",handler=~\"$handler\"}[5m])))",
+          "legendFormat": "{{handler}} p95",
+          "interval": "",
+          "refId": "B"
+        },
+        {
+          "expr": "histogram_quantile(0.99, sum by (le, handler) (rate(solr_core_requests_times_milliseconds_bucket{job=\"solr\",instance=~\"$instance\",collection=~\"$collection\",category=\"QUERY\",internal=\"false\",handler=~\"$handler\"}[5m])))",
+          "legendFormat": "{{handler}} p99",
+          "interval": "",
+          "refId": "C"
+        }
+      ],
+      "lines": true,
+      "linewidth": 1,
+      "fill": 0,
+      "stack": false,
+      "nullPointMode": "null",
+      "legend": {
+        "show": true,
+        "alignAsTable": false,
+        "values": false
+      },
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "xaxis": {
+        "mode": "time",
+        "show": true
+      },
+      "yaxes": [
+        {
+          "format": "ms",
+          "logBase": 1,
+          "show": true,
+          "min": 0
+        },
+        {
+          "format": "short",
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "alertThreshold": true
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashes": false,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "thresholds": [],
+      "timeRegions": [],
+      "percentage": false,
+      "steppedLine": false,
+      "pointradius": 2,
+      "dashLength": 10,
+      "spaceLength": 10,
+      "hiddenSeries": false
+    },
+    {
+      "type": "graph",
+      "title": "Query rate by core",
+      "id": 11,
+      "datasource": "Prometheus",
+      "description": "",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 14
+      },
+      "targets": [
+        {
+          "expr": "sum by (core) (rate(solr_core_requests_total{job=\"solr\",instance=~\"$instance\",collection=~\"$collection\",category=\"QUERY\",internal=\"false\",handler=~\"$handler\"}[1m]))",
+          "legendFormat": "{{core}}",
+          "interval": "",
+          "refId": "A"
+        }
+      ],
+      "lines": true,
+      "linewidth": 1,
+      "fill": 0,
+      "stack": false,
+      "nullPointMode": "null",
+      "legend": {
+        "show": true,
+        "alignAsTable": false,
+        "values": false
+      },
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "xaxis": {
+        "mode": "time",
+        "show": true
+      },
+      "yaxes": [
+        {
+          "format": "reqps",
+          "logBase": 1,
+          "show": true,
+          "min": 0
+        },
+        {
+          "format": "short",
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "alertThreshold": true
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashes": false,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "thresholds": [],
+      "timeRegions": [],
+      "percentage": false,
+      "steppedLine": false,
+      "pointradius": 2,
+      "dashLength": 10,
+      "spaceLength": 10,
+      "hiddenSeries": false
+    },
+    {
+      "type": "graph",
+      "title": "Mean query latency by core",
+      "id": 12,
+      "datasource": "Prometheus",
+      "description": "",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 14
+      },
+      "targets": [
+        {
+          "expr": "sum by (core) (rate(solr_core_requests_times_milliseconds_sum{job=\"solr\",instance=~\"$instance\",collection=~\"$collection\",category=\"QUERY\",internal=\"false\",handler=~\"$handler\"}[5m])) / sum by (core) (rate(solr_core_requests_times_milliseconds_count{job=\"solr\",instance=~\"$instance\",collection=~\"$collection\",category=\"QUERY\",internal=\"false\",handler=~\"$handler\"}[5m]))",
+          "legendFormat": "{{core}}",
+          "interval": "",
+          "refId": "A"
+        }
+      ],
+      "lines": true,
+      "linewidth": 1,
+      "fill": 0,
+      "stack": false,
+      "nullPointMode": "null",
+      "legend": {
+        "show": true,
+        "alignAsTable": false,
+        "values": false
+      },
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "xaxis": {
+        "mode": "time",
+        "show": true
+      },
+      "yaxes": [
+        {
+          "format": "ms",
+          "logBase": 1,
+          "show": true,
+          "min": 0
+        },
+        {
+          "format": "short",
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "alertThreshold": true
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashes": false,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "thresholds": [],
+      "timeRegions": [],
+      "percentage": false,
+      "steppedLine": false,
+      "pointradius": 2,
+      "dashLength": 10,
+      "spaceLength": 10,
+      "hiddenSeries": false
+    },
+    {
+      "type": "row",
+      "title": "Indexing",
+      "id": 13,
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 22
+      },
+      "panels": []
+    },
+    {
+      "type": "graph",
+      "title": "Update requests",
+      "id": 14,
+      "datasource": "Prometheus",
+      "description": "",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 23
+      },
+      "targets": [
+        {
+          "expr": "sum by (core) (rate(solr_core_requests_total{job=\"solr\",instance=~\"$instance\",collection=~\"$collection\",category=\"UPDATE\",handler=\"/update\"}[1m]))",
+          "legendFormat": "{{core}}",
+          "interval": "",
+          "refId": "A"
+        }
+      ],
+      "lines": true,
+      "linewidth": 1,
+      "fill": 0,
+      "stack": false,
+      "nullPointMode": "null",
+      "legend": {
+        "show": true,
+        "alignAsTable": false,
+        "values": false
+      },
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "xaxis": {
+        "mode": "time",
+        "show": true
+      },
+      "yaxes": [
+        {
+          "format": "reqps",
+          "logBase": 1,
+          "show": true,
+          "min": 0
+        },
+        {
+          "format": "short",
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "alertThreshold": true
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashes": false,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "thresholds": [],
+      "timeRegions": [],
+      "percentage": false,
+      "steppedLine": false,
+      "pointradius": 2,
+      "dashLength": 10,
+      "spaceLength": 10,
+      "hiddenSeries": false
+    },
+    {
+      "type": "graph",
+      "title": "Docs pending commit",
+      "id": 15,
+      "datasource": "Prometheus",
+      "description": "",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 23
+      },
+      "targets": [
+        {
+          "expr": "sum by (core) (solr_core_update_docs_pending_commit{job=\"solr\",instance=~\"$instance\",collection=~\"$collection\"})",
+          "legendFormat": "{{core}}",
+          "interval": "",
+          "refId": "A"
+        }
+      ],
+      "lines": true,
+      "linewidth": 1,
+      "fill": 0,
+      "stack": false,
+      "nullPointMode": "null",
+      "legend": {
+        "show": true,
+        "alignAsTable": false,
+        "values": false
+      },
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "xaxis": {
+        "mode": "time",
+        "show": true
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true,
+          "min": 0
+        },
+        {
+          "format": "short",
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "alertThreshold": true
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashes": false,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "thresholds": [],
+      "timeRegions": [],
+      "percentage": false,
+      "steppedLine": false,
+      "pointradius": 2,
+      "dashLength": 10,
+      "spaceLength": 10,
+      "hiddenSeries": false
+    },
+    {
+      "type": "graph",
+      "title": "Segments",
+      "id": 16,
+      "datasource": "Prometheus",
+      "description": "",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 23
+      },
+      "targets": [
+        {
+          "expr": "solr_core_segments{job=\"solr\",instance=~\"$instance\",collection=~\"$collection\"}",
+          "legendFormat": "{{core}}",
+          "interval": "",
+          "refId": "A"
+        }
+      ],
+      "lines": true,
+      "linewidth": 1,
+      "fill": 0,
+      "stack": false,
+      "nullPointMode": "null",
+      "legend": {
+        "show": true,
+        "alignAsTable": false,
+        "values": false
+      },
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "xaxis": {
+        "mode": "time",
+        "show": true
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true,
+          "min": 0
+        },
+        {
+          "format": "short",
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "alertThreshold": true
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashes": false,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "thresholds": [],
+      "timeRegions": [],
+      "percentage": false,
+      "steppedLine": false,
+      "pointradius": 2,
+      "dashLength": 10,
+      "spaceLength": 10,
+      "hiddenSeries": false
+    },
+    {
+      "type": "graph",
+      "title": "Index size by core",
+      "id": 17,
+      "datasource": "Prometheus",
+      "description": "",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 31
+      },
+      "targets": [
+        {
+          "expr": "solr_core_index_size_megabytes{job=\"solr\",instance=~\"$instance\",collection=~\"$collection\"}",
+          "legendFormat": "{{core}}",
+          "interval": "",
+          "refId": "A"
+        }
+      ],
+      "lines": true,
+      "linewidth": 1,
+      "fill": 0,
+      "stack": false,
+      "nullPointMode": "null",
+      "legend": {
+        "show": true,
+        "alignAsTable": false,
+        "values": false
+      },
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "xaxis": {
+        "mode": "time",
+        "show": true
+      },
+      "yaxes": [
+        {
+          "format": "decmbytes",
+          "logBase": 1,
+          "show": true,
+          "min": 0
+        },
+        {
+          "format": "short",
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "alertThreshold": true
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashes": false,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "thresholds": [],
+      "timeRegions": [],
+      "percentage": false,
+      "steppedLine": false,
+      "pointradius": 2,
+      "dashLength": 10,
+      "spaceLength": 10,
+      "hiddenSeries": false
+    },
+    {
+      "type": "graph",
+      "title": "Commits",
+      "id": 18,
+      "datasource": "Prometheus",
+      "description": "",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 31
+      },
+      "targets": [
+        {
+          "expr": "sum by (core, type) (rate(solr_core_update_auto_commits_total{job=\"solr\",instance=~\"$instance\",collection=~\"$collection\"}[5m]))",
+          "legendFormat": "{{core}} {{type}}",
+          "interval": "",
+          "refId": "A"
+        }
+      ],
+      "lines": true,
+      "linewidth": 1,
+      "fill": 0,
+      "stack": false,
+      "nullPointMode": "null",
+      "legend": {
+        "show": true,
+        "alignAsTable": false,
+        "values": false
+      },
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "xaxis": {
+        "mode": "time",
+        "show": true
+      },
+      "yaxes": [
+        {
+          "format": "ops",
+          "logBase": 1,
+          "show": true,
+          "min": 0
+        },
+        {
+          "format": "short",
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "alertThreshold": true
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashes": false,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "thresholds": [],
+      "timeRegions": [],
+      "percentage": false,
+      "steppedLine": false,
+      "pointradius": 2,
+      "dashLength": 10,
+      "spaceLength": 10,
+      "hiddenSeries": false
+    },
+    {
+      "type": "graph",
+      "title": "New searcher warmup time",
+      "id": 19,
+      "datasource": "Prometheus",
+      "description": "",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 31
+      },
+      "targets": [
+        {
+          "expr": "sum by (core) (rate(solr_core_indexsearcher_open_warmup_time_milliseconds_sum{job=\"solr\",instance=~\"$instance\",collection=~\"$collection\"}[5m])) / sum by (core) (rate(solr_core_indexsearcher_open_warmup_time_milliseconds_count{job=\"solr\",instance=~\"$instance\",collection=~\"$collection\"}[5m]))",
+          "legendFormat": "{{core}}",
+          "interval": "",
+          "refId": "A"
+        }
+      ],
+      "lines": true,
+      "linewidth": 1,
+      "fill": 0,
+      "stack": false,
+      "nullPointMode": "null",
+      "legend": {
+        "show": true,
+        "alignAsTable": false,
+        "values": false
+      },
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "xaxis": {
+        "mode": "time",
+        "show": true
+      },
+      "yaxes": [
+        {
+          "format": "ms",
+          "logBase": 1,
+          "show": true,
+          "min": 0
+        },
+        {
+          "format": "short",
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "alertThreshold": true
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashes": false,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "thresholds": [],
+      "timeRegions": [],
+      "percentage": false,
+      "steppedLine": false,
+      "pointradius": 2,
+      "dashLength": 10,
+      "spaceLength": 10,
+      "hiddenSeries": false
+    },
+    {
+      "type": "row",
+      "title": "Caches",
+      "id": 20,
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 39
+      },
+      "panels": []
+    },
+    {
+      "type": "graph",
+      "title": "Cache hit ratio",
+      "id": 21,
+      "datasource": "Prometheus",
+      "description": "",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 40
+      },
+      "targets": [
+        {
+          "expr": "sum by (name) (rate(solr_core_indexsearcher_cache_lookups_total{job=\"solr\",instance=~\"$instance\",collection=~\"$collection\",result=\"hit\"}[5m])) / sum by (name) (rate(solr_core_indexsearcher_cache_lookups_total{job=\"solr\",instance=~\"$instance\",collection=~\"$collection\"}[5m]))",
+          "legendFormat": "{{name}}",
+          "interval": "",
+          "refId": "A"
+        }
+      ],
+      "lines": true,
+      "linewidth": 1,
+      "fill": 0,
+      "stack": false,
+      "nullPointMode": "null",
+      "legend": {
+        "show": true,
+        "alignAsTable": false,
+        "values": false
+      },
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "xaxis": {
+        "mode": "time",
+        "show": true
+      },
+      "yaxes": [
+        {
+          "format": "percentunit",
+          "logBase": 1,
+          "show": true,
+          "min": 0
+        },
+        {
+          "format": "short",
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "alertThreshold": true
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashes": false,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "thresholds": [],
+      "timeRegions": [],
+      "percentage": false,
+      "steppedLine": false,
+      "pointradius": 2,
+      "dashLength": 10,
+      "spaceLength": 10,
+      "hiddenSeries": false
+    },
+    {
+      "type": "graph",
+      "title": "Cache entries",
+      "id": 22,
+      "datasource": "Prometheus",
+      "description": "",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 40
+      },
+      "targets": [
+        {
+          "expr": "sum by (name) (solr_core_indexsearcher_cache_size{job=\"solr\",instance=~\"$instance\",collection=~\"$collection\"})",
+          "legendFormat": "{{name}}",
+          "interval": "",
+          "refId": "A"
+        }
+      ],
+      "lines": true,
+      "linewidth": 1,
+      "fill": 0,
+      "stack": false,
+      "nullPointMode": "null",
+      "legend": {
+        "show": true,
+        "alignAsTable": false,
+        "values": false
+      },
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "xaxis": {
+        "mode": "time",
+        "show": true
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true,
+          "min": 0
+        },
+        {
+          "format": "short",
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "alertThreshold": true
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashes": false,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "thresholds": [],
+      "timeRegions": [],
+      "percentage": false,
+      "steppedLine": false,
+      "pointradius": 2,
+      "dashLength": 10,
+      "spaceLength": 10,
+      "hiddenSeries": false
+    },
+    {
+      "type": "graph",
+      "title": "Cache RAM",
+      "id": 23,
+      "datasource": "Prometheus",
+      "description": "",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 40
+      },
+      "targets": [
+        {
+          "expr": "sum by (name) (solr_core_indexsearcher_cache_ram_used_bytes{job=\"solr\",instance=~\"$instance\",collection=~\"$collection\"})",
+          "legendFormat": "{{name}}",
+          "interval": "",
+          "refId": "A"
+        }
+      ],
+      "lines": true,
+      "linewidth": 1,
+      "fill": 0,
+      "stack": false,
+      "nullPointMode": "null",
+      "legend": {
+        "show": true,
+        "alignAsTable": false,
+        "values": false
+      },
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "xaxis": {
+        "mode": "time",
+        "show": true
+      },
+      "yaxes": [
+        {
+          "format": "bytes",
+          "logBase": 1,
+          "show": true,
+          "min": 0
+        },
+        {
+          "format": "short",
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "alertThreshold": true
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashes": false,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "thresholds": [],
+      "timeRegions": [],
+      "percentage": false,
+      "steppedLine": false,
+      "pointradius": 2,
+      "dashLength": 10,
+      "spaceLength": 10,
+      "hiddenSeries": false
+    },
+    {
+      "type": "row",
+      "title": "JVM and node",
+      "id": 24,
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 48
+      },
+      "panels": []
+    },
+    {
+      "type": "graph",
+      "title": "Heap used / limit",
+      "id": 25,
+      "datasource": "Prometheus",
+      "description": "",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 49
+      },
+      "targets": [
+        {
+          "expr": "sum by (instance) (jvm_memory_used_bytes{job=\"solr\",instance=~\"$instance\",jvm_memory_type=\"heap\"})",
+          "legendFormat": "{{instance}} used",
+          "interval": "",
+          "refId": "A"
+        },
+        {
+          "expr": "sum by (instance) (jvm_memory_limit_bytes{job=\"solr\",instance=~\"$instance\",jvm_memory_type=\"heap\"})",
+          "legendFormat": "{{instance}} limit",
+          "interval": "",
+          "refId": "B"
+        }
+      ],
+      "lines": true,
+      "linewidth": 1,
+      "fill": 0,
+      "stack": false,
+      "nullPointMode": "null",
+      "legend": {
+        "show": true,
+        "alignAsTable": false,
+        "values": false
+      },
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "xaxis": {
+        "mode": "time",
+        "show": true
+      },
+      "yaxes": [
+        {
+          "format": "bytes",
+          "logBase": 1,
+          "show": true,
+          "min": 0
+        },
+        {
+          "format": "short",
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "alertThreshold": true
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashes": false,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "thresholds": [],
+      "timeRegions": [],
+      "percentage": false,
+      "steppedLine": false,
+      "pointradius": 2,
+      "dashLength": 10,
+      "spaceLength": 10,
+      "hiddenSeries": false
+    },
+    {
+      "type": "graph",
+      "title": "GC time",
+      "id": 26,
+      "datasource": "Prometheus",
+      "description": "Seconds spent in GC per second.",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 49
+      },
+      "targets": [
+        {
+          "expr": "sum by (instance, jvm_gc_name) (rate(jvm_gc_duration_seconds_sum{job=\"solr\",instance=~\"$instance\"}[1m]))",
+          "legendFormat": "{{instance}} {{jvm_gc_name}}",
+          "interval": "",
+          "refId": "A"
+        }
+      ],
+      "lines": true,
+      "linewidth": 1,
+      "fill": 0,
+      "stack": false,
+      "nullPointMode": "null",
+      "legend": {
+        "show": true,
+        "alignAsTable": false,
+        "values": false
+      },
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "xaxis": {
+        "mode": "time",
+        "show": true
+      },
+      "yaxes": [
+        {
+          "format": "s",
+          "logBase": 1,
+          "show": true,
+          "min": 0
+        },
+        {
+          "format": "short",
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "alertThreshold": true
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashes": false,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "thresholds": [],
+      "timeRegions": [],
+      "percentage": false,
+      "steppedLine": false,
+      "pointradius": 2,
+      "dashLength": 10,
+      "spaceLength": 10,
+      "hiddenSeries": false
+    },
+    {
+      "type": "graph",
+      "title": "Threads",
+      "id": 27,
+      "datasource": "Prometheus",
+      "description": "",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 49
+      },
+      "targets": [
+        {
+          "expr": "sum by (instance) (jvm_thread_count{job=\"solr\",instance=~\"$instance\"})",
+          "legendFormat": "{{instance}}",
+          "interval": "",
+          "refId": "A"
+        }
+      ],
+      "lines": true,
+      "linewidth": 1,
+      "fill": 0,
+      "stack": false,
+      "nullPointMode": "null",
+      "legend": {
+        "show": true,
+        "alignAsTable": false,
+        "values": false
+      },
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "xaxis": {
+        "mode": "time",
+        "show": true
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true,
+          "min": 0
+        },
+        {
+          "format": "short",
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "alertThreshold": true
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashes": false,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "thresholds": [],
+      "timeRegions": [],
+      "percentage": false,
+      "steppedLine": false,
+      "pointradius": 2,
+      "dashLength": 10,
+      "spaceLength": 10,
+      "hiddenSeries": false
+    },
+    {
+      "type": "graph",
+      "title": "Disk usable",
+      "id": 28,
+      "datasource": "Prometheus",
+      "description": "",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 57
+      },
+      "targets": [
+        {
+          "expr": "solr_disk_space_megabytes{job=\"solr\",instance=~\"$instance\",type=\"usable_space\"}",
+          "legendFormat": "{{instance}}",
+          "interval": "",
+          "refId": "A"
+        }
+      ],
+      "lines": true,
+      "linewidth": 1,
+      "fill": 0,
+      "stack": false,
+      "nullPointMode": "null",
+      "legend": {
+        "show": true,
+        "alignAsTable": false,
+        "values": false
+      },
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "xaxis": {
+        "mode": "time",
+        "show": true
+      },
+      "yaxes": [
+        {
+          "format": "decmbytes",
+          "logBase": 1,
+          "show": true,
+          "min": 0
+        },
+        {
+          "format": "short",
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "alertThreshold": true
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashes": false,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "thresholds": [],
+      "timeRegions": [],
+      "percentage": false,
+      "steppedLine": false,
+      "pointradius": 2,
+      "dashLength": 10,
+      "spaceLength": 10,
+      "hiddenSeries": false
+    },
+    {
+      "type": "graph",
+      "title": "Authentication requests",
+      "id": 29,
+      "datasource": "Prometheus",
+      "description": "",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 57
+      },
+      "targets": [
+        {
+          "expr": "sum by (instance, handler) (rate(solr_authentication_requests_total{job=\"solr\",instance=~\"$instance\"}[1m]))",
+          "legendFormat": "{{instance}} {{handler}}",
+          "interval": "",
+          "refId": "A"
+        }
+      ],
+      "lines": true,
+      "linewidth": 1,
+      "fill": 0,
+      "stack": false,
+      "nullPointMode": "null",
+      "legend": {
+        "show": true,
+        "alignAsTable": false,
+        "values": false
+      },
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "xaxis": {
+        "mode": "time",
+        "show": true
+      },
+      "yaxes": [
+        {
+          "format": "reqps",
+          "logBase": 1,
+          "show": true,
+          "min": 0
+        },
+        {
+          "format": "short",
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "alertThreshold": true
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashes": false,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "thresholds": [],
+      "timeRegions": [],
+      "percentage": false,
+      "steppedLine": false,
+      "pointradius": 2,
+      "dashLength": 10,
+      "spaceLength": 10,
+      "hiddenSeries": false
+    },
+    {
+      "type": "graph",
+      "title": "ZooKeeper operations",
+      "id": 30,
+      "datasource": "Prometheus",
+      "description": "",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 57
+      },
+      "targets": [
+        {
+          "expr": "sum by (instance) (rate(solr_zk_ops_total{job=\"solr\",instance=~\"$instance\"}[1m]))",
+          "legendFormat": "{{instance}}",
+          "interval": "",
+          "refId": "A"
+        }
+      ],
+      "lines": true,
+      "linewidth": 1,
+      "fill": 0,
+      "stack": false,
+      "nullPointMode": "null",
+      "legend": {
+        "show": true,
+        "alignAsTable": false,
+        "values": false
+      },
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "xaxis": {
+        "mode": "time",
+        "show": true
+      },
+      "yaxes": [
+        {
+          "format": "ops",
+          "logBase": 1,
+          "show": true,
+          "min": 0
+        },
+        {
+          "format": "short",
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "alertThreshold": true
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashes": false,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "thresholds": [],
+      "timeRegions": [],
+      "percentage": false,
+      "steppedLine": false,
+      "pointradius": 2,
+      "dashLength": 10,
+      "spaceLength": 10,
+      "hiddenSeries": false
+    }
+  ]
+}

@@ -29,11 +29,11 @@ is to see `Status --> Targets`, and see that we're monitoring Solr, Blacklight, 
 
 We won't get into the graphing capabilities of Prometheus, since we have Grafana for that.   However, know that you can set up Alerting behaviors here.
 
-Lastly, so where does the data come into Prometheus?  The Prometheus server actually reaches out and pulls in the data periodically, it doesn't get data pushed to it.  So we have two "Exporters" that run that convert internal metrics to the Prometheus standard:
+Lastly, so where does the data come into Prometheus?  The Prometheus server actually reaches out and pulls in the data periodically, it doesn't get data pushed to it.  Blacklight runs an "Exporter" that converts its internal metrics to the Prometheus standard, while Solr serves Prometheus metrics natively on every node:
 
 * Blacklight Metrics: http://localhost:9394/metrics
-* Solr Cluster Metrics: http://localhost:9854/metrics
+* Solr Metrics: http://localhost:8983/solr/admin/metrics (one per node: 8983, 8984 and 8985, log in as `solr:SolrRocks`)
 
-The interesting bits in the Chorus setup are the `/grafana` and `/prometheus` directories where we configure our setup between Grafana and the Prometheus time series database, and the `/solr-exporter` which handles the `Prometheus --> Solr Exporter --> Solr` metrics scraping chain.
+The interesting bits in the Chorus setup are the `/grafana` and `/prometheus` directories where we configure our setup between Grafana and the Prometheus time series database. Prometheus scrapes `/solr/admin/metrics` on all three Solr nodes directly.
 
 This was just a quick tour, and as we move to deploying to production via Kubernetes for Chorus, the observability aspect to Chorus will become more important!

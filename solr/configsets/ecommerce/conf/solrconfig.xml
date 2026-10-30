@@ -7,8 +7,7 @@
 
   <codecFactory class="solr.SchemaCodecFactory"/>
 
-  <!-- Load the Querqy Jar that comes with all it's dependencies -->
-  <lib dir="/opt/querqy/lib/" />
+  <!-- The Querqy Jars are loaded via solr.sharedLib (see solr/lib/README.md); Solr 10 removed <lib/> -->
 
   <dataDir>${solr.data.dir:}</dataDir>
 
@@ -16,7 +15,7 @@
                     class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}"/>
   <schemaFactory class="ManagedIndexSchemaFactory"/>
 
-  <luceneMatchVersion>8.9</luceneMatchVersion>
+  <luceneMatchVersion>10.4</luceneMatchVersion>
 
   <updateHandler class="solr.DirectUpdateHandler2">
     <commitWithin>
@@ -24,7 +23,6 @@
     </commitWithin>
     <updateLog>
       <str name="dir">${solr.ulog.dir:}</str>
-      <int name="numVersionBuckets">${solr.ulog.numVersionBuckets:65536}</int>
     </updateLog>
   </updateHandler>
 

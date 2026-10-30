@@ -54,24 +54,26 @@ Prometheus and Grafana setup heavily inspired by https://github.com/vegasbrianc/
 
 * https://grafana.com/docs/grafana/latest/administration/configure-docker/
 
-We update the `/grafana/provisioning/dashboards/solr-dashboard_rev7.json` to replace `${DS_PROMETHEUS}` with `Prometheus`
+The Solr dashboard `/grafana/provisioning/dashboards/solr-dashboard_rev8.json` was rebuilt for Solr 10's native
+Prometheus metrics (the earlier revisions targeted the removed solr-exporter) and uses the `Prometheus` datasource directly.
 
 We imported the dashboard https://grafana.com/grafana/dashboards/10306 for Rails.   Could not get Puma metrics to be gathered by
 prometheus however.
 
 We created `admin@choruselectronics.com` / `password` in `quickstart.sh`.
 
-The two prometheus exporters run at http://localhost:9394/metrics and http://localhost:9854/metrics.
+The Blacklight prometheus exporter runs at http://localhost:9394/metrics. Solr serves Prometheus metrics natively at
+http://localhost:8983/solr/admin/metrics (and on 8984, 8985 for the other nodes); Prometheus scrapes all three nodes.
 
 The monitoring should probably be on it's own network ;-)
 
 ## Jaeger for distributed Tracing Details
 
-The tracing in Solr is set up for demo purposes, using the `JAEGER_SAMPLER_TYPE=const` and `JAEGER_SAMPLER_PARAM=1` only
-makes sense in a toy deployment!  
+The tracing in Solr is set up for demo purposes, using `OTEL_TRACES_SAMPLER=parentbased_always_on` (set by
+`quickstart.sh --with-observability`, otherwise `always_off`) only makes sense in a toy deployment!
 
-For Solr we use the UDP method, however for Blacklight we use the HTTP method for pushing data to Jaeger.
-We are only part of the way (I think!) to using OpenTelemetry protocols w Jaeger.
+Solr uses its `opentelemetry` module and sends traces via OTLP (HTTP/protobuf, port 4318) to Jaeger, however for Blacklight
+we still use the Jaeger HTTP exporter for pushing data to Jaeger.
 
 ## Keycloak
 
