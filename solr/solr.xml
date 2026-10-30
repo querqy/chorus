@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<!-- Based on the default solr.xml shipped with Solr 10.0.0, plus the OpenTelemetry tracer. -->
+<!-- Based on the default solr.xml shipped with Solr 10.1.0, plus the OpenTelemetry tracer. -->
 <solr>
 
   <int name="maxBooleanClauses">${solr.max.booleanClauses:1024}</int>
@@ -8,6 +8,7 @@
   <str name="modules">${solr.modules:}</str>
   <str name="allowPaths">${solr.security.allow.paths:}</str>
   <str name="allowUrls">${solr.security.allow.urls:}</str>
+  <str name="allowZkHosts">${solr.security.allow.zk.hosts:}</str>
   <str name="hideStackTrace">${solr.hideStackTrace:false}</str>
   <int name="indexSearcherExecutorThreads">${solr.searchThreads:0}</int>
 

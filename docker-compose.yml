@@ -73,8 +73,8 @@ services:
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
       - OTEL_SERVICE_NAME=solr1
       - OTEL_TRACES_EXPORTER=otlp
-      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
+      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4318
       - OTEL_TRACES_SAMPLER=${OTEL_TRACES_SAMPLER:-always_off}
       - "SOLR_OPTS=-XX:-UseLargePages -Dsolr.auth.jwt.outbound.http.enabled=true -Dsolr.modules=jwt-auth,opentelemetry -Dsolr.sharedLib=/opt/querqy/lib"
     depends_on:
@@ -93,8 +93,8 @@ services:
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
       - OTEL_SERVICE_NAME=solr2
       - OTEL_TRACES_EXPORTER=otlp
-      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
+      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4318
       - OTEL_TRACES_SAMPLER=${OTEL_TRACES_SAMPLER:-always_off}
       - "SOLR_OPTS=-XX:-UseLargePages -Dsolr.auth.jwt.outbound.http.enabled=true -Dsolr.modules=jwt-auth,opentelemetry -Dsolr.sharedLib=/opt/querqy/lib"
     depends_on:
@@ -113,8 +113,8 @@ services:
       - ZK_HOST=zoo1:2181,zoo2:2181,zoo3:2181
       - OTEL_SERVICE_NAME=solr3
       - OTEL_TRACES_EXPORTER=otlp
-      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
+      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4318
       - OTEL_TRACES_SAMPLER=${OTEL_TRACES_SAMPLER:-always_off}
       - "SOLR_OPTS=-XX:-UseLargePages -Dsolr.auth.jwt.outbound.http.enabled=true -Dsolr.modules=jwt-auth,opentelemetry -Dsolr.sharedLib=/opt/querqy/lib"
     depends_on:

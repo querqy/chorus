@@ -72,7 +72,7 @@ The monitoring should probably be on it's own network ;-)
 The tracing in Solr is set up for demo purposes, using `OTEL_TRACES_SAMPLER=parentbased_always_on` (set by
 `quickstart.sh --with-observability`, otherwise `always_off`) only makes sense in a toy deployment!
 
-Solr uses its `opentelemetry` module and sends traces via OTLP (gRPC, port 4317) to Jaeger, however for Blacklight
+Solr uses its `opentelemetry` module and sends traces via OTLP (HTTP/protobuf, port 4318) to Jaeger, however for Blacklight
 we still use the Jaeger HTTP exporter for pushing data to Jaeger.
 
 ## Keycloak

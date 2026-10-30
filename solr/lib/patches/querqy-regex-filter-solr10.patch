@@ -1,8 +1,8 @@
 diff --git a/pom.xml b/pom.xml
-index 917a9cc..55feef5 100644
+index 917a9cc..287198e 100644
 --- a/pom.xml
 +++ b/pom.xml
-@@ -48,17 +48,88 @@
+@@ -48,17 +48,25 @@
          <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
  
          <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -14,8 +14,8 @@ index 917a9cc..55feef5 100644
  
 -        <querqy.solr.version>5.4.lucene900.0</querqy.solr.version>
 -        <solr.version>9.0.0</solr.version>
-+        <querqy.solr.version>5.10.lucene1021.0-SNAPSHOT</querqy.solr.version>
-+        <solr.version>10.0.0</solr.version>
++        <querqy.solr.version>5.10.solr1010.0</querqy.solr.version>
++        <solr.version>10.1.0</solr.version>
  
      </properties>
  
@@ -27,74 +27,11 @@ index 917a9cc..55feef5 100644
 +            <version>${solr.version}</version>
 +            <scope>provided</scope>
 +        </dependency>
-+        <dependency>
-+            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
-+            <groupId>org.apache.solr</groupId>
-+            <artifactId>solr-api</artifactId>
-+            <version>10.0.0</version>
-+            <scope>provided</scope>
-+        </dependency>
-+        <dependency>
-+            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
-+            <groupId>org.apache.solr</groupId>
-+            <artifactId>solr-solrj</artifactId>
-+            <version>10.0.0</version>
-+            <scope>provided</scope>
-+        </dependency>
-+        <dependency>
-+            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
-+            <groupId>org.apache.solr</groupId>
-+            <artifactId>solr-solrj-zookeeper</artifactId>
-+            <version>10.0.0</version>
-+            <scope>provided</scope>
-+        </dependency>
-+        <dependency>
-+            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
-+            <groupId>org.apache.lucene</groupId>
-+            <artifactId>lucene-core</artifactId>
-+            <version>10.3.2</version>
-+            <scope>provided</scope>
-+        </dependency>
-+        <dependency>
-+            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
-+            <groupId>org.apache.lucene</groupId>
-+            <artifactId>lucene-analysis-common</artifactId>
-+            <version>10.3.2</version>
-+            <scope>provided</scope>
-+        </dependency>
-+        <dependency>
-+            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
-+            <groupId>org.apache.lucene</groupId>
-+            <artifactId>lucene-queries</artifactId>
-+            <version>10.3.2</version>
-+            <scope>provided</scope>
-+        </dependency>
-+        <dependency>
-+            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
-+            <groupId>org.apache.lucene</groupId>
-+            <artifactId>lucene-queryparser</artifactId>
-+            <version>10.3.2</version>
-+            <scope>provided</scope>
-+        </dependency>
-+        <dependency>
-+            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
-+            <groupId>org.apache.commons</groupId>
-+            <artifactId>commons-lang3</artifactId>
-+            <version>3.20.0</version>
-+            <scope>provided</scope>
-+        </dependency>
-+        <dependency>
-+            <!-- local workaround: solr-core 10.0.0 POM is invalid, so its transitive deps are dropped -->
-+            <groupId>io.opentelemetry</groupId>
-+            <artifactId>opentelemetry-api</artifactId>
-+            <version>1.56.0</version>
-+            <scope>provided</scope>
-+        </dependency>
 +
  
          <dependency>
              <groupId>org.apache.solr</groupId>
-@@ -80,9 +151,9 @@
+@@ -80,9 +88,9 @@
                  <plugin>
                      <groupId>org.apache.maven.plugins</groupId>
                      <artifactId>maven-compiler-plugin</artifactId>
@@ -227,3 +164,32 @@ index 9b26fe5..0dc44d5 100644
      // ************************************************************************
      // What follows below is just a performance optimisation: we override some methods that handle the query tree
      // traversal as we can abort the traversal if we've already matched the pattern
+diff --git a/src/main/java/querqy/regex/core/RegexFilterRewriterFactory.java b/src/main/java/querqy/regex/core/RegexFilterRewriterFactory.java
+index 804898e..9be518e 100644
+--- a/src/main/java/querqy/regex/core/RegexFilterRewriterFactory.java
++++ b/src/main/java/querqy/regex/core/RegexFilterRewriterFactory.java
+@@ -1,13 +1,12 @@
+ package querqy.regex.core;
+ 
+ import querqy.model.Clause;
+-import querqy.model.ExpandedQuery;
+ import querqy.model.QuerqyQuery;
+ import querqy.model.StringRawQuery;
+ import querqy.rewrite.QueryRewriter;
+ import querqy.rewrite.RewriterFactory;
+ import querqy.rewrite.SearchEngineRequestAdapter;
+-import querqy.rewrite.commonrules.WhiteSpaceQuerqyParserFactory;
++import querqy.rewriter.commonrules.WhiteSpaceQuerqyParserFactory;
+ 
+ import java.util.regex.Pattern;
+ 
+@@ -53,8 +52,7 @@ public class RegexFilterRewriterFactory extends RewriterFactory {
+     }
+ 
+     @Override
+-    public QueryRewriter createRewriter(final ExpandedQuery input,
+-                                        final SearchEngineRequestAdapter searchEngineRequestAdapter) {
++    public QueryRewriter createRewriter(final SearchEngineRequestAdapter searchEngineRequestAdapter) {
+         // the rewriter is stateful - create a new instance per request
+         return new RegexFilterRewriter(pattern, acceptGeneratedTerms, filterQuery);
+     }

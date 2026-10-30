@@ -15,7 +15,7 @@
                     class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}"/>
   <schemaFactory class="ManagedIndexSchemaFactory"/>
 
-  <luceneMatchVersion>10.0</luceneMatchVersion>
+  <luceneMatchVersion>10.4</luceneMatchVersion>
 
   <updateHandler class="solr.DirectUpdateHandler2">
     <commitWithin>
