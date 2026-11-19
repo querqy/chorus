@@ -120,7 +120,10 @@ The boost algorithms keep the keyword query and add the vector similarity as a b
 "querqy_boost_by_txt_emb":{
   "defType":"querqy",
   "bq": "{!func}product(3,query($emb_q))",
-  "emb_q": "{!knn_text_to_vector model=minilm f=product_vector topK=100 v=$q}",
+  "emb_q": "{!knn_text_to_vector model=$emb_model f=$emb_f topK=$emb_topK v=$q}",
+  "emb_model": "minilm",
+  "emb_f": "product_vector",
+  "emb_topK": 100,
   "qf": "id name title product_type short_description ean search_attributes",
   "querqy.infoLogging":"on",
   "mm" : "100%"

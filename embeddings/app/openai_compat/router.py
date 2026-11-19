@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
@@ -23,11 +25,18 @@ class OpenAiEmbeddingsRequest(BaseModel):
     input: list[str] | str
 
 
+# Solr vectorises the query text again on each shard and in each phase of a distributed search,
+# so remember recent embeddings rather than running the model several times per search.
+@lru_cache(maxsize=1024)
+def embed(model: str, text: str) -> tuple:
+    return tuple(MODELS[model](text, False).tolist())
+
+
 @router.post("/embeddings")
 def get_embeddings(req: OpenAiEmbeddingsRequest):
     if req.model not in MODELS:
         raise HTTPException(status_code=404, detail=f"Unknown model {req.model}, use one of {list(MODELS)}")
     texts = [req.input] if isinstance(req.input, str) else req.input
-    data = [{"object": "embedding", "index": i, "embedding": MODELS[req.model](text, False).tolist()}
+    data = [{"object": "embedding", "index": i, "embedding": list(embed(req.model, text))}
             for i, text in enumerate(texts)]
     return {"object": "list", "model": req.model, "data": data, "usage": {"prompt_tokens": 0, "total_tokens": 0}}

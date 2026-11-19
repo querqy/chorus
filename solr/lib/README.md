@@ -24,6 +24,3 @@ SHA-256:
 82c177b7f1b8c3bcba28023a4bcf6d7d77702ba0ee5c9c9fd507609e96c2a718  querqy-solr-5.10.solr1010.0-jar-with-dependencies.jar
 318e64ef7f718bf4258a5145b51065dc04fbb946e55e110803dbcceab6a32565  querqy-regex-filter-1.1.0-SNAPSHOT.jar
 ```
-
-Vector search no longer needs a Querqy plugin: queries are vectorised by Solr's `language-models` module
-(see `solr/text-to-vector-models.json` and the `knn_text_to_vector` query parser in `solrconfig.xml`).

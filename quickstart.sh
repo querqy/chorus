@@ -160,9 +160,11 @@ fi
 if $vector_search; then
   # Models that Solr's language-models module uses to vectorise queries, served by the embeddings service
   log_major "Uploading the text to vector models."
-  curl --user solr:SolrRocks -X PUT http://localhost:8983/solr/ecommerce/schema/text-to-vector-model-store -H 'Content-type:application/json' --data-binary @./solr/text-to-vector-models.json
+  response=$(curl --user solr:SolrRocks -X PUT http://localhost:8983/solr/ecommerce/schema/text-to-vector-model-store -H 'Content-type:application/json' --data-binary @./solr/text-to-vector-models.json)
+  check_solr_response "$response" "Uploading the text to vector models"
   # The other replicas only read the model store when they are (re)loaded
-  curl --user solr:SolrRocks -X POST http://localhost:8983/api/collections/ecommerce/reload -H 'Content-Type: application/json' -d '{}'
+  response=$(curl --user solr:SolrRocks -X POST http://localhost:8983/api/collections/ecommerce/reload -H 'Content-Type: application/json' -d '{}')
+  check_solr_response "$response" "Reloading the ecommerce collection"
 fi
 
 
@@ -206,7 +208,10 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
     "querqy_boost_by_img_emb":{
       "defType":"querqy",
       "bq": "{!func}product(10,query($emb_q))",
-      "emb_q": "{!knn_text_to_vector model=clip f=product_image_vector topK=100 v=$q}",
+      "emb_q": "{!knn_text_to_vector model=$emb_model f=$emb_f topK=$emb_topK v=$q}",
+      "emb_model": "clip",
+      "emb_f": "product_image_vector",
+      "emb_topK": 100,
       "qf": "id name title product_type short_description ean search_attributes",
       "querqy.infoLogging":"on",
       "mm" : "100%"
@@ -220,7 +225,10 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
     "querqy_boost_by_txt_emb":{
       "defType":"querqy",
       "bq": "{!func}product(3,query($emb_q))",
-      "emb_q": "{!knn_text_to_vector model=minilm f=product_vector topK=100 v=$q}",
+      "emb_q": "{!knn_text_to_vector model=$emb_model f=$emb_f topK=$emb_topK v=$q}",
+      "emb_model": "minilm",
+      "emb_f": "product_vector",
+      "emb_topK": 100,
       "qf": "id name title product_type short_description ean search_attributes",
       "querqy.infoLogging":"on",
       "mm" : "100%"

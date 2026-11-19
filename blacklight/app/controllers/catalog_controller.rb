@@ -193,44 +193,21 @@ class CatalogController < ApplicationController
     # the model, vector field and topK from the ParamSet.
     vector_match_local_parameters = { type: 'knn_text_to_vector', model: '$emb_model', f: '$emb_f', topK: '$emb_topK' }
 
-    config.add_search_field('querqy_boost_by_img_emb', label: 'Boost by image vector') do |field|
-      field.solr_parameters = {
-        'useParams': 'querqy_boost_by_img_emb'
-      }
-    end
-
-    config.add_search_field('querqy_match_by_img_emb', label: 'Match by image vector') do |field|
-      field.solr_parameters = {
-        'useParams': 'querqy_match_by_img_emb'
-      }
-      field.solr_local_parameters = vector_match_local_parameters
-    end
-
-    config.add_search_field('querqy_boost_by_txt_emb', label: 'Boost by text vector') do |field|
-      field.solr_parameters = {
-        'useParams': 'querqy_boost_by_txt_emb'
-      }
-    end
-
-    config.add_search_field('querqy_match_by_txt_emb', label: 'Match by text vector') do |field|
-      field.solr_parameters = {
-        'useParams': 'querqy_match_by_txt_emb'
-      }
-      field.solr_local_parameters = vector_match_local_parameters
-    end
-
-    config.add_search_field('querqy_match_by_ft_txt_emb', label: 'Match by finetuned text vector') do |field|
-      field.solr_parameters = {
-        'useParams': 'querqy_match_by_ft_txt_emb'
-      }
-      field.solr_local_parameters = vector_match_local_parameters
-    end
-
-    config.add_search_field('querqy_match_by_ft_img_emb', label: 'Match by finetuned image vector') do |field|
-      field.solr_parameters = {
-        'useParams': 'querqy_match_by_ft_img_emb'
-      }
-      field.solr_local_parameters = vector_match_local_parameters
+    {
+      'querqy_boost_by_img_emb' => 'Boost by image vector',
+      'querqy_match_by_img_emb' => 'Match by image vector',
+      'querqy_boost_by_txt_emb' => 'Boost by text vector',
+      'querqy_match_by_txt_emb' => 'Match by text vector',
+      'querqy_match_by_ft_txt_emb' => 'Match by finetuned text vector',
+      'querqy_match_by_ft_img_emb' => 'Match by finetuned image vector'
+    }.each do |param_set, label|
+      config.add_search_field(param_set, label: label) do |field|
+        field.solr_parameters = {
+          'useParams': param_set
+        }
+        # The match algorithms replace the keyword query with the vector query
+        field.solr_local_parameters = vector_match_local_parameters if param_set.start_with?('querqy_match_')
+      end
     end
 
 
