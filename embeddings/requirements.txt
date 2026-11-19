@@ -8,3 +8,5 @@ numpy<2.0
 git+https://github.com/openai/CLIP.git
 finetuner[full]==0.7.8
 docarray[commons]==0.21.0
+# sentence-transformers 2.2.2 (pinned by finetuner) imports cached_download, removed in huggingface_hub 0.26
+huggingface_hub<0.26
