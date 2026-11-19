@@ -119,13 +119,17 @@ The boost algorithms keep the keyword query and add the vector similarity as a b
 ```json
 "querqy_boost_by_txt_emb":{
   "defType":"querqy",
-  "bq": "{!func}product(10000,query($emb_q))",
+  "bq": "{!func}product(3,query($emb_q))",
   "emb_q": "{!knn_text_to_vector model=minilm f=product_vector topK=100 v=$q}",
   "qf": "id name title product_type short_description ean search_attributes",
   "querqy.infoLogging":"on",
   "mm" : "100%"
 }
 ```
+
+The weight of the boost (3 for the text vector, 10 for the image vector) was tuned with Quepid against the ratings in
+`katas/Broad_Query_Set_rated.csv`: a small weight nudges the keyword results towards similar products, while a large one,
+like 10000, lets the vector similarity override the keyword ranking and scores worse.
 
 The match algorithms replace the keyword query with the vector query. The `knn_text_to_vector` query parser reads its
 settings from local params only, so the ParamSet names the model, the vector field and topK, and sets `defType` to

@@ -204,7 +204,7 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
   "set": {
     "querqy_boost_by_img_emb":{
       "defType":"querqy",
-      "bq": "{!func}product(10000,query($emb_q))",
+      "bq": "{!func}product(10,query($emb_q))",
       "emb_q": "{!knn_text_to_vector model=clip f=product_image_vector topK=100 v=$q}",
       "qf": "id name title product_type short_description ean search_attributes",
       "querqy.infoLogging":"on",
@@ -218,7 +218,7 @@ curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/p
     },
     "querqy_boost_by_txt_emb":{
       "defType":"querqy",
-      "bq": "{!func}product(10000,query($emb_q))",
+      "bq": "{!func}product(3,query($emb_q))",
       "emb_q": "{!knn_text_to_vector model=minilm f=product_vector topK=100 v=$q}",
       "qf": "id name title product_type short_description ean search_attributes",
       "querqy.infoLogging":"on",
