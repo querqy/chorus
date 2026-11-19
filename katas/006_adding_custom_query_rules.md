@@ -8,8 +8,8 @@ We're going to take advantage of how extendable Querqy is by using a custom rule
 
 > This is a brand new piece of code for Querqy, so it has limitations we'll document at the end.  We will update this Kata as it evolves towards a 1.0 version.
 
-We'll start by confirming that we've added the Java JAR file that contains this code to our Solr setup in `solr/lib` directory.   You should have a file with the name `querqy-regex-filter-1.1.0-SNAPSHOT.jar`.  If you don't, you'll need to go to the Github project at https://github.com/renekrie/querqy-regex-filter and download and compile the jar file via `mvn package`.  Restart Chorus and you'll be ready to continue.
-If you ran the `quickstart.sh` script you have the lib in your Solr Docker containers in `/opt/querqy/lib/` and the library is integrated via a lib directive in `solrconfig.xml`.
+We'll start by confirming that we've added the Java JAR file that contains this code to our Solr setup in `solr/lib` directory.   You should have a file with the name `querqy-regex-filter-1.1.0-SNAPSHOT.jar`.  If you don't, you'll need to go to the Github project at https://github.com/renekrie/querqy-regex-filter, apply the Solr 10 patch from `solr/lib/patches/` and compile the jar file (see `solr/lib/README.md`).  Restart Chorus and you'll be ready to continue.
+If you ran the `quickstart.sh` script you have the lib in your Solr Docker containers in `/opt/querqy/lib/` and the library is loaded via the `solr.sharedLib` setting in `docker-compose.yml`.
 
 The next step is think about the pattern you want to identify, and how you will tweak the rule.  
 
@@ -50,11 +50,7 @@ curl --user solr:SolrRocks -X GET http://localhost:8983/solr/ecommerce/querqy/re
 You may need to reload the collection as well:
 
 ```sh
-curl --user solr:SolrRocks -X POST http://localhost:8983/api/collections/ecommerce -H 'Content-Type: application/json' -d '
-  {
-    "reload": {}
-  }
-'
+curl --user solr:SolrRocks -X POST http://localhost:8983/api/collections/ecommerce/reload -H 'Content-Type: application/json' -d '{}'
 ```
 
 

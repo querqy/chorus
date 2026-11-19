@@ -28,9 +28,14 @@ scrape_configs:
     static_configs:
     - targets: ['localhost:9090']
 
+  # Solr 10 serves Prometheus metrics natively (the separate solr-exporter was removed in Solr 10)
   - job_name: 'solr'
+    metrics_path: /solr/admin/metrics
+    basic_auth:
+      username: solr
+      password: SolrRocks
     static_configs:
-      - targets: ['solr-exporter:9854']
+      - targets: ['solr1:8983', 'solr2:8983', 'solr3:8983']
 
   - job_name: 'blacklight'
     static_configs:

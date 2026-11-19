@@ -2,6 +2,11 @@ FROM ruby:2.7.5
 
 # Inspired by https://github.com/ualbertalib/discovery/blob/master/Dockerfile
 
+# The ruby:2.7.5 image is based on Debian 11 (bullseye), which is end-of-life: its packages now live on archive.debian.org
+RUN sed -i -e 's|deb.debian.org|archive.debian.org|g' \
+           -e 's|security.debian.org|archive.debian.org|g' \
+           -e '/bullseye-updates/d' /etc/apt/sources.list
+
 # Updates and node install
 RUN apt-get update -qq \
     && apt-get install -y build-essential \

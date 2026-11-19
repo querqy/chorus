@@ -17,7 +17,7 @@ if __name__ == "__main__":
             "rules": f.read(),
             "ignoreCase": True,
             "inputDelimiter": ";",
-            "querqyParser": "querqy.rewrite.commonrules.WhiteSpaceQuerqyParserFactory"
+            "querqyParser": "querqy.rewriter.commonrules.WhiteSpaceQuerqyParserFactory"
         }
     }
 
