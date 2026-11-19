@@ -1,9 +1,8 @@
 require 'opentelemetry/sdk'
-require 'opentelemetry/exporter/jaeger'
+require 'opentelemetry/exporter/otlp'
 require 'opentelemetry/instrumentation/all'
 
-# Configure the sdk with the Jaeger collector exporter
-ENV['OTEL_TRACES_EXPORTER'] = 'jaeger'
+# Traces are sent to Jaeger via OTLP, configured through the OTEL_* env vars in docker-compose.yml
 
 OpenTelemetry::SDK.configure do |c|
   c.service_name = 'blacklight'

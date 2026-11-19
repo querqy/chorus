@@ -14,7 +14,9 @@ services:
     environment:
       - SOLR_URL=http://${SOLR_USER}:${SOLR_PASSWORD}@solr1:8983/solr/ecommerce
       - PORT=3000
-      - OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4318
+      - OTEL_TRACES_SAMPLER=${OTEL_TRACES_SAMPLER:-always_off}
     depends_on:
       - solr1
     #  - jaeger
@@ -76,7 +78,7 @@ services:
       - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4318
       - OTEL_TRACES_SAMPLER=${OTEL_TRACES_SAMPLER:-always_off}
-      - "SOLR_OPTS=-XX:-UseLargePages -Dsolr.auth.jwt.outbound.http.enabled=true -Dsolr.modules=jwt-auth,opentelemetry -Dsolr.sharedLib=/opt/querqy/lib"
+      - "SOLR_OPTS=-XX:-UseLargePages -Dsolr.auth.jwt.outbound.http.enabled=true -Dsolr.modules=jwt-auth,opentelemetry -Dsolr.sharedLib=/opt/querqy/lib -Dsolr.cloud.client.stallTime=120000"
     depends_on:
       - zoo1
       - zoo2
@@ -96,7 +98,7 @@ services:
       - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4318
       - OTEL_TRACES_SAMPLER=${OTEL_TRACES_SAMPLER:-always_off}
-      - "SOLR_OPTS=-XX:-UseLargePages -Dsolr.auth.jwt.outbound.http.enabled=true -Dsolr.modules=jwt-auth,opentelemetry -Dsolr.sharedLib=/opt/querqy/lib"
+      - "SOLR_OPTS=-XX:-UseLargePages -Dsolr.auth.jwt.outbound.http.enabled=true -Dsolr.modules=jwt-auth,opentelemetry -Dsolr.sharedLib=/opt/querqy/lib -Dsolr.cloud.client.stallTime=120000"
     depends_on:
       - zoo1
       - zoo2
@@ -116,7 +118,7 @@ services:
       - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4318
       - OTEL_TRACES_SAMPLER=${OTEL_TRACES_SAMPLER:-always_off}
-      - "SOLR_OPTS=-XX:-UseLargePages -Dsolr.auth.jwt.outbound.http.enabled=true -Dsolr.modules=jwt-auth,opentelemetry -Dsolr.sharedLib=/opt/querqy/lib"
+      - "SOLR_OPTS=-XX:-UseLargePages -Dsolr.auth.jwt.outbound.http.enabled=true -Dsolr.modules=jwt-auth,opentelemetry -Dsolr.sharedLib=/opt/querqy/lib -Dsolr.cloud.client.stallTime=120000"
     depends_on:
       - zoo1
       - zoo2

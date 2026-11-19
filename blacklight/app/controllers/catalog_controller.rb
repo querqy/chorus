@@ -4,16 +4,17 @@ class CatalogController < ApplicationController
   include Blacklight::Catalog
 
   configure_blacklight do |config|
-    config.view.gallery.document_component = Blacklight::Gallery::DocumentComponent
+    config.view.gallery(document_component: Blacklight::Gallery::DocumentComponent, icon: Blacklight::Gallery::Icons::GalleryComponent)
     # config.view.gallery.classes = 'row-cols-2 row-cols-md-3'
-    config.view.masonry.document_component = Blacklight::Gallery::DocumentComponent
-    config.view.slideshow.document_component = Blacklight::Gallery::SlideshowComponent
-    config.show.tile_source_field = :content_metadata_image_iiif_info_ssm
-    config.show.partials.insert(1, :openseadragon)
+    config.view.masonry(document_component: Blacklight::Gallery::DocumentComponent, icon: Blacklight::Gallery::Icons::MasonryComponent)
+    config.view.slideshow(document_component: Blacklight::Gallery::SlideshowComponent, icon: Blacklight::Gallery::Icons::SlideshowComponent)
     # Set the gallery view to have four columns instead of three.
     config.view.gallery.classes = 'row-cols-3 row-cols-md-4'
 
     config.show.document_actions.delete(:bookmark)
+
+    # Adds the Querqy REDIRECT handling and the product type pills above the search results
+    config.index.search_header_component = SearchHeaderComponent
 
     ## Class for sending and receiving requests from a search index
     # config.repository_class = Blacklight::Solr::Repository
@@ -48,13 +49,13 @@ class CatalogController < ApplicationController
     #config.index.thumbnail_field = 'thumbnail_path_ss'
     config.index.thumbnail_field = 'img_500x500'
 
-    config.add_results_document_tool(:bookmark, partial: 'bookmark_control', if: :render_bookmarks_control?)
+    config.add_results_document_tool(:bookmark, component: Blacklight::Document::BookmarkComponent, if: :render_bookmarks_control?)
 
     config.add_results_collection_tool(:sort_widget)
     config.add_results_collection_tool(:per_page_widget)
     config.add_results_collection_tool(:view_type_group)
 
-    config.add_show_tools_partial(:bookmark, partial: 'bookmark_control', if: :render_bookmarks_control?)
+    config.add_show_tools_partial(:bookmark, component: Blacklight::Document::BookmarkComponent, if: :render_bookmarks_control?)
     #config.add_show_tools_partial(:email, callback: :email_action, validator: :validate_email_params)
     #config.add_show_tools_partial(:sms, if: :render_sms_action?, callback: :sms_action, validator: :validate_sms_params)
     #config.add_show_tools_partial(:citation)

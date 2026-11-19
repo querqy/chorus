@@ -1,20 +1,13 @@
-FROM ruby:2.7.5
+FROM ruby:4.0.9-slim-trixie
 
 # Inspired by https://github.com/ualbertalib/discovery/blob/master/Dockerfile
 
-# The ruby:2.7.5 image is based on Debian 11 (bullseye), which is end-of-life: its packages now live on archive.debian.org
-RUN sed -i -e 's|deb.debian.org|archive.debian.org|g' \
-           -e 's|security.debian.org|archive.debian.org|g' \
-           -e '/bullseye-updates/d' /etc/apt/sources.list
-
-# Updates and node install
 RUN apt-get update -qq \
-    && apt-get install -y build-essential \
-                          nodejs \
-                          vim \
-                          libxml2-dev \
-                          libxslt-dev \
-                          sqlite3
+    && apt-get install -y --no-install-recommends build-essential \
+                                                  libyaml-dev \
+                                                  sqlite3 \
+                                                  vim \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /app
 WORKDIR /app
@@ -22,22 +15,13 @@ WORKDIR /app
 # Preinstall gems in an earlier layer so we don't reinstall every time any file changes.
 COPY Gemfile /app
 COPY Gemfile.lock /app
-#RUN gem install bundler #-v 2.2.20
-#RUN bundle install --jobs 20 --retry 5
-RUN gem install bundler:1.17.3 && bundle install --jobs 20 --retry 5
+RUN bundle install --jobs 20 --retry 5
 
 # *NOW* we copy the codebase in
 COPY . /app
 
 # Make sure sqlite database set up
-RUN rake db:migrate
-
-# Clean environment
-RUN apt-get clean all
-
-# Precompile Rails assets.  We set a dummy database url/token key
-# Only makes sense if RAILS_ENV=production
-# RUN RAILS_ENV=uat SECRET_KEY_BASE=pickasecuretoken bundle exec rake assets:precompile
+RUN bin/rails db:prepare
 
 EXPOSE 3000
 

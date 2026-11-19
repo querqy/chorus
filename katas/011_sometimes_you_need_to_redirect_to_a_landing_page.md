@@ -44,9 +44,9 @@ Here you can see the Solr response for yourself:
 
 http://localhost:8983/solr/ecommerce/select?q=returns&useParams=visible_products,querqy_algo_prelive&echoParams=all&fl=id%20title&wt=json&debug=true&debug.explain.structured=true&indent=true&echoParams=all
 
-Your web layer is going to need to receive this information so that it can redirect the user instead of rendering the typical results page.  Since we are using an existing front end tool called Blacklight, we had to kind of "hack" our way in by layering our logic into the existing Pagination component.
+Your web layer is going to need to receive this information so that it can redirect the user instead of rendering the typical results page.  Since we are using an existing front end tool called Blacklight, we layer our logic into Blacklight's search header via our own `SearchHeaderComponent` (see `blacklight/app/components/search_header_component.html.erb`).
 
-You can see the check for the return of the REDIRECT rule here https://github.com/querqy/chorus/blob/demo_redirect/blacklight/app/components/blacklight/response/pagination_component.rb#L14.  The `@redirect_url` is then passed to the HTML rendered view to drive a Javascript based redirect https://github.com/querqy/chorus/blob/demo_redirect/blacklight/app/components/blacklight/response/pagination_component.html.erb#L10.
+You can see the check for the return of the REDIRECT rule in `blacklight/app/views/catalog/_querqy_redirect.html.erb`.  The redirect url is then used to drive a Javascript based redirect in the same partial.
 
 Notice how we did a basic redirect?  If your redirection is a fully qualified url, like `http://example.com` then you will redirect to that website instead.
 

@@ -1,4 +1,4 @@
-load_defaults: 7.19.2
+load_defaults: 9.2.1
 development:
   adapter: solr
   url: <%= ENV['SOLR_URL'] || "http://127.0.0.1:8983/solr/blacklight-core" %>
