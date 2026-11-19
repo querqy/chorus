@@ -75,103 +75,74 @@ The code to generate the product dataset vectors can be found in the `data-encod
 The documentation for the same can be found in the separate `README.md` in the directory. 
 
 
-Back to `quickstart.sh`, notice the embeddings re-writers, to ensure embeddings generated as needed. To query text vector field - the query vector is generated using `minilm` and hence is requested from `http://embeddings:8000/minilm/text/`.
-To query image vector field, the query vector is generated using `clip` and hence is requested from `http://embeddings:8000/clip/text/`.
-
+Back to `quickstart.sh`, notice how the query gets turned into a vector. Solr's
+[language-models module](https://solr.apache.org/guide/solr/latest/query-guide/text-to-vector.html) vectorises the query
+text with a model from its text to vector model store. Our models live in the embeddings service, which offers an OpenAI
+compatible `/v1/embeddings` endpoint, so we register each of them with the OpenAI model class and point it at
+`http://embeddings:8000/v1`. To query the text vector field the query vector is generated using `minilm`, and to query
+the image vector field it is generated using the text half of `clip`.
 
 ```bash
 if $vector_search; then
-  # Embedding service for vector search
-  log_major "Preparing embeddings rewriter."
-
-  curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/embtxt?action=save -H 'Content-type:application/json'  -d '{
-    "class": "querqy.solr.embeddings.SolrEmbeddingsRewriterFactory",
-           "config": {
-               "model" : {
-                 "class": "querqy.embeddings.ChorusEmbeddingModel",
-                 "url": "http://embeddings:8000/minilm/text/",
-                 "normalize": false,
-                 "cache" : "embeddings"
-               }
-           }
-  }'
-
-  curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/querqy/rewriter/embimg?action=save -H 'Content-type:application/json'  -d '{
-    "class": "querqy.solr.embeddings.SolrEmbeddingsRewriterFactory",
-           "config": {
-               "model" : {
-                 "class": "querqy.embeddings.ChorusEmbeddingModel",
-                 "url": "http://embeddings:8000/clip/text/",
-                 "normalize": false,
-                 "cache" : "embeddings"
-               }
-           }
-  }'
+  # Models that Solr's language-models module uses to vectorise queries, served by the embeddings service
+  log_major "Uploading the text to vector models."
+  curl --user solr:SolrRocks -X PUT http://localhost:8983/solr/ecommerce/schema/text-to-vector-model-store -H 'Content-type:application/json' --data-binary @./solr/text-to-vector-models.json
 fi
 ```
 
-We have leveraged [Paramset](https://solr.apache.org/guide/solr/latest/configuration-guide/request-parameters-api.html) and [Querqy Rewriter](https://github.com/querqy/querqy-embeddings-rewriter) which defines vector enabled relevancy algorithms. 
-There are 4 of them : 
+`solr/text-to-vector-models.json` holds one entry per model, for example:
+
+```json
+{
+  "class": "dev.langchain4j.model.openai.OpenAiEmbeddingModel",
+  "name": "minilm",
+  "params": {
+    "baseUrl": "http://embeddings:8000/v1",
+    "apiKey": "not-needed",
+    "modelName": "minilm",
+    "timeout": 60,
+    "maxRetries": 1
+  }
+}
+```
+
+We have leveraged [Paramset](https://solr.apache.org/guide/solr/latest/configuration-guide/request-parameters-api.html) and
+the `knn_text_to_vector` query parser to define vector enabled relevancy algorithms.
+There are 4 of them :
 1. Match by Text Vector (`querqy_match_by_txt_emb`)
 2. Match by Image Vector (`querqy_match_by_img_emb`)
 3. Boost by Text Vector (`querqy_boost_by_txt_emb`)
 4. Boost by Image Vector (`querqy_boost_by_img_emb`)
 
-```bash
-if $vector_search; then
-  log_minor "Defining Vector enabled relevancy algorithms using ParamSets."
+The boost algorithms keep the keyword query and add the vector similarity as a boost query:
 
-  curl --user solr:SolrRocks -X POST http://localhost:8983/solr/ecommerce/config/params -H 'Content-type:application/json'  -d '{
-    "set": {
-      "querqy_boost_by_img_emb":{
-        "defType":"querqy",
-        "querqy.rewriters":"embimg",
-        "querqy.embimg.topK": 100,
-        "querqy.embimg.mode": "BOOST",
-        "querqy.embimg.boost": 10000,
-        "querqy.embimg.f": "product_image_vector",
-        "qf": "id name title product_type short_description ean search_attributes",
-        "querqy.infoLogging":"on",
-        "mm" : "100%"
-      }
-    },
-    "set": {
-      "querqy_match_by_img_emb":{
-        "defType":"querqy",
-        "querqy.rewriters":"embimg",
-        "querqy.embimg.topK":100,
-        "querqy.embimg.mode": "MAIN_QUERY",
-        "querqy.embimg.f": "product_image_vector",
-        "qf": "id name title product_type short_description ean search_attributes",
-        "querqy.infoLogging":"on",
-        "mm" : "100%"
-
-      },
-      "querqy_boost_by_txt_emb":{
-        "defType":"querqy",
-        "querqy.rewriters":"embtxt",
-        "querqy.embtxt.topK": 100,
-        "querqy.embtxt.mode": "BOOST",
-        "querqy.embtxt.boost": 10000,
-        "querqy.embtxt.f": "product_vector",
-        "qf": "id name title product_type short_description ean search_attributes",
-        "querqy.infoLogging":"on",
-        "mm" : "100%"
-      },
-      "querqy_match_by_txt_emb":{
-        "defType":"querqy",
-        "querqy.rewriters":"embtxt",
-        "querqy.embtxt.topK":100,
-        "querqy.embtxt.mode": "MAIN_QUERY",
-        "querqy.embtxt.f": "product_vector",
-        "qf": "id name title product_type short_description ean search_attributes",
-        "querqy.infoLogging":"on",
-        "mm" : "100%"
-      }
-    },
-  }'
-fi
+```json
+"querqy_boost_by_txt_emb":{
+  "defType":"querqy",
+  "bq": "{!func}product(10000,query($emb_q))",
+  "emb_q": "{!knn_text_to_vector model=minilm f=product_vector topK=100 v=$q}",
+  "qf": "id name title product_type short_description ean search_attributes",
+  "querqy.infoLogging":"on",
+  "mm" : "100%"
+}
 ```
+
+The match algorithms replace the keyword query with the vector query. The `knn_text_to_vector` query parser reads its
+settings from local params only, so the ParamSet names the model, the vector field and topK, and sets `defType` to
+`lucene`, because Solr only honours local params at the start of `q` for the `lucene` query parser:
+
+```json
+"querqy_match_by_txt_emb":{
+  "defType": "lucene",
+  "emb_model": "minilm",
+  "emb_f": "product_vector",
+  "emb_topK": 100
+}
+```
+
+and the web shop puts them in front of the query text, so Solr receives
+`q={!type=knn_text_to_vector model=$emb_model f=$emb_f topK=$emb_topK}notebook`. You can see this in
+`blacklight/app/controllers/catalog_controller.rb`, where the match search fields set `solr_local_parameters`.
 
 In the Chorus webshop we have an explicit dropdown listing these 4 relevancy algorithms that you can use to try out different flavours of pure or hybrid vector search. 
 They are listed as below :
@@ -185,21 +156,21 @@ Now do a search for `notebook`, and notice that we're getting a lot of accessori
 
 We have learnt to fix this using Querqy in [Kata 5](chorus/katas/005_curating_specific_products_for_a_query.md). Now let's look at how the results change using vectors!
 
-Let us now select `Query match by text vector` from the algorithm dropdown and search again. You'll notice the results already improved fetching the most related notebook aka laptop in the search results.
+Let us now select `Match by text vector` from the algorithm dropdown and search again. You'll notice the results already improved fetching the most related notebook aka laptop in the search results.
 
 ![Layout out showing text vector search with notebook](images/012_text_vector_notebook_search.png)
 
-Next let's select `Query match by image vector` from the algorithm dropdown and search again. Notice the results fetching the actual notebooks in the search results, which are certainly relevant to our query.
+Next let's select `Match by image vector` from the algorithm dropdown and search again. Notice the results fetching the actual notebooks in the search results, which are certainly relevant to our query.
 
 ![Layout out showing image search with notebook](images/012_image_vector_notebook_search.png)
 
 The example seen above with Text and Image vectors are pure vector search. Let us now explore the hybrid search algorithms.
 
-Select `Query boost by text vector` from the algorithm dropdown and repeat the search for `notebook`. You'll notice the due to the boost on text vector field we got the hybrid of BM25 + vector based results.
+Select `Boost by text vector` from the algorithm dropdown and repeat the search for `notebook`. You'll notice the due to the boost on text vector field we got the hybrid of BM25 + vector based results.
 
 ![Layout out showing default search with notebook](images/012_text_vector_boost_notebook_search.png)
 
-Lastly select `Query boost by image vector` from the algorithm dropdown and repeat the search for `notebook`. You'll notice the result set to contain notebooks and the laptops. 
+Lastly select `Boost by image vector` from the algorithm dropdown and repeat the search for `notebook`. You'll notice the result set to contain notebooks and the laptops. 
 
 ![Layout out showing default search with notebook](images/012_image_vector_boost_notebook_search.png)
 

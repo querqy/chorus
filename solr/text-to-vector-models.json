@@ -1,0 +1,46 @@
+[
+  {
+    "class": "dev.langchain4j.model.openai.OpenAiEmbeddingModel",
+    "name": "minilm",
+    "params": {
+      "baseUrl": "http://embeddings:8000/v1",
+      "apiKey": "not-needed",
+      "modelName": "minilm",
+      "timeout": 60,
+      "maxRetries": 1
+    }
+  },
+  {
+    "class": "dev.langchain4j.model.openai.OpenAiEmbeddingModel",
+    "name": "clip",
+    "params": {
+      "baseUrl": "http://embeddings:8000/v1",
+      "apiKey": "not-needed",
+      "modelName": "clip",
+      "timeout": 60,
+      "maxRetries": 1
+    }
+  },
+  {
+    "class": "dev.langchain4j.model.openai.OpenAiEmbeddingModel",
+    "name": "ftbert",
+    "params": {
+      "baseUrl": "http://embeddings:8000/v1",
+      "apiKey": "not-needed",
+      "modelName": "ftbert",
+      "timeout": 60,
+      "maxRetries": 1
+    }
+  },
+  {
+    "class": "dev.langchain4j.model.openai.OpenAiEmbeddingModel",
+    "name": "ftclip",
+    "params": {
+      "baseUrl": "http://embeddings:8000/v1",
+      "apiKey": "not-needed",
+      "modelName": "ftclip",
+      "timeout": 60,
+      "maxRetries": 1
+    }
+  }
+]
