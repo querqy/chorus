@@ -46,6 +46,15 @@ function log_red() {
     exit 1
 }
 
+# Solr reports a failed request in its JSON response, which curl doesn't treat as a failure,
+# so check the response status and stop with Solr's error if it isn't 0.
+function check_solr_response() {
+    if [ "$(echo "$1" | jq -r '.responseHeader.status' 2>/dev/null)" != "0" ]; then
+        echo "$1" | jq -r '.error.msg // .' 2>/dev/null || echo "$1"
+        log_red "$2 failed, see Solr's error above."
+    fi
+}
+
 function log_prerequisite_found() {
     #printf "${BOLD_GREEN}%23s %s ${RESET}\n" "$1 [FOUND]"
     echo -e "${BOLD_GREEN}Found prerequisite   : $1${RESET}"

@@ -18,7 +18,6 @@ to the querqy-core 4 `RewriterFactory.createRewriter(SearchEngineRequestAdapter)
 `querqy.rewrite.commonrules` → `querqy.rewriter.commonrules` package move. Declares `solr-core` as `provided`, since
 querqy-solr does not pass it on. The tests still use the old API, hence `-Dmaven.test.skip=true`.
 
-
 SHA-256:
 
 ```
@@ -28,4 +27,3 @@ SHA-256:
 
 Vector search no longer needs a Querqy plugin: queries are vectorised by Solr's `language-models` module
 (see `solr/text-to-vector-models.json` and the `knn_text_to_vector` query parser in `solrconfig.xml`).
-
