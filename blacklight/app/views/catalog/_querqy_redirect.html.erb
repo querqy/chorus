@@ -1,0 +1,13 @@
+<%
+# Look up any Querqy Decorations that might be returned, and if there is one then
+# redirect the browser to it.  Today Querqy only has a single decoration pattern called REDIRECT.
+querqy_decorations = @response['querqy_decorations']
+redirect_url = querqy_decorations.first.delete_prefix("REDIRECT").strip if querqy_decorations.present?
+%>
+<% if redirect_url %>
+Redirecting to <%= redirect_url %>
+<!-- Script which will redirect to another page based on the redirect url -->
+<script>
+  window.location = <%= redirect_url.to_json.html_safe %>;
+</script>
+<% end %>

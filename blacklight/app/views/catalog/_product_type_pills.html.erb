@@ -1,0 +1,24 @@
+<%
+# When the hits are spread across many product types (high entropy), show the top
+# product types as pills to help the user narrow down the search.
+threshold = 1.0
+product_type_facet = @response.aggregations['filter_product_type']
+%>
+<% if product_type_facet&.items.present? %>
+<%
+total_hits = product_type_facet.items.sum(&:hits).to_f
+entropy_total = -product_type_facet.items.sum do |facet_item|
+  count_ratio = facet_item.hits / total_hits
+  count_ratio * Math.log(count_ratio, 2)
+end
+%>
+<sub>Total hits: <%=total_hits%> | Entropy total: <%=entropy_total%></sub>
+<% if threshold < entropy_total %>
+<div id="facet_pills" class="row-cols-3 row-cols-md-4 row nav nav-pills nav-fill">
+  <% product_type_facet.items[0..3].each do |facet_item|%>
+  <div class="col nav-item"><a class="nav-link active" href="#"><%=facet_item.value%></a></div>
+  <% end %>
+</div>
+<p/>
+<% end %>
+<% end %>
