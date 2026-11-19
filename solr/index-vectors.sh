@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source "$(dirname "$0")/../helpers.sh"
+
 DATA_DIR="./solr/data"
 if [ ! -f ./solr/data/finetuned-products-vectors-1.json ]; then
   echo -e "${MAJOR}Downloading the products-vectors-1.json.${RESET}"
@@ -22,6 +24,7 @@ cd $DATA_DIR
 for f in finetuned-products-vectors*.json;
   do
     echo "Populating products from ${f}, please give it a few minutes!"
-    curl --user solr:SolrRocks 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @"$f" -H 'Content-type:application/json ';
+    response=$(curl --user solr:SolrRocks 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @"$f" -H 'Content-type:application/json ')
+    check_solr_response "$response" "Populating products from ${f}"
     sleep 5
    done;
