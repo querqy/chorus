@@ -40,11 +40,6 @@
 
     <documentCache size="512" initialSize="512" autowarmCount="0"/>
 
-    <cache name="embeddings" class="solr.CaffeineCache"
-                              size="1024"
-                              initialSize="128"
-                               />
-
     <queryResultWindowSize>100</queryResultWindowSize>
 
     <!-- Maximum number of documents to cache for any entry in the
@@ -109,6 +104,10 @@
       </lst>
     </lst>
   </queryParser>
+
+  <!-- Vectorises the query text with a model from the text-to-vector model store (language-models module).
+       See solr/text-to-vector-models.json -->
+  <queryParser name="knn_text_to_vector" class="org.apache.solr.languagemodels.search.TextToVectorQParserPlugin"/>
 
 
   <!-- Override the default QueryComponent -->

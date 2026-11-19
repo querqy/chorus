@@ -17,5 +17,7 @@ RUN python code/app/finetuned/loadModel.py
 WORKDIR /code/app
 
 
-CMD ["gunicorn", "main:app", "-b", "0.0.0.0:8000", "--timeout", "600", "-w", "1", "-k", "uvicorn.workers.UvicornWorker"]
+# The h11 worker, because Solr's Java HTTP client asks to upgrade to HTTP/2 (Upgrade: h2c) and the default httptools
+# worker then drops the request body.
+CMD ["gunicorn", "main:app", "-b", "0.0.0.0:8000", "--timeout", "600", "-w", "1", "-k", "uvicorn.workers.UvicornH11Worker"]
 EXPOSE 8000
