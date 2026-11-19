@@ -18,10 +18,9 @@ if [ ! -f ./solr/data/finetuned-products-vectors-4.json ]; then
   curl --progress-bar -o ./solr/data/finetuned-products-vectors-4.json -k https://o19s-public-datasets.s3.amazonaws.com/chorus/product-finetuned-vectors-2023-06/finetuned-products-vectors-4.json
 fi
 
-cd $DATA_DIR
-for f in finetuned-products-vectors*.json;
+for f in $DATA_DIR/finetuned-products-vectors*.json;
   do
     echo "Populating products from ${f}, please give it a few minutes!"
-    curl --user solr:SolrRocks 'http://localhost:8983/solr/ecommerce/update?commit=true' --data-binary @"$f" -H 'Content-type:application/json ';
-    sleep 5
+    # The vector documents are large (about 70KB each), so use smaller batches
+    ./solr/index-json.sh "$f" 500
    done;
