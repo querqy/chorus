@@ -75,6 +75,7 @@ The tracing in Solr and Blacklight is set up for demo purposes, using `OTEL_TRAC
 Solr uses its `opentelemetry` module and Blacklight uses the OpenTelemetry Ruby SDK, and both send traces via OTLP
 (HTTP/protobuf, port 4318) to Jaeger.
 
+
 ## Keycloak
 
 Lots going on here!   We have migrated to the Quarkus version, which promises better startup times, but
